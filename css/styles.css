@@ -14,6 +14,7 @@ html{
     overflow: hidden;
 }
 #overworldMap{
+    position: absolute;
     width: 3200px;
     height: 1280px;
 
