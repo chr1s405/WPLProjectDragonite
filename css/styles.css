@@ -1,0 +1,18 @@
+html{
+    overflow: hidden;
+}
+#overworldMap{
+    width: 3200px;
+    height: 1280px;
+
+    background-image: url("https://github.com/chr1s405/WPLProjectDragonite/blob/main/images/map.png?raw=true");
+    background-repeat: no-repeat;
+    background-size: 3200px;
+}
+#character{
+    position: relative;
+    width: 50px; 
+    height: 50px; 
+    background-color: red; 
+    border-radius: 50%; 
+}
