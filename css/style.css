@@ -1,7 +1,6 @@
-.root{
-    --pokemon-font: 'Pokemon Solid', sans-serif;
-}
+/* Dit is voorbeeldcode voor het gebruik van het pokemon font, kopieer gewoon de code op de plek waar je hem wil gerbruiken
+    
+font-family: 'Pokemon Solid', sans-serif;
+font-family: 'Pokemon Hollow', sans-serif;
 
-h1{
-    font-family: var(--pokemon-font);
-}
+*/
