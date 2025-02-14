@@ -4,7 +4,7 @@ Hieronder een voorbeeld van het gebruik.
 
 h1{
     font-family: var(--pokemon-hollow-font);
-}
+    }
 */
 :root{
     --pokemon-solid-font :'Pokemon Solid', sans-serif;
@@ -12,20 +12,50 @@ h1{
 }
 html{
     overflow: hidden;
+    
 }
-#overworldMap{
+body{
+    height: 100vh;
+    display: grid;
+    grid-template-areas: 
+    "header"
+    "main";
+    grid-template-rows: 100px auto;
+}
+header{
+    grid-area: "header";
+    border-bottom: 2px solid black;
+    background-color: palegreen;
+}
+header #nav-profile{
+}
+header #nav-pokemon{
+}
+
+main{
+    grid-area: "main";
+}
+main #overworldMap{
     position: absolute;
+    overflow: hidden;
     width: 3200px;
     height: 1280px;
-
+    z-index: -1;
+    
     background-image: url("https://github.com/chr1s405/WPLProjectDragonite/blob/main/images/map.png?raw=true");
     background-repeat: no-repeat;
     background-size: 3200px;
 }
-#character{
+main #overworldMap #character{
     position: relative;
     width: 50px; 
     height: 50px; 
     background-color: red; 
     border-radius: 50%; 
+}
+main #debug {
+    position: relative;
+    top: 10px;
+    right: 10px;
+    text-align: right;
 }
