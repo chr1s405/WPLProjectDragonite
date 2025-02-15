@@ -1,10 +1,13 @@
 //initialize
 import mapData from "./map.json"  with { type: "json" };
-const mapcollisionTiles = [5,6,7,15,16,17,25,26,27,31, 51,52,53,61,62,63,71,72,73]
+const mapcollisionTiles = [1,2,3,11,13,21,22,23,5,6,7,15,16,17,25,26,27,31,51,52,53,61,62,63,71,72,73]
 let windowWidth = window.innerWidth;
 let windowHeight = window.innerHeight;
 
 const overworldMap = document.getElementById("overworldMap");
+overworldMap.style.width = `${mapData["width"] * 50}px`;
+overworldMap.style.height = `${mapData["height"] * 50}px`;
+overworldMap.style.backgroundSize = overworldMap.style.width
 const minWidth = overworldMap.offsetLeft;
 const minHeight = overworldMap.offsetTop;
 console.log(minHeight)
@@ -79,7 +82,7 @@ function moveY(speed){
     character.style.top = `${characterY}px`;
 }
 function PositionInGrid(x,y){
-    return (y/50) * 50 + (x/50)
+    return (y / mapData["tileheight"]) * mapData["width"] + (x / mapData["tilewidth"])
 
 }
 

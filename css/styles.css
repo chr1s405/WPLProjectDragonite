@@ -38,18 +38,15 @@ main{
 main #overworldMap{
     position: absolute;
     overflow: hidden;
-    width: 2500px;
-    height: 2000px;
     z-index: -1;
     
     background-image: url("/images/pokemon\ map.png");
     background-repeat: no-repeat;
-    background-size: 2500px;
 }
 main #overworldMap #character{
     position: relative;
-    left: 100px;
-    top: 100px;
+    left: 450px;
+    top: 450px;
     width: 50px; 
     height: 50px; 
     background-color: red; 
