@@ -1,10 +1,13 @@
 //initialize
+import mapData from "./map.json"  with { type: "json" };
+const mapcollisionTiles = [5,6,7,15,16,17,25,26,27,31, 51,52,53,61,62,63,71,72,73]
 let windowWidth = window.innerWidth;
 let windowHeight = window.innerHeight;
 
 const overworldMap = document.getElementById("overworldMap");
 const minWidth = overworldMap.offsetLeft;
 const minHeight = overworldMap.offsetTop;
+console.log(minHeight)
 const maxWidth = overworldMap.clientWidth;
 const maxHeight = overworldMap.clientHeight;
 
@@ -41,37 +44,49 @@ function resizeWindow(){
     windowHeight = window.innerHeight;
 }
 
-function ScrollMap(){
-    let x = minWidth + characterX - windowWidth/2;
-    let y = minHeight + characterY - windowHeight/2;
+function ScrollMap(){// scrolling right means pushing left in negative
+    let x = (characterX + characterWidth/2) - (minWidth + windowWidth)/2;
+    let y = (characterY + characterHeight/2) - (minHeight + windowHeight)/2;
     let xMax = maxWidth - windowWidth;
     let yMax = maxHeight - windowHeight;
     overworldMap.style.left = `${Math.min(minWidth, Math.max(-x, -xMax))}px`;
     overworldMap.style.top  = `${Math.min(minHeight, Math.max(-y, -yMax))}px`;
 }
-function moveX(x){
-    characterX += x;
-    if(characterX < 0){
-        characterX = 0;
+function moveX(speed){
+    let x = characterX + speed
+    if(x < 0){
+        x = 0;
     }
-    if((characterX + characterWidth) > maxWidth){
-        characterX = maxWidth - characterWidth;
+    else if((x + characterWidth) > maxWidth){
+        x = maxWidth - characterWidth;
     }
-    character.style.left = `${characterX}px`;
+    else if(!mapcollisionTiles.includes(mapData["layers"][1]["data"][(PositionInGrid(x, characterY))])){
+        characterX += speed;
+        character.style.left = `${characterX}px`;
+    }
 }
-function moveY(y){
-    characterY += y;
-    if((characterY) < 0){
-        characterY = 0;
+function moveY(speed){
+    let y = characterY + speed
+    if((y) < 0){
+        y = 0;
     }
-    if(characterY + characterHeight > maxHeight){
-        characterY = maxHeight - characterHeight;
+    else if(y + characterHeight > maxHeight){
+        y = maxHeight - characterHeight;
+    }
+    else if(!mapcollisionTiles.includes(mapData["layers"][1]["data"][(PositionInGrid(characterX, y))])){
+        characterY += speed;
     }
     character.style.top = `${characterY}px`;
 }
+function PositionInGrid(x,y){
+    return (y/50) * 50 + (x/50)
+
+}
+
+
 function ToggleDebug(){
     if(debug.style.display === "none"){
-        debug.style.display = "inline";
+        debug.style.display = "block";
     }
     else{
         debug.style.display = "none"
@@ -79,7 +94,7 @@ function ToggleDebug(){
 }
 function Debug(){
     document.getElementById("characterCoor").innerHTML =
-    `character: (${character.style.left}, ${character.style.top})`;
+    `character: (${character.style.left}, ${character.style.top}) ${PositionInGrid(characterX, characterY)}`;
     document.getElementById("mapCoor").innerHTML =
     `overworld map: (${overworldMap.style.left}, ${overworldMap.style.top})`;
 }

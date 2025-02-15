@@ -38,22 +38,25 @@ main{
 main #overworldMap{
     position: absolute;
     overflow: hidden;
-    width: 3200px;
-    height: 1280px;
+    width: 2500px;
+    height: 2000px;
     z-index: -1;
     
-    background-image: url("https://github.com/chr1s405/WPLProjectDragonite/blob/main/images/map.png?raw=true");
+    background-image: url("/images/pokemon\ map.png");
     background-repeat: no-repeat;
-    background-size: 3200px;
+    background-size: 2500px;
 }
 main #overworldMap #character{
     position: relative;
+    left: 100px;
+    top: 100px;
     width: 50px; 
     height: 50px; 
     background-color: red; 
     border-radius: 50%; 
 }
 main #debug {
+    display: none;
     position: relative;
     top: 10px;
     right: 10px;
