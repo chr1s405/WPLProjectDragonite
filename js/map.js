@@ -57,33 +57,28 @@ function ScrollMap(){// scrolling right means pushing left in negative
 }
 function moveX(speed){
     let x = characterX + speed
-    if(x < 0){
-        x = 0;
+    if(x < 0 || x + characterWidth > maxWidth)
+    {
+        return;
     }
-    else if((x + characterWidth) > maxWidth){
-        x = maxWidth - characterWidth;
-    }
-    else if(!mapcollisionTiles.includes(mapData["layers"][1]["data"][(PositionInGrid(x, characterY))])){
+    if(!mapcollisionTiles.includes(mapData["layers"][1]["data"][(PositionInGrid(x, characterY))])){
         characterX += speed;
         character.style.left = `${characterX}px`;
     }
 }
 function moveY(speed){
     let y = characterY + speed
-    if((y) < 0){
-        y = 0;
+    if  (y < 0 || y + characterHeight > maxHeight)
+    {
+        return
     }
-    else if(y + characterHeight > maxHeight){
-        y = maxHeight - characterHeight;
-    }
-    else if(!mapcollisionTiles.includes(mapData["layers"][1]["data"][(PositionInGrid(characterX, y))])){
+    if(!mapcollisionTiles.includes(mapData["layers"][1]["data"][(PositionInGrid(characterX, y))])){
         characterY += speed;
+        character.style.top = `${characterY}px`;
     }
-    character.style.top = `${characterY}px`;
 }
 function PositionInGrid(x,y){
     return (y / mapData["tileheight"]) * mapData["width"] + (x / mapData["tilewidth"])
-
 }
 
 

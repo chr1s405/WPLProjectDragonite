@@ -52,6 +52,16 @@ main #overworldMap #character{
     background-color: red; 
     border-radius: 50%; 
 }
+main #backpackIcon{
+    position: absolute;
+    width: 75px;
+    height: 75px;
+    right: 20px;
+    bottom: 20px;
+    background-image: url("../images/backpack.png");
+    background-repeat: no-repeat;
+    background-size: 75px;
+}
 main #debug {
     display: none;
     position: relative;
