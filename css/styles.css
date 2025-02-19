@@ -40,7 +40,7 @@ main #overworldMap{
     overflow: hidden;
     z-index: -1;
     
-    background-image: url("/images/pokemon\ map.png");
+    background-image: url("../images/pokemon\ map.png");
     background-repeat: no-repeat;
 }
 main #overworldMap #character{
