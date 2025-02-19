@@ -7,8 +7,14 @@ h1{
     }
 */
 :root{
+    /*pokémon font als de letters zwart zijn*/
     --pokemon-solid-font :'Pokemon Solid', sans-serif;
+    /*pokémon font als de letters doorzichtig zijn*/
     --pokemon-hollow-font :'Pokemon Hollow', sans-serif;
+    /*dit is het font dat gebruikt gaat worden voor de titels in de pagina's waar we kunnen kiezen welk 
+    project we nemen*/
+    --display-font: font-family: 'HAINER', sans-serif;
+
 }
 html{
     overflow: hidden;
