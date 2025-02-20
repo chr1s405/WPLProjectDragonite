@@ -7,10 +7,10 @@ const gameDivs = document.querySelectorAll(".choise-menu div");
 
 const backgrounds = {
   pokemon: "assets/pokemonBackground.jpeg",
-  magic: "assets/magicBackgroundColor.jpeg",
+  magic: "assets/Magic-Background.jpeg",
   fifa: "assets/FIFAbackground.jpeg",
-  lego: "assets/legoBackground.jpeg",
-  fortnite: "assets/fortniteBackground.jpeg",
+  lego: "assets/yellow-lego-background.jpeg",
+  fortnite: "assets/fortniteBackground2.jpeg",
   lotr: "assets/lordOfTheRingsbackground.jpeg",
 };
 
