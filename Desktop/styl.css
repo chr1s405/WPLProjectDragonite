@@ -215,6 +215,34 @@ display:block;
 margin-top: 10px;
 }
 
+
 .pwrd{
     font-family: var(--main-font);
+    font-size: 20px;
+    text-align: center;
+    margin-left: 140px;
+    margin-top: 30px;
+    width: 350px;
+    height: 40px;
+    display: block;
+    border-radius: 1cap;
+}
+
+.sbmtbtn{
+    margin: auto;
+    height: 75px;
+    margin-top: 100px;
+    width: 250px;
+    background-color: black;
+    color: white;
+    border-radius: 1.5cap;
+    border-style: none;
+    margin-left: 185px;
+    font-family: var(--main-font);
+    font-size: 20px;
+}
+
+.pwrd:focus{
+    border-width: 2px;
+    border-color: black;
 }
