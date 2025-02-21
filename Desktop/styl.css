@@ -1,69 +1,83 @@
-html,body {
+:root {
+    /*pokémon font als de letters zwart zijn*/
+    --pokemon-solid-font: 'Pokemon Solid', sans-serif;
+    /*pokémon font als de letters doorzichtig zijn*/
+    --pokemon-hollow-font: 'Pokemon Hollow', sans-serif;
+    /*font dat gebruikt wordt voor platte tekst doorheen de applicatie*/
+    --main-font: 'Nexa', sans-serif;
+
+}
+
+html,
+body {
     margin: 0;
     padding: 0;
     height: 100vh;
     width: 100vw;
-   
+
 }
 
-body{
+body {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 50vh 5vh 45vh ;
-    grid-template-areas: 
-    "header"
-    "main"
-    "footer";
+    grid-template-rows: 50vh 5vh 45vh;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
 }
-header{
+
+header {
     grid-area: header;
     /* background-color: red; */
 }
 
-main{
+main {
     grid-area: main;
     /* background-color: black; */
 }
-footer{
+
+footer {
     grid-area: footer;
     /* background-color:white; */
 }
 
 .content-container {
     position: relative;
-    z-index: 10; 
+    z-index: 10;
     display: flex;
-    flex-direction: column; 
-    align-items: center; 
-    gap: 5vh; 
-    margin-top: 5vh; 
+    flex-direction: column;
+    align-items: center;
+    gap: 5vh;
+    margin-top: 5vh;
 }
 
 
 
 
 h1 {
-    position: relative; 
-    z-index: 10; 
+    position: relative;
+    z-index: 10;
     font-size: clamp(2rem, 4vw, 5rem);
     text-align: center;
     margin: 0;
-    padding-top: 20px; 
-    color: black; 
+    padding-top: 20px;
+    color: black;
+    font-family: var(--font-for-desktop);
 }
 
 
 .choise-game {
     position: relative;
-    z-index: 10; 
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2vw; 
+    gap: 2vw;
     width: 60vw;
     max-width: 1500px;
     height: auto;
-    
+
 }
 
 .game {
@@ -75,16 +89,16 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-size: cover; 
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
 .game img {
-    
+
     width: 100%;
     height: auto;
-    object-fit: contain; 
+    object-fit: contain;
     padding: 50px;
 }
 
@@ -93,9 +107,9 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100px; 
+    width: 100px;
     height: 150px;
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 .arrow img {
@@ -121,50 +135,145 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2vw; 
+    gap: 2vw;
     width: 90vw;
     max-width: 1500px;
     margin: 50px auto;
     position: relative;
-    z-index: 10; 
+    z-index: 10;
 }
 
 .choise-menu div {
     width: 16%;
-    height: 160px; 
-    border: 5px solid black; 
-    border-radius: 20px; 
+    height: 160px;
+    border: 5px solid black;
+    border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 .choise-menu div img {
-    width: 100%;  
-    height: 100%; 
-    border-radius: 15px; 
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
 }
-.magic{
+
+.choise-menu div:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Actief-effect wanneer een game geselecteerd is */
+.choise-menu div.active {
+    transform: translateY(-15px) scale(1.15);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    border-color: gold;
+
+}
+
+
+.choise-menu div.active {
+    transform: translateY(-15px) scale(1.1);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    border-color: gold;
+}
+
+
+.magic {
     background-color: white;
     padding: 12px;
 }
-.lego{
+
+.lego {
     background-color: red;
     padding: 20px;
 }
 
-.lordOfTheRings{
+.lordOfTheRings {
     background-color: black;
-    padding: 20px;
+    padding: 25px;
 }
-.fortnite{
-   background-color: rgb(36, 194, 241);
-    
+
+.fortnite {
+    background-color: rgb(36, 194, 241);
+
 }
-.fifa{
+
+.fifa {
     background-color: white;
 }
-.pokemon{
+
+.pokemon {
     background-color: white;
+}
+
+
+/*This is the styling of reset password page*/
+.forgotpasswordbg {
+    background-image: URL("./assets/pokemonBackground.jpeg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: 15%;
+}
+
+.blackbox {
+    background-color: rgb(0, 0, 0, 0.5);
+    height: 640px;
+    margin-top: -320px;
+    width: 640px;
+    margin-left: 460px;
+    border-radius: 10%;
+}
+
+.titlepassword {
+    color: black;
+    font-family: var(--pokemon-solid-font);
+    opacity: 100%;
+    size: 80%;
+    padding-top: 0;
+}
+
+.textpassword {
+    font-family: var(--main-font);
+    font-size: 25px;
+    text-align: center;
+    color: white;
+    display: block;
+    margin-top: 10px;
+}
+
+
+.pwrd {
+    font-family: var(--main-font);
+    font-size: 20px;
+    text-align: center;
+    margin-left: 140px;
+    margin-top: 30px;
+    width: 350px;
+    height: 40px;
+    display: block;
+    border-radius: 1cap;
+}
+
+.sbmtbtn {
+    margin: auto;
+    height: 75px;
+    margin-top: 100px;
+    width: 250px;
+    background-color: black;
+    color: white;
+    border-radius: 1.5cap;
+    border-style: none;
+    margin-left: 185px;
+    font-family: var(--main-font);
+    font-size: 20px;
+}
+
+.pwrd:focus {
+    border-width: 2px;
+    border-color: black;
 }
