@@ -277,3 +277,10 @@ h1 {
     border-width: 2px;
     border-color: black;
 }
+
+.backtologin{
+    font-family: var(--main-font);
+    font-size: 25px;
+    text-align: center;
+    color: black;
+}
