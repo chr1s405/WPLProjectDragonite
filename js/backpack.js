@@ -10,7 +10,7 @@ backpackCloseBtn.addEventListener("click",(e)=>{
 
 function openMenu(){
     backpackIcon.style.display = "none";
-    backpackMenu.style.display = "block";
+    backpackMenu.style.display = "grid";
     
 }
 function CloseMenu(){

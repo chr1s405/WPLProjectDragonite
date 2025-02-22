@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <script src="./js/map.js" type="module"></script>
     <script src="./js/backpack.js" defer></script>
 </head>
+
 <body>
     <header>
         <div id="nav-profile">
@@ -21,20 +23,27 @@
         <div id="overworldMap">
             <div id="character"></div>
         </div>
-        <div id="backpackIcon">
-            <!-- <img src="./images/backpack.png"> -->
-        </div>
+        <img src="../images/backpack.png" id="backpackIcon">
         <div id="backpackMenu">
-            <div id="backpackMenuCloseBtn">X</div>
+            <button id="backpackMenuCloseBtn">
+                X</button>
             <h1>Rugzak</h1>
-            <div class="backpackMenuBtn">
-                pokedex
-            </div>
-            <div class="backpackMenuBtn">
-                pokemon vergelijken
-            </div>
-            <div class="backpackMenuBtn">
-                who's that pokemon
+            <div id="backpackMenuItems">
+                <button class="backpackMenuBtn">
+                    <img src="./images/pokeball.png">
+                    <p>pokedex</p></button>
+                <button class="backpackMenuBtn">
+                    <img src="./images/pokeball.png">
+                    <p>pokemon vergelijken</p></button>
+                <button class="backpackMenuBtn">
+                    <img src="./images/pikachu_silouhette.png">
+                    <p>companion</p></button>
+                <button class="backpackMenuBtn">
+                    <img src="./images/who's_that_icon.png">
+                    <p>who's that pokemon</p></button>
+                <button class="backpackMenuBtn">
+                    <img src="./images/log_out_icon.png">
+                    <p>log out</p></button>
             </div>
         </div>
         <div id="debug">
@@ -43,4 +52,5 @@
         </div>
     </main>
 </body>
+
 </html>
