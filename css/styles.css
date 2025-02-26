@@ -1,21 +1,18 @@
-/*
-Ik heb hier al variabelen aangemaakt voor het pokemon font.
-Hieronder een voorbeeld van het gebruik.
-
-h1{
-    font-family: var(--pokemon-hollow-font);
-    }
-*/
 :root{
     /*pokémon font als de letters zwart zijn*/
     --pokemon-solid-font :'Pokemon Solid', sans-serif;
     /*pokémon font als de letters doorzichtig zijn*/
     --pokemon-hollow-font :'Pokemon Hollow', sans-serif;
-    /*dit is het font dat gebruikt gaat worden voor de titels in de pagina's waar we kunnen kiezen welk 
-    project we nemen*/
-    --display-font: font-family: 'HAINER', sans-serif;
-
+    /*standaard font*/
+    --main-font: 'Nexa', sans-serif;
 }
+
+*{
+    font-family: var(--main-font);
+}
+
+
+
 html{
     overflow: hidden;
     
