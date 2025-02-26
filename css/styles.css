@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-:root{
-=======
 :root {
->>>>>>> 451ab47461cf67b2c6a207d567bffb8a5396822d
     /*pokémon font als de letters zwart zijn*/
     --pokemon-solid-font: 'Pokemon Solid', sans-serif;
     /*pokémon font als de letters doorzichtig zijn*/
-<<<<<<< HEAD
     --pokemon-hollow-font :'Pokemon Hollow', sans-serif;
     /*standaard font*/
     --main-font: 'Nexa', sans-serif;
@@ -16,33 +11,9 @@
     font-family: var(--main-font);
 }
 
-/*
-
-html{
-    overflow: hidden;
-    
-}
-body{
-=======
-    --pokemon-hollow-font: 'Pokemon Hollow', sans-serif;
-    /*font dat gebruikt wordt voor platte tekst doorheen de applicatie*/
-    --main-font: 'Nexa', sans-serif;
-
-}
-
-html,
-body {
-    margin: 0;
-    padding: 0;
->>>>>>> 451ab47461cf67b2c6a207d567bffb8a5396822d
-    height: 100vh;
-    width: 100vw;
-
-}
-
 /*========================================*/
 /*========================================*/
-/*=============== GamePage ===============*/
+/*============== ProjectPage =============*/
 /*========================================*/
 /*========================================*/
 #project-pagina {
@@ -55,16 +26,7 @@ body {
         "footer";
 }
 
-<<<<<<< HEAD
-/*==============================*/
-/*=========== Header ===========*/
-/*========== Navigatie ===========*/
-/*==============================*/
-
-header{
-=======
 #project-pagina header {
->>>>>>> 451ab47461cf67b2c6a207d567bffb8a5396822d
     grid-area: header;
     /* background-color: red; */
 }
@@ -149,8 +111,6 @@ header{
     cursor: pointer;
 }
 
-<<<<<<< HEAD
-=======
 #project-pagina .arrow img {
     width: 100%;
     height: auto;
@@ -165,20 +125,10 @@ header{
 
 #project-pagina .arrow:hover img {
     transform: scale(1.1);
->>>>>>> 451ab47461cf67b2c6a207d567bffb8a5396822d
 }
 
 
 
-<<<<<<< HEAD
-/*==============================*/
-/*======= Reset password =======*/
-/*==============================*/
-
-/*This is the styling of reset password page*/
-.lginpagesbg {
-    background-image: URL(".assets/pokemonBackground.jpeg");
-=======
 #project-pagina .choise-menu {
     display: flex;
     justify-content: center;
@@ -337,49 +287,29 @@ header{
 /*This is the styling of reset password page*/
 .lginpagesbg {
     background-image: URL("../images/pokemonBackground.jpeg");
->>>>>>> 451ab47461cf67b2c6a207d567bffb8a5396822d
     background-repeat: no-repeat;
     background-size: 100%;
     background-position: 15%;
 }
 
-.blackbox {
-<<<<<<< HEAD
+.lginpagesbg .blackbox {
     background-color: rgb(0, 0, 0, 0.5);
     height: 640px;
     margin-top: -320px;
     width: 640px;
     margin-left: 460px;
-=======
-    position: absolute;
-    background-color: rgb(0, 0, 0, 0.5);
-    height: 640px;
-    width: 640px;
-
-    /*dit was niet meer gecentreerd na mapstructuur changes*/
-    /* margin-left: 460px;
-    margin-top: -320px; */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
->>>>>>> 451ab47461cf67b2c6a207d567bffb8a5396822d
     border-radius: 10%;
 }
 
-.titlelogin {
+.lginpagesbg .titlelogin {
     color: black;
     font-family: var(--pokemon-solid-font);
     opacity: 100%;
     size: 80%;
     padding-top: 0;
-<<<<<<< HEAD
-=======
-    text-align: center;
->>>>>>> 451ab47461cf67b2c6a207d567bffb8a5396822d
 }
 
-.textlogin {
+.lginpagesbg .textlogin {
     font-family: var(--main-font);
     font-size: 25px;
     text-align: center;
@@ -389,7 +319,7 @@ header{
 }
 
 
-.pwrd {
+.lginpagesbg .pwrd {
     font-family: var(--main-font);
     font-size: 20px;
     text-align: center;
@@ -401,7 +331,7 @@ header{
     border-radius: 1cap;
 }
 
-.sbmtbtn {
+.lginpagesbg .sbmtbtn {
     margin: auto;
     height: 75px;
     margin-top: 100px;
@@ -413,25 +343,21 @@ header{
     margin-left: 185px;
     font-family: var(--main-font);
     font-size: 20px;
-<<<<<<< HEAD
-=======
-    text-align: center;
->>>>>>> 451ab47461cf67b2c6a207d567bffb8a5396822d
 }
 
-.pwrd:focus {
+.lginpagesbg .pwrd:focus {
     border-width: 2px;
     border-color: black;
 }
 
-.backtologin{
+.lginpagesbg .backtologin{
     font-family: var(--main-font);
     font-size: 25px;
     text-align: center;
     color: black;
 }
 
-.textsignup {
+.lginpagesbg .textsignup {
     font-family: var(--main-font);
     font-size: 20px;
     text-align: center;
@@ -441,7 +367,7 @@ header{
     margin-bottom: 10px;
 }
 
-.sbmtbtnsignup {
+.lginpagesbg .sbmtbtnsignup {
     height: 75px;
     width: 250px;
     background-color: black;
