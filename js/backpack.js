@@ -37,3 +37,4 @@ function openEvent(){
 function closeEvent(){
     backpackIcon.style.display = "block"
 }
+/* Julienne WhosThatPokemon */

@@ -209,3 +209,9 @@ main #backpackMenu .backpackMenuBtn:hover{
     border: 5px solid rgba(50, 0, 0, 1);
 
 }
+
+/* Whos That Pokemon!*/
+.pokemon-container{
+    background-color: rgba(0, 0, 0, 0.74) 5px solid;
+    
+}
