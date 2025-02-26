@@ -11,7 +11,7 @@
     font-family: var(--main-font);
 }
 
-
+/*
 
 html{
     overflow: hidden;
@@ -37,6 +37,7 @@ body{
 
 /*==============================*/
 /*=========== Header ===========*/
+/*========== Navigatie ===========*/
 /*==============================*/
 
 header{
@@ -205,4 +206,106 @@ button:hover{
 main #backpackMenu .backpackMenuBtn:hover{
     border: 5px solid rgba(50, 0, 0, 1);
 
+}
+
+
+
+/*==============================*/
+/*======= Reset password =======*/
+/*==============================*/
+
+/*This is the styling of reset password page*/
+.lginpagesbg {
+    background-image: URL(".assets/pokemonBackground.jpeg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: 15%;
+}
+
+.blackbox {
+    background-color: rgb(0, 0, 0, 0.5);
+    height: 640px;
+    margin-top: -320px;
+    width: 640px;
+    margin-left: 460px;
+    border-radius: 10%;
+}
+
+.titlelogin {
+    color: black;
+    font-family: var(--pokemon-solid-font);
+    opacity: 100%;
+    size: 80%;
+    padding-top: 0;
+}
+
+.textlogin {
+    font-family: var(--main-font);
+    font-size: 25px;
+    text-align: center;
+    color: white;
+    display: block;
+    margin-top: 10px;
+}
+
+
+.pwrd {
+    font-family: var(--main-font);
+    font-size: 20px;
+    text-align: center;
+    margin-left: 140px;
+    margin-top: 15px;
+    width: 350px;
+    height: 40px;
+    display: block;
+    border-radius: 1cap;
+}
+
+.sbmtbtn {
+    margin: auto;
+    height: 75px;
+    margin-top: 100px;
+    width: 250px;
+    background-color: black;
+    color: white;
+    border-radius: 1.5cap;
+    border-style: none;
+    margin-left: 185px;
+    font-family: var(--main-font);
+    font-size: 20px;
+}
+
+.pwrd:focus {
+    border-width: 2px;
+    border-color: black;
+}
+
+.backtologin{
+    font-family: var(--main-font);
+    font-size: 25px;
+    text-align: center;
+    color: black;
+}
+
+.textsignup {
+    font-family: var(--main-font);
+    font-size: 20px;
+    text-align: center;
+    color: white;
+    display: block;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.sbmtbtnsignup {
+    height: 75px;
+    width: 250px;
+    background-color: black;
+    color: white;
+    border-radius: 1.5cap;
+    border-style: none;
+    margin-left: 185px;
+    font-family: var(--main-font);
+    font-size: 15px;
+    margin-top: 20px;
 }
