@@ -1,218 +1,387 @@
-/*
-Ik heb hier al variabelen aangemaakt voor het pokemon font.
-Hieronder een voorbeeld van het gebruik.
-
-h1{
-    font-family: var(--pokemon-hollow-font);
-    }
-*/
-:root{
+:root {
     /*pokémon font als de letters zwart zijn*/
-    --pokemon-solid-font :'Pokemon Solid', sans-serif;
+    --pokemon-solid-font: 'Pokemon Solid', sans-serif;
     /*pokémon font als de letters doorzichtig zijn*/
-    --pokemon-hollow-font :'Pokemon Hollow', sans-serif;
-    /*dit is het font dat gebruikt gaat worden voor de titels in de pagina's waar we kunnen kiezen welk
-    project we nemen*/
-    --display-font: font-family: 'HAINER', sans-serif;
+    --pokemon-hollow-font: 'Pokemon Hollow', sans-serif;
+    /*font dat gebruikt wordt voor platte tekst doorheen de applicatie*/
+    --main-font: 'Nexa', sans-serif;
 
 }
-html{
-    overflow: hidden;
 
-}
-#gamePage{
+html,
+body {
+    margin: 0;
+    padding: 0;
     height: 100vh;
+    width: 100vw;
+
+}
+
+/*========================================*/
+/*========================================*/
+/*=============== GamePage ===============*/
+/*========================================*/
+/*========================================*/
+#project-pagina {
     display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 50vh 5vh 45vh;
     grid-template-areas:
-    "header"
-    "main";
-    grid-template-rows: 100px auto;
-}
-#gamePage .closeBtn{
-    font-family: sans-serif;
-    font-size: 30px;
-    font-weight: bold;
-
-    position: absolute;
-    top: 20px;
-    right: 20px;
+        "header"
+        "main"
+        "footer";
 }
 
-/*==============================*/
-/*=========== Header ===========*/
-/*==============================*/
-
-#gamePage header{
+#project-pagina header {
     grid-area: header;
+    /* background-color: red; */
+}
+
+#project-pagina main {
+    grid-area: main;
+    /* background-color: black; */
+}
+
+#project-pagina footer {
+    grid-area: footer;
+    /* background-color:white; */
+}
+
+#project-pagina .content-container {
+    position: relative;
+    z-index: 10;
     display: flex;
-    justify-content: space-between;
-    border-bottom: 2px solid black;
-    background-color: palegreen;
+    flex-direction: column;
+    align-items: center;
+    gap: 5vh;
+    margin-top: 5vh;
 }
-#gamePage header #nav-profile{
+
+
+
+
+#project-pagina h1 {
+    position: relative;
+    z-index: 10;
+    font-size: clamp(2rem, 4vw, 5rem);
+    text-align: center;
+    margin: 0;
+    padding-top: 20px;
+    color: black;
+    font-family: var(--font-for-desktop);
+}
+
+
+#project-pagina .choise-game {
+    position: relative;
+    z-index: 10;
     display: flex;
-    margin: 10px;
-    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    gap: 2vw;
+    width: 60vw;
+    max-width: 1500px;
+    height: auto;
 
-    border: 3px solid black;
-    border-radius: 50px;
-
-    background-color: greenyellow;
-}
-#gamePage header #nav-profile img{
-    margin-right: 10px;
-
-    border: 3px solid black;
-    border-radius: 50%;
-}
-#gamePage header #nav-profile h1{
-    font-size: 20px;
-    font-weight: bold;
-    margin: auto;
-}
-#gamePage header #nav-pokemon{
-    height: 80%;
-    margin: 10px;
-    padding: 10px;
-
-    border: 3px solid black;
-    border-radius: 50px;
-
-    background-color: greenyellow;
 }
 
-#gamePage main{
-    grid-area: "main";
-}
-
-/*==============================*/
-/*============ Map =============*/
-/*==============================*/
-
-#gamePage main #overworldMap{
-    position: absolute;
-    overflow: hidden;
-    z-index: -1;
-
-    background-image: url("../images/pokemon_map.png");
+#project-pagina .game {
+    border: 10px solid black;
+    border-radius: 30px;
+    width: 35vw;
+    max-width: 800px;
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
 }
-#gamePage main #overworldMap #character{
-    position: absolute;
-    left: 450px;
-    top: 450px;
-    width: 50px;
-    height: 50px;
-    background-color: red;
-    border-radius: 50%;
-}
-#gamePage main #overworldMap #companion{
-    position: absolute;
-    left: 410px;
-    top: 460px;
-    width: 30px;
-    height: 30px;
-    background-color: purple;
-    border-radius: 50%;
-}
 
-/*==============================*/
-/*============ Menu ============*/
-/*==============================*/
+#project-pagina .game img {
 
-#gamePage main #backpackIcon{
-    position: absolute;
-    width: 75px;
-    height: 75px;
-    right: 20px;
-    bottom: 20px;
-}
-#gamePage main #backpackMenu{
-    position: relative;
-    display: none;
-    grid-template-areas: 
-    "menuTitle"
-    "menuContents";
-    grid-template-rows: 100px auto;
-
-    width: 70%;
-    height: 80%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-
-    border: 4px solid black;
-    border-radius: 20px;
-    background-color: rgba(30, 30, 30, 0.8);
-}
-#gamePage #backpackMenu h1{
-    grid-area: menuTitle;
-    font-size: 50px;
-    font-weight: bold;
-    text-align: center;
-    margin-top: auto;
-    margin-bottom: 0px;
-}
-#gamePage #backpackMenu #backpackMenuItems{
-    grid-area: menuContents;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin: 0px 20%;
-    justify-content: center;
-    align-content: center;
-}
-#gamePage #backpackMenu .backpackMenuBtn{
-    position: relative;
-    width: 100px;
-    height: 100px;
-
-    border: 4px solid black;
-    border-radius: 10px;
-    background-color: red;
-
-}
-#gamePage #backpackMenu .backpackMenuBtn img{
-    position: absolute;
-    width: 60%;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-#gamePage #backpackMenu .backpackMenuBtn p{
-    position: absolute;
-    line-height: .8;
     width: 100%;
-    bottom: 5px;
-    text-align: center;
+    height: auto;
+    object-fit: contain;
+    padding: 50px;
 }
-#gamePage main .menuEvent{
-    display: none;
-    position: relative;
-    width: 90%;
-    height: 90%;
-    margin:auto;
-    top: 50%;
-    transform: translateY(-50%);
 
-    /* border: 2px solid black; */
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px 5px rgb(10, 10, 10);
-    background-color: rgba(0, 0, 0, 0.8);
 
-}
-#gamePage main #debug {
-    display: none;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    text-align: right;
-    background-color: gray;
-}
-#gamePage button:hover{
+#project-pagina .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 150px;
     cursor: pointer;
 }
-#gamePage main #backpackMenu .backpackMenuBtn:hover{
-    border: 5px solid rgba(50, 0, 0, 1);
 
+#project-pagina .arrow img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.2s ease-in-out;
+}
+
+
+#project-pagina .arrow-left {
+    transform: scaleX(-1);
+}
+
+
+#project-pagina .arrow:hover img {
+    transform: scale(1.1);
+}
+
+
+
+#project-pagina .choise-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2vw;
+    width: 90vw;
+    max-width: 1500px;
+    margin: 50px auto;
+    position: relative;
+    z-index: 10;
+}
+
+#project-pagina .choise-menu div {
+    width: 16%;
+    height: 160px;
+    border: 5px solid black;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+#project-pagina .choise-menu div img {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+}
+
+#project-pagina .choise-menu div:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Actief-effect wanneer een game geselecteerd is */
+#project-pagina .choise-menu div.active {
+    transform: translateY(-15px) scale(1.15);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    border-color: gold;
+
+}
+
+
+#project-pagina .choise-menu div.active {
+    transform: translateY(-15px) scale(1.1);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    border-color: gold;
+}
+
+
+#project-pagina .magic {
+    background-color: white;
+    padding: 12px;
+}
+
+#project-pagina .lego {
+    background-color: red;
+    padding: 20px;
+}
+
+#project-pagina .lordOfTheRings {
+    background-color: black;
+    padding: 25px;
+}
+
+#project-pagina .fortnite {
+    background-color: rgb(36, 194, 241);
+
+}
+
+#project-pagina .fifa {
+    background-color: white;
+}
+
+#project-pagina .pokemon {
+    background-color: white;
+}
+/*========================================*/
+/*========================================*/
+/*============== login Page ==============*/
+/*========================================*/
+/*========================================*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Pokemon Solid', sans-serif; 
+}
+#LoginPagina{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: brown;
+    background-image: url(../images/pokemonBackground.jpeg);
+    background-size: cover;
+}
+
+
+#LoginPagina h1{ 
+    font-size: 70px;
+    text-align: center;
+}
+
+#LoginPagina input{
+    width: 500px;
+    height: 50px;
+    background: white;
+    margin: 30px 0;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    margin: 1rem;   
+    text-align: center; 
+}
+
+#LoginPagina .Gebruiksnaam{
+    justify-content: center;
+    text-align: center;
+    padding-bottom: 3rem;
+}
+
+#LoginPagina button{
+    border: none;
+    outline: none;
+    border-radius: 1rem;
+    width: 250px;
+    height: 25px;
+    background-color: rgb(255, 217, 0);
+    padding-bottom: 3rem;   
+}
+
+#LoginPagina .a a{
+    text-decoration: none;
+    cursor: pointer;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: rgba(0, 0, 0, 0.747);
+    padding-top: 5rem;
+    font-size: large;
+}
+
+@media screen {
+    
+}
+
+
+/*========================================*/
+/*========================================*/
+/*========== reset password Page =========*/
+/*========================================*/
+/*========================================*/
+/*This is the styling of reset password page*/
+.lginpagesbg {
+    background-image: URL("../images/pokemonBackground.jpeg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: 15%;
+}
+
+.blackbox {
+    background-color: rgb(0, 0, 0, 0.5);
+    height: 640px;
+    margin-top: -320px;
+    width: 640px;
+    margin-left: 460px;
+    border-radius: 10%;
+}
+
+.titlelogin {
+    color: black;
+    font-family: var(--pokemon-solid-font);
+    opacity: 100%;
+    size: 80%;
+    padding-top: 0;
+}
+
+.textlogin {
+    font-family: var(--main-font);
+    font-size: 25px;
+    text-align: center;
+    color: white;
+    display: block;
+    margin-top: 10px;
+}
+
+
+.pwrd {
+    font-family: var(--main-font);
+    font-size: 20px;
+    text-align: center;
+    margin-left: 140px;
+    margin-top: 15px;
+    width: 350px;
+    height: 40px;
+    display: block;
+    border-radius: 1cap;
+}
+
+.sbmtbtn {
+    margin: auto;
+    height: 75px;
+    margin-top: 100px;
+    width: 250px;
+    background-color: black;
+    color: white;
+    border-radius: 1.5cap;
+    border-style: none;
+    margin-left: 185px;
+    font-family: var(--main-font);
+    font-size: 20px;
+}
+
+.pwrd:focus {
+    border-width: 2px;
+    border-color: black;
+}
+
+.backtologin{
+    font-family: var(--main-font);
+    font-size: 25px;
+    text-align: center;
+    color: black;
+}
+
+.textsignup {
+    font-family: var(--main-font);
+    font-size: 20px;
+    text-align: center;
+    color: white;
+    display: block;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.sbmtbtnsignup {
+    height: 75px;
+    width: 250px;
+    background-color: black;
+    color: white;
+    border-radius: 1.5cap;
+    border-style: none;
+    margin-left: 185px;
+    font-family: var(--main-font);
+    font-size: 15px;
+    margin-top: 20px;
 }

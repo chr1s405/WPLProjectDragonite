@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/pokemon-hollow">
     <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/nexa" rel="stylesheet">
-    <link rel = "stylesheet" href ="./styl.css">
+    <link rel = "stylesheet" href ="./css/styles.css">
     <title>reset</title>
 </head>
 
@@ -16,11 +16,15 @@
 
     <main>
         <section class = "blackbox">
-            <h1 class = "titlelogin">Reset wachtwoord</h1>
-            <p class = "textlogin">Geef het e-mailadres<br>dat hoort bij dit account.</p>
+            <h1 class = "titlelogin">Sign up</h1>
             <form method = "GET">
-                <input type = "text" class = "pwrd">
-                <input class = "sbmtbtn" type = "submit" value ="VERZENDEN">
+                <label class = "textsignup" for = "email">Voer een e-mailadres in:</label>
+                <input type = "text" id = "email" class = "pwrd">
+                <label class = "textsignup" for = "username" >Kies en username:</label>
+                <input type = "text" id = "username" class = "pwrd">
+                <label class = "textsignup" for = "pwrd2">Kies een wachtwoord:</label>
+                <input type = "text" id = "pwrd2" class = "pwrd">
+                <input class = "sbmtbtnsignup" type = "submit" value ="VERZENDEN">
             </form>
             <a href ="#"><p class = "backtologin"><u>Terug naar login</u></p></a>
         </section> 
