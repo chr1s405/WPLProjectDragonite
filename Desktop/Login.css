@@ -4,7 +4,7 @@
     box-sizing: border-box;
     font-family: 'Pokemon Solid', sans-serif; 
 }
-body{
+#LoginPagina{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,15 +15,12 @@ body{
 }
 
 
-
-h1{ 
+#LoginPagina h1{ 
     font-size: 70px;
     text-align: center;
 }
 
-
-
-input{
+#LoginPagina input{
     width: 500px;
     height: 50px;
     background: white;
@@ -37,16 +34,31 @@ input{
     text-align: center; 
 }
 
-.Gebruiksnaam{
+#LoginPagina .Gebruiksnaam{
     justify-content: center;
     text-align: center;
+    padding-bottom: 3rem;
 }
 
-button{
+#LoginPagina button{
     border: none;
     outline: none;
     border-radius: 1rem;
     width: 250px;
     height: 25px;
     background-color: rgb(255, 217, 0);
+    padding-bottom: 3rem;   
+}
+
+#LoginPagina .a a{
+    text-decoration: none;
+    cursor: pointer;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: rgba(0, 0, 0, 0.747);
+    padding-top: 5rem;
+    font-size: large;
+}
+
+@media screen {
+    
 }
