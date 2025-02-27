@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/stylesGame.css">
     <script src="./js/map.js" type="module"></script>
+    <script src="./js/game.js" type="module"></script>
     <script src="./js/backpack.js" defer></script>
     <title>Pokemon</title>
 </head>
@@ -21,8 +22,12 @@
     </header>
     <main>
         <div id="overworldMap">
-            <div id="character"></div>
-            <div id="companion"></div>
+            <div id="character">
+                <p class="debug"></p>
+            </div>
+            <div id="companion">
+                <p class="debug"></p>
+            </div>
         </div>
         <img src="../images/backpack.png" id="backpackIcon">
         <div id="backpackMenu">
