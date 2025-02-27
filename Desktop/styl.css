@@ -212,11 +212,11 @@ h1 {
 }
 
 
-/*This is the styling van reset password page*/
+/*This is the styling of reset password page*/
 
 /*Ik kan hier niet ids bijzetten want ik heb met gemeenschappelijke klassen over 2 webpagiona's gewerkt,
 maar vanaf hier is het allemaal wachtwoord vergeten en sign up*/
-
+ 
 .lginpagesbg {
     background-image: URL("./assets/pokemonBackground.jpeg");
     background-repeat: no-repeat;
