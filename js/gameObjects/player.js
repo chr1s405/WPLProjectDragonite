@@ -12,10 +12,10 @@ export const Player = {
     hasCompanion: true,
     isDebugOn: false,
 
-    update(){
+    update() {
         this.div.style.left = `${this.x}px`;
         this.div.style.top = `${this.y}px`;
-        if(this.isDebugOn){
+        if (this.isDebugOn) {
             this.debug();
         }
     },
@@ -71,17 +71,17 @@ export const Player = {
             this.y = tempY;
         }
     },
-    toggleDebug(){
+    toggleDebug() {
         this.isDebugOn = !this.isDebugOn;
-        if(this.isDebugOn){
+        if (this.isDebugOn) {
             this.div.getElementsByClassName("debug")[0].style.display = "block";
         }
-        else{
+        else {
             this.div.getElementsByClassName("debug")[0].style.display = "none";
-        }    
+        }
     },
     debug() {
         this.div.getElementsByClassName("debug")[0].innerHTML =
-        `(${this.x}, ${this.y})</br>${Map.positionInGrid(this.x, this.y)}`;
+            `(${this.x}, ${this.y})</br>${Map.positionInGrid(this.x, this.y)}`;
     },
 }

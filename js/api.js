@@ -1,4 +1,5 @@
-let pokemon;
+export let pokemon = [];
+export let pokemonFetched = false;
 fetch("https://pokeapi.co/api/v2/pokemon?limit=50&offset=0")
     .then((result)=>{
         return result.json();
@@ -17,10 +18,12 @@ fetch("https://pokeapi.co/api/v2/pokemon?limit=50&offset=0")
                 console.log("error");
             })
         }
-        console.log(pokemon);
+        pokemonFetched = true;
+        // console.log(pokemon);
     })
     .catch((error)=>{
-        console.log("error");
+        console.log("error fetching pokemon");
+        console.log(error);
     })
 
     // abilities

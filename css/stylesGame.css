@@ -120,6 +120,10 @@ html{
     background-color: purple;
     border-radius: 50%;
 }
+#gamePage main #overworldMap .npc{
+    position: absolute;
+    background-color: lightblue;
+}
 
 /*==============================*/
 /*============ Menu ============*/

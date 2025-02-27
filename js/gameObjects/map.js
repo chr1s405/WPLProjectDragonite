@@ -8,18 +8,18 @@ overworldMap.style.backgroundSize = overworldMap.style.width
 
 export const Map = {
     div: overworldMap,
-    x : 0,
-    y : 0,
+    x: 0,
+    y: 0,
     left: overworldMap.offsetLeft,
     top: overworldMap.offsetTop,
-    width : overworldMap.clientWidth,
-    height : overworldMap.clientHeight,
+    width: mapData["width"] * mapData["tilewidth"],
+    height: mapData["height"] * mapData["tileheight"],
     tilewidth: mapData["tilewidth"],
     tileHeight: mapData["tileheight"],
     layerData: mapData["layers"][1]["data"],
     collisionTiles: [1, 2, 3, 11, 13, 21, 22, 23, 5, 6, 7, 15, 16, 17, 25, 26, 27, 31, 51, 52, 53, 61, 62, 63, 71, 72, 73],
 
-    update(){
+    update() {
         this.scrollMap()
         this.div.style.left = `${this.x}px`;
         this.div.style.top = `${this.y}px`;
@@ -33,8 +33,13 @@ export const Map = {
         this.y = Math.min(this.top, Math.max(playerCenterY, maxScrollHeihgt));
     },
     positionInGrid(x, y) {
-            return (y / mapData["tileheight"]) * mapData["width"] + (x / mapData["tilewidth"])
-        },
+        return Math.trunc(x / this.tilewidth) + Math.trunc(y / this.tileHeight) * mapData["width"];
+    },
+    PositionInWorld(index) {
+        let x = (index % (mapData["width"])) * this.tilewidth;
+        let y = (Math.trunc(index / mapData["width"])) * this.tileHeight;
+        return {x,y};
+    }
 }
 
 
