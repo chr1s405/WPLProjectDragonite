@@ -1,8 +1,4 @@
-import { pokemon } from "../api.js"
 import { Map } from "./map.js";
-setTimeout(()=>{
-    
-},5000);
 const npcs = [
     {
         x: 4 * Map.tilewidth,
@@ -17,22 +13,21 @@ const npcs = [
                 this.assignPokemon()
             }
         },
-        createNpc() {
-            const npc = document.createElement("div");
-            npc.setAttribute("class", "npc");
-            npc.setAttribute("style", `width: ${this.width}px`);
-            npc.setAttribute("style", `height: ${this.height}px`);
-            Map.div?.appendChild(npc);
-        },
-        assignPokemon(){
-            this.pokemon = pokemon[Math.random() % pokemon.length];
+        assignPokemon(pokemon){
+            this.pokemon = pokemon;
         }
     }
 ]
 npcs.forEach((npc) => {
-    npc.width = 50;
-    npc.height = 50;
-    npc.CreateNpc();
+    createNpc(npc);
 })
 
-
+function createNpc(npc) {
+    const npcDiv = document.createElement("div");
+    npcDiv.setAttribute("class", "npc");
+    npcDiv.setAttribute("style", `left: ${npc.x}px; top: ${npc.y}px;`);
+    Map.div?.appendChild(npcDiv);
+    
+    npc.width = npcDiv.clientWidth;
+    npc.height = npcDiv.clientHeight;
+}

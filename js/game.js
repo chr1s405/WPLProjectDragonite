@@ -1,6 +1,9 @@
 import {Player} from "./gameObjects/player.js";
 import {Map} from "./gameObjects/map.js";
 import { Companion } from "./gameObjects/companion.js";
+import { GetPokemon } from "./api.js";
+
+GetPokemon();
 
 addEventListener("keydown", (e) => {
     if (e.keyCode === 87/*w*/) { Player.moveUp(); };
