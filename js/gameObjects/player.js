@@ -71,6 +71,14 @@ export const Player = {
             this.y = tempY;
         }
     },
+    interact(object){
+      const distX = (this.x + this.width /2) - (object.x + object.width/2);
+      const distY = (this.y + this.width/2) - (object.x + object.height/2);
+      const dist = Math.sqrt(Math.pow(distX,2) + Math.pow(fistY,2));
+      if(dist < Map.tileWidth){
+        
+      }
+    },
     toggleDebug() {
         this.isDebugOn = !this.isDebugOn;
         if (this.isDebugOn) {
