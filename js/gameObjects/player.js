@@ -1,4 +1,6 @@
 import { Map } from "./map.js";
+import { Npcs } from "./npc's.js";
+
 const character = document.getElementById("character")
 const Direction = { up: "up", down: "down", left: "left", right: "right", };
 export const Player = {
@@ -15,6 +17,7 @@ export const Player = {
     update() {
         this.div.style.left = `${this.x}px`;
         this.div.style.top = `${this.y}px`;
+        this.interact();
         if (this.isDebugOn) {
             this.debug();
         }
@@ -70,6 +73,13 @@ export const Player = {
         if (!Map.collisionTiles.includes(Map.layerData[(Map.positionInGrid(this.x, tempY))])) {
             this.y = tempY;
         }
+    },
+    interact(){
+        Npcs.npcList.forEach((npc)=>{
+            if(npc.isRendered){
+                
+            };
+        })
     },
     toggleDebug() {
         this.isDebugOn = !this.isDebugOn;

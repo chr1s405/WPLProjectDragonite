@@ -1,33 +1,43 @@
 import { Map } from "./map.js";
-const npcs = [
-    {
-        x: 4 * Map.tilewidth,
-        y: 6 * Map.tileHeight,
-        width: 0,
-        height: 0,
-        hasPokemon: false,
-        pokemon: undefined,
+export const Npcs = {
+  npcList: [],
 
-        update(){
-            if(!this.hasPokemon){
-                this.assignPokemon()
-            }
-        },
-        assignPokemon(pokemon){
-            this.pokemon = pokemon;
-        }
-    }
-]
-npcs.forEach((npc) => {
-    createNpc(npc);
-})
-
-function createNpc(npc) {
+  update() {
+    this.npcList.forEach((npc) => {
+      npc.update();
+    });
+  },
+  assignPokemon(pokemonList) {
+    this.npcList.forEach((npc) => {
+      if (npc.pokemon === undefined) {
+        npc.pokemon = pokemonList[Math.trunc(Math.random() * pokemonList.length)];
+      }
+    });
+  },
+  createNpc(x, y) {
     const npcDiv = document.createElement("div");
-    npcDiv.setAttribute("class", "npc");
-    npcDiv.setAttribute("style", `left: ${npc.x}px; top: ${npc.y}px;`);
     Map.div?.appendChild(npcDiv);
-    
-    npc.width = npcDiv.clientWidth;
-    npc.height = npcDiv.clientHeight;
-}
+    npcDiv.setAttribute("class", "npc");
+    npcDiv.setAttribute("style", `left: ${x}px; top: ${y}px;`);
+
+    const npc = {
+      div: npcDiv,
+      x: x,
+      y: y,
+      width: npcDiv.clientWidth,
+      height: npcDiv.clientHeight,
+      isRendered: false,
+      pokemon: undefined,
+
+      update() {
+        this.isRendered = Map.isOnScreen(this.x, this.y, this.width, this.height)
+        if (this.isRendered) {
+        }
+      },
+      assignPokemon(pokemon) {
+        this.pokemon = pokemon;
+      },
+    };
+    Npcs.npcList.push(npc);
+  },
+};

@@ -35,11 +35,17 @@ export const Map = {
     positionInGrid(x, y) {
         return Math.trunc(x / this.tilewidth) + Math.trunc(y / this.tileHeight) * mapData["width"];
     },
-    PositionInWorld(index) {
+    positionInWorld(index) {
         let x = (index % (mapData["width"])) * this.tilewidth;
         let y = (Math.trunc(index / mapData["width"])) * this.tileHeight;
         return {x,y};
-    }
+    },
+    isOnScreen(x,y, width = 0, height = 0){
+        if(-this.x + this.left < x + width && x < -this.x + window.innerWidth &&
+            -this.y + this.top < y + height && y< -this.y + window.innerHeight){
+            return true;
+        }
+    },
 }
 
 

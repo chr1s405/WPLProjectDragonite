@@ -1,24 +1,89 @@
-import {Player} from "./gameObjects/player.js";
-import {Map} from "./gameObjects/map.js";
+import { Map } from "./gameObjects/map.js";
+import { Player } from "./gameObjects/player.js";
+import { Npcs } from "./gameObjects/npc's.js";
 import { Companion } from "./gameObjects/companion.js";
-import { GetPokemon } from "./api.js";
 
 GetPokemon();
+Npcs.createNpc(200,300)
 
 addEventListener("keydown", (e) => {
-    if (e.keyCode === 87/*w*/) { Player.moveUp(); };
-    if (e.keyCode === 65/*a*/) { Player.moveLeft(); };
-    if (e.keyCode === 83/*s*/) { Player.moveDown(); };
-    if (e.keyCode === 68/*d*/) { Player.moveRight(); };
-    if (e.keyCode === 79/*o*/) { toggleDebug() };
+  //   alert(e.keyCode);
+  if (e.keyCode === 87 /*w*/) {
+    Player.moveUp();
+  }
+  if (e.keyCode === 65 /*a*/) {
+    Player.moveLeft();
+  }
+  if (e.keyCode === 83 /*s*/) {
+    Player.moveDown();
+  }
+  if (e.keyCode === 68 /*d*/) {
+    Player.moveRight();
+  }
+  if (e.keyCode === 79 /*o*/) {
+    toggleDebug();
+  }
+  if (e.keyCode === 13 /*enter*/) {
+  }
+  if (e.keyCode === 32 /*space*/) {
+  }
 });
-setInterval(()=>{
-    Player.update();
-    Companion.update();
-    Map.update();
-},45);
+setInterval(() => {
+  Player.update();
+  Npcs.update();
+  Companion.update();
+  Map.update();
+}, 45);
 
-function toggleDebug(){
-    Player.toggleDebug();
-    Companion.toggleDebug();
+function toggleDebug() {
+  Player.toggleDebug();
+  Companion.toggleDebug();
+}
+
+async function GetPokemon() {
+  const pokemonList = [];
+  fetch("https://pokeapi.co/api/v2/pokemon?limit=50&offset=0")
+    .then((result) => {
+      return result.json();
+    })
+    .then((result) => {
+      const pokemonData = result["results"];
+      return pokemonData;
+    })
+    .then((result) => {
+      return Promise.all(result.map((result) => fetch(result.url)));
+    })
+    .then((result) => {
+      return Promise.all(result.map((value) => value.json()));
+    })
+    .then((result) => {
+      result.forEach((pokemon) => {
+        pokemonList.push({
+          abilities: pokemon.abilities,
+          base_experience: pokemon.base_experience,
+          cries: pokemon.cries,
+          forms: pokemon.forms,
+          //game_indices: pokemon.game_indices,
+          //height: pokemon.height,
+          held_items: pokemon.held_items,
+          id: pokemon.id,
+          is_default: pokemon.is_default,
+          //location_area_encount: pokemon.location_area_encount,
+          moves: pokemon.moves,
+          name: pokemon.name,
+          order: pokemon.order,
+          past_abilities: pokemon.past_abilities,
+          past_types: pokemon.past_types,
+          species: pokemon.species,
+          sprites: pokemon.sprites,
+          other: pokemon.other,
+          versions: pokemon.versions,
+          stats: pokemon.stats,
+          types: pokemon.types,
+          //weight: pokemon.weight,
+        });
+      });
+      //als je ergens de pokemon nodig hebt stuur da hier als parameter door
+      Npcs.assignPokemon(pokemonList);
+    });
 }
