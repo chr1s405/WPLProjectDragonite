@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+<<<<<<< HEAD
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/reset.css">
@@ -11,74 +12,116 @@
     <script src="./js/game.js" type="module"></script>
     <script src="./js/backpack.js" defer></script>
     <title>Pokemon</title>
+=======
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/stylesGame.css">
+  <script src="./js/api.js" type="module"></script>
+  <script src="./js/gameObjects/map.js" type="module"></script>
+  <script src="./js/gameObjects/npc's.js" type="module"></script>
+  <script src="./js/game.js" type="module"></script>
+  <script src="./js/backpack.js" defer></script>
+  <title>Pokemon</title>
+>>>>>>> 4f77bfd7d38c3c09cb8191eadb7ae6ac05ea6893
 </head>
 
 <body id="gamePage">
-    <header>
-        <div id="nav-profile">
-            <img src="./images/pokeball.png">
-            <h1>username</h1>
+  <header>
+    <div id="nav-profile">
+      <img src="./images/pokeball.png">
+      <h1>username</h1>
+    </div>
+    <img id="nav-pokemon" src="./images/pikachu_silouhette.png">
+  </header>
+  <main>
+    <div id="overworldMap">
+      <div id="character">
+        <p class="debug"></p>
+      </div>
+      <div id="companion">
+        <p class="debug"></p>
+      </div>
+    </div>
+    <img src="../images/backpack.png" id="backpackIcon">
+    <div id="backpackMenu">
+      <button id="backpackMenuCloseBtn" class="closeBtn">
+        X</button>
+      <h1>Rugzak</h1>
+      <div id="backpackMenuItems">
+        <button class="backpackMenuBtn">
+          <img src="./images/pokeball.png">
+          <p>pokedex</p>
+        </button>
+        <button class="backpackMenuBtn">
+          <img src="./images/pokeball.png">
+          <p>pokemon vergelijken</p>
+        </button>
+        <button class="backpackMenuBtn">
+          <img src="./images/pikachu_silouhette.png">
+          <p>companion</p>
+        </button>
+        <button class="backpackMenuBtn">
+          <img src="./images/who's_that_icon.png">
+          <p>who's that pokemon</p>
+        </button>
+        <button class="backpackMenuBtn">
+          <img src="./images/log_out_icon.png">
+          <p>log out</p>
+        </button>
+      </div>
+    </div>
+    <div id="menu_pokedex" class="menuEvent">
+      pokedex
+      <button class="closeBtn">X</button>
+    </div>
+    <div id="menu_compare" class="menuEvent">
+      compare
+      <button class="closeBtn">X</button>
+    </div>
+    <div id="menu_companion" class="menuEvent">
+      companion
+      <button class="closeBtn">X</button>
+    </div>
+    <div id="menu_who'sThat" class="menuEvent">
+      who's that
+      <button class="closeBtn">X</button>
+    </div>
+    <div id="menu_battle" class="menuEvent">
+      battle
+      <button class="closeBtn">X</button>
+      <div id="battle_playerSide" class="battle_stage">
+        <div class="statusbar">
+          <p>pikachu</p>
+          <p>50HP</p>
+          <div class="hp-bar"></div>
         </div>
-        <img id="nav-pokemon" src="/images/pikachu_silouhette.png">
-    </header>
-    <main>
-        <div id="overworldMap">
-            <div id="character">
-                <p class="debug"></p>
-            </div>
-            <div id="companion">
-                <p class="debug"></p>
-            </div>
+        <img src="./images/pikachu_silouhette.png"></img>
+      </div>
+      <div id="battle_enemySide" class="battle_stage">
+        <div class="statusbar">
+          <p>pikachu</p>
+          <p>50HP</p>
+          <div class="hp-bar"></div>
         </div>
-        <img src="../images/backpack.png" id="backpackIcon">
-        <div id="backpackMenu">
-            <button id="backpackMenuCloseBtn" class="closeBtn">
-                X</button>
-            <h1>Rugzak</h1>
-            <div id="backpackMenuItems">
-                <button class="backpackMenuBtn">
-                    <img src="./images/pokeball.png">
-                    <p>pokedex</p></button>
-                <button class="backpackMenuBtn">
-                    <img src="./images/pokeball.png">
-                    <p>pokemon vergelijken</p></button>
-                <button class="backpackMenuBtn">
-                    <img src="./images/pikachu_silouhette.png">
-                    <p>companion</p></button>
-                <button class="backpackMenuBtn">
-                    <img src="./images/who's_that_icon.png">
-                    <p>who's that pokemon</p></button>
-                <button class="backpackMenuBtn">
-                    <img src="./images/log_out_icon.png">
-                    <p>log out</p></button>
-            </div>
-        </div>
-        <div id="menu_pokedex" class="menuEvent">
-            pokedex
-            <button class="closeBtn">X</button>
-        </div>
-        <div id="menu_compare" class="menuEvent">
-            compare
-            <button class="closeBtn">X</button>
-        </div>
-        <div id="menu_companion" class="menuEvent">
-            companion
-            <button class="closeBtn">X</button>
-        </div>
-        <div id="menu_who'sThat" class="menuEvent">
-            who's that
-            <button class="closeBtn">X</button>
-        </div>
-        <div id="menu_battle" class="menuEvent">
-            battle
-            <button class="closeBtn">X</button>
-        </div>
-        <div id="debug">
-            <p id="characterCoor"></p>
-            <p id="companionCoor"></p>
-            <p id="mapCoor"></p>
-        </div>
-    </main>
+        <img src="./images/pikachu_silouhette.png"></img>
+      </div>
+      <div id="battle_buttons">
+        <button class="battle_button">aanvallen</button>
+        <button class="battle_button">verdedigen</button>
+        <button class="battle_button">helen</button>
+      </div>
+      <div id="menu_capture" class="menuEvent">
+        capture
+        <button class="closeBtn">X</button>
+      </div>
+    </div>
+    <div id="debug">
+      <p id="characterCoor"></p>
+      <p id="companionCoor"></p>
+      <p id="mapCoor"></p>
+    </div>
+  </main>
 </body>
 
 </html>

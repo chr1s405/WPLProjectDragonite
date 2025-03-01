@@ -42,5 +42,4 @@ export async function GetPokemon() {
         });
       });
     });
-    console.log(pokemonList);
 }

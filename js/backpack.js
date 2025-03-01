@@ -3,37 +3,57 @@ const backpackMenu = document.getElementById("backpackMenu")
 const backpackCloseBtn = document.getElementById("backpackMenuCloseBtn")
 const backpackMenuItems = document.getElementsByClassName("backpackMenuBtn");
 const menuEvents = document.getElementsByClassName("menuEvent");
+const battleMenuEvent = document.getElementById("menu_battle");
+const captureMenuEvent =document.getElementById("menu_capture")
 
 backpackIcon.addEventListener("click", (e) => {
     openMenu();
 })
 backpackCloseBtn.addEventListener("click", (e) => {
-    CloseMenu();
+    closeMenu();
 })
 for (let i = 0; i < backpackMenuItems.length - 1; i++) {
     backpackMenuItems[i].addEventListener("click", (e) => {
-        openEvent();
-        menuEvents[i].style.display = "block";
-
+        openEvent(menuEvents[i]);
     });
     menuEvents[i].children[0].addEventListener("click",(e)=>{
-        menuEvents[i].style.display = "none";
-        closeEvent();
+        closeMenu(menuEvents[i]);
     })
 }
+battleMenuEvent.children[0].addEventListener("click", (e) => {
+  closeBattleEvent()
+})
+captureMenuEvent.children[0].addEventListener("click", (e) => {
+  closeCaptureEvent()
+})
 
 function openMenu() {
     backpackIcon.style.display = "none";
     backpackMenu.style.display = "grid";
 
 }
-function CloseMenu() {
+function closeMenu(event = undefined) {
     backpackIcon.style.display = "block";
     backpackMenu.style.display = "none";
+    if(event !== undefined){
+      event.style.display = "none";
+    }
 }
-function openEvent(){
+function openEvent(event){
     backpackMenu.style.display = "none"
+    event.style.display = "block";
 }
-function closeEvent(){
-    backpackIcon.style.display = "block"
+function openBattleEvent(){
+  battleMenuEvent.style.display = "grid";
+}
+function closeBattleEvent() {
+  battleMenuEvent.style.display = "none"
+  closeMenu();
+}
+function openCaptureEvent(){
+  captureMenuEvent.style.display = "block"
+}
+function closeCaptureEvent() {
+  captureMenuEvent.style.display = "none";
+  closeMenu();
 }
