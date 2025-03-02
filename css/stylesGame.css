@@ -249,7 +249,7 @@ html{
 }
 #gamePage #menu_battle .statusbar .hp-bar{
   height: 10px;
-  background: linear-gradient(to right, #00ff00 70%, #000000 30%);
+  background: linear-gradient(to right, #00ff00 100%, #000000 100%);
   border: 2px solid black;
   border-radius: 50px;
 }

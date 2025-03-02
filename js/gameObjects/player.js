@@ -1,7 +1,21 @@
 import { Map } from "./map.js";
 import { Npcs } from "./npc's.js";
-import { openBattleEvent } from "../backpack.js";
+import { openBattleEvent, closeBattleEvent } from "../backpack.js";
 
+const actions = [];
+const battleButtons = document.getElementsByClassName("battle_button");
+//id 0 = attack, id 1 = defence, id 2 = heal
+for (let i = 0; i < battleButtons.length; i++) {
+    actions.push({
+        button: battleButtons[i],
+        value: false,
+    })
+    actions[i].button.addEventListener("click", (e) => {
+        if (Player.isInBattle) {
+            actions[i].value = true;
+        }
+    })
+}
 const character = document.getElementById("character")
 const Direction = { up: "up", down: "down", left: "left", right: "right", };
 export const Player = {
@@ -14,6 +28,7 @@ export const Player = {
     direction: Direction.down,
     hasCompanion: true,
     pokemon: undefined,
+    isInBattle: false,
     isDebugOn: false,
 
     update() {
@@ -105,38 +120,80 @@ function interactNpc() {
             const distX = (Player.x + Player.width / 2) - (npc.x + npc.width / 2);
             const distY = (Player.y + Player.height / 2) - (npc.y + npc.height / 2);
             const dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
-            if (dist <= Map.tileWidth * 1.5) {
-                const stage = openBattleEvent();
-                battle()
-                const player = stage[0];
-                const enemy = stage[1];
-                console.log(player)
-                player.name.innerHTML = Player.pokemon.name;
-                player.img.src = Player.pokemon.sprites["back_default"];
-                player.hp.innerHTML = `${Player.pokemon.stats[0]["base_stat"]}HP`;
-                enemy.name.innerHTML = npc.pokemon.name;
-                enemy.img.src = npc.pokemon.sprites["front_default"];
-                enemy.hp.innerHTML = `${npc.pokemon.stats[0]["base_stat"]}HP`;
-
+            if (dist <= Map.tileWidth * 1) {
+                battle(npc);
             }
         }
     });
 }
-function battle(enemy){
-    const actions = document.getElementsByClassName("battle_button");
-    //id 0 = attack, id 1 = defence, id 2 = heal
-    let playerHp = Player.pokemon.stats[0];
-    let playerAtk = Player.pokemon.stats[1];
-    let playerDef = Player.pokemon.stats[2];
+function battle(enemy) {
+    Player.isInBattle = true;
+    const stage = openBattleEvent();
+    let isBattling = true;
+
+    const playerMaxHp = Player.pokemon.stats[0]["base_stat"]
+    let playerHp = playerMaxHp;
+    let playerAtk = Player.pokemon.stats[1]["base_stat"];
+    let playerDef = Player.pokemon.stats[2]["base_stat"];
     let isMyTurn = true;
-    let enemyHp = enemy.pokemon.stats[0];
-    let enmyAtk = enemy.pokemon.stats[1];
-    let enemyDef = enemy.pokemon.stats[2];
+    let enemyMaxHp = enemy.pokemon.stats[0]["base_stat"];
+    let enemyHp = enemyMaxHp;
+    let enemyAtk = enemy.pokemon.stats[1]["base_stat"];
+    let enemyDef = enemy.pokemon.stats[2]["base_stat"];
 
+    const playerObject = stage[0];
+    const enemyObject = stage[1];
+    playerObject.name.innerHTML = Player.pokemon.name;
+    enemyObject.name.innerHTML = enemy.pokemon.name;
+    const intervalId = setInterval(() => {
+        if (isMyTurn) {
+            if (actions[0].value) {
+                const dmg = Math.max(0, playerAtk - enemyDef);
+                enemyHp = Math.max(0, enemyHp - dmg);
+                console.log("player attacks");
+                console.log(`dmg: ${dmg}`);
+                actions[0].value = false;
+                isMyTurn = false;
+            }
+            if (actions[1].value) {
 
-    do{
-        if(isMyTurn){
+                actions[1].value = false;
+                isMyTurn = false;
+            }
+            if (actions[2].value) {
+                
+                actions[2].value = false;
+                isMyTurn = false;
+            }
+            if (enemyHp === 0) {
+                console.log("you won");
+                isBattling = false;
+            }
 
         }
-    }while(playerHp !== 0 && enemyHp !== 0);
+        else {
+            const dmg = Math.max(0, enemyAtk - playerDef);
+            playerHp = Math.max(0, playerHp - dmg);
+            console.log("enemy attacks");
+            console.log(`dmg: ${dmg}`);
+            isMyTurn = true;
+            if (playerHp === 0) {
+                console.log("you lost");
+                isBattling = false;
+            }
+        }
+        playerObject.img.src = Player.pokemon.sprites["back_default"];
+        playerObject.hp.innerHTML = `${playerHp}HP`;
+        enemyObject.img.src = enemy.pokemon.sprites["front_default"];
+        enemyObject.hp.innerHTML = `${enemyHp}HP`;
+        const playerHpPercent = playerHp / playerMaxHp * 100;
+        const enemyHpPercent = enemyHp / enemyMaxHp * 100;
+        playerObject.hpBar.style.background = `linear-gradient(to right, #00ff00 ${playerHpPercent}%, #000000 ${playerHpPercent}%)`
+        enemyObject.hpBar.style.background = `linear-gradient(to right, #00ff00 ${enemyHpPercent}%, #000000 ${enemyHpPercent}%)`
+        if (!isBattling) {
+            clearInterval(intervalId);
+            Player.isInBattle = false;
+            closeBattleEvent();
+        }
+    }, 45)
 }

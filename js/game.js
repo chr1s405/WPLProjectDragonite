@@ -29,11 +29,14 @@ addEventListener("keydown", (e) => {
   if (e.keyCode === 32 /*space*/) {
   }
 });
-setInterval(() => {
+const intervalId = setInterval(() => {
   Player.update();
   Npcs.update();
   Companion.update();
   Map.update();
+  if(false){
+    clearInterval(intervalId);
+  }
 }, 45);
 
 function toggleDebug() {

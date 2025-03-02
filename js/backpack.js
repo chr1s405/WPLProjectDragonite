@@ -61,7 +61,7 @@ export function openBattleEvent() {
   battleMenuEvent.style.display = "grid";
   return stage;
 }
-function closeBattleEvent() {
+export function closeBattleEvent() {
   battleMenuEvent.style.display = "none"
   closeMenu();
 }
