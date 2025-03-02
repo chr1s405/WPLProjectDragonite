@@ -9,7 +9,7 @@
     <script src="./js/gameObjects/map.js" type="module"></script>
     <script src="./js/gameObjects/npc's.js" type="module"></script>
     <script src="./js/game.js" type="module"></script>
-    <script src="./js/backpack.js" defer></script>
+    <script src="./js/backpack.js" type="module"></script>
     <title>Pokemon</title>
 </head>
 
@@ -80,16 +80,18 @@
       <div id="battle_playerSide" class="battle_stage">
         <div class="statusbar">
           <p>pikachu</p>
-          <p>50HP</p>
-          <div class="hp-bar"></div>
+          <div class="hp-bar">
+            <p>50HP</p>
+        </div>
         </div>
         <img src="./images/pikachu_silouhette.png"></img>
       </div>
       <div id="battle_enemySide" class="battle_stage">
         <div class="statusbar">
           <p>pikachu</p>
-          <p>50HP</p>
-          <div class="hp-bar"></div>
+          <div class="hp-bar">
+            <p>50HP</p>
+        </div>
         </div>
         <img src="./images/pikachu_silouhette.png"></img>
       </div>

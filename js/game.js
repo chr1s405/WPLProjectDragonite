@@ -4,7 +4,7 @@ import { Npcs } from "./gameObjects/npc's.js";
 import { Companion } from "./gameObjects/companion.js";
 
 GetPokemon();
-Npcs.createNpc(200,300)
+Npcs.createNpc(200, 300)
 
 addEventListener("keydown", (e) => {
   //   alert(e.keyCode);
@@ -24,6 +24,7 @@ addEventListener("keydown", (e) => {
     toggleDebug();
   }
   if (e.keyCode === 13 /*enter*/) {
+    Player.interact();
   }
   if (e.keyCode === 32 /*space*/) {
   }
@@ -84,6 +85,7 @@ async function GetPokemon() {
         });
       });
       //als je ergens de pokemon nodig hebt stuur da hier als parameter door
+      Player.assignPokemon(pokemonList);
       Npcs.assignPokemon(pokemonList);
     });
 }

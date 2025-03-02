@@ -14,7 +14,7 @@ export const Map = {
     top: overworldMap.offsetTop,
     width: mapData["width"] * mapData["tilewidth"],
     height: mapData["height"] * mapData["tileheight"],
-    tilewidth: mapData["tilewidth"],
+    tileWidth: mapData["tilewidth"],
     tileHeight: mapData["tileheight"],
     layerData: mapData["layers"][1]["data"],
     collisionTiles: [1, 2, 3, 11, 13, 21, 22, 23, 5, 6, 7, 15, 16, 17, 25, 26, 27, 31, 51, 52, 53, 61, 62, 63, 71, 72, 73],
@@ -33,10 +33,10 @@ export const Map = {
         this.y = Math.min(this.top, Math.max(playerCenterY, maxScrollHeihgt));
     },
     positionInGrid(x, y) {
-        return Math.trunc(x / this.tilewidth) + Math.trunc(y / this.tileHeight) * mapData["width"];
+        return Math.trunc(x / this.tileWidth) + Math.trunc(y / this.tileHeight) * mapData["width"];
     },
     positionInWorld(index) {
-        let x = (index % (mapData["width"])) * this.tilewidth;
+        let x = (index % (mapData["width"])) * this.tileWidth;
         let y = (Math.trunc(index / mapData["width"])) * this.tileHeight;
         return {x,y};
     },

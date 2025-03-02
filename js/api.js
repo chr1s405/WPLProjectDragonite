@@ -36,7 +36,7 @@ export async function GetPokemon() {
           sprites: pokemon.sprites,
           other: pokemon.other,
           versions: pokemon.versions,
-          stats: pokemon.stats,
+          stats: pokemon.stats, // 0: hp, 1: attack, 2: defence, 3: special_attack, 4: special_defence, 5: speed
           types: pokemon.types,
           //weight: pokemon.weight,
         });
