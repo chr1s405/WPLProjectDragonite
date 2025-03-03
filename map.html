@@ -2,15 +2,15 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/reset.css">
-    <link rel="stylesheet" href="./css/stylesGame.css">
-    <script src="./js/gameObjects/map.js" type="module"></script>
-    <script src="./js/gameObjects/npc's.js" type="module"></script>
-    <script src="./js/game.js" type="module"></script>
-    <script src="./js/backpack.js" type="module"></script>
-    <title>Pokemon</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/stylesGame.css">
+  <script src="./js/gameObjects/map.js" type="module"></script>
+  <script src="./js/gameObjects/npc's.js" type="module"></script>
+  <script src="./js/game.js" type="module"></script>
+  <script src="./js/backpack.js" type="module"></script>
+  <title>Pokemon</title>
 </head>
 
 <body id="gamePage">
@@ -82,7 +82,7 @@
           <p>pikachu</p>
           <div class="hp-bar">
             <p>50HP</p>
-        </div>
+          </div>
         </div>
         <img src="./images/pikachu_silouhette.png"></img>
       </div>
@@ -91,7 +91,7 @@
           <p>pikachu</p>
           <div class="hp-bar">
             <p>50HP</p>
-        </div>
+          </div>
         </div>
         <img src="./images/pikachu_silouhette.png"></img>
       </div>
@@ -100,9 +100,19 @@
         <button class="battle_button">special attack</button>
         <button class="battle_button">loop weg</button>
       </div>
-      <div id="menu_capture" class="menuEvent">
-        capture
-        <button class="closeBtn">X</button>
+    </div>
+    <div id="menu_capture" class="menuEvent">
+      capture
+      <button class="closeBtn">X</button>
+      <div id="capture_chances">
+        <img src="./images/pokeball.png"></img>
+        <img src="./images/pokeball.png"></img>
+        <img src="./images/pokeball.png"></img>
+      </div>
+      <div id="capture_main">
+        <p>pikachu</p>
+        <img src="./images/pikachu_silouhette.png"></img>
+        <button id="capture_button"></button>
       </div>
     </div>
     <div id="debug">

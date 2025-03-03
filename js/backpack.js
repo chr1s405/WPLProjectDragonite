@@ -30,8 +30,9 @@ captureMenuEvent.children[0].addEventListener("click", (e) => {
 function openMenu() {
   backpackIcon.style.display = "none";
   backpackMenu.style.display = "grid";
-
+  
 }
+
 function closeMenu(event = undefined) {
   backpackIcon.style.display = "block";
   backpackMenu.style.display = "none";
@@ -39,35 +40,34 @@ function closeMenu(event = undefined) {
     event.style.display = "none";
   }
 }
+
 function openEvent(event) {
   backpackMenu.style.display = "none"
   event.style.display = "block";
 }
-export function openBattleEvent() {
-  const player = battleMenuEvent.children[1];
-  const enemy = battleMenuEvent.children[2];
-  const stage = [{
-    img: player.children[1],
-    name: player.getElementsByClassName("statusbar")[0].children[0],
-    hp: player.getElementsByClassName("hp-bar")[0].children[0],
-    hpBar: player.getElementsByClassName("hp-bar")[0],
-  },
-  {
-    img: enemy.children[1],
-    name: enemy.getElementsByClassName("statusbar")[0].children[0],
-    hp: enemy.getElementsByClassName("hp-bar")[0].children[0],
-    hpBar: enemy.getElementsByClassName("hp-bar")[0],
-  }]
+export function openBattleEven(){
   battleMenuEvent.style.display = "grid";
+  const stages = document.getElementsByClassName("battle_stage");
+  const stage = [];
+  for (let i = 0; i < stages.length; i++) {
+    stage.push({
+      img: stages[i].children[1],
+      name: stages[i].getElementsByClassName("statusbar")[i].children[0],
+      hpBar: stages[i].getElementsByClassName("statusbar")[i].children[1],
+      hp: stages[i].getElementsByClassName("statusbar")[i].children[1][0],
+    })
+  }
   return stage;
 }
 export function closeBattleEvent() {
   battleMenuEvent.style.display = "none"
   closeMenu();
 }
+
 function openCaptureEvent() {
-  captureMenuEvent.style.display = "block"
+  captureMenuEvent.style.display = "grid"
 }
+
 function closeCaptureEvent() {
   captureMenuEvent.style.display = "none";
   closeMenu();

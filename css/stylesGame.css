@@ -6,271 +6,296 @@ h1{
     font-family: var(--pokemon-hollow-font);
     }
 */
-:root{
-    /*pokémon font als de letters zwart zijn*/
-    --pokemon-solid-font :'Pokemon Solid', sans-serif;
-    /*pokémon font als de letters doorzichtig zijn*/
-    --pokemon-hollow-font :'Pokemon Hollow', sans-serif;
-    /*dit is het font dat gebruikt gaat worden voor de titels in de pagina's waar we kunnen kiezen welk
+:root {
+  /*pokémon font als de letters zwart zijn*/
+  --pokemon-solid-font: 'Pokemon Solid', sans-serif;
+  /*pokémon font als de letters doorzichtig zijn*/
+  --pokemon-hollow-font: 'Pokemon Hollow', sans-serif;
+  /*dit is het font dat gebruikt gaat worden voor de titels in de pagina's waar we kunnen kiezen welk
     project we nemen*/
-    --display-font: font-family: 'HAINER', sans-serif;
-
+  --display-font: font-family: 'HAINER', sans-serif;
 }
-html{
-    overflow: hidden;
 
+html {
+  overflow: hidden;
 }
+
 /*========================================*/
 /*========================================*/
 /*=============== GamePage ===============*/
 /*========================================*/
 /*========================================*/
-#gamePage{
-    height: 100vh;
-    display: grid;
-    grid-template-areas:
+#gamePage {
+  height: 100vh;
+  display: grid;
+  grid-template-areas:
     "header"
     "main";
-    grid-template-rows: 100px auto;
+  grid-template-rows: 100px auto;
 }
-#gamePage .closeBtn{
-    font-family: sans-serif;
-    font-size: 30px;
-    font-weight: bold;
 
-    position: absolute;
-    top: 20px;
-    right: 20px;
+#gamePage .closeBtn {
+  font-family: sans-serif;
+  font-size: 30px;
+  font-weight: bold;
+  
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
 /*==============================*/
 /*=========== Header ===========*/
 /*==============================*/
 
-#gamePage header{
-    grid-area: header;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 2px solid black;
-    background-color: palegreen;
-}
-#gamePage header #nav-profile{
-    display: flex;
-    margin: 10px;
-    padding: 10px;
-
-    border: 3px solid black;
-    border-radius: 50px;
-
-    background-color: greenyellow;
-}
-#gamePage header #nav-profile img{
-    margin-right: 10px;
-
-    border: 3px solid black;
-    border-radius: 50%;
-}
-#gamePage header #nav-profile h1{
-    font-size: 20px;
-    font-weight: bold;
-    margin: auto;
-}
-#gamePage header #nav-pokemon{
-    height: 80%;
-    margin: 10px;
-    padding: 10px;
-
-    border: 3px solid black;
-    border-radius: 50px;
-
-    background-color: greenyellow;
+#gamePage header {
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid black;
+  background-color: palegreen;
 }
 
-#gamePage main{
-    grid-area: "main";
+#gamePage header #nav-profile {
+  display: flex;
+  margin: 10px;
+  padding: 10px;
+  
+  border: 3px solid black;
+  border-radius: 50px;
+  
+  background-color: greenyellow;
+}
+
+#gamePage header #nav-profile img {
+  margin-right: 10px;
+  
+  border: 3px solid black;
+  border-radius: 50%;
+}
+
+#gamePage header #nav-profile h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: auto;
+}
+
+#gamePage header #nav-pokemon {
+  height: 80%;
+  margin: 10px;
+  padding: 10px;
+  
+  border: 3px solid black;
+  border-radius: 50px;
+  
+  background-color: greenyellow;
+}
+
+#gamePage main {
+  grid-area: "main";
 }
 
 /*==============================*/
 /*============ Map =============*/
 /*==============================*/
 
-#gamePage main #overworldMap{
-    position: absolute;
-    overflow: hidden;
-    z-index: -1;
+#gamePage main #overworldMap {
+  position: absolute;
+  overflow: hidden;
+  z-index: -1;
+  
+  background-image: url("../images/pokemon_map.png");
+  background-repeat: no-repeat;
+}
 
-    background-image: url("../images/pokemon_map.png");
-    background-repeat: no-repeat;
-}
-#gamePage main #overworldMap #character{
-    position: absolute;
-    /* left: 450px;
+#gamePage main #overworldMap #character {
+  position: absolute;
+  /* left: 450px;
     top: 450px; */
-    left: 200px;
-    top: 350px;
-    width: 50px;
-    height: 50px;
-    background-color: red;
-    border-radius: 50%;
+  left: 200px;
+  top: 350px;
+  width: 50px;
+  height: 50px;
+  background-color: red;
+  border-radius: 50%;
 }
-#gamePage main #overworldMap #companion{
-    position: absolute;
-    left: 410px;
-    top: 460px;
-    width: 30px;
-    height: 30px;
-    background-color: purple;
-    border-radius: 50%;
+
+#gamePage main #overworldMap #companion {
+  position: absolute;
+  left: 410px;
+  top: 460px;
+  width: 30px;
+  height: 30px;
+  background-color: purple;
+  border-radius: 50%;
 }
-#gamePage main #overworldMap .npc{
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background-color: green;
-    border-radius: 50%;
+
+#gamePage main #overworldMap .npc {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: green;
+  border-radius: 50%;
 }
 
 /*==============================*/
 /*============ Menu ============*/
 /*==============================*/
 
-#gamePage main #backpackIcon{
-    position: absolute;
-    width: 75px;
-    height: 75px;
-    right: 20px;
-    bottom: 20px;
+#gamePage main #backpackIcon {
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  right: 20px;
+  bottom: 20px;
 }
-#gamePage main #backpackMenu{
-    position: relative;
-    display: none;
-    grid-template-areas: 
+
+#gamePage main #backpackMenu {
+  position: relative;
+  display: none;
+  grid-template-areas:
     "menuTitle"
     "menuContents";
-    grid-template-rows: 100px auto;
+  grid-template-rows: 100px auto;
+  
+  width: 70%;
+  height: 80%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  
+  border: 4px solid black;
+  border-radius: 20px;
+  background-color: rgba(30, 30, 30, 0.8);
+}
 
-    width: 70%;
-    height: 80%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+#gamePage #backpackMenu h1 {
+  grid-area: menuTitle;
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: 0px;
+}
 
-    border: 4px solid black;
-    border-radius: 20px;
-    background-color: rgba(30, 30, 30, 0.8);
+#gamePage #backpackMenu #backpackMenuItems {
+  grid-area: menuContents;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin: 0px 20%;
+  justify-content: center;
+  align-content: center;
 }
-#gamePage #backpackMenu h1{
-    grid-area: menuTitle;
-    font-size: 50px;
-    font-weight: bold;
-    text-align: center;
-    margin-top: auto;
-    margin-bottom: 0px;
-}
-#gamePage #backpackMenu #backpackMenuItems{
-    grid-area: menuContents;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin: 0px 20%;
-    justify-content: center;
-    align-content: center;
-}
-#gamePage #backpackMenu .backpackMenuBtn{
-    position: relative;
-    width: 100px;
-    height: 100px;
 
-    border: 4px solid black;
-    border-radius: 10px;
-    background-color: red;
+#gamePage #backpackMenu .backpackMenuBtn {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  
+  border: 4px solid black;
+  border-radius: 10px;
+  background-color: red;
+  
+}
 
+#gamePage #backpackMenu .backpackMenuBtn img {
+  position: absolute;
+  width: 60%;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
 }
-#gamePage #backpackMenu .backpackMenuBtn img{
-    position: absolute;
-    width: 60%;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-#gamePage #backpackMenu .backpackMenuBtn p{
-    position: absolute;
-    line-height: .8;
-    width: 100%;
-    bottom: 5px;
-    text-align: center;
+
+#gamePage #backpackMenu .backpackMenuBtn p {
+  position: absolute;
+  line-height: .8;
+  width: 100%;
+  bottom: 5px;
+  text-align: center;
 }
 
 /*==============================*/
 /*=========== events ===========*/
 /*==============================*/
 
-#gamePage main .menuEvent{
-    display: none;
-    position: relative;
-    width: 90%;
-    height: 90%;
-    margin:auto;
-    top: 50%;
-    transform: translateY(-50%);
-
-    /* border: 2px solid black; */
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px 5px rgb(10, 10, 10);
-    background-color: rgba(0, 0, 0, 0.8);
-
+#gamePage main .menuEvent {
+  display: none;
+  position: relative;
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  
+  /* border: 2px solid black; */
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px 5px rgb(10, 10, 10);
+  background-color: rgba(0, 0, 0, 0.8);
+  
 }
 
 
-#gamePage #menu_battle{
-  display: grid;
-  grid-template-areas: 
-  "closeBtn closeBtn"
-  "battleLeft battleRight"
-  "battleButtons battleButtons";
+#gamePage #menu_battle {
+  display: none;
+  grid-template-areas:
+    "closeBtn closeBtn"
+    "battleLeft battleRight"
+    "battleButtons battleButtons";
   grid-template-columns: 50% 50%;
 }
-#gamePage #menu_battle .battle_stage{
+
+#gamePage #menu_battle .battle_stage {
   position: relative;
   width: 100%;
   max-width: 200px;
   margin: auto;
 }
-#gamePage #menu_battle #battle_playerSide{
+
+#gamePage #menu_battle #battle_playerSide {
   grid-area: battleLeft;
   padding-top: 100px;
 }
-#gamePage #menu_battle #battle_enemySide{
+
+#gamePage #menu_battle #battle_enemySide {
   grid-area: battleRight;
   padding-bottom: 100px;
 }
-#gamePage #menu_battle .statusbar{
+
+#gamePage #menu_battle .statusbar {
   margin: 0px 10px 0px 10px
 }
-#gamePage #menu_battle .statusbar .hp-bar{
-  height: 10px;
+
+#gamePage #menu_battle .statusbar .hp-bar {
+  height: 15px;
+  padding-left: 5px;
   background: linear-gradient(to right, #00ff00 100%, #000000 100%);
   border: 2px solid black;
   border-radius: 50px;
 }
-#gamePage #menu_battle .statusbar p{
+
+#gamePage #menu_battle .statusbar p {
   display: inline;
+  color: white;
 }
-#gamePage .battle_stage img{
+
+#gamePage .battle_stage img {
   display: block;
   position: relative;
   width: 100%;
   margin: auto;
   padding: 20px;
 }
-#gamePage #battle_buttons{
+
+#gamePage #battle_buttons {
   grid-area: battleButtons;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   margin: 20px
 }
-#gamePage #battle_buttons button{
+
+#gamePage #battle_buttons button {
   text-align: center;
   width: 30%;
   height: 50px;
@@ -278,22 +303,72 @@ html{
   border: 3px solid black;
   border-radius: 50px;
 }
-#gamePage .debug{
-    display: none;
-    width: 100px;
-}
-#gamePage main #debug {
-    display: none;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    text-align: right;
-    background-color: gray;
-}
-#gamePage button:hover{
-    cursor: pointer;
-}
-#gamePage main #backpackMenu .backpackMenuBtn:hover{
-    border: 5px solid rgba(50, 0, 0, 1);
 
+#gamePage #menu_capture {
+  display: grid;
+  grid-template-areas:
+    "closeBtn closeBtn"
+    "chances captureMain";
+  grid-template-rows: 100px auto;
+  grid-template-columns: 20% 80%;
+}
+
+#gamePage #menu_capture #capture_chances {
+  grid-area: chances;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 20px;
+  padding: 20px;
+  margin: auto;
+  width: 100px;
+  border: 3px solid black;
+  border-radius: 50px;
+}
+
+#gamePage #menu_capture #capture_main {
+  position: relative;
+  grid-area: captureMain;
+  padding: 20px;
+  margin: auto;
+  text-align: center;
+}
+
+#gamePage #menu_capture #capture_main img {
+  display: block;
+  margin: auto;
+  padding: 20px;
+}
+
+#gamePage #menu_capture #capture_main button {
+  background-image: url("../images/pokeball.png");
+  background-size: 100%;
+  background-repeat: none;
+  width: 100px;
+  height: 100px;
+  background-color: black;
+  border: 3px solid black;
+  border-radius: 50px;
+}
+
+#gamePage .debug {
+  display: none;
+  width: 100px;
+}
+
+#gamePage main #debug {
+  display: none;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  text-align: right;
+  background-color: gray;
+}
+
+#gamePage button:hover {
+  cursor: pointer;
+}
+
+#gamePage main #backpackMenu .backpackMenuBtn:hover {
+  border: 5px solid rgba(50, 0, 0, 1);
 }
