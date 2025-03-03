@@ -1,7 +1,6 @@
 import { Map } from "./gameObjects/map.js";
 import { Player } from "./gameObjects/player.js";
 import { Npcs } from "./gameObjects/npc's.js";
-import { Companion } from "./gameObjects/companion.js";
 
 GetPokemon();
 Npcs.createNpc(200, 300)
@@ -32,7 +31,6 @@ addEventListener("keydown", (e) => {
 const intervalId = setInterval(() => {
   Player.update();
   Npcs.update();
-  Companion.update();
   Map.update();
   if(false){
     clearInterval(intervalId);
@@ -87,8 +85,9 @@ async function GetPokemon() {
           //weight: pokemon.weight,
         });
       });
+      console.log(pokemonList.sort((a,b)=>a.base_experience - b.base_experience))
       //als je ergens de pokemon nodig hebt stuur da hier als parameter door
-      Player.assignPokemon(pokemonList);
-      Npcs.assignPokemon(pokemonList);
+      Player.getPokemon(pokemonList);
+      Npcs.getPokemon(pokemonList);
     });
 }

@@ -38,13 +38,14 @@ export const Map = {
     positionInWorld(index) {
         let x = (index % (mapData["width"])) * this.tileWidth;
         let y = (Math.trunc(index / mapData["width"])) * this.tileHeight;
-        return {x,y};
+        return { x, y };
     },
-    isOnScreen(x,y, width = 0, height = 0){
-        if(-this.x + this.left < x + width && x < -this.x + window.innerWidth &&
-            -this.y + this.top < y + height && y< -this.y + window.innerHeight){
+    isOnScreen(x, y, width = 0, height = 0) {
+        if (-this.x + this.left < x + width && x < -this.x + window.innerWidth &&
+            -this.y + this.top < y + height && y < -this.y + window.innerHeight) {
             return true;
         }
+        return false
     },
 }
 

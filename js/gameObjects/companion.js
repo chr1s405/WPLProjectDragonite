@@ -10,6 +10,12 @@ export const Companion = {
 
     isDebugOn: false,
 
+    getCompanion(){
+        this.div.style.display = "block";
+    },
+    removeCompanion(){
+        this.div.style.display = "none";
+    },
     update() {
         this.move();
         this.div.style.left = `${this.x}px`;

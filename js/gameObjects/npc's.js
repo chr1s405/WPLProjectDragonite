@@ -1,13 +1,20 @@
 import { Map } from "./map.js";
+
+let pokemonList;
 export const Npcs = {
   npcList: [],
+  npcsActive: [],
 
   update() {
     this.npcList.forEach((npc) => {
       npc.update();
     });
   },
-  assignPokemon(pokemonList) {
+  getPokemon(allPokemon){
+    pokemonList = allPokemon;
+    this.assignPokemon();
+  },
+  assignPokemon() {
     this.npcList.forEach((npc) => {
       if (npc.pokemon === undefined) {
         npc.pokemon = pokemonList[Math.trunc(Math.random() * pokemonList.length)];
@@ -30,7 +37,18 @@ export const Npcs = {
       pokemon: undefined,
 
       update() {
-        this.isRendered = Map.isOnScreen(this.x, this.y, this.width, this.height)
+        if(this.isRendered !== Map.isOnScreen(this.x, this.y, this.width, this.height)){
+          this.isRendered = !this.isRendered;
+          if(this.isRendered){
+            Npcs.npcsActive.push(this)
+          }
+          else{
+            const index = Npcs.npcsActive.indexOf(this)
+            if(index >= 0){
+              Npcs.npcsActive.splice(index,1)
+            }
+          }
+        }
         if (this.isRendered) {
         }
       },
