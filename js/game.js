@@ -1,38 +1,47 @@
 import { Map } from "./gameObjects/map.js";
 import { Player } from "./gameObjects/player.js";
 import { Npcs } from "./gameObjects/npc's.js";
+import { Pokemon } from "./gameObjects/pokemon.js";
 
 GetPokemon();
 Npcs.createNpc(200, 300)
+let pause = false;
 
 addEventListener("keydown", (e) => {
   //   alert(e.keyCode);
-  if (e.keyCode === 87 /*w*/) {
-    Player.moveUp();
+  if (e.keyCode === 80) {
+    pause = !pause;
   }
-  if (e.keyCode === 65 /*a*/) {
-    Player.moveLeft();
-  }
-  if (e.keyCode === 83 /*s*/) {
-    Player.moveDown();
-  }
-  if (e.keyCode === 68 /*d*/) {
-    Player.moveRight();
-  }
-  if (e.keyCode === 79 /*o*/) {
-    toggleDebug();
-  }
-  if (e.keyCode === 13 /*enter*/) {
-    Player.interact();
-  }
-  if (e.keyCode === 32 /*space*/) {
+  if (!pause && !Player.isInEvent) {
+    if (e.keyCode === 87 /*w*/) {
+      Player.moveUp();
+    }
+    if (e.keyCode === 65 /*a*/) {
+      Player.moveLeft();
+    }
+    if (e.keyCode === 83 /*s*/) {
+      Player.moveDown();
+    }
+    if (e.keyCode === 68 /*d*/) {
+      Player.moveRight();
+    }
+    if (e.keyCode === 79 /*o*/) {
+      toggleDebug();
+    }
+    if (e.keyCode === 13 /*enter*/) {
+      Player.interact();
+    }
+    if (e.keyCode === 32 /*space*/) {
+    }
   }
 });
 const intervalId = setInterval(() => {
-  Player.update();
-  Npcs.update();
-  Map.update();
-  if(false){
+  if (!pause && !Player.isInEvent) {
+    Player.update();
+    Npcs.update();
+    Map.update()
+  };
+  if (false) {
     clearInterval(intervalId);
   }
 }, 45);
@@ -85,9 +94,12 @@ async function GetPokemon() {
           //weight: pokemon.weight,
         });
       });
-      console.log(pokemonList.sort((a,b)=>a.base_experience - b.base_experience))
+      console.log(pokemonList.sort((a, b) => a.base_experience - b.base_experience))
       //als je ergens de pokemon nodig hebt stuur da hier als parameter door
       Player.getPokemon(pokemonList);
       Npcs.getPokemon(pokemonList);
+      Pokemon.getPokemon(pokemonList);
+      Pokemon.spawnPokemon()
+
     });
 }

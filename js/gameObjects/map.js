@@ -45,8 +45,23 @@ export const Map = {
             -this.y + this.top < y + height && y < -this.y + window.innerHeight) {
             return true;
         }
-        return false
+        return false;
     },
+    getPositionOnScreen(){
+        const leftBorder = -this.x + this.left;
+        const rightBorder = -this.x + window.innerWidth;
+        const upperborder = -this.y + this.top;
+        const lowerBorder = -this.y + window.innerHeight;
+        let tileId;
+        let posInGrid;
+        do{
+            const x = Math.trunc(leftBorder + Math.random() * (rightBorder - leftBorder)); 
+            const y = Math.trunc(upperborder + Math.random() * (lowerBorder - upperborder));
+            posInGrid = this.positionInGrid(x,y);
+            tileId = Map.layerData[posInGrid];
+        }while(Map.collisionTiles.includes(tileId));
+        return this.positionInWorld(posInGrid);
+    }
 }
 
 

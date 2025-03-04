@@ -57,7 +57,6 @@ export function openBattleEvent(){
       hp: stages[i].getElementsByClassName("statusbar")[0].children[1].children[0],
     })
   }
-  console.log(stage)
   return stage;
 }
 export function closeBattleEvent() {

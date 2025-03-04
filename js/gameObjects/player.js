@@ -42,6 +42,7 @@ export const Player = {
     capturedPokemon: [],
     isInBattle: false,
     isCapturing: false,
+    isInEvent: false,
     isDebugOn: false,
 
     update() {
@@ -62,6 +63,9 @@ export const Player = {
         this.pokemon = pokemon;
         this.hasCompanion = true;
         Companion.getCompanion()
+        if(!this.capturedPokemon.includes(pokemon)){
+            this.capturedPokemon.push(pokemon);
+        }
     },
     removeCompanion(){
         this.pokemon = undefined;
@@ -139,9 +143,13 @@ function interactNpc() {
         }
     });
 }
+function interacPokemon() {
+
+}
 function battle(pokemon) {
     Player.isInBattle = true;
     const stage = openBattleEvent();
+    Player.isInEvent = true;
     let isBattling = true;
 
     const playerMaxHp = Player.pokemon.stats[0]["base_stat"]
@@ -223,6 +231,7 @@ function battle(pokemon) {
             clearInterval(intervalId);
             Player.isInBattle = false;
             closeBattleEvent();
+            Player.isInEvent = false;
         }
     }, 45)
 }
