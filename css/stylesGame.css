@@ -305,7 +305,7 @@ html {
 }
 
 #gamePage #menu_capture {
-  display: grid;
+  display: none;
   grid-template-areas:
     "closeBtn closeBtn"
     "chances captureMain";

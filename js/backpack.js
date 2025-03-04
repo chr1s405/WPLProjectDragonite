@@ -64,11 +64,18 @@ export function closeBattleEvent() {
   closeMenu();
 }
 
-function openCaptureEvent() {
+export function openCaptureEvent() {
   captureMenuEvent.style.display = "grid"
+  const element = document.getElementById("capture_main");
+  const stage = {
+   name: element[0],
+   img: element[1],
+   button: element[2],
+  }
+  return stage;
 }
 
-function closeCaptureEvent() {
+export function closeCaptureEvent() {
   captureMenuEvent.style.display = "none";
   closeMenu();
 }

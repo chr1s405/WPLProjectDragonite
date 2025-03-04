@@ -1,23 +1,32 @@
 import { Map } from "./map.js";
 import { Companion } from "./companion.js";
 import { Npcs } from "./npc's.js";
-import { openBattleEvent, closeBattleEvent } from "../backpack.js";
+import { openBattleEvent, closeBattleEvent, openCaptureEvent, closeBattleEvent } from "../backpack.js";
 
 let pokemonList;
-const actions = [];
 const battleButtons = document.getElementsByClassName("battle_button");
-//id 0 = attack, id 1 = defence, id 2 = heal
+const battleActions = [];
 for (let i = 0; i < battleButtons.length; i++) {
-    actions.push({
+    battleActions.push({
         button: battleButtons[i],
         value: false,
     })
-    actions[i].button.addEventListener("click", (e) => {
+    battleActions[i].button.addEventListener("click", (e) => {
         if (Player.isInBattle) {
-            actions[i].value = true;
+            battleActions[i].value = true;
         }
     })
 }
+const captureButton = document.getElementById("capture_button");
+const captureActions = {
+  button: captureButton,
+  value: false,
+}
+captureButton.addEventListener("click", ()=>{
+  if(Player.isCapturing){
+    captureActions.value = true;
+  }
+})
 const character = document.getElementById("character")
 const Direction = { up: "up", down: "down", left: "left", right: "right", };
 export const Player = {
@@ -30,7 +39,9 @@ export const Player = {
     direction: Direction.down,
     hasCompanion: false,
     pokemon: undefined,
+    capturedPokemon: [],
     isInBattle: false,
+    isCapturing: false,
     isDebugOn: false,
 
     update() {
@@ -93,6 +104,10 @@ export const Player = {
         }
         if (tileId === 32) {
             const rand = Math.trunc(Math.random() * 10);
+            if(rand === 0){
+              const pokemon = pokemonList[Math.trunc(Math.random() * pokemonList.length)];
+              battle(pokemon)
+            }
         }
     },
     interact() {
@@ -148,25 +163,25 @@ function battle(pokemon) {
     enemyObject.name.innerHTML = pokemon.name;
     const intervalId = setInterval(() => {
         if (isMyTurn) {
-            if (actions[0].value) {
+            if (battleActions[0].value) {
                 const dmg = Math.max(0, playerAtk - enemyDef);
                 enemyHp = Math.max(0, enemyHp - dmg);
                 console.log("player does normal attack");
                 console.log(`dmg: ${dmg}`);
-                actions[0].value = false;
+                battleActions[0].value = false;
                 isMyTurn = false;
             }
-            if (actions[1].value) {
+            if (battleActions[1].value) {
                 const dmg = Math.max(0, playerSpAtk - enemySpDef);
                 enemyHp = Math.max(0, enemyHp - dmg);
                 console.log("player does special attack");
                 console.log(`dmg: ${dmg}`);
-                actions[1].value = false;
+                battleActions[1].value = false;
                 isMyTurn = false;
             }
-            if (actions[2].value) {
+            if (battleActions[2].value) {
 
-                actions[2].value = false;
+                battleActions[2].value = false;
                 console.log("you ran away");
                 isBattling = false;
             }
@@ -210,4 +225,31 @@ function battle(pokemon) {
             closeBattleEvent();
         }
     }, 45)
+}
+function capture(pokemon) {
+  const stage = openCaptureEvent();
+  stage.nane.innerHTML = pokemon.name;
+  stage.img.src = pokemon.sprites["front_default"];
+  const hasPokemon = Player.capturedPokemon.includes(pokemon);
+  let chances = 3;
+  if(hasPokemon){
+    stage.button.style.border = "3px solid green";
+  }
+  else{
+    stage.button.style.border = "3px solid red";
+  }
+  const intervalId = setInterval(() => {
+    if(captureActions.value){
+      captureActions.value = false;
+      if(hasPokemon){
+        
+      }
+      else{
+        chances--;
+        if(chances === 0){
+          clearInterval(intervalId);
+        }
+      }
+    }
+  },45)
 }
