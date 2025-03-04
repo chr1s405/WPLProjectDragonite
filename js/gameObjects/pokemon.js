@@ -2,15 +2,14 @@ import { Map } from "./map.js";
 
 let pokemonList;
 const pokemonDiv = document.createElement("div");
-Map.div?.appendChild(pokemonDiv);
 pokemonDiv.setAttribute("class", "pokemon");
 
 export const Pokemon = {
     div: pokemonDiv,
     x: 0,
     y: 0,
-    width: pokemonDiv.clientWidth,
-    height: pokemonDiv.clientHeight,
+    width: 50,
+    height: 50,
     isActive: false,
     pokemon: undefined,
 
@@ -24,17 +23,19 @@ export const Pokemon = {
     spawnPokemon() {
         setInterval(() => {
             const pos = Map.getPositionOnScreen();
+            this.x = pos.x;
+            this.y = pos.y;
             this.pokemon = pokemonList[Math.trunc(Math.random() * pokemonList.length)];
-            this.div.setAttribute("style", 
-                `display: block;
-                 left: ${pos.x}px; top: ${pos.y}px; 
-                 background-image: Url(${this.pokemon.sprites["front_default"]});`);
+            this.div.style.display = "block";
+            this.div.style.left = `${pos.x}px`;
+            this.div.style.top = `${pos.y}px`;
+            this.div.style.backgroundImage = `url(${this.pokemon.sprites["front_default"]})`
             this.isActive = true;
             setTimeout(() => {
                 this.div.style.display = "none";
                 this.isActive = false;
             }, 10000);
-        },30000)
+        },15000)
 
     }
 };

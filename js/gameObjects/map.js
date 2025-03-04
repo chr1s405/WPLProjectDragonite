@@ -1,5 +1,6 @@
 import mapData from "./map.json"  with { type: "json" };
 import { Player } from "./player.js";
+import { Pokemon } from "./pokemon.js";
 
 const overworldMap = document.getElementById("overworldMap");
 overworldMap.style.width = `${mapData["width"] * 50}px`;
@@ -69,3 +70,4 @@ export const Map = {
 //     document.getElementById("mapCoor").innerHTML =
 //         `overworld map: (${overworldMap.style.left}, ${overworldMap.style.top})`;
 // }
+Map.div?.appendChild(Pokemon.div);

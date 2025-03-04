@@ -1,6 +1,7 @@
 import { Map } from "./map.js";
-import { Companion } from "./companion.js";
 import { Npcs } from "./npc's.js";
+import { Companion } from "./companion.js";
+import { Pokemon } from "./pokemon.js";
 import { openBattleEvent, closeBattleEvent, openCaptureEvent, closeCaptureEvent } from "../backpack.js";
 
 let pokemonList;
@@ -38,7 +39,7 @@ export const Player = {
     speed: character.clientWidth,
     direction: Direction.down,
     hasCompanion: false,
-    pokemon: undefined,
+    companion: Companion,
     capturedPokemon: [],
     isInBattle: false,
     isCapturing: false,
@@ -60,15 +61,11 @@ export const Player = {
         this.assignPokemon(pokemonList[Math.trunc(Math.random() * pokemonList.length)]);
     },
     assignPokemon(pokemon) {
-        this.pokemon = pokemon;
+        console.log(pokemon)
         this.hasCompanion = true;
-        Companion.getCompanion()
-        if(!this.capturedPokemon.includes(pokemon)){
-            this.capturedPokemon.push(pokemon);
-        }
+        Companion.getCompanion(pokemon)
     },
     removeCompanion(){
-        this.pokemon = undefined;
         this.hasCompanion = false;
         Companion.removeCompanion();
     },
@@ -100,11 +97,23 @@ export const Player = {
             this.move(tempX, this.y);
         }
     },
-    move(x, y) {
-        const tileId = Map.layerData[(Map.positionInGrid(x, y))];
-        if (!Map.collisionTiles.includes(tileId)) {
-            this.x = x;
-            this.y = y;
+    move(newX, newY) {
+        const playerPos = Map.positionInGrid(newX, newY);
+        const tileId = Map.layerData[(playerPos)];
+        let isOnNpc;
+        Npcs.npcsActive.forEach((npc)=>{
+            if(playerPos === Map.positionInGrid(npc.x,npc.y)){
+                isOnNpc = true;
+            }
+        })
+        let isOnPokemon;
+        if(Pokemon.isActive){
+            isOnPokemon = playerPos === Map.positionInGrid(Pokemon.x, Pokemon.y)
+        }
+        const isOnCollisionTile = Map.collisionTiles.includes(tileId);
+        if (!isOnCollisionTile && !isOnNpc && !isOnPokemon) {
+            this.x = newX;
+            this.y = newY;
         }
         if (tileId === 32) {
             const rand = Math.trunc(Math.random() * 10);
@@ -115,7 +124,12 @@ export const Player = {
         }
     },
     interact() {
-        interactNpc();
+        if(interactNpc()){
+            return;
+        }
+        if(interactPokemon()){
+            return;
+        }
     },
     toggleDebug() {
         this.isDebugOn = !this.isDebugOn;
@@ -140,11 +154,21 @@ function interactNpc() {
         const dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
         if (dist <= Map.tileWidth * 1) {
             battle(npc.pokemon);
+            return true;
         }
     });
 }
-function interacPokemon() {
-
+function interactPokemon() {
+    if(Pokemon.isActive){
+        const distX = (Player.x + Player.width / 2) - (Pokemon.x + Pokemon.width / 2);
+        const distY = (Player.y + Player.height / 2) - (Pokemon.y + Pokemon.height / 2);
+        const dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+        if (dist <= Map.tileWidth * 1) {
+            console.log("pokemon")
+            capture(Pokemon.pokemon);
+            return true;
+        }
+    }
 }
 function battle(pokemon) {
     Player.isInBattle = true;
@@ -152,12 +176,12 @@ function battle(pokemon) {
     Player.isInEvent = true;
     let isBattling = true;
 
-    const playerMaxHp = Player.pokemon.stats[0]["base_stat"]
+    const playerMaxHp = Player.companion.pokemon.stats[0]["base_stat"]
     let playerHp = playerMaxHp;
-    let playerAtk = Player.pokemon.stats[1]["base_stat"];
-    let playerDef = Player.pokemon.stats[2]["base_stat"];
-    let playerSpAtk = Player.pokemon.stats[3]["base_stat"];
-    let playerSpDef = Player.pokemon.stats[4]["base_stat"];
+    let playerAtk = Player.companion.pokemon.stats[1]["base_stat"];
+    let playerDef = Player.companion.pokemon.stats[2]["base_stat"];
+    let playerSpAtk = Player.companion.pokemon.stats[3]["base_stat"];
+    let playerSpDef = Player.companion.pokemon.stats[4]["base_stat"];
     let isMyTurn = true;
     let enemyMaxHp = pokemon.stats[0]["base_stat"];
     let enemyHp = enemyMaxHp;
@@ -167,7 +191,7 @@ function battle(pokemon) {
     let enemySpDef = pokemon.stats[4]["base_stat"];
     const playerObject = stage[0];
     const enemyObject = stage[1];
-    playerObject.name.innerHTML = Player.pokemon.name;
+    playerObject.name.innerHTML = Player.companion.pokemon.name;
     enemyObject.name.innerHTML = pokemon.name;
     const intervalId = setInterval(() => {
         if (isMyTurn) {
@@ -219,7 +243,7 @@ function battle(pokemon) {
                 isBattling = false;
             }
         }
-        playerObject.img.src = Player.pokemon.sprites["back_default"];
+        playerObject.img.src = Player.companion.pokemon.sprites["back_default"];
         playerObject.hp.innerHTML = `${playerHp}HP`;
         enemyObject.img.src = pokemon.sprites["front_default"];
         enemyObject.hp.innerHTML = `${enemyHp}HP`;
@@ -236,8 +260,10 @@ function battle(pokemon) {
     }, 45)
 }
 function capture(pokemon) {
-  const stage = openCaptureEvent();
-  stage.nane.innerHTML = pokemon.name;
+    const stage = openCaptureEvent();
+    console.log(pokemon);
+    console.log(stage)
+  stage.name.innerHTML = pokemon.name;
   stage.img.src = pokemon.sprites["front_default"];
   const hasPokemon = Player.capturedPokemon.includes(pokemon);
   let chances = 3;

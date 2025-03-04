@@ -68,9 +68,9 @@ export function openCaptureEvent() {
   captureMenuEvent.style.display = "grid"
   const element = document.getElementById("capture_main");
   const stage = {
-   name: element[0],
-   img: element[1],
-   button: element[2],
+   name: element.children[0],
+   img: element.children[1],
+   button: element.children[2],
   }
   return stage;
 }

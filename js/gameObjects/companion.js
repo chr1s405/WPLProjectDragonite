@@ -1,19 +1,25 @@
 import { Map } from "./map.js";
 import { Player } from "./player.js";
-const companion = document.getElementById("companion");
+const companionDiv = document.getElementById("companion");
 export const Companion = {
-    div: companion,
-    x: companion.offsetLeft,
-    y: companion.offsetTop,
-    width: companion.clientWidth,
-    height: companion.clientHeight,
+    div: companionDiv,
+    x: 0,
+    y: 0,
+    width: companionDiv.clientWidth,
+    height: companionDiv.clientHeight,
+    pokemon: undefined,
 
     isDebugOn: false,
 
-    getCompanion(){
+    getCompanion(pokemon){
+        this.x = Player.x + 50;
+        this.y = Player.y;
+        this.pokemon = pokemon;
         this.div.style.display = "block";
+        this.div.style.backgroundImage = `url(${pokemon.sprites["front_default"]})`
     },
     removeCompanion(){
+        this.pokemon = undefined;
         this.div.style.display = "none";
     },
     update() {
@@ -51,3 +57,4 @@ export const Companion = {
             `(${this.x}, ${this.y})</br>${Map.positionInGrid(this.x, this.y)}`;
     },
 }
+Companion.div.style.display = "none";

@@ -1,5 +1,6 @@
 import { Map } from "./gameObjects/map.js";
 import { Player } from "./gameObjects/player.js";
+import { Companion } from "./gameObjects/companion.js";
 import { Npcs } from "./gameObjects/npc's.js";
 import { Pokemon } from "./gameObjects/pokemon.js";
 
