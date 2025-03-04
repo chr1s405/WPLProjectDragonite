@@ -45,18 +45,19 @@ function openEvent(event) {
   backpackMenu.style.display = "none"
   event.style.display = "block";
 }
-export function openBattleEven(){
+export function openBattleEvent(){
   battleMenuEvent.style.display = "grid";
   const stages = document.getElementsByClassName("battle_stage");
   const stage = [];
   for (let i = 0; i < stages.length; i++) {
     stage.push({
       img: stages[i].children[1],
-      name: stages[i].getElementsByClassName("statusbar")[i].children[0],
-      hpBar: stages[i].getElementsByClassName("statusbar")[i].children[1],
-      hp: stages[i].getElementsByClassName("statusbar")[i].children[1][0],
+      name: stages[i].getElementsByClassName("statusbar")[0].children[0],
+      hpBar: stages[i].getElementsByClassName("statusbar")[0].children[1],
+      hp: stages[i].getElementsByClassName("statusbar")[0].children[1].children[0],
     })
   }
+  console.log(stage)
   return stage;
 }
 export function closeBattleEvent() {

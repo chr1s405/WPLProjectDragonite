@@ -1,7 +1,7 @@
 import { Map } from "./map.js";
 import { Companion } from "./companion.js";
 import { Npcs } from "./npc's.js";
-import { openBattleEvent, closeBattleEvent, openCaptureEvent, closeBattleEvent } from "../backpack.js";
+import { openBattleEvent, closeBattleEvent, openCaptureEvent, closeCaptureEvent } from "../backpack.js";
 
 let pokemonList;
 const battleButtons = document.getElementsByClassName("battle_button");
