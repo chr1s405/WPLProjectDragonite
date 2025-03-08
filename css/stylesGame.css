@@ -13,7 +13,12 @@ h1{
   --pokemon-hollow-font: 'Pokemon Hollow', sans-serif;
   /*dit is het font dat gebruikt gaat worden voor de titels in de pagina's waar we kunnen kiezen welk
     project we nemen*/
-  --display-font: font-family: 'HAINER', sans-serif;
+  --display-font: 'HAINER', sans-serif;
+  --main-font: 'Nexa', sans-serif;
+}
+
+*{
+  font-family: var(--main-font);
 }
 
 html {
