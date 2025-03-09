@@ -197,19 +197,19 @@ function battle(pokemon) {
     const playerMaxHp = Player.companion.pokemon.stats[0]["base_stat"];
     let playerHp = playerMaxHp;
     let playerHpPercent;
-    playerObject.hp.innerHTML = `${playerHp}HP`;
-    playerObject.hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`;
 
     const enemyObject = stage[1];
     let enemyMaxHp = pokemon.stats[0]["base_stat"];
     let enemyHp = enemyMaxHp;
     let enemyHpPercent;
-    enemyObject.hp.innerHTML = `${enemyHp}HP`;
-    enemyObject.hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`;
 
     playerObject.name.innerHTML = Player.companion.pokemon.name;
+    playerObject.hp.innerHTML = `${playerHp}HP`;
     playerObject.img.src = Player.companion.pokemon.sprites["back_default"];
+    playerObject.hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`;
     enemyObject.name.innerHTML = pokemon.name;
+    enemyObject.hp.innerHTML = `${enemyHp}HP`;
+    enemyObject.hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`;
     enemyObject.img.src = pokemon.sprites["front_default"];
 
 
@@ -303,9 +303,14 @@ function capture(pokemon) {
     const stage = openCaptureEvent();
     stage.name.innerHTML = pokemon.name;
     stage.img.src = pokemon.sprites["front_default"];
-    const hasPokemon = Player.capturedPokemon.includes(pokemon);
+    let hasPokemon = Player.capturedPokemon.includes(pokemon);
     let chances = 3;
-    const captureChance = (100 - pokemon.stats[1] + Player.companion.pokemon.stats[0] / 100);
+    console.log(stage.chances.children.length)
+    for (let i = 0; i < stage.chances.children.length; i++) {
+        stage.chances.children[i].src = "../images/pokeball.png";
+    }
+    const captureChance = (100 - pokemon.stats[2]["base_stat"] + Player.companion.pokemon.stats[1]["base_stat"]) / 100;
+    console.log(`chance: ${captureChance}`)
     if (hasPokemon) {
         stage.button.style.border = "3px solid green";
     }
@@ -316,21 +321,31 @@ function capture(pokemon) {
         if (isCaptureBtnPressed) {
             isCaptureBtnPressed = false;
             if (hasPokemon) {
+                alert("pokemon losgelaten")
                 const pokemonIdx = Player.capturedPokemon.indexOf(pokemon);
                 Player.capturedPokemon.splice(pokemonIdx, 1);
                 clearInterval(intervalId);
+                closeCaptureEvent();
                 Player.isCapturing = false;
                 Player.isInEvent = false;
             }
             else {
                 chances--;
+                stage.chances.children[chances].src = "../images/pokeball_gray.png";
                 if (captureChance > Math.random()) {
                     Player.capturedPokemon.push(pokemon);
                     hasPokemon = true;
                     chances = 0;
                 }
                 if (chances === 0) {
+                    if(hasPokemon){
+                        alert("pokemon gevangen");
+                    }
+                    else{
+                        alert("pokemon is weggelopen");
+                    }
                     clearInterval(intervalId);
+                    closeCaptureEvent();
                     Player.isCapturing = false;
                     Player.isInEvent = false;
                 }

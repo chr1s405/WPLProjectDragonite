@@ -327,50 +327,45 @@ html {
 }
 
 #gamePage #menu_capture {
-  display: none;
-  grid-template-areas:
-    "closeBtn closeBtn"
-    "chances captureMain";
-  grid-template-rows: 100px auto;
-  grid-template-columns: 20% 80%;
-}
-
-#gamePage #menu_capture #capture_chances {
-  grid-area: chances;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  gap: 20px;
-  padding: 20px;
-  margin: auto;
-  width: 100px;
-  border: 3px solid black;
-  border-radius: 50px;
 }
 
 #gamePage #menu_capture #capture_main {
   position: relative;
-  grid-area: captureMain;
   padding: 20px;
   margin: auto;
+  width: 300px;
   text-align: center;
 }
 
-#gamePage #menu_capture #capture_main img {
-  display: block;
-  margin: auto;
-  padding: 20px;
+#gamePage #menu_capture #capture_main img:first-of-type{
+  width: 100%;
 }
 
-#gamePage #menu_capture #capture_main button {
-  background-image: url("../images/pokeball.png");
-  background-size: 100%;
-  background-repeat: none;
-  width: 100px;
-  height: 100px;
-  background-color: black;
+#gamePage #capture_main #capture_button {
+  width: 30%;
+  border: 3px solid black;
+  border-radius: 50%;
+}
+
+#gamePage #capture_main #capture_button:hover {
+  cursor: pointer;
+}
+
+#gamePage #menu_capture #capture_chances {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  width: 40%;
+  max-width: 200px;
+  margin: auto;
   border: 3px solid black;
   border-radius: 50px;
+}
+
+#gamePage #capture_chances img{
+  width: 30%;
 }
 
 #gamePage .debug {

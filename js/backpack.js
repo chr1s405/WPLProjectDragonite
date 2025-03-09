@@ -1,3 +1,5 @@
+import { Player } from "./gameObjects/player.js";
+
 const backpackIcon = document.getElementById("backpackIcon");
 const backpackMenu = document.getElementById("backpackMenu")
 const backpackCloseBtn = document.getElementById("backpackMenuCloseBtn")
@@ -22,9 +24,11 @@ for (let i = 0; i < backpackMenuItems.length - 1; i++) {
 }
 battleMenuEvent.children[0].addEventListener("click", (e) => {
   closeBattleEvent()
+  Player.isInEvent = false;
 })
 captureMenuEvent.children[0].addEventListener("click", (e) => {
   closeCaptureEvent()
+  Player.isInEvent = false;
 })
 
 function openMenu() {
@@ -65,12 +69,13 @@ export function closeBattleEvent() {
 }
 
 export function openCaptureEvent() {
-  captureMenuEvent.style.display = "grid"
+  captureMenuEvent.style.display = "block"
   const element = document.getElementById("capture_main");
   const stage = {
    name: element.children[0],
    img: element.children[1],
    button: element.children[2],
+   chances: document.getElementById("capture_chances"),
   }
   return stage;
 }
