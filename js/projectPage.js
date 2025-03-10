@@ -8,12 +8,12 @@ const gameDivs = document.querySelectorAll(".choise-menu div");
 
 // Achtergrondafbeeldingen voor elke game
 const backgrounds = {
-  pokemon: "assets/pokemonBackground.jpeg",
-  magic: "assets/Magic-Background.jpeg",
-  fifa: "assets/FIFA-Background.jpg",
-  lego: "assets/yellow-lego-background.jpeg",
-  fortnite: "assets/fortniteBackground2.jpeg",
-  lotr: "assets/lordOfTheRingsbackground.jpeg",
+  pokemon: "./images/pokemonBackground.jpeg",
+  magic: "./images/Magic-Background.jpeg",
+  fifa: "./images/FIFA-Background.jpg",
+  lego: "./images/yellow-lego-background.jpeg",
+  fortnite: "./images/fortniteBackground2.jpeg",
+  lotr: "./images/lordOfTheRingsbackground.jpeg",
 };
 
 // Selecteer het logo en de pijlen
