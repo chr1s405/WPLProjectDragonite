@@ -31,6 +31,11 @@ backpackMenuDex.addEventListener("click", (e)=>{
   openEvent(menuDex)
 })
 
+menuDex.children[0].addEventListener("click", (e) => {
+  closeMenu(menuDex);
+})
+
+
 
 battleMenuEvent.children[0].addEventListener("click", (e) => {
   closeBattleEvent()

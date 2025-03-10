@@ -239,12 +239,11 @@ html {
   margin: auto;
   top: 50%;
   transform: translateY(-50%);
-  
-  /* border: 2px solid black; */
-  border-radius: 10px;
+
+  /* border: 2px solid black; 
+  border-radius: 10px; 
   box-shadow: 0px 0px 5px 5px rgb(10, 10, 10);
-  background-color: rgba(0, 0, 0, 0.8);
-  
+  background-color: rgba(0, 0, 0, 0.8); */
 }
 
 
@@ -402,10 +401,31 @@ html {
 /*==============================*/
 
 #menu_pokedex h1{
-  font-family: var(--pokemon-hollow-font);
-  color: red;
+  font-family: var(--pokemon-solid-font);
+  color: black;
   opacity: none;
-  position: relative;
   margin: auto;
   text-align: center;
+  font-size: 50px;
+  grid-area: titleDex;
+}
+
+.pokemonpix{
+  background-color: black;
+  opacity: 50%;
+  grid-area: pix;
+}
+
+.dexpercentage{
+  background-color: black;
+  opacity: 50%;
+  grid-area: perc;
+}
+
+#menu_pokedex{
+  display: grid;
+  grid-template-areas: 
+  "pix, titleDex, perc",
+  "pix, titleDex, perc",
+  ;
 }
