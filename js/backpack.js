@@ -1,9 +1,12 @@
 import { Player } from "./gameObjects/player.js";
 
+
 const backpackIcon = document.getElementById("backpackIcon");
 const backpackMenu = document.getElementById("backpackMenu")
+const menuDex = document.getElementById("menu_pokedex")
 const backpackCloseBtn = document.getElementById("backpackMenuCloseBtn")
 const backpackMenuItems = document.getElementsByClassName("backpackMenuBtn");
+const backpackMenuDex = document.getElementById("backpackMenuBtnDex");
 const menuEvents = document.getElementsByClassName("menuEvent");
 const battleMenuEvent = document.getElementById("menu_battle");
 const captureMenuEvent = document.getElementById("menu_capture")
@@ -18,10 +21,17 @@ for (let i = 0; i < backpackMenuItems.length - 1; i++) {
   backpackMenuItems[i].addEventListener("click", (e) => {
     openEvent(menuEvents[i]);
   });
+
   menuEvents[i].children[0].addEventListener("click", (e) => {
     closeMenu(menuEvents[i]);
   })
 }
+
+backpackMenuDex.addEventListener("click", (e)=>{
+  openEvent(menuDex)
+})
+
+
 battleMenuEvent.children[0].addEventListener("click", (e) => {
   closeBattleEvent()
   Player.isInEvent = false;

@@ -200,7 +200,7 @@ html {
   align-content: center;
 }
 
-#gamePage #backpackMenu .backpackMenuBtn {
+#gamePage #backpackMenu .backpackMenuBtn, #backpackMenuBtnDex{
   position: relative;
   width: 100px;
   height: 100px;
@@ -211,7 +211,7 @@ html {
   
 }
 
-#gamePage #backpackMenu .backpackMenuBtn img {
+#gamePage #backpackMenu .backpackMenuBtn img, #backpackMenuBtnDex img{
   position: absolute;
   width: 60%;
   top: 10px;
@@ -219,7 +219,7 @@ html {
   transform: translateX(-50%);
 }
 
-#gamePage #backpackMenu .backpackMenuBtn p {
+#gamePage #backpackMenu .backpackMenuBtn p, #backpackMenuBtnDex p{
   position: absolute;
   line-height: .8;
   width: 100%;
@@ -231,7 +231,7 @@ html {
 /*=========== events ===========*/
 /*==============================*/
 
-#gamePage main .menuEvent {
+#gamePage main .menuEvent{
   display: none;
   position: relative;
   width: 90%;
@@ -391,6 +391,21 @@ html {
   cursor: pointer;
 }
 
-#gamePage main #backpackMenu .backpackMenuBtn:hover {
+#gamePage main #backpackMenu .backpackMenuBtn:hover, #backpackMenuBtnDex:hover {
   border: 5px solid rgba(50, 0, 0, 1);
+}
+
+
+
+/*==============================*/
+/*========== Pokédex  ==========*/
+/*==============================*/
+
+#menu_pokedex h1{
+  font-family: var(--pokemon-hollow-font);
+  color: red;
+  opacity: none;
+  position: relative;
+  margin: auto;
+  text-align: center;
 }
