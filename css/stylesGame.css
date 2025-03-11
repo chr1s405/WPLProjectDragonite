@@ -425,7 +425,8 @@ html {
 #menu_pokedex{
   display: grid;
   grid-template-areas: 
-  "pix, titleDex, perc",
-  "pix, titleDex, perc",
+  "pix, titleDex titleDex",
+  "pix titleDex perc",
+  "pix titleDex titleDex"
   ;
 }

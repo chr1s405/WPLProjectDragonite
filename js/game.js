@@ -4,6 +4,7 @@ import { Companion } from "./gameObjects/companion.js";
 import { Npcs } from "./gameObjects/npc's.js";
 import { Pokemon } from "./gameObjects/pokemon.js";
 
+
 GetPokemon();
 Npcs.createNpc(200, 300)
 let pause = false;
@@ -103,4 +104,5 @@ async function GetPokemon() {
       Pokemon.spawnPokemon()
 
     });
-}
+    
+  }

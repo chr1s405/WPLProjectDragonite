@@ -11,6 +11,7 @@ const menuEvents = document.getElementsByClassName("menuEvent");
 const battleMenuEvent = document.getElementById("menu_battle");
 const captureMenuEvent = document.getElementById("menu_capture")
 
+
 backpackIcon.addEventListener("click", (e) => {
   openMenu();
 })
@@ -34,8 +35,6 @@ backpackMenuDex.addEventListener("click", (e)=>{
 menuDex.children[0].addEventListener("click", (e) => {
   closeMenu(menuDex);
 })
-
-
 
 battleMenuEvent.children[0].addEventListener("click", (e) => {
   closeBattleEvent()
