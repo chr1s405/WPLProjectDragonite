@@ -1,0 +1,43 @@
+:root {
+    /*pokémon font als de letters zwart zijn*/
+    --pokemon-solid-font: 'Pokemon Solid', sans-serif;
+    /*pokémon font als de letters doorzichtig zijn*/
+    --pokemon-hollow-font :'Pokemon Hollow', sans-serif;
+    /*standaard font*/
+    --main-font: 'Nexa', sans-serif;
+    /*font voor titels in kiesproject*/
+    --project-choice: 'Popular', sans-serif;
+}
+
+*{
+    font-family: var(--main-font);
+}
+
+/*
+---------------------------
+---------------------------
+-------Projectpagina-------
+---------------------------
+---------------------------
+*/
+
+/*Hier zet ik de titel van de projkectpagina*/
+.choiceheader{
+    text-align: Center;
+    font-family:var(--project-choice);
+    font-size: 80px;
+    margin-top: 50px;
+}
+
+/*Hier zet ik de vaste gegevens van de projectpagina*/
+
+/*De grote rechthoek in het midden*/
+.rectangle{
+    border-color: black;
+    width: 500px;
+    height: 200px;
+    border-style: solid;
+    margin: auto;
+    margin-top: 4%;
+}
+
