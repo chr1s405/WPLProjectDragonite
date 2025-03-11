@@ -40,7 +40,7 @@
     border-style: solid;
     margin: auto;
     margin-top: 4%;
-    border-width: 5px;
+    border-width: 8px;
     border-radius: 10px;
     grid-area: rectangle;
     padding-right: 0;
@@ -84,10 +84,72 @@
 }
 
 
+/*De kleine rechthoeken onderaan*/
+.smallrectangle{
+    height: 125px;
+    width: 250px;
+    border-width: 5px;
+    border-style: solid;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+#firstsmallrectangle{
+    grid-area: rectangle1;
+}
+
+#secondsmallrectangle{
+    grid-area: rectangle2;
+}
+
+#thirdsmallrectangle{
+    grid-area: rectangle3;
+    background-color: black;
+}
+
+.lotr{
+    margin: auto;
+    margin-top: 18px;
+}
+
+#fourthsmallrectangle{
+    grid-area: rectangle4;
+}
+
+#fifthsmallrectangle{
+    grid-area: rectangle5;
+    background-color: white;
+}
+
+.fifa{
+    margin-left: 10px;
+}
+
+#sixthsmallrectangle{
+    grid-area: rectangle6;
+}
+
 /*indeling van de project page in een grid*/
+
+.choiceupper{
+    grid-area: choiceupper;
+    display: grid;
+    grid-template-areas:
+    "trianglel rectangle triangler";
+}
+
+.choicelower{
+    grid-area: choicelower;
+    display: grid;
+    grid-template-areas: 
+    "rectangle1 rectangle2 rectangle3 rectangle4 rectangle5 rectangle6";
+    margin: auto;
+    margin-top: 40px;
+}
+
 .projectmain{
     display: grid;
     grid-template-areas: 
-    "trianglel rectangle triangler"
-    ;
+    "choiceupper"
+    "choicelower";
 }
