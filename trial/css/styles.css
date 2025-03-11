@@ -13,6 +13,7 @@
     font-family: var(--main-font);
 }
 
+
 /*
 ---------------------------
 ---------------------------
@@ -21,7 +22,7 @@
 ---------------------------
 */
 
-/*Hier zet ik de titel van de projkectpagina*/
+/*Hier zet ik de titel van de projectpagina*/
 .choiceheader{
     text-align: Center;
     font-family:var(--project-choice);
@@ -34,10 +35,59 @@
 /*De grote rechthoek in het midden*/
 .rectangle{
     border-color: black;
-    width: 500px;
-    height: 200px;
+    width: 700px;
+    height: 300px;
     border-style: solid;
     margin: auto;
     margin-top: 4%;
+    border-width: 5px;
+    border-radius: 10px;
+    grid-area: rectangle;
+    padding-right: 0;
 }
 
+/*de linkse driehoek*/
+.triangleleft{
+    width: 0;
+	height: 0;
+    border-top: 50px solid transparent;
+    border-right: 100px solid #000000;
+	border-bottom: 50px solid transparent;
+    grid-area: trianglel;
+    margin-left: 68%;
+    margin-top: 45%;
+}
+
+.triangleleft:hover{
+    border-top: 52px solid transparent;
+        border-right: 104px solid #000000;
+        border-bottom: 52px solid transparent;
+        margin-top: 44%;
+}
+
+.triangleright{
+    width: 0;
+	height: 0;
+    border-top: 50px solid transparent;
+    border-left: 100px solid #000000;
+	border-bottom: 50px solid transparent;
+    grid-area: triangler;
+    margin-right: 100%;
+    margin-top: 45%;
+}
+
+.triangleright:hover{
+    border-top: 52px solid transparent;
+        border-left: 104px solid #000000;
+        border-bottom: 52px solid transparent;
+        margin-top: 44%;
+}
+
+
+/*indeling van de project page in een grid*/
+.projectmain{
+    display: grid;
+    grid-template-areas: 
+    "trianglel rectangle triangler"
+    ;
+}
