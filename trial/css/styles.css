@@ -13,6 +13,11 @@
     font-family: var(--main-font);
 }
 
+/*maakt rest onziochtbaar*/
+
+.rest{
+    display:none;
+}
 
 /*
 ---------------------------
@@ -44,6 +49,7 @@
     border-radius: 10px;
     grid-area: rectangle;
     padding-right: 0;
+    background-color: white;
 }
 
 /*de linkse driehoek*/
@@ -94,12 +100,29 @@
     margin-left: 5px;
 }
 
+.smallrectangle:hover{
+    margin-top: -15px;
+}
+
 #firstsmallrectangle{
     grid-area: rectangle1;
+    background-color: white;
+}
+
+.magic{
+    margin-left: 10px;
+    margin-bottom: 15px;
 }
 
 #secondsmallrectangle{
     grid-area: rectangle2;
+    background-color: red;
+}
+
+.lego{
+    width: 175px;
+    margin-left: 30px;
+    margin-top: 15px;
 }
 
 #thirdsmallrectangle{
@@ -114,6 +137,11 @@
 
 #fourthsmallrectangle{
     grid-area: rectangle4;
+    background-color:#178FDB ;
+}
+
+.fortnite{
+    margin-left: 18px;
 }
 
 #fifthsmallrectangle{
@@ -125,8 +153,17 @@
     margin-left: 10px;
 }
 
-#sixthsmallrectangle{
+#sixtsmallrectangle{
     grid-area: rectangle6;
+    background-color: red;
+}
+
+.pokemonlogo{
+    background-color: white;
+    width: 180px;
+    border-radius: 20px;
+    margin-left: 30px;
+    margin-top: 14px;
 }
 
 /*indeling van de project page in een grid*/
@@ -152,4 +189,13 @@
     grid-template-areas: 
     "choiceupper"
     "choicelower";
+}
+
+/*styling van foto's die verschijnen als je klikt*/
+
+#magicimg{
+    margin-left:15%;
+    margin-top: 10px;
+    width: 450px;
+
 }
