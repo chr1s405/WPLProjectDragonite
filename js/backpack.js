@@ -10,6 +10,7 @@ const backpackMenuDex = document.getElementById("backpackMenuBtnDex");
 const menuEvents = document.getElementsByClassName("menuEvent");
 const battleMenuEvent = document.getElementById("menu_battle");
 const captureMenuEvent = document.getElementById("menu_capture")
+const isDexMenuOpen = false;
 
 
 backpackIcon.addEventListener("click", (e) => {
@@ -18,6 +19,7 @@ backpackIcon.addEventListener("click", (e) => {
 backpackCloseBtn.addEventListener("click", (e) => {
   closeMenu();
 })
+
 for (let i = 0; i < backpackMenuItems.length - 1; i++) {
   backpackMenuItems[i].addEventListener("click", (e) => {
     openEvent(menuEvents[i]);
@@ -28,13 +30,29 @@ for (let i = 0; i < backpackMenuItems.length - 1; i++) {
   })
 }
 
-backpackMenuDex.addEventListener("click", (e)=>{
+function openDexMenu(){
   openEvent(menuDex)
-})
+  isDexMenuOpen = true;
+}
 
-menuDex.children[0].addEventListener("click", (e) => {
+backpackMenuDex.addEventListener("click", openDexMenu)
+
+
+function closeDexMenu(){
   closeMenu(menuDex);
-})
+  isDexMenuOpen = false;
+}
+
+
+menuDex.children[0].addEventListener("click", closeDexMenu)
+
+if (isDexMenuOpen === true){
+  menuDex.style.display = "grid";
+}
+
+if (isDexMenuOpen === false){
+  menuDex.style.display = "none";
+}
 
 battleMenuEvent.children[0].addEventListener("click", (e) => {
   closeBattleEvent()

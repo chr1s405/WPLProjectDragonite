@@ -400,7 +400,7 @@ html {
 /*========== Pokédex  ==========*/
 /*==============================*/
 
-#menu_pokedex > h1{
+#menu_pokedex h1{
   font-family: var(--pokemon-solid-font);
   color: black;
   opacity: none;
@@ -422,10 +422,10 @@ html {
   grid-area: perc;
 }
 
-#menu_pokedex{
+#gamePage main #menu_pokedex{
   display: grid;
   grid-template-areas: 
   'titleDex titleDex titleDex'
-  'pix      titleDex perc'
-  'pix      titleDex titleDex';
+  'pix titleDex perc'
+  'pix titleDex titleDex';
 }
