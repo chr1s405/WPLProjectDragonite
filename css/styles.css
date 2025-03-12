@@ -243,13 +243,19 @@
 }
 
 #LoginPage {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: brown;
-    background-image: url(../images/pokemonBackground.jpeg);
+    background-image: url("../images/pokemonBackground.jpeg");
+    background-repeat: no-repeat;
     background-size: cover;
+    /* Zorgt ervoor dat de afbeelding de hele pagina bedekt */
+    background-position: center;
+    height: 100vh;
+    /* Volledige hoogte van het scherm */
+    width: 100vw;
+    /* Volledige breedte van het scherm */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 
