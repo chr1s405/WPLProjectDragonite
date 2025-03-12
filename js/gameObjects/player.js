@@ -39,7 +39,8 @@ export const Player = {
     },
     assignPokemon(pokemon) {
         this.hasCompanion = true;
-        Companion.getCompanion(pokemon)
+        Companion.getCompanion(pokemon);
+        document.getElementById("nav-pokemon").src = Companion.pokemon.sprites["front_default"]
     },
     removeCompanion() {
         this.hasCompanion = false;

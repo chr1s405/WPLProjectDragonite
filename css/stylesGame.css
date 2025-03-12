@@ -246,6 +246,58 @@ html {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
+#gamePage #menu_pokedex{
+  height: 500px;
+  padding: 20px;
+}
+#gamePage #menu_pokedex #table_pokedex{
+  overflow-y: scroll;
+  width: auto;
+  height: 90%;
+  top: 50%;
+  transform: translateY(-50%);
+  position: relative;
+}
+#gamePage #menu_pokedex #table_pokedex::-webkit-scrollbar {
+  width: 5px;
+}
+#gamePage #menu_pokedex #table_pokedex::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2); 
+  border-radius: 50px;
+  height: 10px;
+}
+#gamePage #menu_pokedex #table_pokedex table{
+  margin: auto;
+  width: 80%;
+}
+#gamePage #menu_pokedex .tableRow{
+  display: grid;
+  grid-template-areas: 
+  "image info";
+  grid-template-columns: max-content auto;
+
+  background-color: gray;
+  border: 2px solid black;
+  border-radius: 50px;
+}
+#gamePage #menu_pokedex .tableRow:hover{
+  cursor: pointer;
+}
+#gamePage #menu_pokedex .tableImg{
+  grid-area: image;
+  padding: 5px;
+  margin: auto;
+  width: 90%;
+  border-right: 2px solid black;
+  border-radius: 50px;
+}
+#gamePage #menu_pokedex .tableInfo{
+  grid-area: info;
+  margin: auto;
+  margin-left: 3%;
+}
+
+
 
 #gamePage #menu_battle {
   display: none;
@@ -395,37 +447,3 @@ html {
 }
 
 
-
-/*==============================*/
-/*========== Pokédex  ==========*/
-/*==============================*/
-
-#menu_pokedex h1{
-  font-family: var(--pokemon-solid-font);
-  color: black;
-  opacity: none;
-  margin: auto;
-  text-align: center;
-  font-size: 50px;
-  grid-area: titleDex;
-}
-
-.pokemonpix{
-  background-color: black;
-  opacity: 50%;
-  grid-area: pix;
-}
-
-.dexpercentage{
-  background-color: black;
-  opacity: 50%;
-  grid-area: perc;
-}
-
-#gamePage main #menu_pokedex{
-  display: grid;
-  grid-template-areas: 
-  'titleDex titleDex titleDex'
-  'pix titleDex perc'
-  'pix titleDex titleDex';
-}

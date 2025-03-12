@@ -3,14 +3,13 @@ import { Player } from "./gameObjects/player.js";
 
 const backpackIcon = document.getElementById("backpackIcon");
 const backpackMenu = document.getElementById("backpackMenu")
-const menuDex = document.getElementById("menu_pokedex")
-const backpackCloseBtn = document.getElementById("backpackMenuCloseBtn")
+const backpackCloseBtn = document.getElementById("backpackMenuCloseBtn");
 const backpackMenuItems = document.getElementsByClassName("backpackMenuBtn");
-const backpackMenuDex = document.getElementById("backpackMenuBtnDex");
 const menuEvents = document.getElementsByClassName("menuEvent");
+const pokedexMenuEvent = document.getElementById("menu_pokedex");
+// const whosThatMenuEvent = document.getElementById("menu_who'sThat");
 const battleMenuEvent = document.getElementById("menu_battle");
-const captureMenuEvent = document.getElementById("menu_capture")
-const isDexMenuOpen = false;
+const captureMenuEvent = document.getElementById("menu_capture");
 
 
 backpackIcon.addEventListener("click", (e) => {
@@ -29,46 +28,23 @@ for (let i = 0; i < backpackMenuItems.length - 1; i++) {
     closeMenu(menuEvents[i]);
   })
 }
-
-function openDexMenu(){
-  openEvent(menuDex)
-  isDexMenuOpen = true;
-}
-
-backpackMenuDex.addEventListener("click", openDexMenu)
-
-
-function closeDexMenu(){
-  closeMenu(menuDex);
-  isDexMenuOpen = false;
-}
-
-
-menuDex.children[0].addEventListener("click", closeDexMenu)
-
-if (isDexMenuOpen === true){
-  menuDex.style.display = "grid";
-}
-
-if (isDexMenuOpen === false){
-  menuDex.style.display = "none";
-}
-
 battleMenuEvent.children[0].addEventListener("click", (e) => {
-  closeBattleEvent()
+  closeBattleEvent();
   Player.isInEvent = false;
 })
 captureMenuEvent.children[0].addEventListener("click", (e) => {
-  closeCaptureEvent()
+  closeCaptureEvent();
   Player.isInEvent = false;
 })
 
 function openMenu() {
   backpackIcon.style.display = "none";
   backpackMenu.style.display = "grid";
-  
 }
-
+function openEvent(event) {
+  backpackMenu.style.display = "none"
+  event.style.display = "block";
+}
 function closeMenu(event = undefined) {
   backpackIcon.style.display = "block";
   backpackMenu.style.display = "none";
@@ -77,10 +53,6 @@ function closeMenu(event = undefined) {
   }
 }
 
-function openEvent(event) {
-  backpackMenu.style.display = "none"
-  event.style.display = "block";
-}
 export function openBattleEvent(){
   battleMenuEvent.style.display = "grid";
   const stages = document.getElementsByClassName("battle_stage");
@@ -111,8 +83,26 @@ export function openCaptureEvent() {
   }
   return stage;
 }
-
 export function closeCaptureEvent() {
   captureMenuEvent.style.display = "none";
   closeMenu();
+}
+
+export function createPokemonList(allPokemon){
+  const table = pokedexMenuEvent.getElementsByTagName("table")[0];
+  allPokemon.forEach(pokemon => {
+    const tableRow = document.createElement("tr");
+    tableRow.setAttribute("class", "tableRow");
+    const pokemonImg = document.createElement("img");
+    pokemonImg.setAttribute("class", "tableImg");
+    pokemonImg.src = pokemon.sprites["front_default"]
+    const pokemonInfo = document.createElement("p");
+    pokemonInfo.setAttribute("class", "tableInfo");
+    pokemonInfo.innerHTML = `nr. ${pokemon.id}</br>${pokemon.name}`
+
+    table.appendChild(tableRow);
+    tableRow.appendChild(pokemonImg);
+    tableRow.appendChild(pokemonInfo);
+  });
+  console.log(table);
 }

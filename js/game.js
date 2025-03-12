@@ -3,6 +3,7 @@ import { Player } from "./gameObjects/player.js";
 import { Companion } from "./gameObjects/companion.js";
 import { Npcs } from "./gameObjects/npc's.js";
 import { Pokemon } from "./gameObjects/pokemon.js";
+import { createPokemonList } from "../js/backpack.js";
 
 
 GetPokemon();
@@ -64,7 +65,7 @@ async function GetPokemon() {
       return pokemonData;
     })
     .then((result) => {
-      return Promise.all(result.map((result) => fetch(result.url)));
+      return Promise.all(result.map((value) => fetch(value.url)));
     })
     .then((result) => {
       return Promise.all(result.map((value) => value.json()));
@@ -96,13 +97,14 @@ async function GetPokemon() {
           //weight: pokemon.weight,
         });
       });
+      console.log(pokemonList);
       //console.log(pokemonList.sort((a, b) => a.base_experience - b.base_experience))
       //als je ergens de pokemon nodig hebt stuur da hier als parameter door
       Player.getPokemon(pokemonList);
       Npcs.getPokemon(pokemonList);
       Pokemon.getPokemon(pokemonList);
-      Pokemon.spawnPokemon()
-
+      Pokemon.spawnPokemon();
+      createPokemonList(pokemonList);
     });
     
   }

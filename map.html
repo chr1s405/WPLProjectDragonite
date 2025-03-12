@@ -37,17 +37,13 @@
         X</button>
       <h1>Rugzak</h1>
       <div id="backpackMenuItems">
-        <button  id = "backpackMenuBtnDex">
+        <button class="backpackMenuBtn">
           <img src="./images/pokeball.png">
           <p>pokedex</p>
         </button>
-        <button class="backpackMenuBtn" id = >
+        <button class="backpackMenuBtn">
           <img src="./images/pokeball.png">
           <p>pokemon vergelijken</p>
-        </button>
-        <button class="backpackMenuBtn">
-          <img src="./images/pikachu_silouhette.png">
-          <p>companion</p>
         </button>
         <button class="backpackMenuBtn">
           <img src="./images/who's_that_icon.png">
@@ -59,24 +55,25 @@
         </button>
       </div>
     </div>
-    <div id="menu_pokedex" class="menuEvent" >
-      <button class="closeBtn" id = "closeDex">X</button>
-      
+    <div id="menu_pokedex" class="menuEvent">
+      <!-- pokedex -->
+      <button class="closeBtn" id="closeDex">X</button>
+      <div id="table_pokedex">
+        <table>
+        </table>
       </div>
     </div>
-    <div id="menu_compare" class="menuEvent">
-      compare
-      <button class="closeBtn">X</button>
     </div>
-    <div id="menu_companion" class="menuEvent">
-      companion
+    <div id="menu_compare" class="menuEvent">
+      <!-- compare -->
       <button class="closeBtn">X</button>
     </div>
     <div id="menu_who'sThat" class="menuEvent">
-      who's that
+      <!-- who's that -->
       <button class="closeBtn">X</button>
     </div>
     <div id="menu_battle" class="menuEvent">
+      <!-- battle -->
       <button class="closeBtn" style="display:none">X</button>
       <div id="battle_playerSide" class="battle_stage">
         <div class="statusbar">
@@ -107,7 +104,7 @@
       </div>
     </div>
     <div id="menu_capture" class="menuEvent">
-      capture
+      <!-- capture -->
       <button class="closeBtn">X</button>
       <div id="capture_main">
         <p>pikachu</p>
@@ -120,6 +117,13 @@
         <img src="./images/pokeball.png"></img>
       </div>
     </div>
+    <div id="menu_pokemonDetail" class="menuEvent">
+      <!-- pokemon Detail -->
+      <button class="closeBtn">X</button>
+      <div id="capture_main">
+        
+      </div>
+      
     <div id="debug">
       <p id="characterCoor"></p>
       <p id="companionCoor"></p>
