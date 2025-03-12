@@ -20,21 +20,7 @@
 /*========================================*/
 
 
-/*kleine vierkantjes*/
-#smallrectangle{
-    height: 160px;
-    width: 200px;
-    border: 5px solid black;
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-}
-
-
+/*Indeling van grid projectpagina*/
 #project-pagina {
     display: grid;
     grid-template-areas:
@@ -42,34 +28,16 @@
         "main";
 }
 
+/**************************
+**********Header***********
+**************************/
+
 #project-pagina header {
     grid-area: header;
-    /* background-color: red; */
     margin-top: 40px;
 }
 
-#project-pagina .content-container {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5vh;
-    margin-top: 5vh;
-}
-
-.bigrectangle{
-    grid-area: br;
-}
-
-
-
-.upperproject{
-    display: grid;
-    grid-template-areas: "al br ar";
-    grid-area: uproject;
-}
-
+/* Hoofding van projectpagina */
 #project-pagina h1 {
     position: relative;
     z-index: 10;
@@ -82,6 +50,11 @@
 }
 
 
+/**************************
+***********main************
+**************************/
+
+/* main pagina grid verdeling */
 #project-pagina .choise-game {
     position: relative;
     display: grid;
@@ -90,24 +63,15 @@
     "cm";
 }
 
-#project-pagina .game {
-    border: 10px solid black;
-    border-radius: 30px;
-    width: 35vw;
-    max-width: 800px;
-    height: 40vh;
-    position: relative;
+/*Grote vierkant en pijltjes*/
+/*indeling van grote vierkant met pijltjes*/
+#upperproject{
+    display: grid;
+    grid-template-areas: "al br ar";
+    grid-area: uproject;
 }
 
-/* #project-pagina .game img {
-
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    /* padding: 50px; 
-}*/
-
-
+/*styling pijlen*/
 #project-pagina .arrow {
     display: flex;
     align-items: center;
@@ -123,15 +87,85 @@
     transition: transform 0.2s ease-in-out;
 }
 
-
+/*linkerpijl: moet nog gepositioneerd worden*/
 #project-pagina .arrow-left {
     transform: scaleX(-1);
     grid-area: al;
 }
 
+/*vierkant in het midden*/
+#project-pagina .game {
+    border: 10px solid black;
+    border-radius: 30px;
+    width: 35vw;
+    max-width: 800px;
+    margin: auto;
+    height: 40vh;
+    position: relative;
+    display: inline;
+}
+
+.bigrectangle{
+    grid-area: br;
+}
+
+/*logo in het vierkant: moet nog gepotisineerd worden*/
+#project-pagina #game-logo{
+    position: absolute;
+    display:block;
+    /* margin: auto; */
+    left: 50%;
+    transform: translateX(-50%);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/*play button: moet nog gestyled worden*/
+
+/*rechterpijl: moet nog gepositioneerd worden*/
 .arrow-right{
     grid-area: ar;
 }
+
+/*kleine vierkantjes*/
+#smallrectangle{
+    height: 160px;
+    width: 200px;
+    border: 5px solid black;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+
+#project-pagina .content-container {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5vh;
+    margin-top: 5vh;
+}
+
+
+
+/* #project-pagina .game img {
+
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    /* padding: 50px; 
+}*/
+
+
+
+
+
 
 
 #project-pagina .arrow:hover img {
@@ -171,13 +205,7 @@
     border-radius: 15px;
 }
 
-#project-pagina #game-logo{
-     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 50%;
-    transform: translateY(-50%);
-}
+
 
 #project-pagina .choise-menu div:hover {
     transform: translateY(-10px) scale(1.05);
@@ -235,7 +263,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Pokemon Solid', sans-serif;
+    font-family: var(--main-font);
 }
 
 #LoginPage {
@@ -460,6 +488,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
     text-align: center;
 }
 

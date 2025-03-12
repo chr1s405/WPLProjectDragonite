@@ -14,45 +14,54 @@
   <title>Project pagina</title>
 </head>
 
+<!-- Header met titel -->
 <body id="project-pagina">
   <header class = "projectheader">
       <h1>Kies welke game je wilt spelen</h1>
   </header>
 
+  <!-- main -->
   <main class="choise-game">
-    <section class = "upperproject">
+    <!-- section voor het grote vierkant met de pijlen -->
+    <section id = "upperproject">
+      <!-- linkerpijl -->
       <span class="arrow-left arrow"><img src="./images/arrow4.jpeg" alt="arrow-left"></span>
+      <!-- grote rechthoek in het midden en play button -->
         <div class="game">
-          <div class = "bigrectangle"><img id="game-logo" src="./images/pokempon-logo.jpeg" alt="pokemon-logo" /></div>
+          <div class = "bigrectangle">
+            <img id="game-logo" src="./images/pokempon-logo.jpeg" alt="pokemon-logo">
+          </div>
             <button class="play-button" id ="playbutton">play</button>
           </div>
+          <!-- rechterpijl -->
           <span class="arrow-right arrow"><img src="./images/arrow4.jpeg" alt="arrow-right" /></span>
         </div>
     </section>
 
+    <!-- section voor kleine vierkantjes -->
     <section class="choise-menu">
         <div class="magic" id = "smallrectangle">
-          <img src="./images/magic.jpeg" alt="magic" />
+          <img src="./images/magic.jpeg" alt="magic" id ="mtgpic">
         </div>
 
         <div class="lego" id = "smallrectangle">
-          <img src="./images/legoMasters.jpeg" alt="lego" />
+          <img src="./images/legoMasters.jpeg" alt="lego" id = "legopic">
         </div>
 
         <div class="lordOfTheRings" id = "smallrectangle">
-          <img src="./images/lordOfTheRings.jpeg" alt="lotr">
+          <img src="./images/lordOfTheRings.jpeg" alt="lotr" id = "lotrpic">
         </div>
 
         <div class="fortnite"id = "smallrectangle">
-          <img src="./images/fortnite.jpeg" alt="fortnite">
+          <img src="./images/fortnite.jpeg" alt="fortnite" id = "fortnitepic">
         </div>
 
         <div class="fifa" id = "smallrectangle">
-          <img src="./images/fifa.jpeg" alt="fifa" />
+          <img src="./images/fifa.jpeg" alt="fifa" id = "fifapic">
         </div>
 
         <div class="pokemon" id = "smallrectangle">
-          <img src="./images/pokempon-logo.jpeg" alt="pokemon" />
+          <img src="./images/pokempon-logo.jpeg" alt="pokemon" id = "pokepic" />
         </div>
     </section>
   </main>

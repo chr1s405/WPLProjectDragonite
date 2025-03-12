@@ -2,6 +2,12 @@
 
 
 const playButton = document.getElementById("playbutton");
+const mtgPic = document.getElementById("mtgpic")
+const legoPic = document.getElementById("legopic")
+const lotrPic = document.getElementById("lotrpic")
+const fortnitePic = document.getElementById("fortnitepic")
+const fifaPic = document.getElementById("fifapic")
+const pokePic = document.getElementById("pokepic")
 
 // Verzamel alle afbeeldingen uit de choise-menu
 const images = Array.from(document.querySelectorAll(".choise-menu img")).map(
@@ -118,9 +124,4 @@ updateLogo(currentIndex);
 
 function alertTo(){
   alert("Kies een andere game!")
-}
-
-
-if (currentIndex == ){
-playButton.addEventListener("click", alertTo)
 }
