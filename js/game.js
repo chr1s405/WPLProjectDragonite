@@ -74,29 +74,29 @@ async function GetPokemon() {
         pokemonList.push({
           abilities: pokemon.abilities,
           base_experience: pokemon.base_experience,
-          cries: pokemon.cries,
-          forms: pokemon.forms,
+          //cries: pokemon.cries,
+          //forms: pokemon.forms,
           //game_indices: pokemon.game_indices,
           //height: pokemon.height,
-          held_items: pokemon.held_items,
+          //held_items: pokemon.held_items,
           id: pokemon.id,
           is_default: pokemon.is_default,
           //location_area_encount: pokemon.location_area_encount,
           moves: pokemon.moves,
           name: pokemon.name,
-          order: pokemon.order,
-          past_abilities: pokemon.past_abilities,
-          past_types: pokemon.past_types,
-          species: pokemon.species,
+          //order: pokemon.order,
+          //past_abilities: pokemon.past_abilities,
+          //past_types: pokemon.past_types,
+          //species: pokemon.species,
           sprites: pokemon.sprites,
-          other: pokemon.other,
-          versions: pokemon.versions,
+          //other: pokemon.other,
+          //versions: pokemon.versions,
           stats: pokemon.stats,
-          types: pokemon.types,
+          //types: pokemon.types,
           //weight: pokemon.weight,
         });
       });
-      console.log(pokemonList.sort((a, b) => a.base_experience - b.base_experience))
+      //console.log(pokemonList.sort((a, b) => a.base_experience - b.base_experience))
       //als je ergens de pokemon nodig hebt stuur da hier als parameter door
       Player.getPokemon(pokemonList);
       Npcs.getPokemon(pokemonList);
