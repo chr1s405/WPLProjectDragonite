@@ -7,44 +7,58 @@
   <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/pokemon-solid" >
   <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/pokemon-hollow">
   <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/nexa">
+  <link href="https://fonts.cdnfonts.com/css/popular" rel="stylesheet">    
   <link rel="stylesheet" href="./css/reset.css">
-  <link rel="stylesheet" href="./css/styles.css" />
-  <script src="./js/projectPage.js" defer></script>
+  <link rel="stylesheet" href="./css/styles.css">
+   <script src="./js/projectPage.js" defer></script>
   <title>Project pagina</title>
 </head>
 
 <body id="project-pagina">
-  <header>
-    <div class="content-container">
-      <h1>Kies welke spel je wilt spelen</h1>
-      <div class="choise-game">
-        <span class="arrow-left arrow"><img src="./images/arrow4.jpeg" alt="arrow-left" /></span>
+  <header class = "projectheader">
+      <h1>Kies welke game je wilt spelen</h1>
+  </header>
+
+  <main class="choise-game">
+    <section class = "upperproject">
+      <span class="arrow-left arrow"><img src="./images/arrow4.jpeg" alt="arrow-left"></span>
         <div class="game">
-          <img id="game-logo" src="./images/pokempon-logo.jpeg" alt="pokemon-logo" />
-          <button class="play-button">play</button>
+          <div class = "bigrectangle"><img id="game-logo" src="./images/pokempon-logo.jpeg" alt="pokemon-logo" /></div>
+            <button class="play-button">play</button>
+          </div>
+          <span class="arrow-right arrow"><img src="./images/arrow4.jpeg" alt="arrow-right" /></span>
         </div>
-        <span class="arrow-right arrow"><img src="./images/arrow4.jpeg" alt="arrow-right" /></span>
-      </div>
-      <div class="choise-menu">
-        <div class="magic"><img src="./images/magic.jpeg" alt="magic" /></div>
-        <div class="lego">
+    </section>
+
+    <section class="choise-menu">
+        <div class="magic" id = "smallrectangle">
+          <img src="./images/magic.jpeg" alt="magic" />
+        </div>
+
+        <div class="lego" id = "smallrectangle">
           <img src="./images/legoMasters.jpeg" alt="lego" />
         </div>
-        <div class="lordOfTheRings">
-          <img src="./images/lordOfTheRings.jpeg" alt="lotr" />
+
+        <div class="lordOfTheRings" id = "smallrectangle">
+          <img src="./images/lordOfTheRings.jpeg" alt="lotr">
         </div>
-        <div class="fortnite">
-          <img src="./images/fortnite.jpeg" alt="fortnite" />
+
+        <div class="fortnite"id = "smallrectangle">
+          <img src="./images/fortnite.jpeg" alt="fortnite">
         </div>
-        <div class="fifa"><img src="./images/fifa.jpeg" alt="fifa" /></div>
-        <div class="pokemon">
+
+        <div class="fifa" id = "smallrectangle">
+          <img src="./images/fifa.jpeg" alt="fifa" />
+        </div>
+
+        <div class="pokemon" id = "smallrectangle">
           <img src="./images/pokempon-logo.jpeg" alt="pokemon" />
         </div>
-      </div>
-    </div>
-  </header>
-  <main></main>
-  <footer></footer>
+    </section>
+  </main>
+
+  <footer>
+  </footer>
 </body>
 
 </html>
