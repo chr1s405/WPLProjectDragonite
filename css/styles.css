@@ -35,7 +35,6 @@
 }
 
 
-
 #project-pagina {
     display: grid;
     grid-template-areas:
@@ -89,7 +88,6 @@
     grid-template-areas: 
     "uproject"
     "cm";
-
 }
 
 #project-pagina .game {
@@ -174,10 +172,9 @@
 }
 
 #project-pagina #game-logo{
-    position: absolute;
+     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    display: block;
     top: 50%;
     transform: translateY(-50%);
 }
@@ -210,7 +207,6 @@
 
 #project-pagina .lego {
     background-color: red;
-    padding: 20px;
 }
 
 #project-pagina .lordOfTheRings {

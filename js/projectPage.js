@@ -1,5 +1,8 @@
 "use strict";
 
+
+const playButton = document.getElementById("playbutton");
+
 // Verzamel alle afbeeldingen uit de choise-menu
 const images = Array.from(document.querySelectorAll(".choise-menu img")).map(
   (img) => img.src
@@ -112,3 +115,12 @@ gameDivs.forEach((div, index) => {
 
 // Initialiseer het eerste spel
 updateLogo(currentIndex);
+
+function alertTo(){
+  alert("Kies een andere game!")
+}
+
+
+if (currentIndex == ){
+playButton.addEventListener("click", alertTo)
+}
