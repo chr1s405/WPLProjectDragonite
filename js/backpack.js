@@ -24,15 +24,15 @@ for (let i = 0; i < backpackMenuItems.length - 1; i++) {
     openEvent(menuEvents[i]);
   });
 
-  menuEvents[i].children[0].addEventListener("click", (e) => {
+  menuEvents[i].getElementsByClassName("closeBtn")[0].addEventListener("click", (e) => {
     closeMenu(menuEvents[i]);
   })
 }
-battleMenuEvent.children[0].addEventListener("click", (e) => {
+battleMenuEvent.getElementsByClassName("closeBtn")[0].addEventListener("click", (e) => {
   closeBattleEvent();
   Player.isInEvent = false;
 })
-captureMenuEvent.children[0].addEventListener("click", (e) => {
+captureMenuEvent.getElementsByClassName("closeBtn")[0].addEventListener("click", (e) => {
   closeCaptureEvent();
   Player.isInEvent = false;
 })
