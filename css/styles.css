@@ -599,12 +599,9 @@
 
 #signup-page h1 {
     font-size: 50px;
-<<<<<<< HEAD
     color: rgb(0, 0, 0);
-=======
     color: white;
     margin-bottom: 20px;
->>>>>>> 56c65ac13faede787aef2d0c2702a42aa1d711fd
     font-family: var(--pokemon-solid-font);
 }
 
