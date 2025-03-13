@@ -8,6 +8,7 @@ const lotrPic = document.getElementById("lotrpic")
 const fortnitePic = document.getElementById("fortnitepic")
 const fifaPic = document.getElementById("fifapic")
 const pokePic = document.getElementById("pokepic")
+const backGroundCheck = document.getElementById("bigrectanglecontainer")
 
 // Verzamel alle afbeeldingen uit de choise-menu
 const images = Array.from(document.querySelectorAll(".choise-menu img")).map(
@@ -123,5 +124,5 @@ gameDivs.forEach((div, index) => {
 updateLogo(currentIndex);
 
 function alertTo(){
-  alert("Kies een andere game!")
+alert("Kies een andere game!")
 }

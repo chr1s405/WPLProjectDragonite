@@ -75,7 +75,6 @@
 #project-pagina .arrow {
     display: flex;
     align-items: center;
-    justify-content: center;
     width: 100px;
     height: 150px;
     cursor: pointer;
@@ -87,10 +86,16 @@
     transition: transform 0.2s ease-in-out;
 }
 
-/*linkerpijl: moet nog gepositioneerd worden*/
+/*voegt een subklasse toe die de arrow groter maakt als er over gehovert wordt met de muis*/
+#project-pagina .arrow:hover img {
+    transform: scale(1.1);
+}
+
+/*linkerpijl*/
 #project-pagina .arrow-left {
     transform: scaleX(-1);
     grid-area: al;
+    margin: auto;
 }
 
 /*vierkant in het midden*/
@@ -120,14 +125,14 @@
     transform: translateY(-50%);
 }
 
-/*play button: moet nog gestyled worden*/
-
-/*rechterpijl: moet nog gepositioneerd worden*/
+/*rechterpijl*/
 .arrow-right{
     grid-area: ar;
+    margin: auto;
 }
 
 /*kleine vierkantjes*/
+/*Styling kleine vierktantjes*/
 #smallrectangle{
     height: 160px;
     width: 200px;
@@ -141,39 +146,7 @@
     cursor: pointer;
 }
 
-
-#project-pagina .content-container {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5vh;
-    margin-top: 5vh;
-}
-
-
-
-/* #project-pagina .game img {
-
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    /* padding: 50px; 
-}*/
-
-
-
-
-
-
-
-#project-pagina .arrow:hover img {
-    transform: scale(1.1);
-}
-
-
-
+/*styling gehele section van kleine vierkantjes*/
 #project-pagina .choise-menu {
     display: flex;
     justify-content: center;
@@ -185,49 +158,21 @@
     grid-area: cm;
 }
 
-/* #project-pagina .choise-menu div {
-    width: 16%;
-    height: 160px;
-    width: 200px;
-    border: 5px solid black;
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-} */
-
-#project-pagina .choise-menu #smallrectangle img {
-    /* width: 100%;
-    height: 100%; */
-    border-radius: 15px;
-}
-
-
-
-#project-pagina .choise-menu div:hover {
+/*voegt een subklasse toe die de kleine rechthoeken groter maakt als je erover hovert met de muis*/
+#project-pagina .choise-menu .smallrectangle:hover {
     transform: translateY(-10px) scale(1.05);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Actief-effect wanneer een game geselecteerd is */
-#project-pagina .choise-menu div.active {
+#project-pagina .choise-menu .smallrectangle.active {
     transform: translateY(-15px) scale(1.15);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
     border-color: gold;
-
 }
 
 
-#project-pagina .choise-menu div.active {
-    transform: translateY(-15px) scale(1.1);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-    border-color: gold;
-}
-
-
+/*Dit zorgt ervoor dat de kleine vierkantjes een achtergrond kleur krijgden*/
 #project-pagina .magic {
     background-color: white;
     padding: 12px;
@@ -251,7 +196,7 @@
 }
 
 #project-pagina .pokemon {
-    background-color: white;
+    background-color: whitesmoke;
 }
 
 /*========================================*/
@@ -367,7 +312,6 @@
 /*========== reset password Page =========*/
 /*========================================*/
 /*========================================*/
-/*This is the styling of reset password page*/
 
 
 #reset-password {
