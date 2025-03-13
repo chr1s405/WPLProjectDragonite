@@ -255,23 +255,22 @@ html {
 #gamePage #menu_pokedex{
   height: 500px;
 }
-#gamePage #menu_pokedex #table_pokedex{
+#gamePage #menu_pokedex #pokedex_table{
   position: relative;
   width: auto;
-  height:80%;
-  top: 50%;
-  transform: translateY(-50%);
+  height: 85%;
+  margin: 10px;
   overflow-y: scroll;
 }
-#gamePage #menu_pokedex #table_pokedex::-webkit-scrollbar {
+#gamePage #menu_pokedex #pokedex_table::-webkit-scrollbar {
   width: 5px;
 }
-#gamePage #menu_pokedex #table_pokedex::-webkit-scrollbar-thumb {
+#gamePage #menu_pokedex #pokedex_table::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2); 
   border-radius: 50px;
   height: 10px;
 }
-#gamePage #menu_pokedex #table_pokedex table{
+#gamePage #menu_pokedex #pokedex_table table{
   margin: auto;
   width: 80%;
 }
@@ -292,7 +291,6 @@ html {
   grid-area: image;
   padding: 5px;
   margin: auto;
-  width: 90%;
   border-right: 2px solid black;
   border-radius: 50px;
 }
@@ -303,7 +301,67 @@ html {
 }
 
 #gamePage #menu_pokemonDetail{
-display: block;
+  height: 500px;
+}
+#gamePage #pokedex_detail{
+  display: grid;
+  grid-template-areas:
+    "stats image options"
+    "evolution evolution evolution";
+  grid-template-columns: 30% auto 30%;
+  grid-template-rows: 70% 30%;
+  gap: 0px;
+  padding: 20px;
+  height: 85%;
+  justify-content: center;
+}
+#gamePage #pokedex_detail #pokedex_stats{
+  grid-area: stats;
+  width: 100%;
+  align-content: center;
+  background-color: green;
+}
+#gamePage #pokedex_detail #pokedex_stats p{
+  text-align: center;
+  max-width: 200px;
+  width: 90%;
+  margin: auto;
+}
+
+#gamePage #pokedex_detail #pokedex_pokemon{
+  grid-area: image;
+  text-align: center;
+  margin: auto;
+  background-color: red;
+}
+#gamePage #pokedex_detail #pokedex_evolution{
+  grid-area: evolution;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  background-color: blue;
+}
+
+#gamePage #pokedex_detail #pokedex_options{
+  grid-area: options;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  background-color: yellow;
+}
+#gamePage #pokedex_detail #pokedex_options button{
+  text-align: center;
+  padding: 10px;
+  max-width: 200px;
+  width: 90%;
+  background-color: gray;
+  border: 2px solid black;
+  border-radius: 50px;
 }
 
 

@@ -7,6 +7,7 @@ const backpackCloseBtn = document.getElementById("backpackMenuCloseBtn");
 const backpackMenuItems = document.getElementsByClassName("backpackMenuBtn");
 const menuEvents = document.getElementsByClassName("menuEvent");
 const pokedexMenuEvent = document.getElementById("menu_pokedex");
+const pokedexDetailMenuEvent = document.getElementById("menu_pokemonDetail");
 // const whosThatMenuEvent = document.getElementById("menu_who'sThat");
 const battleMenuEvent = document.getElementById("menu_battle");
 const captureMenuEvent = document.getElementById("menu_capture");
@@ -53,7 +54,7 @@ function closeMenu(event = undefined) {
   }
 }
 
-export function openBattleEvent(){
+export function openBattleEvent() {
   battleMenuEvent.style.display = "grid";
   const stages = document.getElementsByClassName("battle_stage");
   const stage = [];
@@ -76,10 +77,10 @@ export function openCaptureEvent() {
   captureMenuEvent.style.display = "block"
   const element = document.getElementById("capture_main");
   const stage = {
-   name: element.children[0],
-   img: element.children[1],
-   button: element.children[2],
-   chances: document.getElementById("capture_chances"),
+    name: element.children[0],
+    img: element.children[1],
+    button: element.children[2],
+    chances: document.getElementById("capture_chances"),
   }
   return stage;
 }
@@ -88,7 +89,7 @@ export function closeCaptureEvent() {
   closeMenu();
 }
 
-export function createPokemonList(allPokemon){
+export function createPokemonList(allPokemon) {
   const table = pokedexMenuEvent.getElementsByTagName("table")[0];
   allPokemon.forEach(pokemon => {
     const tableRow = document.createElement("tr");
@@ -103,6 +104,25 @@ export function createPokemonList(allPokemon){
     table.appendChild(tableRow);
     tableRow.appendChild(pokemonImg);
     tableRow.appendChild(pokemonInfo);
+
+    tableRow.addEventListener("click", () => {
+      openDetailPage(pokemon);
+      pokedexMenuEvent.style.display = "none"
+    })
   });
-  console.log(table);
+}
+function openDetailPage(pokemon) {
+  const pokedexDetails = document.getElementById("pokedex_detail");
+  console.log(pokedexDetails)
+  const statsDiv = pokedexDetails.children[0];
+  const stats = statsDiv.getElementsByTagName("p");
+  const pokemonDiv = pokedexDetails.children[1];
+  pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.name;
+  pokemonDiv.getElementsByTagName("img")[0].src = pokemon.sprites["front_default"];
+  console.log(statsDiv);
+  for (let i = 2; i < stats.length; i++) {
+    const text = stats[i].innerHTML;
+    stats[i].innerHTML = text.substring(0, text.indexOf(':') + 1) + ` ${pokemon.stats[i - 2].base_stat}`
+  }
+  pokedexDetailMenuEvent.style.display = "block"
 }
