@@ -243,6 +243,7 @@
 #LoginPage h1 {
     font-size: 70px;
     text-align: center;
+    font-family: var(--pokemon-solid-font);
 }
 
 #LoginPage input {
@@ -394,17 +395,15 @@
 
 
 #reset-password a {
-    text-decoration: none;
     cursor: pointer;
-    font-family: var(--main-font);
     color: white;
     font-size: 20px;
+    display: block;
+    margin-top: 20px;;
 }
 
 #reset-password a:hover {
-    color: red;
     text-decoration: underline;
-    transition: 0.3s;
 }
 
 #reset-password .input:hover {
@@ -459,7 +458,7 @@
 
 #signup-page h1 {
     font-size: 50px;
-    color: white;
+    color: rgb(0, 0, 0);
     font-family: var(--pokemon-solid-font);
 }
 
@@ -498,17 +497,15 @@
 }
 
 #signup-page a {
-    text-decoration: none;
     cursor: pointer;
-    font-family: var(--main-font);
     color: white;
     font-size: 20px;
+    margin-top: 20px;
+    display: block;
 }
 
 #signup-page a:hover {
-    color: red;
     text-decoration: underline;
-    transition: 0.3s;
 }
 
 #signup-page .input:hover {
