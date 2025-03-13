@@ -1,15 +1,5 @@
 "use strict";
 
-
-const playButton = document.getElementById("playbutton");
-const mtgPic = document.getElementById("mtgpic")
-const legoPic = document.getElementById("legopic")
-const lotrPic = document.getElementById("lotrpic")
-const fortnitePic = document.getElementById("fortnitepic")
-const fifaPic = document.getElementById("fifapic")
-const pokePic = document.getElementById("pokepic")
-const backGroundCheck = document.getElementById("bigrectanglecontainer")
-
 // Verzamel alle afbeeldingen uit de choise-menu
 const images = Array.from(document.querySelectorAll(".choise-menu img")).map(
   (img) => img.src
