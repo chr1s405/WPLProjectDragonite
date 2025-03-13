@@ -126,3 +126,18 @@ function openDetailPage(pokemon) {
   }
   pokedexDetailMenuEvent.style.display = "block"
 }
+
+
+// event listeren voor back knop om terug gaan naar de rugzak
+document.addEventListener("DOMContentLoaded", function () {
+  const backToBackpackBtn = document.getElementById("backToBackpack");
+  const backpackMenu = document.getElementById("backpackMenu");
+  const menuPokedex = document.getElementById("menu_pokedex");
+
+  if (backToBackpackBtn) {
+      backToBackpackBtn.addEventListener("click", function () {
+          menuPokedex.style.display = "none";  // Verberg het Pokédex-menu
+          backpackMenu.style.display = "grid"; // Toon het rugzak-menu opnieuw
+      });
+  }
+});
