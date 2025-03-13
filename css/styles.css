@@ -244,11 +244,8 @@
 #LoginPage h1 {
     font-size: 70px;
     text-align: center;
-<<<<<<< HEAD
     font-family: var(--pokemon-solid-font);
-=======
     margin-bottom: 50px;
->>>>>>> 56c65ac13faede787aef2d0c2702a42aa1d711fd
 }
 
 #LoginPage input {
