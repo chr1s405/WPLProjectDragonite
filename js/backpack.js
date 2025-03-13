@@ -40,7 +40,7 @@ captureMenuEvent.getElementsByClassName("closeBtn")[0].addEventListener("click",
 
 function openMenu() {
   backpackIcon.style.display = "none";
-  backpackMenu.style.display = "grid";
+  backpackMenu.style.display = "block";
 }
 function openEvent(event) {
   backpackMenu.style.display = "none"
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (backToBackpackBtn) {
       backToBackpackBtn.addEventListener("click", function () {
           menuPokedex.style.display = "none";  // Verberg het Pokédex-menu
-          backpackMenu.style.display = "grid"; // Toon het rugzak-menu opnieuw
+          backpackMenu.style.display = "block"; // Toon het rugzak-menu opnieuw
       });
   }
 });

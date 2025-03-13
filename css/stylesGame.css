@@ -43,17 +43,46 @@ html {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
   top: 0px;
   width: 100%;
   padding: 10px;
+  color: white;
+
 }
+
+/* Stijl voor de sluitknop rugzak */
 #gamePage .closeBtn {
   font-family: sans-serif;
   font-size: 30px;
   font-weight: bold;
-  
+  color: white;
+  margin-right: 10px;
   float: right;
 }
+
+.closeBtn:hover {
+  transition: 0, 3s;
+
+  transform: scale(1.1);
+}
+/* stijl voor back knop rugzak*/
+#gamePage .backButton {
+  margin-left: 10px;
+  color: white;
+  font-size: 30px;
+
+  /* padding: 8px 15px; */
+}
+
+#gamePage .backButton:hover {
+  transition: 0, 3s;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+
+
 
 /*==============================*/
 /*=========== Header ===========*/
@@ -171,10 +200,6 @@ html {
 #gamePage main #backpackMenu {
   position: relative;
   display: none;
-  grid-template-areas:
-    "menuTitle"
-    "menuContents";
-  grid-template-rows: 100px auto;
 
   width: 70%;
   height: 80%;
@@ -186,28 +211,28 @@ html {
   border-radius: 20px;
   background-color: rgba(30, 30, 30, 0.8);
 }
-
+#gamePage #backpackMenu #backpackMenuCloseBtn{
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
 #gamePage #backpackMenu h1 {
-  grid-area: menuTitle;
   font-size: 50px;
   font-weight: bold;
   text-align: center;
-  margin-top: auto;
-  margin-bottom: 0px;
+  margin: 15px;
 }
 
 #gamePage #backpackMenu #backpackMenuItems {
-  grid-area: menuContents;
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
-  margin: 0px 20%;
   justify-content: center;
-  align-content: center;
+  gap: 30px;
+
+  margin-top: 40px;
 }
 
-#gamePage #backpackMenu .backpackMenuBtn,
-#backpackMenuBtnDex {
+#gamePage #backpackMenu .backpackMenuBtn{
   position: relative;
   width: 100px;
   height: 100px;
@@ -515,40 +540,7 @@ html {
   cursor: pointer;
 }
 
-#gamePage main #backpackMenu .backpackMenuBtn:hover,
-#backpackMenuBtnDex:hover {
-  border: 5px solid rgba(50, 0, 0, 1);
-}
 
 
-/* stijl voor back knop rugzak*/
-
-#gamePage .backButton {
-  position: absolute;
-  color: white;
-  font-size: 50px;
-  padding: 8px 15px;
-  cursor: pointer;
-}
-
-#gamePage .backButton:hover {
-  transition: 0, 3s;
-  transform: scale(1.1);
-}
-
-/* Stijl voor de sluitknop rugzak */
-.closeBtn {
-  position: absolute;
-  width: 40px;
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
-}
-
-.closeBtn:hover {
-  transition: 0, 3s;
-
-  transform: scale(1.1);
-}
 
 
