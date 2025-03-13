@@ -7,6 +7,8 @@
     --main-font: 'Nexa', sans-serif;
     /*font voor titels op projectpagina*/
     --project-title-font: 'Popular', sans-serif;
+    /*trial font*/
+    --project-title-font-new: 'Bowzer', sans-serif;;
 }
 
 * {
@@ -34,19 +36,30 @@
 
 #project-pagina header {
     grid-area: header;
-    margin-top: 40px;
+    margin-top: 30px;
+    margin-bottom: 5px;
 }
 
 /* Hoofding van projectpagina */
+
+#headercontainer{
+    background-color: rgb(0, 0, 0, 0.6);
+    padding-bottom: 5px;
+    width: 60%;
+    margin: auto;
+    border-radius: 20px;
+}
+
 #project-pagina h1 {
-    position: relative;
     z-index: 10;
     font-size: clamp(2rem, 4vw, 5rem);
     text-align: center;
     margin: 0;
+    font-size: 70px;
     padding-top: 20px;
-    color: black;
-    font-family: var(--project-title-font);
+    color: rgb(252, 252, 252);
+    font-family: var(--project-title-font-new);
+    opacity: 100%;
 }
 
 
@@ -56,7 +69,6 @@
 
 /* main pagina grid verdeling */
 #project-pagina .choise-game {
-    position: relative;
     display: grid;
     grid-template-areas:
         "uproject"
@@ -103,23 +115,19 @@
     border: 10px solid black;
     border-radius: 30px;
     width: 35vw;
-    max-width: 800px;
     margin: auto;
     height: 40vh;
     position: relative;
-    display: inline;
-}
-
-.bigrectangle {
     grid-area: br;
+    display: block;
 }
 
 /*logo in het vierkant: moet nog gepositioneerd worden*/
 #game-logo {
     position: absolute;
     display: block;
-    left: 50%;
-    transform: translateX(-50%);
+    /* left: 50%;
+    transform: translateX(-50%); */
     top: 50%;
     transform: translateY(-50%);
 }
@@ -645,7 +653,6 @@
     cursor: pointer;
     color: white;
     font-size: 20px;
-    margin-top: 20px;
     display: block;
 }
 
