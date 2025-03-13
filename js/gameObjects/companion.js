@@ -11,7 +11,7 @@ export const Companion = {
 
     isDebugOn: false,
 
-    getCompanion(pokemon){
+    setCompanion(pokemon){
         this.x = Player.x + 50;
         this.y = Player.y;
         this.pokemon = pokemon;

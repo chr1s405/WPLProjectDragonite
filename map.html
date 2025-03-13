@@ -62,7 +62,7 @@
     </div>
     <div id="menu_pokedex" class="menuEvent">
       <!-- pokedex -->
-      <div class="event-header">
+      <div class="event_header">
         <button class="backButton" id="backToBackpack">&larr;</button>
         <p>pokedex</p>
         <button class="closeBtn">X</button>
@@ -74,7 +74,7 @@
     </div>
     <div id="menu_pokemonDetail" class="menuEvent">
       <!-- pokemon Detail -->
-      <div class="event-header">
+      <div class="event_header">
         <p>pokedex</p>
         <button class="closeBtn">X</button>
       </div>
@@ -94,39 +94,69 @@
           <p>pokemon</p>
           <img src="./images/pikachu_silouhette.png">
         </div>
-        <div id="pokedex_evolution">
-          <img src="./images/pikachu_silouhette.png">
-          <img src="./images/pikachu_silouhette.png">
-          <img src="./images/pikachu_silouhette.png">
-        </div>
         <div id="pokedex_options">
           <button>kies companion</button>
           <button>laat los</button>
           <button>vergelijken</button>
         </div>
+        <div id="pokedex_evolution">
+          <img src="./images/pikachu_silouhette.png">
+          <img src="./images/pikachu_silouhette.png">
+          <img src="./images/pikachu_silouhette.png">
+        </div>
       </div>
     </div>
     <div id="menu_compare" class="menuEvent">
       <!-- compare -->
-      <div class="event-header">
+      <div class="event_header">
+        <button class="backButton" id="backToBackpack">&larr;</button>
         <p>vergelijken</p>
         <button class="closeBtn">X</button>
+      </div>
+      <div id="compare_main">
+        <div id="compare_left" class="compare_sides">
+          <img src="./images/pikachu_silouhette.png">
+          <p>pokemon</p>
+          <div class="compare_stats">
+            <p>hp: <span>0 +0</span></p>
+            <p>atk: <span>0 +0</span></p>
+            <p>def: <span>0 +0</span></p>
+            <p>sp atk: <span>0 +0</span></p>
+            <p>sp def: <span>0 +0</span></p>
+            <p>speed: <span>0 +0</span></p>
+          </div>
+        </div>
+        <div id="compare_right">
+          <div id="compare_right" class="compare_sides">
+            <img src="./images/pikachu_silouhette.png">
+            <p>pokemon</p>
+            <div class="compare_stats">
+              <p>hp: <span>0 +0</span></p>
+              <p>atk: <span>0 +0</span></p>
+              <p>def: <span>0 +0</span></p>
+              <p>sp atk: <span>0 +0</span></p>
+              <p>sp def: <span>0 +0</span></p>
+              <p>speed: <span>0 +0</span></p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div id="menu_who'sThat" class="menuEvent">
       <!-- who's that -->
-      <div class="event-header">
+      <div class="event_header">
+        <button class="backButton" id="backToBackpack">&larr;</button>
         <p>Who's that pokemon</p>
         <button class="closeBtn">X</button>
       </div>
     </div>
     <div id="menu_battle" class="menuEvent">
       <!-- battle -->
-      <div class="event-header">
+      <div class="event_header">
         <p>gevecht</p>
         <button class="closeBtn" style="display:none">X</button>
       </div>
-      <div id="battle_playerSide" class="battle_stage">
+      <div id="battle_left" class="battle_stage">
         <div class="statusbar">
           <p>pikachu</p>
           <div class="hp-bar">
@@ -135,7 +165,7 @@
         </div>
         <img src="./images/pikachu_silouhette.png"></img>
       </div>
-      <div id="battle_enemySide" class="battle_stage">
+      <div id="battle_right" class="battle_stage">
         <div class="statusbar">
           <p>pikachu</p>
           <div class="hp-bar">
@@ -156,19 +186,19 @@
     </div>
     <div id="menu_capture" class="menuEvent">
       <!-- capture -->
-      <div class="event-header">
+      <div class="event_header">
         <p>Event</p>
-        <button class="closeBtn">X</button>
+        <button class="closeBtn" style="display: none;">X</button>
       </div>
       <div id="capture_main">
         <p>pikachu</p>
-        <img src="./images/pikachu_silouhette.png"></img>
-        <img id="capture_button" src="./images/pokeball.png"></img>
-      </div>
-      <div id="capture_chances">
-        <img src="./images/pokeball.png"></img>
-        <img src="./images/pokeball.png"></img>
-        <img src="./images/pokeball.png"></img>
+        <img src="./images/pikachu_silouhette.png">
+        <button id="capture_button" src="./images/pokeball.png"></button>
+        <div id="capture_chances">
+          <img src="./images/pokeball.png">
+          <img src="./images/pokeball.png">
+          <img src="./images/pokeball.png">
+        </div>
       </div>
     </div>
 

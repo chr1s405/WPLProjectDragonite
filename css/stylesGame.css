@@ -20,6 +20,14 @@ h1{
 * {
   font-family: var(--main-font);
 }
+*::-webkit-scrollbar {
+  width: 5px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2); 
+  border-radius: 50px;
+  height: 10px;
+}
 
 html {
   overflow: hidden;
@@ -38,8 +46,7 @@ html {
     "main";
   grid-template-rows: 100px auto;
 }
-
-#gamePage .event-header{
+#gamePage .event_header{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -214,7 +221,9 @@ html {
 #gamePage #backpackMenu #backpackMenuCloseBtn{
   position: absolute;
   top: 10px;
-  right: 20px;
+  right: 2%;
+  margin: 0px;
+  color: black;
 }
 #gamePage #backpackMenu h1 {
   font-size: 50px;
@@ -278,6 +287,8 @@ html {
   border-radius: 10px;
   box-shadow: 0px 0px 5px 5px rgb(10, 10, 10);
   background-color: rgba(0, 0, 0, 0.8);
+
+  overflow-y: hidden;
 }
 
 #gamePage #menu_pokedex{
@@ -289,14 +300,6 @@ html {
   height: 85%;
   margin: 10px;
   overflow-y: scroll;
-}
-#gamePage #menu_pokedex #pokedex_table::-webkit-scrollbar {
-  width: 5px;
-}
-#gamePage #menu_pokedex #pokedex_table::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2); 
-  border-radius: 50px;
-  height: 10px;
 }
 #gamePage #menu_pokedex #pokedex_table table{
   margin: auto;
@@ -347,7 +350,6 @@ html {
   grid-area: stats;
   width: 100%;
   align-content: center;
-  background-color: green;
 }
 #gamePage #pokedex_detail #pokedex_stats p{
   text-align: center;
@@ -360,7 +362,6 @@ html {
   grid-area: image;
   text-align: center;
   margin: auto;
-  background-color: red;
 }
 #gamePage #pokedex_detail #pokedex_evolution{
   grid-area: evolution;
@@ -368,7 +369,6 @@ html {
   flex-direction: row;
   justify-content: center;
   gap: 10px;
-  background-color: blue;
 }
 
 #gamePage #pokedex_detail #pokedex_options{
@@ -380,7 +380,6 @@ html {
   justify-content: center;
   gap: 10px;
   width: 100%;
-  background-color: yellow;
 }
 #gamePage #pokedex_detail #pokedex_options button{
   text-align: center;
@@ -392,7 +391,35 @@ html {
   border-radius: 50px;
 }
 
+/* ========== compare ==========*/
+#gamePage #menu_compare #compare_main{
+  display: grid;
+  grid-template-areas: 
+  "left right";
+  grid-template-columns: 50% 50%;
+  width: 100%;
+  height: 90%;
+}
+#gamePage #menu_compare #compare_main .compare_sides{
+margin: 10px;
+text-align: center;
+}
+#gamePage #compare_main .compare_sides > p{
+  margin-bottom: 10px;
+}
+#gamePage .compare_sides .compare_stats{
+  padding: 20px;
+  border: 2px solid black;
+  border-radius: 20px;
+}
+.redText{
+  color: #ff0000;
+}
+.greenText{
+  color: #00ff00;
+}
 
+/* ========== battle ==========*/
 #gamePage #menu_battle {
   display: none;
   grid-template-areas:
@@ -402,7 +429,7 @@ html {
     "battleButtons battleButtons";
   grid-template-columns: 50% 50%;
 }
-#gamePage #menu_battle .event-header{
+#gamePage #menu_battle .event_header{
   grid-area: header;
 }
 #gamePage #menu_battle .battle_stage {
@@ -412,12 +439,12 @@ html {
   margin: auto;
 }
 
-#gamePage #menu_battle #battle_playerSide {
+#gamePage #menu_battle #battle_left {
   grid-area: battleLeft;
   padding-top: 100px;
 }
 
-#gamePage #menu_battle #battle_enemySide {
+#gamePage #menu_battle #battle_right {
   grid-area: battleRight;
   padding-bottom: 100px;
 }
@@ -481,41 +508,53 @@ html {
   border-radius: 50px;
 }
 
-#gamePage #menu_capture {}
+/* ========== capture ==========*/
+#gamePage #menu_capture {
 
-#gamePage #menu_capture #capture_main {
-  position: relative;
-  padding: 20px;
-  margin: auto;
-  width: 300px;
-  text-align: center;
 }
 
-#gamePage #menu_capture #capture_main img:first-of-type {
+#gamePage #menu_capture #capture_main {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+#gamePage #menu_capture #capture_main > img {
+  max-width: 200px;
   width: 100%;
+  margin: auto;
 }
 
 #gamePage #capture_main #capture_button {
-  width: 30%;
+  background-image: url("../images/pokeball.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  max-width: 100px;
+  width: 40%;
+  aspect-ratio: 1 /1;
   border: 3px solid black;
   border-radius: 50%;
 }
 
-#gamePage #capture_main #capture_button:hover {
-  cursor: pointer;
-}
+
 
 #gamePage #menu_capture #capture_chances {
   display: flex;
   flex-direction: row;
+  flex-wrap: nowrap;
   justify-content: center;
   gap: 10px;
   padding: 10px;
-  width: 40%;
+  width: 100%;
   max-width: 200px;
   margin: auto;
+  margin-top: 10px;
   border: 3px solid black;
   border-radius: 50px;
+  overflow: hidden;
 }
 
 #gamePage #capture_chances img {

@@ -1,4 +1,5 @@
 import { Map } from "./map.js";
+import { Player } from "./player.js";
 
 let pokemonList;
 const pokemonDiv = document.createElement("div");

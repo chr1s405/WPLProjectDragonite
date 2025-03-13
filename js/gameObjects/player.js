@@ -35,16 +35,20 @@ export const Player = {
     },
     getPokemon(allPokemon) {
         pokemonList = allPokemon;
-        this.assignPokemon(pokemonList[Math.trunc(Math.random() * pokemonList.length)]);
+        //dit moet weg
+        this.setCompanion(pokemonList[Math.trunc(Math.random() * pokemonList.length)]);
+        this.capturedPokemon.push(this.companion.pokemon);
+        //tot hier
     },
-    assignPokemon(pokemon) {
+    setCompanion(pokemon) {
         this.hasCompanion = true;
-        Companion.getCompanion(pokemon);
+        Companion.setCompanion(pokemon);
         document.getElementById("nav-pokemon").src = Companion.pokemon.sprites["front_default"]
     },
     removeCompanion() {
         this.hasCompanion = false;
         Companion.removeCompanion();
+        document.getElementById("nav-pokemon").src = "../images/pikachu_silouhette.png"
     },
     moveUp() {
         this.direction = Direction.up;
@@ -187,6 +191,11 @@ function setBattleMsg(text) {
     }, { once: true });
 }
 function battle(pokemon) {
+    if(!Player.hasCompanion)
+    {
+        alert("je hebt nog geen pokemon om mee te vechten")
+        return;
+    }
     Player.isInBattle = true;
     Player.isInEvent = true;
     let isBattling = true;
@@ -349,6 +358,7 @@ function capture(pokemon) {
                     closeCaptureEvent();
                     Player.isCapturing = false;
                     Player.isInEvent = false;
+                    console.log(Player.capturedPokemon)
                 }
             }
         }
