@@ -58,14 +58,14 @@
 #project-pagina .choise-game {
     position: relative;
     display: grid;
-    grid-template-areas: 
-    "uproject"
-    "cm";
+    grid-template-areas:
+        "uproject"
+        "cm";
 }
 
 /*Grote vierkant en pijltjes*/
 /*indeling van grote vierkant met pijltjes*/
-#upperproject{
+#upperproject {
     display: grid;
     grid-template-areas: "al br ar";
     grid-area: uproject;
@@ -110,29 +110,29 @@
     display: inline;
 }
 
-.bigrectangle{
+.bigrectangle {
     grid-area: br;
 }
 
 /*logo in het vierkant: moet nog gepositioneerd worden*/
-#game-logo{
+#game-logo {
     position: absolute;
     display: block;
     left: 50%;
     transform: translateX(-50%);
     top: 50%;
-    transform: translateY(-50%); 
-} 
+    transform: translateY(-50%);
+}
 
 /*rechterpijl*/
-.arrow-right{
+.arrow-right {
     grid-area: ar;
     margin: auto;
 }
 
 /*kleine vierkantjes*/
 /*Styling kleine vierktantjes*/
-#smallrectangle{
+#smallrectangle {
     height: 140px;
     width: 200px;
     border: 5px solid black;
@@ -177,6 +177,7 @@
     background-color: white;
     padding: 12px;
 }
+
 /* 
 #project-pagina .magic img{
     background-color: white;
@@ -188,7 +189,7 @@
     background-color: red;
 }
 
-#project-pagina .lego img{
+#project-pagina .lego img {
     height: 70px;
 
 }
@@ -243,7 +244,11 @@
 #LoginPage h1 {
     font-size: 70px;
     text-align: center;
+<<<<<<< HEAD
     font-family: var(--pokemon-solid-font);
+=======
+    margin-bottom: 50px;
+>>>>>>> 56c65ac13faede787aef2d0c2702a42aa1d711fd
 }
 
 #LoginPage input {
@@ -317,7 +322,61 @@
     transition: 0.3s;
 }
 
-@media screen {}
+/* Mobiel (max 480px) */
+@media (max-width: 480px) {
+
+
+    #LoginPage h1 {
+        font-size: 60px;
+        margin-bottom: 50px;
+    }
+
+    #LoginPage input {
+        width: 90%;
+        height: 50px;
+        font-size: 16px;
+    }
+
+
+
+    #LoginPage .submit-btn {
+        width: 70%;
+        height: 40px;
+        font-size: 20px;
+        margin-bottom: 40px;
+    }
+
+    #LoginPage a {
+        font-size: 20px;
+
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    #LoginPage h1 {
+        font-size: 60px;
+        margin-bottom: 50px;
+    }
+
+    #LoginPage input {
+        width: 90%;
+        height: 50px;
+        font-size: 18px;
+        margin-bottom: 40px;
+    }
+
+    #LoginPage .submit-btn {
+        width: 70%;
+        height: 45px;
+        font-size: 20px;
+    }
+
+    #LoginPage a {
+        font-size: 18px;
+    }
+}
+
+
 
 
 /*========================================*/
@@ -391,6 +450,7 @@
     border-style: none;
     font-family: var(--main-font);
     font-size: 20px;
+    margin-bottom: 10px;
 }
 
 
@@ -425,21 +485,105 @@
     transform: scale(1.1);
 }
 
+/* Mobiel (max 480px) */
+@media (max-width: 480px) {
+    #reset-password .blackbox {
+        width: 90%;
+        height: 600px;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    #reset-password h1 {
+        font-size: 35px;
+        margin-top: 20px;
+
+    }
+
+    #reset-password .text {
+        font-size: 18px;
+        margin-top: 5px;
+    }
+
+    #reset-password .input {
+        width: 90%;
+        height: 45px;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+
+    #reset-password .submit-btn {
+        width: 60%;
+        height: 45px;
+        font-size: 18px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    #reset-password a {
+        font-size: 16px;
+    }
+}
+
+/* Tablet (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    #reset-password .blackbox {
+        width: 450px;
+        height: 600px;
+        padding: 30px;
+
+        border-radius: 15px;
+    }
+
+    #reset-password h1 {
+        font-size: 45px;
+    }
+
+    #reset-password .text {
+        font-size: 22px;
+        margin-top: 10px;
+    }
+
+    #reset-password .input {
+        width: 90%;
+        height: 50px;
+        font-size: 18px;
+        margin-top: 30px;
+    }
+
+    #reset-password .submit-btn {
+        width: 60%;
+        height: 50px;
+        font-size: 20px;
+        margin-top: 25px;
+    }
+
+    #reset-password a {
+        font-size: 18px;
+    }
+}
+
 /*========================================*/
 /*========================================*/
 /*========== Sing-Up Page =========*/
 /*========================================*/
 /*========================================*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--main-font);
+}
+
 #signup-page {
     background-image: url("../images/pokemonBackground.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
-    /* Zorgt ervoor dat de afbeelding de hele pagina bedekt */
     background-position: center;
     height: 100vh;
-    /* Volledige hoogte van het scherm */
     width: 100vw;
-    /* Volledige breedte van het scherm */
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -458,7 +602,12 @@
 
 #signup-page h1 {
     font-size: 50px;
+<<<<<<< HEAD
     color: rgb(0, 0, 0);
+=======
+    color: white;
+    margin-bottom: 20px;
+>>>>>>> 56c65ac13faede787aef2d0c2702a42aa1d711fd
     font-family: var(--pokemon-solid-font);
 }
 
@@ -468,7 +617,8 @@
     text-align: center;
     color: white;
     display: block;
-    margin-top: 10px;
+    margin-top: 25px;
+    margin-bottom: 10px;
 }
 
 
@@ -483,6 +633,7 @@
     border-style: none;
     font-family: var(--main-font);
     font-size: 20px;
+    margin-bottom: 20px;
 }
 
 #signup-page .input {
@@ -525,4 +676,86 @@
     cursor: pointer;
     transition: 0.3s;
     transform: scale(1.1);
+}
+
+@media (max-width: 480px) {
+    #signup-page {
+        padding: 15px;
+    }
+
+    #signup-page .blackbox {
+        width: 350px;
+        height: 600px;
+        border-radius: 5%;
+        padding: 15px;
+    }
+
+    #signup-page h1 {
+        font-size: 40px;
+        margin-bottom: 20px;
+    }
+
+    #signup-page .text {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+
+    #signup-page .input {
+        width: 90%;
+        height: 35px;
+        font-size: 15px;
+        margin-bottom: 15px;
+    }
+
+    #signup-page .submit-btn {
+        width: 80%;
+        height: 45px;
+        font-size: 18px;
+
+    }
+
+    #signup-page a {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 480px) and (max-width:769px) {
+    #signup-page {
+        padding: 15px;
+    }
+
+    #signup-page .blackbox {
+        width: 500px;
+        height: 600px;
+        border-radius: 5%;
+        padding: 15px;
+    }
+
+    #signup-page h1 {
+        font-size: 40px;
+        margin-bottom: 20px;
+    }
+
+    #signup-page .text {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+
+    #signup-page .input {
+        width: 80%;
+        height: 40px;
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    #signup-page .submit-btn {
+        width: 80%;
+        height: 45px;
+        font-size: 18px;
+
+    }
+
+    #signup-page a {
+        font-size: 18px;
+    }
 }
