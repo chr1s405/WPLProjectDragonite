@@ -152,12 +152,15 @@ async function getPokemonEvolutions(pokemonList) {
       chain = chain.evolves_to.length ? chain.evolves_to[0] : null;
     }
     for (let name of evolutionChain) {
-      const sprite = pokemonList.find((value)=>{
-        if(value.name === name){
-          return value.sprites["front_default"];
-        }
+      const pokemonMatch = pokemonList.find((value)=>{
+        return value.name === name;
       })
-      pokemonList[index].evolution_chain.push(sprite);
+      pokemonList[index].evolution_chain.push({
+        name,
+        sprite: pokemonMatch? pokemonMatch.sprites["front_default"] : ""}
+      );
+
     }
+    console.log(pokemonList[index].evolution_chain);
   })
 }

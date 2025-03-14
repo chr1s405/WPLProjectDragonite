@@ -168,7 +168,7 @@ function openDetailPage(pokemon) {
     evolutionImages[i].style.display = "none";
   }
   for(let i = 0; i < pokemon.evolution_chain.length; i++){
-    evolutionImages[i].src = pokemon.evolution_chain[i];
+    evolutionImages[i].src = pokemon.evolution_chain[i].sprite;
     evolutionImages[i].style.display = "block";
   }
   pokedexDetailMenuEvent.style.display = "block"
