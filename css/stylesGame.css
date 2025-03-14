@@ -429,6 +429,10 @@ html {
   gap: 10px;
 }
 
+#gamePage #pokedex_detail #pokedex_evolution img{
+  display: none;
+}
+
 #gamePage #pokedex_detail #pokedex_options {
   grid-area: options;
   display: flex;

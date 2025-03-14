@@ -124,7 +124,7 @@ export function createPokemonList(allPokemon) {
     });
   }
 }
-function openDetailPage(pokemon, player) {
+function openDetailPage(pokemon) {
   const pokedexDetails = document.getElementById("pokedex_detail");
   const statsDiv = pokedexDetails.children[0];
   const stats = statsDiv.getElementsByTagName("p");
@@ -162,6 +162,15 @@ function openDetailPage(pokemon, player) {
     createCompareSide(compareSide, pokemon);
     openCompareEvent();
   })
+  const evolutionDiv = pokedexDetails.children[3];
+  const evolutionImages = evolutionDiv.getElementsByTagName("img");
+  for(let i = 0; i < evolutionImages.length; i++){
+    evolutionImages[i].style.display = "none";
+  }
+  for(let i = 0; i < pokemon.evolution_chain.length; i++){
+    evolutionImages[i].src = pokemon.evolution_chain[i];
+    evolutionImages[i].style.display = "block";
+  }
   pokedexDetailMenuEvent.style.display = "block"
 }
 function closeDetailsPage() {
