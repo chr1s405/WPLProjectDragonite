@@ -227,14 +227,18 @@ function closeCompareEvent() {
 
 // event listeren voor back knop om terug gaan naar de rugzak
 document.addEventListener("DOMContentLoaded", function () {
-  const backToBackpackBtn = document.getElementById("backToBackpack");
+  const backToBackpackBtns = document.querySelectorAll("#backToBackpack"); 
   const backpackMenu = document.getElementById("backpackMenu");
-  const menuPokedex = document.getElementById("menu_pokedex");
+  const allMenus = document.querySelectorAll(".menuEvent"); 
 
-  if (backToBackpackBtn) {
-    backToBackpackBtn.addEventListener("click", function () {
-      menuPokedex.style.display = "none";  // Verberg het Pokédex-menu
-      backpackMenu.style.display = "block"; // Toon het rugzak-menu opnieuw
+  backToBackpackBtns.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      allMenus.forEach((menu) => {
+        menu.style.display = "none"; 
+      });
+
+      backpackMenu.style.display = "block"; 
     });
-  }
+  });
 });
+
