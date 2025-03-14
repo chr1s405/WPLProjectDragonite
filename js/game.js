@@ -161,6 +161,5 @@ async function getPokemonEvolutions(pokemonList) {
       );
 
     }
-    console.log(pokemonList[index].evolution_chain);
   })
 }

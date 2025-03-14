@@ -5,13 +5,21 @@ const backpackIcon = document.getElementById("backpackIcon");
 const backpackMenu = document.getElementById("backpackMenu")
 const backpackCloseBtn = document.getElementById("backpackMenuCloseBtn");
 const backpackMenuItems = document.getElementsByClassName("backpackMenuBtn");
-const menuEvents = document.getElementsByClassName("menuEvent");
 const pokedexMenuEvent = document.getElementById("menu_pokedex");
 const pokedexDetailMenuEvent = document.getElementById("menu_pokemonDetail");
 const compareMenuEvent = document.getElementById("menu_compare");
-// const whosThatMenuEvent = document.getElementById("menu_who'sThat");
+const whosThatMenuEvent = document.getElementById("menu_who'sThat");
 const battleMenuEvent = document.getElementById("menu_battle");
 const captureMenuEvent = document.getElementById("menu_capture");
+//const menuEvents = document.getElementsByClassName("menuEvent");
+const menuEvents = [
+  { event: pokedexMenuEvent, close: closePokedexEvent },
+  { event: pokedexDetailMenuEvent, close: closeDetailsEvent },
+  { event: compareMenuEvent, close: closeCompareEvent },
+  { event: whosThatMenuEvent, close: closeWhosThatEvent },
+  { event: battleMenuEvent, close: closeBattleEvent },
+  { event: captureMenuEvent, close: closeCaptureEvent },
+]
 
 
 backpackIcon.addEventListener("click", (e) => {
@@ -20,28 +28,28 @@ backpackIcon.addEventListener("click", (e) => {
 backpackCloseBtn.addEventListener("click", (e) => {
   closeMenu();
 })
-
 for (let i = 0; i < backpackMenuItems.length - 1; i++) {
   backpackMenuItems[i].addEventListener("click", (e) => {
-    openEvent(menuEvents[i]);
+    openEvent(menuEvents[i].event);
   });
-
-  menuEvents[i].getElementsByClassName("closeBtn")[0].addEventListener("click", (e) => {
-    closeMenu(menuEvents[i]);
-  })
 }
-compareMenuEvent.getElementsByClassName("closeBtn")[0].addEventListener("click", (e) => {
-  closeCompareEvent();
-})
-battleMenuEvent.getElementsByClassName("closeBtn")[0].addEventListener("click", (e) => {
-  closeBattleEvent();
-  Player.isInEvent = false;
-})
-captureMenuEvent.getElementsByClassName("closeBtn")[0].addEventListener("click", (e) => {
-  closeCaptureEvent();
-  Player.isInEvent = false;
+menuEvents.forEach((menuEvent) => {
+  menuEvent.event.getElementsByClassName("closeBtn")[0].addEventListener("click", (e) => {
+    closeAllEvents();
+    Player.isInEvent = false;
+  });
 })
 
+
+
+function closeAllEvents() {
+  closeMenu();
+  menuEvents.forEach((menuEvent) => {
+    if (menuEvent.event.style.display === "block") {
+      menuEvent.close();
+    }
+  });
+}
 function openMenu() {
   backpackIcon.style.display = "none";
   backpackMenu.style.display = "block";
@@ -58,41 +66,15 @@ function closeMenu(event = undefined) {
   }
 }
 
-export function openBattleEvent() {
-  battleMenuEvent.style.display = "grid";
-  const stages = document.getElementsByClassName("battle_stage");
-  const stage = [];
-  for (let i = 0; i < stages.length; i++) {
-    stage.push({
-      img: stages[i].children[1],
-      name: stages[i].getElementsByClassName("statusbar")[0].children[0],
-      hpBar: stages[i].getElementsByClassName("statusbar")[0].children[1],
-      hp: stages[i].getElementsByClassName("statusbar")[0].children[1].children[0],
-    })
-  }
-  return stage;
-}
-export function closeBattleEvent() {
-  battleMenuEvent.style.display = "none"
-  closeMenu();
-}
 
-export function openCaptureEvent() {
-  captureMenuEvent.style.display = "block"
-  const element = document.getElementById("capture_main");
-  const stage = {
-    name: element.children[0],
-    img: element.children[1],
-    button: element.children[2],
-    chances: document.getElementById("capture_chances"),
-  }
-  return stage;
-}
-export function closeCaptureEvent() {
-  captureMenuEvent.style.display = "none";
-  closeMenu();
-}
+// ========= pokedex ======== //
+//gebeurt al automatish met knop in rugzak;
+// function openPokedexEvent(){
 
+// }
+function closePokedexEvent() {
+  pokedexMenuEvent.style.display = "none"
+}
 export function createPokemonList(allPokemon) {
   const tables = document.getElementsByClassName("pokemon_list");
   for (let i = 0; i < tables.length; i++) {
@@ -124,6 +106,8 @@ export function createPokemonList(allPokemon) {
     });
   }
 }
+
+// ========= pokedex detail ======== //
 function openDetailPage(pokemon) {
   const pokedexDetails = document.getElementById("pokedex_detail");
   const statsDiv = pokedexDetails.children[0];
@@ -157,26 +141,39 @@ function openDetailPage(pokemon) {
   })
   buttons[2].replaceWith(buttons[2].cloneNode(true));
   buttons[2].addEventListener("click", () => {
-    closeDetailsPage();
+    closeDetailsEvent();
     const compareSide = compareMenuEvent.getElementsByClassName("compare_sides")[0];
     createCompareSide(compareSide, pokemon);
     openCompareEvent();
   })
   const evolutionDiv = pokedexDetails.children[3];
   const evolutionImages = evolutionDiv.getElementsByTagName("img");
-  for(let i = 0; i < evolutionImages.length; i++){
+  for (let i = 0; i < evolutionImages.length; i++) {
     evolutionImages[i].style.display = "none";
   }
-  for(let i = 0; i < pokemon.evolution_chain.length; i++){
+  for (let i = 0; i < pokemon.evolution_chain.length; i++) {
     evolutionImages[i].src = pokemon.evolution_chain[i].sprite;
     evolutionImages[i].style.display = "block";
   }
   pokedexDetailMenuEvent.style.display = "block"
 }
-function closeDetailsPage() {
+function closeDetailsEvent() {
   pokedexDetailMenuEvent.style.display = "none"
 }
 
+// ========= compare ======== //
+function openCompareEvent() {
+  compareMenuEvent.style.display = "block";
+}
+function closeCompareEvent() {
+  const compareSides = compareMenuEvent.getElementsByClassName("compare_sides");
+  const tables = compareMenuEvent.getElementsByClassName("pokemon_list");
+  for (let i = 0; i < compareSides.length; i++) {
+    tables[i].style.display = "block";
+    compareSides[i].style.display = "none";
+  }
+  compareMenuEvent.style.display = "none"
+}
 function createCompareSide(compareSide, pokemon) {
   compareSide.getElementsByTagName("img")[0].src = pokemon.sprites["front_default"];
   compareSide.getElementsByTagName("p")[0].innerHTML = pokemon.name;
@@ -218,34 +215,58 @@ function updateComparePage() {
     }
   }
 }
-function openCompareEvent() {
-  compareMenuEvent.style.display = "block";
+
+// ========= who's that pokemon ======== //
+//gebeurt al automatish met knop in rugzak;
+// function openWhosThatEvent(){
+
+// }
+function closeWhosThatEvent() {
+  whosThatMenuEvent.style.display = "none";
 }
-function closeCompareEvent() {
-  const compareSides = compareMenuEvent.getElementsByClassName("compare_sides");
-  const tables = compareMenuEvent.getElementsByClassName("pokemon_list");
-  for (let i = 0; i < compareSides.length; i++) {
-    tables[i].style.display = "block";
-    compareSides[i].style.display = "none";
+
+// ========= battle ======== //
+export function openBattleEvent() {
+  battleMenuEvent.style.display = "block";
+  const stages = document.getElementsByClassName("battle_stage");
+  const stage = [];
+  for (let i = 0; i < stages.length; i++) {
+    stage.push({
+      img: stages[i].children[1],
+      name: stages[i].getElementsByClassName("statusbar")[0].children[0],
+      hpBar: stages[i].getElementsByClassName("statusbar")[0].children[1],
+      hp: stages[i].getElementsByClassName("statusbar")[0].children[1].children[0],
+    })
   }
+  return stage;
+}
+export function closeBattleEvent() {
+  battleMenuEvent.style.display = "none"
+  closeMenu();
+}
+
+// ========= capture ======== //
+export function openCaptureEvent() {
+  captureMenuEvent.style.display = "block"
+  const element = document.getElementById("capture_main");
+  const stage = {
+    name: element.children[0],
+    img: element.children[1],
+    button: element.children[2],
+    chances: document.getElementById("capture_chances"),
+  }
+  return stage;
+}
+export function closeCaptureEvent() {
+  captureMenuEvent.style.display = "none";
   closeMenu();
 }
 
 
 // event listeren voor back knop om terug gaan naar de rugzak
-document.addEventListener("DOMContentLoaded", function () {
-  const backToBackpackBtns = document.querySelectorAll("#backToBackpack"); 
-  const backpackMenu = document.getElementById("backpackMenu");
-  const allMenus = document.querySelectorAll(".menuEvent"); 
-
-  backToBackpackBtns.forEach((btn) => {
-    btn.addEventListener("click", function () {
-      allMenus.forEach((menu) => {
-        menu.style.display = "none"; 
-      });
-
-      backpackMenu.style.display = "block"; 
-    });
-  });
-});
+function backbuttonPressed() {
+  if (previousEvent === backpackMenu) {
+    openMenu();
+  }
+}
 
