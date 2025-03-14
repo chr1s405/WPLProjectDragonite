@@ -30,6 +30,9 @@ for (let i = 0; i < backpackMenuItems.length - 1; i++) {
     closeMenu(menuEvents[i]);
   })
 }
+compareMenuEvent.getElementsByClassName("closeBtn")[0].addEventListener("click", (e) => {
+  closeCompareEvent();
+})
 battleMenuEvent.getElementsByClassName("closeBtn")[0].addEventListener("click", (e) => {
   closeBattleEvent();
   Player.isInEvent = false;
@@ -91,26 +94,35 @@ export function closeCaptureEvent() {
 }
 
 export function createPokemonList(allPokemon) {
-  const table = pokedexMenuEvent.getElementsByTagName("table")[0];
-  allPokemon.forEach(pokemon => {
-    const tableRow = document.createElement("tr");
-    tableRow.setAttribute("class", "tableRow");
-    const pokemonImg = document.createElement("img");
-    pokemonImg.setAttribute("class", "tableImg");
-    pokemonImg.src = pokemon.sprites["front_default"]
-    const pokemonInfo = document.createElement("p");
-    pokemonInfo.setAttribute("class", "tableInfo");
-    pokemonInfo.innerHTML = `nr. ${pokemon.id}</br>${pokemon.name}`
+  const tables = document.getElementsByClassName("pokemon_list");
+  for (let i = 0; i < tables.length; i++) {
+    const table = tables[i].getElementsByTagName("table")[0];
+    allPokemon.forEach(pokemon => {
+      const tableRow = document.createElement("tr");
+      tableRow.setAttribute("class", "tableRow");
+      const pokemonImg = document.createElement("img");
+      pokemonImg.setAttribute("class", "tableImg");
+      pokemonImg.src = pokemon.sprites["front_default"]
+      const pokemonInfo = document.createElement("p");
+      pokemonInfo.setAttribute("class", "tableInfo");
+      pokemonInfo.innerHTML = `nr. ${pokemon.id}</br>${pokemon.name}`
 
-    table.appendChild(tableRow);
-    tableRow.appendChild(pokemonImg);
-    tableRow.appendChild(pokemonInfo);
+      table.appendChild(tableRow);
+      tableRow.appendChild(pokemonImg);
+      tableRow.appendChild(pokemonInfo);
 
-    tableRow.addEventListener("click", () => {
-      openDetailPage(pokemon);
-      pokedexMenuEvent.style.display = "none"
-    })
-  });
+      tableRow.addEventListener("click", () => {
+        if (i === 0) {
+          openDetailPage(pokemon);
+          pokedexMenuEvent.style.display = "none"
+        }
+        else {
+          const compareSide = compareMenuEvent.getElementsByClassName("compare_sides")[i - 1];
+          createCompareSide(compareSide, pokemon);
+        }
+      })
+    });
+  }
 }
 function openDetailPage(pokemon, player) {
   const pokedexDetails = document.getElementById("pokedex_detail");
@@ -125,9 +137,6 @@ function openDetailPage(pokemon, player) {
   pokemonDiv.getElementsByTagName("img")[0].src = pokemon.sprites["front_default"];
   const buttonsDiv = pokedexDetails.children[2];
   const buttons = buttonsDiv.getElementsByTagName("button");
-  // for(let i = 0; i < buttons.length; i++)
-  // {
-  // }
   buttons[0].replaceWith(buttons[0].cloneNode(true));
   buttons[0].addEventListener("click", () => {
     if (Player.capturedPokemon.includes(pokemon)) {
@@ -149,7 +158,9 @@ function openDetailPage(pokemon, player) {
   buttons[2].replaceWith(buttons[2].cloneNode(true));
   buttons[2].addEventListener("click", () => {
     closeDetailsPage();
-    openCompareEvent(pokemon, Player.companion.pokemon);
+    const compareSide = compareMenuEvent.getElementsByClassName("compare_sides")[0];
+    createCompareSide(compareSide, pokemon);
+    openCompareEvent();
   })
   pokedexDetailMenuEvent.style.display = "block"
 }
@@ -157,41 +168,63 @@ function closeDetailsPage() {
   pokedexDetailMenuEvent.style.display = "none"
 }
 
-export function openCompareEvent(pokemonLeft, pokemonRight) {
-  const stage = document.getElementsByClassName("compare_sides");
-  stage[0].getElementsByTagName("img")[0].src = pokemonLeft.sprites["front_default"];
-  stage[0].getElementsByTagName("p")[0].innerHTML = pokemonLeft.name;
-  const statsDivLeft = stage[0].getElementsByTagName("div")[0];
-  const statsLeft = statsDivLeft.getElementsByTagName("span");
-  stage[1].getElementsByTagName("img")[0].src = pokemonRight.sprites["front_default"];
-  stage[1].getElementsByTagName("p")[0].innerHTML = pokemonRight.name;
-  const statsDivRight = stage[1].getElementsByTagName("div")[0];
-  const statsRight = statsDivRight.getElementsByTagName("span");
-    for (let i = 0; i < statsLeft.length; i++) {
-    let textLeft = `${pokemonLeft.stats[i].base_stat}`;
-    let textRight = `${pokemonRight.stats[i].base_stat}`;
-    const difference = pokemonLeft.stats[i].base_stat - pokemonRight.stats[i].base_stat;
-    if (difference < 0) {
-      textLeft += ` -${Math.abs(difference)}`
-      textRight += ` +${Math.abs(difference)}`;
-      statsLeft[i].setAttribute("class","redText");
-      statsRight[i].setAttribute("class","greenText");
-    }
-    else if (difference > 0) {
-      textLeft += ` +${Math.abs(difference)}`
-      textRight += ` -${Math.abs(difference)}`;
-      statsLeft[i].setAttribute("class","greenText");
-      statsRight[i].setAttribute("class","redText");
-    }
-    else{
-      statsLeft[i].setAttribute("class","");
-      statsRight[i].setAttribute("class","");
-    }
-      statsLeft[i].innerHTML = textLeft;
-      statsRight[i].innerHTML = textRight;
+function createCompareSide(compareSide, pokemon) {
+  compareSide.getElementsByTagName("img")[0].src = pokemon.sprites["front_default"];
+  compareSide.getElementsByTagName("p")[0].innerHTML = pokemon.name;
+  const statsDiv = compareSide.getElementsByTagName("div")[0];
+  const stats = statsDiv.getElementsByTagName("span");
+  for (let i = 0; i < stats.length; i++) {
+    let text = `${pokemon.stats[i].base_stat}`;
+    stats[i].innerHTML = text;
+    stats[i].setAttribute("class", "");
+    stats[i].setAttribute("class", "");
   }
+  compareSide.style.display = "block";
+  compareSide.parentElement.getElementsByClassName("pokemon_list")[0].style.display = "none";
+  updateComparePage();
+}
+function updateComparePage() {
+  let isDone = true;
+  const sides = compareMenuEvent.getElementsByClassName("compare_sides");
+  for (let i = 0; i < sides.length; i++) {
+    console.log(i)
+    console.log(sides[i].style.display)
+    if (sides[i].style.display !== "block") {
+      isDone = false;
+    }
+  }
+  if (isDone) {
+    const statsDivLeft = compareMenuEvent.getElementsByClassName("compare_sides")[0].getElementsByTagName("div")[0];
+    const statsLeft = statsDivLeft.getElementsByTagName("span");
+    const statsDivRight = compareMenuEvent.getElementsByClassName("compare_sides")[1].getElementsByTagName("div")[0];
+    const statsRight = statsDivRight.getElementsByTagName("span");
+    for (let i = 0; i < statsLeft.length; i++) {
+      const difference = statsLeft[i].innerHTML.match(/\d+/g)[0] - statsRight[i].innerHTML.match(/\d+/g)[0];
+      if (difference !== 0) {
+        const textLeft = ` ${difference < 0 ? "-" : "+"}${Math.abs(difference)}`
+        const textRight = ` ${difference < 0 ? "+" : "-"}${Math.abs(difference)}`
+        statsLeft[i].setAttribute("class", difference < 0 ? "redText" : "greenText");
+        statsRight[i].setAttribute("class", difference < 0 ? "greenText" : "redText");
+        statsLeft[i].innerHTML += textLeft;
+        statsRight[i].innerHTML += textRight;
+      }
+    }
+  }
+}
+function openCompareEvent() {
   compareMenuEvent.style.display = "block";
 }
+function closeCompareEvent() {
+  const compareSides = compareMenuEvent.getElementsByClassName("compare_sides");
+  const tables = compareMenuEvent.getElementsByClassName("pokemon_list");
+  for (let i = 0; i < compareSides.length; i++) {
+    tables[i].style.display = "block";
+    compareSides[i].style.display = "none";
+  }
+  closeMenu();
+}
+
+
 // event listeren voor back knop om terug gaan naar de rugzak
 document.addEventListener("DOMContentLoaded", function () {
   const backToBackpackBtn = document.getElementById("backToBackpack");
