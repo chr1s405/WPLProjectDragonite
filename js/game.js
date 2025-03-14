@@ -16,16 +16,16 @@ addEventListener("keydown", (e) => {
     pause = !pause;
   }
   if (!pause && !Player.isInEvent) {
-    if (e.keyCode === 87 /*w*/) {
+    if (e.keyCode === 87 || e.keyCode === 38 /*w*/) {
       Player.moveUp();
     }
-    if (e.keyCode === 65 /*a*/) {
+    if (e.keyCode === 65 || e.keyCode === 37 /*a*/) {
       Player.moveLeft();
     }
-    if (e.keyCode === 83 /*s*/) {
+    if (e.keyCode === 83 || e.keyCode === 40 /*s*/) {
       Player.moveDown();
     }
-    if (e.keyCode === 68 /*d*/) {
+    if (e.keyCode === 68 || e.keyCode === 39 /*d*/) {
       Player.moveRight();
     }
     if (e.keyCode === 79 /*o*/) {
@@ -88,13 +88,38 @@ async function GetPokemon() {
           //order: pokemon.order,
           //past_abilities: pokemon.past_abilities,
           //past_types: pokemon.past_types,
-          //species: pokemon.species,
+          species: pokemon.species,
           sprites: pokemon.sprites,
           //other: pokemon.other,
           //versions: pokemon.versions,
-          stats: pokemon.stats,
+          stats: [
+            pokemon.stats[0],
+            pokemon.stats[1],
+            pokemon.stats[2],
+            pokemon.stats[3],
+            pokemon.stats[4],
+            pokemon.stats[5],
+            {
+              base_stat: 0,
+              effort: 0,
+              stat: {
+                name: "wins",
+                url: "",
+              }
+            },
+            {
+              base_stat: 0,
+              effort: 0,
+              stat: {
+                name: "losses",
+                url: "",
+              }
+            },
+
+          ],
           //types: pokemon.types,
           //weight: pokemon.weight,
+          evolution_chain: [],
         });
       });
       console.log(pokemonList);
@@ -105,6 +130,29 @@ async function GetPokemon() {
       Pokemon.getPokemon(pokemonList);
       Pokemon.spawnPokemon();
       createPokemonList(pokemonList);
+      getPokemonEvolutions(pokemonList);
     });
-    
-  }
+
+}
+async function getPokemonEvolutions(pokemonList) {
+  pokemonList.forEach(async (pokemon, index) => {
+    const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon.name}`);
+    const speciesData = await speciesResponse.json();
+
+    const evolutionUrl = speciesData.evolution_chain.url;
+
+    const evolutionResponse = await fetch(evolutionUrl);
+    const evolutionData = await evolutionResponse.json();
+
+    let evolutionChain = [];
+    let chain = evolutionData.chain;
+
+    while (chain) {
+      evolutionChain.push(chain.species.name);
+      chain = chain.evolves_to.length ? chain.evolves_to[0] : null;
+    }
+    for (let name of evolutionChain) {
+      pokemonList[index].evolution_chain.push(name);
+    }
+  })
+}

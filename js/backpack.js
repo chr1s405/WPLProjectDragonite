@@ -187,8 +187,6 @@ function updateComparePage() {
   let isDone = true;
   const sides = compareMenuEvent.getElementsByClassName("compare_sides");
   for (let i = 0; i < sides.length; i++) {
-    console.log(i)
-    console.log(sides[i].style.display)
     if (sides[i].style.display !== "block") {
       isDone = false;
     }
