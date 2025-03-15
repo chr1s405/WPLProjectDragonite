@@ -35,7 +35,6 @@ for (let i = 0; i < backpackMenuItems.length - 1; i++) {
 menuEvents.forEach((menuEvent) => {
   menuEvent.event.getElementsByClassName("closeBtn")[0].addEventListener("click", (e) => {
     closeAllEvents();
-    Player.isInEvent = false;
   });
   if (menuEvent.event.getElementsByClassName("backBtn")[0]) {
     menuEvent.event.getElementsByClassName("backBtn")[0].addEventListener("click", (e) => {
@@ -53,6 +52,7 @@ function closeAllEvents() {
     }
   });
   previousMenu = [];
+  Player.isInEvent = false;
 }
 function backbuttonPressed(currentMenu) {
   currentMenu.close();
@@ -62,10 +62,12 @@ function backbuttonPressed(currentMenu) {
 
 
 function openMenu() {
+  Player.isInEvent = true;
   backpackIcon.style.display = "none";
   backpackMenu.style.display = "block";
 }
 function openEvent(event) {
+  Player.isInEvent = true;
   backpackMenu.style.display = "none"
   event.style.display = "block";
 }
@@ -80,6 +82,7 @@ function closeMenu(event = undefined) {
 
 // ========= pokedex ======== //
 function openPokedexEvent() {
+  Player.isInEvent = true;
   pokedexMenuEvent.style.display = "block"
 }
 function closePokedexEvent() {
@@ -172,19 +175,10 @@ export function createPokemonList(allPokemon) {
 
 
 
-function filterPokemonList(allPokemon) {
-  let filteredList = allPokemon;
-  const isOwned = true;
-  if (isOwned) {
-    filteredList = filteredList.filter((pokemon) => {
-      return Player.capturedPokemon.includes(pokemon);
-    })
-  }
-  console.log(filteredList)
-}
 
 // ========= pokedex detail ======== //
 function openDetailEvent(pokemon) {
+  Player.isInEvent = true;
   pokedexDetailMenuEvent.style.display = "block";
   if (!pokemon) {
     return;
@@ -203,21 +197,11 @@ function openDetailEvent(pokemon) {
   const buttons = buttonsDiv.getElementsByTagName("button");
   buttons[0].replaceWith(buttons[0].cloneNode(true));
   buttons[0].addEventListener("click", () => {
-    if (Player.capturedPokemon.includes(pokemon)) {
-      Player.setCompanion(pokemon);
-    }
-    else {
-      alert("je hebt deze pokemon nog niet gevangen")
-    }
+    Player.setCompanion(pokemon);
   })
   buttons[1].replaceWith(buttons[1].cloneNode(true));
   buttons[1].addEventListener("click", () => {
-    if (Player.companion.pokemon === pokemon) {
-      Player.removeCompanion();
-    }
-    else {
-      alert("dit is niet jouw huidige companion")
-    }
+    Player.releasePokemon(pokemon);
   })
   buttons[2].replaceWith(buttons[2].cloneNode(true));
   buttons[2].addEventListener("click", () => {
@@ -251,6 +235,7 @@ function closeDetailsEvent() {
 
 // ========= compare ======== //
 function openCompareEvent() {
+  Player.isInEvent = true;
   compareMenuEvent.style.display = "block";
 }
 function closeCompareEvent() {
@@ -324,6 +309,7 @@ for (let i = 0; i < reselectBtns.length; i++) {
 
 // ========= who's that pokemon ======== //
 function openWhosThatEvent() {
+  Player.isInEvent = true;
   whosThatMenuEvent.style.display = "blok";
 }
 function closeWhosThatEvent() {
@@ -332,6 +318,7 @@ function closeWhosThatEvent() {
 
 // ========= battle ======== //
 export function openBattleEvent() {
+  Player.isInEvent = true;
   battleMenuEvent.style.display = "block";
   const stages = document.getElementsByClassName("battle_stage");
   const stage = [];
@@ -352,6 +339,7 @@ export function closeBattleEvent() {
 
 // ========= capture ======== //
 export function openCaptureEvent() {
+  Player.isInEvent = true;
   captureMenuEvent.style.display = "block"
   const element = document.getElementById("capture_main");
   const stage = {

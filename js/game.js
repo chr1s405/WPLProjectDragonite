@@ -13,9 +13,10 @@ let pause = false;
 addEventListener("keydown", (e) => {
 
    // dit zorgt ervoor dat bij de pokedex searchbalk wanneer ik de s toets induk dat de player niet mee beweegt
-   if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "SELECT") {
-    return; 
-  }
+   //dit gebeurde al met Player.isInEvent - ik was da gwn vergeten bij alle openevent methodes op true te zetten.
+  //  if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "SELECT") {
+  //   return; 
+  // }
   //   alert(e.keyCode);
   if (e.keyCode === 80) {
     pause = !pause;
