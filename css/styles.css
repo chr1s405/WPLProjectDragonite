@@ -112,13 +112,13 @@
     margin: auto;
     height: 40vh;
     grid-area: br;
-    display: block;
     align-content: center;
 }
 
 #bigrectanglecontainer{
+    align-content: center;
     margin: auto;
-
+    display: block;
 }
 
 /*logo in het vierkant: moet nog gepositioneerd worden*/
