@@ -11,6 +11,11 @@ Npcs.createNpc(200, 300)
 let pause = false;
 
 addEventListener("keydown", (e) => {
+
+   // dit zorgt ervoor dat bij de pokedex searchbalk wanneer ik de s toets induk dat de player niet mee beweegt
+   if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "SELECT") {
+    return; 
+  }
   //   alert(e.keyCode);
   if (e.keyCode === 80) {
     pause = !pause;
@@ -117,7 +122,7 @@ async function GetPokemon() {
             },
 
           ],
-          //types: pokemon.types,
+          types: pokemon.types,
           //weight: pokemon.weight,
           nickname: "",
           evolution_chain: [],

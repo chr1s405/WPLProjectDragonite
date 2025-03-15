@@ -72,6 +72,31 @@
         <p>pokedex</p>
         <button class="closeBtn">X</button>
       </div>
+      <div class="pokedex_controls">
+        <input type="text" id="pokedex_search" placeholder="Zoek Pokémon..." />
+    
+        <label for="pokedex_filter_caught">
+          <input type="checkbox" id="pokedex_filter_caught"> Gevangen Pokémon</label>
+    
+        <label for="pokedex_filter_type">Type:</label>
+        <select id="pokedex_filter_type">
+            <option value="all">Alle Types</option>
+            <option value="fire">Fire</option>
+            <option value="water">Water</option>
+            <option value="grass">Grass</option>
+            <option value="electric">Electric</option>
+            <option value="fairy">Fairy</option>
+        </select>
+    
+        <label for="pokedex_sort">Sorteren op:</label>
+        <select id="pokedex_sort">
+            <option value="id">Pokedex Nummer</option>
+            <option value="hp">HP</option>
+            <option value="attack">Aanvalskracht</option>
+            <option value="speed">Snelheid</option>
+        </select>
+    </div>
+    
       <div class="pokemon_list">
         <table>
         </table>
