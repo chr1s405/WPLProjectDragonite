@@ -408,10 +408,15 @@ html {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
+  text-align: center;
   gap: 10px;
 }
 
-#gamePage #pokedex_detail #pokedex_evolution img {
+#gamePage #pokedex_detail #pokedex_evolution .pokedex_evolutionStep {
+  display: none;
+}
+#gamePage #pokedex_detail #pokedex_evolution .pokedex_evolutionArrow {
   display: none;
 }
 
@@ -566,6 +571,7 @@ html {
   width: 80%;
   margin: auto;
   padding: 10px;
+  color: black;
   background-color: white;
   border-radius: 10px;
 }
@@ -588,7 +594,7 @@ html {
   text-align: center;
   width: 30%;
   height: 50px;
-  background-color: greenyellow;
+  background-color: gray;
   border: 3px solid black;
   border-radius: 50px;
 }

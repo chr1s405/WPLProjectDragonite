@@ -117,6 +117,16 @@ export function createPokemonList(allPokemon) {
     });
   }
 }
+function filterPokemonList(allPokemon) {
+  let filteredList = allPokemon;
+  const isOwned = true;
+  if (isOwned) {
+    filteredList = filteredList.filter((pokemon) => {
+      return Player.capturedPokemon.includes(pokemon);
+    })
+  }
+  console.log(filteredList)
+}
 
 // ========= pokedex detail ======== //
 function openDetailEvent(pokemon) {
@@ -127,12 +137,12 @@ function openDetailEvent(pokemon) {
   const pokedexDetails = document.getElementById("pokedex_detail");
   const statsDiv = pokedexDetails.children[0];
   const stats = statsDiv.getElementsByTagName("p");
-  for (let i = 2; i < stats.length; i++) {
+  for (let i = 0; i < stats.length; i++) {
     const text = stats[i].innerHTML;
-    stats[i].innerHTML = text.substring(0, text.indexOf(':') + 1) + ` ${pokemon.stats[i - 2].base_stat}`
+    stats[i].innerHTML = text.substring(0, text.indexOf(':') + 1) + ` ${pokemon.stats[(stats.length - 2 + i) % stats.length].base_stat}`
   }
   const pokemonDiv = pokedexDetails.children[1];
-  pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.name;
+  pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.nickname !== "" ? pokemon.nickname : pokemon.name;
   pokemonDiv.getElementsByTagName("img")[0].src = pokemon.sprites["front_default"];
   const buttonsDiv = pokedexDetails.children[2];
   const buttons = buttonsDiv.getElementsByTagName("button");
@@ -163,13 +173,21 @@ function openDetailEvent(pokemon) {
     previousMenu.push(menuEvents.find((menuEvent) => { return menuEvent.event === pokedexDetailMenuEvent }));
   })
   const evolutionDiv = pokedexDetails.children[3];
-  const evolutionImages = evolutionDiv.getElementsByTagName("img");
-  for (let i = 0; i < evolutionImages.length; i++) {
-    evolutionImages[i].style.display = "none";
+  const evolutionSteps = evolutionDiv.getElementsByClassName("pokedex_evolutionStep");
+  const evolutionArrows = evolutionDiv.getElementsByClassName("pokedex_evolutionArrow");
+  for (let i = 0; i < evolutionSteps.length; i++) {
+    evolutionSteps[i].style.display = "none";
+    if (i > 0) {
+      evolutionArrows[i - 1].style.display = "none";
+    }
   }
   for (let i = 0; i < pokemon.evolution_chain.length; i++) {
-    evolutionImages[i].src = pokemon.evolution_chain[i].sprite;
-    evolutionImages[i].style.display = "block";
+    evolutionSteps[i].children[0].src = pokemon.evolution_chain[i].sprite;
+    evolutionSteps[i].children[1].innerHTML = pokemon.evolution_chain[i].name;
+    evolutionSteps[i].style.display = "block";
+    if (i > 0) {
+      evolutionArrows[i - 1].style.display = "block";
+    }
   }
 }
 function closeDetailsEvent() {
@@ -229,13 +247,13 @@ function updateComparePage() {
         statsLeft[i].setAttribute("class", difference < 0 ? "redText" : "greenText");
         statsRight[i].setAttribute("class", difference < 0 ? "greenText" : "redText");
       }
-      else{
-        
+      else {
+
         statsLeft[i].setAttribute("class", "");
         statsRight[i].setAttribute("class", "");
       }
-        statsLeft[i].innerHTML = textLeft;
-        statsRight[i].innerHTML = textRight;
+      statsLeft[i].innerHTML = textLeft;
+      statsRight[i].innerHTML = textRight;
     }
   }
 }

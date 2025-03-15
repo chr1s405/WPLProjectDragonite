@@ -56,7 +56,7 @@ function toggleDebug() {
 
 async function GetPokemon() {
   const pokemonList = [];
-  fetch("https://pokeapi.co/api/v2/pokemon?limit=50&offset=0")
+  fetch("https://pokeapi.co/api/v2/pokemon?limit=51&offset=0")
     .then((result) => {
       return result.json();
     })
@@ -119,6 +119,7 @@ async function GetPokemon() {
           ],
           //types: pokemon.types,
           //weight: pokemon.weight,
+          nickname: "",
           evolution_chain: [],
         });
       });
@@ -157,7 +158,7 @@ async function getPokemonEvolutions(pokemonList) {
       })
       pokemonList[index].evolution_chain.push({
         name,
-        sprite: pokemonMatch? pokemonMatch.sprites["front_default"] : ""}
+        sprite: pokemonMatch? pokemonMatch.sprites["front_default"] : "../images/pikachu_silouhette.png"}
       );
 
     }
