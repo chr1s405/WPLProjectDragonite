@@ -807,6 +807,7 @@
     grid-area: main;
     display: flex;
     gap: 30px;
+    padding: 10px;
     justify-content: center;
     align-content: center;
 }
@@ -817,6 +818,7 @@
     transition: transform 0.2s ease-in-out;
 }
 #project_start #project_main .arrowBtn:hover {
+    cursor: pointer;
     transform: scale(1.1);
 }
 #project_start #project_main .arrowBtn:first-of-type {
@@ -831,7 +833,7 @@
     background-image: url("../images/magic.jpeg");
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 100%;
+    background-size: 80%;
 
     width: 70%;
     max-width: 600px;
@@ -846,15 +848,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    gap: 3%;
     margin: 20px;
 }
 
 #project_start .game_options {
     align-content: center;
     width: 200px;
-    height: 60%;
+    height: 50%;
 
+    background-position: center;
     background-color: rgba(0, 0, 0, 0.5);;
     border: 3px solid black;
     border-radius: 30px;
@@ -863,6 +866,7 @@
 }
 
 #project_start .game_options:hover:not(.active) {
+    cursor: pointer;
     transform: translateY(-10px) scale(1.1);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
