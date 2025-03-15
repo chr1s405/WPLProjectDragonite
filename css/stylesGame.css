@@ -416,6 +416,7 @@ html {
 #gamePage #pokedex_detail #pokedex_evolution .pokedex_evolutionStep {
   display: none;
 }
+
 #gamePage #pokedex_detail #pokedex_evolution .pokedex_evolutionArrow {
   display: none;
 }
@@ -439,6 +440,115 @@ html {
   background-color: gray;
   border: 2px solid black;
   border-radius: 50px;
+}
+
+/* hier staat al het stijl voor de filters */
+
+.pokedex_controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  width: 90%;
+  height: 15%;
+  margin: 0 auto;
+
+}
+
+
+#pokedex_search {
+  flex-grow: 1;
+  max-width: 200px;
+  background-color: white;
+  color: black;
+  height: 35px;
+  padding-left: 10px;
+  border-radius: 5px;
+  margin-left: 20px;
+  border: 2px solid transparent;
+  transition: border 0.3s;
+  outline: none;
+}
+
+#pokedex_search:focus,
+#pokedex_search:hover {
+  border: 2px solid green;
+}
+
+
+#pokedex_filter_caught {
+  transform: scale(1.2);
+
+}
+
+
+.pokedex_controls label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color: white;
+  margin-left: 80px;
+  cursor: pointer;
+}
+
+.pokedex_controls input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: green;
+  cursor: pointer;
+  appearance: auto;
+  margin-right: 5px;
+}
+
+.pokedex_controls label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+}
+
+
+.pokedex_controls input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: green;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+
+.pokedex_controls select {
+  width: 160px;
+  height: 35px;
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding-left: 10px;
+  font-size: 16px;
+  transition: border 0.3s;
+  color: #000000;
+  align-items: center;
+}
+
+.pokedex_controls select:focus,
+.pokedex_controls select:hover {
+  border: 2px solid green;
+}
+
+
+.pokedex_controls .checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
 }
 
 /* ========== compare ==========*/
@@ -602,7 +712,7 @@ html {
 /* ========== capture ==========*/
 #gamePage #menu_capture {}
 
-#gamePage #menu_capture .backBtn{
+#gamePage #menu_capture .backBtn {
   visibility: hidden;
 }
 

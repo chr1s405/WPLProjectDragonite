@@ -85,38 +85,93 @@ function openPokedexEvent() {
 function closePokedexEvent() {
   pokedexMenuEvent.style.display = "none"
 }
+// ik heb de function creatPokemonList aangepast zodanig dat de filters werken 
 export function createPokemonList(allPokemon) {
   const tables = document.getElementsByClassName("pokemon_list");
-  for (let i = 0; i < tables.length; i++) {
-    const table = tables[i].getElementsByTagName("table")[0];
-    allPokemon.forEach(pokemon => {
-      const tableRow = document.createElement("tr");
-      tableRow.setAttribute("class", "tableRow");
-      const pokemonImg = document.createElement("img");
-      pokemonImg.setAttribute("class", "tableImg");
-      pokemonImg.src = pokemon.sprites["front_default"]
-      const pokemonInfo = document.createElement("p");
-      pokemonInfo.setAttribute("class", "tableInfo");
-      pokemonInfo.innerHTML = `nr. ${pokemon.id}</br>${pokemon.name}`
 
-      table.appendChild(tableRow);
-      tableRow.appendChild(pokemonImg);
-      tableRow.appendChild(pokemonInfo);
+  // Selecteer de invoervelden en filters
+  const searchInput = document.getElementById("pokedex_search");
+  const filterCheckbox = document.getElementById("pokedex_filter_caught");
+  const typeFilter = document.getElementById("pokedex_filter_type");
+  const sortFilter = document.getElementById("pokedex_sort");
 
-      tableRow.addEventListener("click", () => {
-        if (i === 0) {
-          openDetailEvent(pokemon);
-          previousMenu.push(menuEvents.find((menuEvent) => { return menuEvent.event === pokedexMenuEvent }));
-          pokedexMenuEvent.style.display = "none"
-        }
-        else {
-          const compareSide = compareMenuEvent.getElementsByClassName("compare_sides")[i - 1];
-          createCompareSide(compareSide, pokemon);
-        }
-      })
-    });
+  function updateList() {
+      let searchText = searchInput.value.toLowerCase();
+      let onlyCaught = filterCheckbox.checked;
+      let selectedType = typeFilter.value;
+      let sortOption = sortFilter.value;
+
+      for (let i = 0; i < tables.length; i++) {
+          const table = tables[i].getElementsByTagName("table")[0];
+          table.innerHTML = ""; // Maak de lijst leeg
+
+          // Filter Pokémon
+          let filteredList = allPokemon.filter(pokemon => {
+              let matchesSearch = pokemon.name.toLowerCase().includes(searchText);
+              let isCaught = Player.capturedPokemon.includes(pokemon); // Controleer of de Pokémon gevangen is
+              let matchesType = selectedType === "all" || pokemon.types.some(t => t.type.name === selectedType);
+              
+              return matchesSearch && (!onlyCaught || isCaught) && matchesType;
+          });
+
+          // Sorteer Pokémon op geselecteerde optie
+          filteredList.sort((a, b) => {
+              if (sortOption === "id") {
+                  return a.id - b.id;
+              } else if (sortOption === "hp") {
+                  return b.stats[0].base_stat - a.stats[0].base_stat; // HP
+              } else if (sortOption === "attack") {
+                  return b.stats[1].base_stat - a.stats[1].base_stat; // Aanval
+              } else if (sortOption === "speed") {
+                  return b.stats[5].base_stat - a.stats[5].base_stat; // Snelheid
+              }
+              return 0;
+          });
+
+          // Voeg de gefilterde en gesorteerde Pokémon toe aan de lijst
+          filteredList.forEach(pokemon => {
+              const tableRow = document.createElement("tr");
+              tableRow.setAttribute("class", "tableRow");
+
+              const pokemonImg = document.createElement("img");
+              pokemonImg.setAttribute("class", "tableImg");
+              pokemonImg.src = pokemon.sprites["front_default"];
+
+              const pokemonInfo = document.createElement("p");
+              pokemonInfo.setAttribute("class", "tableInfo");
+              pokemonInfo.innerHTML = `#${pokemon.id} - ${pokemon.name}`;
+
+              table.appendChild(tableRow);
+              tableRow.appendChild(pokemonImg);
+              tableRow.appendChild(pokemonInfo);
+
+              tableRow.addEventListener("click", () => {
+                  if (i === 0) {
+                      openDetailEvent(pokemon);
+                      previousMenu.push(menuEvents.find(menuEvent => menuEvent.event === pokedexMenuEvent));
+                      pokedexMenuEvent.style.display = "none";
+                  } else {
+                      const compareSide = compareMenuEvent.getElementsByClassName("compare_sides")[i - 1];
+                      createCompareSide(compareSide, pokemon);
+                  }
+              });
+          });
+      }
   }
+
+  // Voeg event listeners toe aan de zoekbalk en filters
+  searchInput.addEventListener("input", updateList);
+  filterCheckbox.addEventListener("change", updateList);
+  typeFilter.addEventListener("change", updateList);
+  sortFilter.addEventListener("change", updateList);
+
+  // Initialiseer de lijst
+  updateList();
 }
+
+
+
+
 function filterPokemonList(allPokemon) {
   let filteredList = allPokemon;
   const isOwned = true;
