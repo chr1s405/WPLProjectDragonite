@@ -11,6 +11,11 @@ Npcs.createNpc(200, 300)
 let pause = false;
 
 addEventListener("keydown", (e) => {
+
+   // dit zorgt ervoor dat bij de pokedex searchbalk wanneer ik de s toets induk dat de player niet mee beweegt
+   if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "SELECT") {
+    return; 
+  }
   //   alert(e.keyCode);
   if (e.keyCode === 80) {
     pause = !pause;
@@ -56,7 +61,7 @@ function toggleDebug() {
 
 async function GetPokemon() {
   const pokemonList = [];
-  fetch("https://pokeapi.co/api/v2/pokemon?limit=50&offset=0")
+  fetch("https://pokeapi.co/api/v2/pokemon?limit=51&offset=0")
     .then((result) => {
       return result.json();
     })
@@ -117,8 +122,9 @@ async function GetPokemon() {
             },
 
           ],
-          //types: pokemon.types,
+          types: pokemon.types,
           //weight: pokemon.weight,
+          nickname: "",
           evolution_chain: [],
         });
       });
@@ -157,10 +163,9 @@ async function getPokemonEvolutions(pokemonList) {
       })
       pokemonList[index].evolution_chain.push({
         name,
-        sprite: pokemonMatch? pokemonMatch.sprites["front_default"] : ""}
+        sprite: pokemonMatch? pokemonMatch.sprites["front_default"] : "../images/pikachu_silouhette.png"}
       );
 
     }
-    console.log(pokemonList[index].evolution_chain);
   })
 }

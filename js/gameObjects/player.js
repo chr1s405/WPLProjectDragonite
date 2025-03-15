@@ -145,7 +145,6 @@ function interactPokemon() {
         const distY = (Player.y + Player.height / 2) - (Pokemon.y + Pokemon.height / 2);
         const dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
         if (dist <= Map.tileWidth * 1) {
-            console.log("pokemon")
             capture(Pokemon.pokemon);
             return true;
         }
@@ -234,11 +233,13 @@ function battle(pokemon) {
             }
             if (enemyHp === 0) {
                 setBattleMsg("Je hebt gewonnen")
+                Player.companion.pokemon.stats[6].base_stat++;
                 isBattling = false;
                 return
             }
             if (playerHp === 0) {
                 setBattleMsg("Je hebt verloren")
+                Player.companion.pokemon.stats[7].base_stat++;
                 isBattling = false;
                 return;
             }
@@ -315,12 +316,10 @@ function capture(pokemon) {
     stage.img.src = pokemon.sprites["front_default"];
     let hasPokemon = Player.capturedPokemon.includes(pokemon);
     let chances = 3;
-    console.log(stage.chances.children.length)
     for (let i = 0; i < stage.chances.children.length; i++) {
         stage.chances.children[i].src = "../images/pokeball.png";
     }
-    const captureChance = (100 - pokemon.stats[2]["base_stat"] + Player.companion.pokemon.stats[1]["base_stat"]) / 100;
-    console.log(`chance: ${captureChance}`)
+    const captureChance = (100 - pokemon.stats[2]["base_stat"] + (Player.hasCompanion? Player.companion.pokemon.stats[1]["base_stat"] : 0)) / 100;
     if (hasPokemon) {
         stage.button.style.border = "3px solid green";
     }
@@ -342,23 +341,23 @@ function capture(pokemon) {
             else {
                 chances--;
                 stage.chances.children[chances].src = "../images/pokeball_gray.png";
-                if (captureChance > Math.random()) {
+                const rand = Math.random();
+                if (rand <= captureChance) {
                     Player.capturedPokemon.push(pokemon);
                     hasPokemon = true;
                     chances = 0;
                 }
                 if (chances === 0) {
                     if(hasPokemon){
-                        alert("pokemon gevangen");
+                        alert(`je hebt ${pokemon.name} gevangen`);
                     }
                     else{
-                        alert("pokemon is weggelopen");
+                        alert(`${pokemon.name} is weggelopen`);
                     }
                     clearInterval(intervalId);
                     closeCaptureEvent();
                     Player.isCapturing = false;
                     Player.isInEvent = false;
-                    console.log(Player.capturedPokemon)
                 }
             }
         }
