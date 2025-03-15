@@ -1,5 +1,6 @@
 "use strict";
 
+const playButton = document.getElementById("bigrectanglecontainer")
 // Verzamel alle afbeeldingen uit de choise-menu
 const images = Array.from(document.querySelectorAll(".choise-menu img")).map(
   (img) => img.src
@@ -17,7 +18,7 @@ const backgrounds = {
 };
 
 // Selecteer het logo en de pijlen
-const gameLogo = document.getElementById("game-logo");
+const gameLogo = document.getElementById("bigrectanglecontainer");
 const gameContainer = document.querySelector(".game");
 const rightArrow = document.querySelector(".arrow-right");
 const leftArrow = document.querySelector(".arrow-left");
@@ -113,6 +114,14 @@ gameDivs.forEach((div, index) => {
 // Initialiseer het eerste spel
 updateLogo(currentIndex);
 
-function alertTo(){
-alert("Kies een andere game!")
-}
+const mainBtn = document.getElementById("bigrectanglecontainer");
+const link = mainBtn.parentElement;
+mainBtn.addEventListener("click", ()=>{
+  if (currentIndex !== 5){
+    alert("Kies een andere game!");
+    link.href = "#"
+  }
+  else{
+    link.href = "../Login.html"
+  }
+})
