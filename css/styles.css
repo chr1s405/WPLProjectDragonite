@@ -6,13 +6,7 @@
     /*standaard font*/
     --main-font: 'Nexa', sans-serif;
     /*font voor titels op projectpagina*/
-    --project-title-font: 'Popular', sans-serif;
-    /*trial font*/
     --project-title-font-new: 'Bowzer', sans-serif;;
-}
-
-* {
-    font-family: var(--main-font);
 }
 
 /*========================================*/
@@ -47,7 +41,7 @@
     padding-bottom: 5px;
     width: 60%;
     margin: auto;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 #project-pagina h1 {
@@ -117,20 +111,17 @@
     width: 35vw;
     margin: auto;
     height: 40vh;
-    position: relative;
     grid-area: br;
     display: block;
+    align-content: center;
+}
+
+#bigrectanglecontainer{
+    margin: auto;
+
 }
 
 /*logo in het vierkant: moet nog gepositioneerd worden*/
-#game-logo {
-    position: absolute;
-    display: block;
-    /* left: 50%;
-    transform: translateX(-50%); */
-    top: 50%;
-    transform: translateY(-50%);
-}
 
 /*rechterpijl*/
 .arrow-right {
@@ -151,6 +142,7 @@
     box-sizing: border-box;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    
     margin-top: 3%;
 }
 
@@ -574,12 +566,6 @@
 /*========================================*/
 /*========================================*/
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: var(--main-font);
-}
 
 #signup-page {
     background-image: url("../images/pokemonBackground.jpeg");
