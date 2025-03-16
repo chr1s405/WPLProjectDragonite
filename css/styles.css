@@ -28,6 +28,9 @@
 **********Header***********
 **************************/
 
+
+
+/*desktop */ 
 #project-pagina header {
     grid-area: header;
     margin-top: 30px;
@@ -38,9 +41,10 @@
 
 #headercontainer{
     background-color: rgb(0, 0, 0, 0.6);
-    padding-bottom: 5px;
     width: 60%;
     margin: auto;
+    padding: 10px;
+    padding-bottom: 15px;
     border-radius: 10px;
 }
 
@@ -53,7 +57,6 @@
     padding-top: 20px;
     color: rgb(252, 252, 252);
     font-family: var(--project-title-font-new);
-    opacity: 100%;
 }
 
 
@@ -121,7 +124,6 @@
     display: block;
 }
 
-/*logo in het vierkant: moet nog gepositioneerd worden*/
 
 /*rechterpijl*/
 .arrow-right {
@@ -209,6 +211,127 @@
 
 #project-pagina .pokemon {
     background-color: whitesmoke;
+}
+
+/* Mobiel (max 720px) */
+@media (max-width: 850px) {
+    #project-pagina header {
+        grid-area: header;
+        margin-top: 30px;
+        margin-bottom: 5px;
+    }
+    
+    /* Hoofding van projectpagina */
+    
+    #headercontainer{
+        padding-bottom: 5px;
+        width: 80%;
+    }
+    
+    #project-pagina h1 {
+        margin-left: 20px;
+        margin-right :20px;
+        font-size: 50px;
+        padding-top: 10px;
+        margin-bottom: 15px;
+    }
+    
+    
+    /**************************
+    ***********main************
+    **************************/
+    
+    /* main pagina grid verdeling */
+    
+    /*Grote vierkant en pijltjes*/
+    /*styling pijlen*/
+    #project-pagina .arrow {
+        width: 50px;
+        height: 75px;
+    }
+    
+    /*vierkant in het midden*/
+    #project-pagina .game {
+        width: 50vw;
+        height: 30vh;
+    }
+    
+    #bigrectanglecontainer{
+        height: 50%;
+        width: auto;
+    }
+    
+    /*kleine vierkantjes*/
+    /*Styling kleine vierktantjes*/
+    #smallrectangle {
+        height: 120px;
+        width: 200px;
+        border: 2px solid black;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    
+        margin-top: 20%;
+    }
+    
+    /*styling gehele section van kleine vierkantjes*/
+    #project-pagina .choise-menu {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 90vw;
+        grid-area: cm;
+    }
+    
+    /*voegt een subklasse toe die de kleine rechthoeken groter maakt als je erover hovert met de muis*/
+    #project-pagina .choise-menu .smallrectangle:hover {
+        transform: translateY(-10px) scale(1.05);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Actief-effect wanneer een game geselecteerd is */
+    #project-pagina .choise-menu .smallrectangle.active {
+        transform: translateY(-15px) scale(1.15);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        border-color: gold;
+    }
+    
+    
+    /*Dit zorgt ervoor dat de kleine vierkantjes een achtergrond kleur krijgden*/
+    #project-pagina .magic {
+        background-color: white;
+    }
+    
+    #project-pagina .lego {
+        background-color: red;
+    }
+    
+    #project-pagina .lego img {
+        height: 30px;
+        width: auto;
+    
+    }
+    
+    #project-pagina .lordOfTheRings {
+        background-color: black;
+    }
+    
+    #project-pagina .fortnite {
+        background-color: rgb(36, 194, 241);
+    
+    }
+    
+    #project-pagina .fifa {
+        background-color: white;
+    }
+    
+    #project-pagina .pokemon {
+        background-color: whitesmoke;
+    }
 }
 
 
