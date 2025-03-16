@@ -1,8 +1,6 @@
 :root {
-    /*pokémon font als de letters zwart zijn*/
+    /*pokémon font*/
     --pokemon-solid-font: 'Pokemon Solid', sans-serif;
-    /*pokémon font als de letters doorzichtig zijn*/
-    --pokemon-hollow-font: 'Pokemon Hollow', sans-serif;
     /*standaard font*/
     --main-font: 'Nexa', sans-serif;
     /*font voor titels op projectpagina*/
@@ -65,7 +63,7 @@
 **************************/
 
 /* main pagina grid verdeling */
-#project-pagina .choise-game {
+#project-pagina .choice-game {
     display: grid;
     grid-template-areas:
         "uproject"
@@ -149,7 +147,7 @@
 }
 
 /*styling gehele section van kleine vierkantjes*/
-#project-pagina .choise-menu {
+#project-pagina .choice-menu {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -161,13 +159,13 @@
 }
 
 /*voegt een subklasse toe die de kleine rechthoeken groter maakt als je erover hovert met de muis*/
-#project-pagina .choise-menu .smallrectangle:hover {
+#project-pagina .choice-menu .smallrectangle:hover {
     transform: translateY(-10px) scale(1.05);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Actief-effect wanneer een game geselecteerd is */
-#project-pagina .choise-menu .smallrectangle.active {
+#project-pagina .choice-menu .smallrectangle.active {
     transform: translateY(-15px) scale(1.15);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
     border-color: gold;
@@ -274,12 +272,12 @@
         box-sizing: border-box;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         cursor: pointer;
-    
-        margin-top: 20%;
+        
+        margin-top: 3%;
     }
     
     /*styling gehele section van kleine vierkantjes*/
-    #project-pagina .choise-menu {
+    #project-pagina .choice-menu {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -288,13 +286,13 @@
     }
     
     /*voegt een subklasse toe die de kleine rechthoeken groter maakt als je erover hovert met de muis*/
-    #project-pagina .choise-menu .smallrectangle:hover {
+    #project-pagina .choice-menu .smallrectangle:hover {
         transform: translateY(-10px) scale(1.05);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     }
     
     /* Actief-effect wanneer een game geselecteerd is */
-    #project-pagina .choise-menu .smallrectangle.active {
+    #project-pagina .choice-menu .smallrectangle.active {
         transform: translateY(-15px) scale(1.15);
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
         border-color: gold;
