@@ -246,7 +246,8 @@ html {
   font-weight: bold;
   text-align: center;
   margin: 15px;
-  color: white;
+  font-family: var(--pokemon-hollow-font);
+  color: rgb(255, 0, 0);
 }
 
 #gamePage #backpackMenu #backpackMenuItems {
