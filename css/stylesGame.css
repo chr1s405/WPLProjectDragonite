@@ -241,12 +241,20 @@ html {
 
 }
 
+#gamePage #backpackMenu h1 {
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+  margin: 15px;
+  color: white;
+}
+
 #gamePage #backpackMenu #backpackMenuItems {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 30px;
-  margin-top: 40px;
+  margin-top: 80px;
 
 }
 
@@ -353,8 +361,8 @@ html {
 }
 
 
-/* ========== x ==========*/
-#gamePage #menu_x {
+/* ========== pokedex ==========*/
+#gamePage #menu_pokedex {
   height: 500px;
 }
 
@@ -363,7 +371,7 @@ html {
   height: 500px;
 }
 
-#gamePage #x_detail {
+#gamePage #pokedex_detail {
   display: grid;
   grid-template-areas:
     "stats image options"
@@ -376,26 +384,26 @@ html {
   justify-content: center;
 }
 
-#gamePage #x_detail #x_stats {
+#gamePage #pokedex_detail #pokedex_stats {
   grid-area: stats;
   width: 100%;
   align-content: center;
 }
 
-#gamePage #x_detail #x_stats p {
+#gamePage #pokedex_detail #pokedex_stats p {
   text-align: center;
   max-width: 200px;
   width: 90%;
   margin: auto;
 }
 
-#gamePage #x_detail #x_pokemon {
+#gamePage #pokedex_detail #pokedex_pokemon {
   grid-area: image;
   text-align: center;
   margin: auto;
 }
 
-#gamePage #x_detail #x_evolution {
+#gamePage #pokedex_detail #pokedex_evolution {
   grid-area: evolution;
   display: flex;
   flex-direction: row;
@@ -405,15 +413,15 @@ html {
   gap: 10px;
 }
 
-#gamePage #x_detail #x_evolution .x_evolutionStep {
+#gamePage #pokedex_detail #pokedex_evolution .pokedex_evolutionStep {
   display: none;
 }
 
-#gamePage #x_detail #x_evolution .x_evolutionArrow {
+#gamePage #pokedex_detail #pokedex_evolution .pokedex_evolutionArrow {
   display: none;
 }
 
-#gamePage #x_detail #x_options {
+#gamePage #pokedex_detail #pokedex_options {
   grid-area: options;
   display: flex;
   flex-direction: column;
@@ -424,7 +432,7 @@ html {
   width: 100%;
 }
 
-#gamePage #x_detail #x_options button {
+#gamePage #pokedex_detail #pokedex_options button {
   text-align: center;
   padding: 10px;
   max-width: 200px;
@@ -436,7 +444,7 @@ html {
 
 /* hier staat al het stijl voor de filters */
 
-.x_controls {
+.pokedex_controls {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -452,7 +460,7 @@ html {
 }
 
 
-#x_search {
+#pokedex_search {
   flex-grow: 1;
   max-width: 200px;
   background-color: white;
@@ -466,19 +474,19 @@ html {
   outline: none;
 }
 
-#x_search:focus,
-#x_search:hover {
+#pokedex_search:focus,
+#pokedex_search:hover {
   border: 2px solid green;
 }
 
 
-#x_filter_caught {
+#pokedex_filter_caught {
   transform: scale(1.2);
 
 }
 
 
-.x_controls label {
+.pokedex_controls label {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -488,7 +496,7 @@ html {
   cursor: pointer;
 }
 
-.x_controls input[type="checkbox"] {
+.pokedex_controls input[type="checkbox"] {
   width: 20px;
   height: 20px;
   accent-color: green;
@@ -497,7 +505,7 @@ html {
   margin-right: 5px;
 }
 
-.x_controls label {
+.pokedex_controls label {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -507,7 +515,7 @@ html {
 }
 
 
-.x_controls input[type="checkbox"] {
+.pokedex_controls input[type="checkbox"] {
   width: 20px;
   height: 20px;
   accent-color: green;
@@ -516,7 +524,7 @@ html {
 }
 
 
-.x_controls select {
+.pokedex_controls select {
   width: 160px;
   height: 35px;
   background-color: white;
@@ -530,13 +538,13 @@ html {
   align-items: center;
 }
 
-.x_controls select:focus,
-.x_controls select:hover {
+.pokedex_controls select:focus,
+.pokedex_controls select:hover {
   border: 2px solid green;
 }
 
 
-.x_controls .checkbox-container {
+.pokedex_controls .checkbox-container {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -777,15 +785,3 @@ html {
 #gamePage button:hover {
   cursor: pointer;
 }
-
-
-/*styling voor backpackmenu*/
-#backpacktitle{
-    font-size: 70px;
-    font-weight: bold;
-    text-align: center;
-    margin: 15px;
-    margin-bottom: 10px;
-    color: rgb(255, 0, 0);
-    font-family: var(--pokemon-hollow-font);
-  }
