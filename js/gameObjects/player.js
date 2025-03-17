@@ -15,6 +15,7 @@ export const Player = {
     height: character.clientHeight,
     speed: character.clientWidth,
     direction: Direction.down,
+    prevDirection: Direction.down,
     hasCompanion: false,
     companion: Companion,
     capturedPokemon: [],
@@ -25,6 +26,15 @@ export const Player = {
     update() {
         this.div.style.left = `${this.x}px`;
         this.div.style.top = `${this.y}px`;
+        if (this.prevDirection != this.direction) {
+            this.prevDirection = this.direction;
+            switch (this.direction) {
+                case Direction.up: this.div.style.backgroundImage = `url(${"../../images/characters/player_back.png"})`; break;
+                case Direction.down: this.div.style.backgroundImage = `url(${"../../images/characters/player_front.png"})`; break;
+                case Direction.left: this.div.style.backgroundImage = `url(${"../../images/characters/player_left.png"})`; break;
+                case Direction.right: this.div.style.backgroundImage = `url(${"../../images/characters/player_right.png"})`; break;
+            }
+        }
         if (this.hasCompanion) {
             Companion.update();
         }
@@ -45,7 +55,7 @@ export const Player = {
         if (pokemon === this.companion.pokemon) {
             alert("kies eerst een andere companion");
         }
-        else if(!this.capturedPokemon.includes(pokemon)){
+        else if (!this.capturedPokemon.includes(pokemon)) {
             alert("je hebt deze pokemon niet gevangen");
         }
         else {
