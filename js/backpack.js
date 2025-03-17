@@ -113,13 +113,15 @@ function getFilteredList(table) {
     const filterText = filters[0];
     const sortOption = filters[1];
     const filterCaught = filters[2];
-    const filterType = filters[3];
+    const filterKnown = filters[3];
+    const filterType = filters[4];
 
     filteredList = filteredList.filter((pokemon) => {
       const matchesSearch = pokemon.name.toLowerCase().includes(filterText.value.toLowerCase());
       const isCaught = Player.capturedPokemon.includes(pokemon);
+      const isKnown = pokemon.is_known;
       const isType = filterType.value === "all" || pokemon.types.some(t => t.type.name === filterType.value);
-      return matchesSearch && (!filterCaught.checked || isCaught) && isType;
+      return matchesSearch && (!filterCaught.checked || isCaught) && (!filterKnown.checked || isKnown) && isType;
     });
     filteredList.sort((a, b) => {
       if (sortOption.value === "id") {
@@ -178,7 +180,6 @@ function updatePokemonList(table, rowFunction) {
 }
 function pokedexRowClick(pokemon) {
   currentMenu.close();
-  console.log(currentMenu)
   previousMenu.push(currentMenu)
   openDetailEvent(pokemon);
 }
@@ -239,9 +240,10 @@ function openDetailEvent(pokemon) {
   }
   for (let i = 0; i < pokemon.evolution_chain.length; i++) {
     const evolutionPokemon = allPokemon.find((value) => { return value.name === pokemon.evolution_chain[i].name });
-    evolutionSteps[i].children[1].innerHTML = evolutionPokemon.is_known ? pokemon.evolution_chain[i].name : "???";
+    const isKnown = evolutionPokemon? (evolutionPokemon.is_known) : false;
+    evolutionSteps[i].children[1].innerHTML = isKnown ? pokemon.evolution_chain[i].name : "???";
     evolutionSteps[i].children[0].src = pokemon.evolution_chain[i].sprite;
-    evolutionSteps[i].children[0].style.filter = evolutionPokemon.is_known ? "brightness(100%)" : "brightness(0%)";
+    evolutionSteps[i].children[0].style.filter = isKnown ? "brightness(100%)" : "brightness(0%)";
     evolutionSteps[i].style.display = "block";
     if (i > 0) {
       evolutionArrows[i - 1].style.display = "block";
@@ -351,7 +353,6 @@ function openWhosThatEvent(pokemon) {
         img.style.filter = "brightness(100%)";
         name.innerHTML = pokemon.name;
         input.style.display = "none";
-        alert("je hebt de pokemon juist geraden");
         input.replaceWith(input.cloneNode(true));
       }
   });

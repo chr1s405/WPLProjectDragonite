@@ -7,7 +7,11 @@ import { getPokemon } from "../js/backpack.js";
 
 
 GetPokemon();
-Npcs.createNpc(200, 300)
+Npcs.createNpc(200, 300);
+Npcs.createNpc(700, 250);
+Npcs.createNpc(300, 1050);
+Npcs.createNpc(700, 750);
+Npcs.createNpc(950, 550);
 let pause = false;
 
 addEventListener("keydown", (e) => {

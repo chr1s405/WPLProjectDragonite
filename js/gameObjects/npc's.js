@@ -23,9 +23,12 @@ export const Npcs = {
   },
   createNpc(x, y) {
     const npcDiv = document.createElement("div");
-    Map.div?.appendChild(npcDiv);
     npcDiv.setAttribute("class", "npc");
-    npcDiv.setAttribute("style", `left: ${x}px; top: ${y}px;`);
+    npcDiv.style.left = `${x}px`;
+    npcDiv.style.top = `${y}px`;
+    npcDiv.style.backgroundImage = `url(${`../../images/characters/trainer_${Math.trunc(Math.random()*5+1)}.png`})`;
+    //npcDiv.setAttribute("style", `left: ${x}px; top: ${y}px; background`);
+    Map.div?.appendChild(npcDiv);
 
     const npc = {
       div: npcDiv,
