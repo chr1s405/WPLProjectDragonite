@@ -36,6 +36,7 @@ export const Player = {
         pokemonList = allPokemon;
         //dit moet weg
         const pokemon = pokemonList[Math.trunc(Math.random() * pokemonList.length)];
+        pokemon.is_known = true;
         this.capturedPokemon.push(pokemon);
         this.setCompanion(pokemon);
         //tot hier
@@ -331,9 +332,9 @@ function capture(pokemon) {
     let hasPokemon = Player.capturedPokemon.includes(pokemon);
     let chances = 3;
     for (let i = 0; i < stage.chances.children.length; i++) {
-        stage.chances.children[i].src = "../images/pokeball.png";
+        stage.chances.children[i].style.filter = "grayscale(0%)";
     }
-    const captureChance = (100 - pokemon.stats[2]["base_stat"] + (Player.hasCompanion ? Player.companion.pokemon.stats[1]["base_stat"] : 0)) / 100;
+    const captureChance = (50 - pokemon.stats[2]["base_stat"] + (Player.hasCompanion ? Player.companion.pokemon.stats[1]["base_stat"] : 0)) / 100;
     if (hasPokemon) {
         stage.button.style.border = "3px solid green";
     }
@@ -344,7 +345,6 @@ function capture(pokemon) {
         if (isCaptureBtnPressed) {
             isCaptureBtnPressed = false;
             if (hasPokemon) {
-                alert("pokemon losgelaten")
                 Player.releasePokemon(pokemon);
                 clearInterval(intervalId);
                 closeCaptureEvent();
@@ -352,10 +352,11 @@ function capture(pokemon) {
             }
             else {
                 chances--;
-                stage.chances.children[chances].src = "../images/pokeball_gray.png";
+                stage.chances.children[chances].style.filter = "grayscale(100%)";
                 const rand = Math.random();
                 if (rand <= captureChance) {
                     Player.capturedPokemon.push(pokemon);
+                    pokemon.is_known = true;
                     hasPokemon = true;
                     chances = 0;
                 }
