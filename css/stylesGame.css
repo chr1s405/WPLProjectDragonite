@@ -233,6 +233,8 @@ html {
   right: 2%;
   margin: 15px;
   color: white;
+  font-size: 30px;
+  font-weight: bold;
   transition: transform 0.2s ease-in-out;
 }
 
@@ -247,7 +249,7 @@ html {
   font-size: 50px;
   font-weight: bold;
   text-align: center;
-  margin: 15px;
+  margin: -20px;
   font-family: var(--pokemon-hollow-font);
   color: rgb(255, 0, 0);
 }
@@ -257,14 +259,14 @@ html {
   flex-wrap: wrap;
   justify-content: center;
   gap: 30px;
-  margin-top: 80px;
+  margin-top: 50px;
 
 }
 
 #gamePage #backpackMenu .backpackMenuBtn {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   border: 4px solid black;
   border-radius: 10px;
   background-color: red;
@@ -283,7 +285,7 @@ html {
 .subtitleforbackpack{
   font-family: var(--pokemon-hollow-font);
   font-size: 40px;
-  margin: 0;
+  margin: -40px;
   padding: 0;
 }
 
@@ -904,7 +906,7 @@ html {
 #gamePage #whosThat_main img {
   display: block;
   margin: auto;
-  margin-top: 10%;
+  margin-top: 5%;
   width: 20%;
   min-width: 150px;
   filter: brightness(0%);
