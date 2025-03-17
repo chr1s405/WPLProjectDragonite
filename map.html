@@ -22,16 +22,20 @@
     </div>
     <img id="nav-pokemon" src="./images/pikachu_silouhette.png">
   </header>
+
   <main>
     <div id="overworldMap">
       <div id="character">
         <p class="debug"></p>
       </div>
+
       <div id="companion">
         <p class="debug"></p>
-      </div>
+      </div>s
     </div>
+  
     <img src="../images/backpack.png" id="backpackIcon">
+
     <div id="backpackMenu">
       <h1 id = "backpacktitle">Rugzak</h1>
       <button id="backpackMenuCloseBtn" class="closeBtn">
@@ -41,34 +45,42 @@
           <img src="./images/pokedex.webp">
           <p>pokedex</p>
         </button>
+
         <button class="backpackMenuBtn" style="display:none">
           <img src="./images/pokeball.png">
           <p>pokemon Detail</p>
         </button>
+
         <button class="backpackMenuBtn">
           <img src="./images/pokeball.png">
           <p>pokemon vergelijken</p>
         </button>
+
         <button class="backpackMenuBtn">
           <img src="./images/who's_that_icon.png">
           <p>who's that pokemon</p>
         </button>
+
         <button class="backpackMenuBtn" style="display:none">
           <img src="./images/pokeball.png">
           <p>battle</p>
         </button>
+
         <button class="backpackMenuBtn" style="display:none">
           <img src="./images/pokeball.png">
           <p>capture</p>
         </button>
+
         <button class="backpackMenuBtn">
           <a href="./signup.html">
           <img src="./images/log_out_icon.png">
           </a>
           <p>log out</p>
         </button>
+
       </div>
     </div>
+
     <div id="menu_pokedex" class="menuEvent">
       <!-- pokedex -->
       <div class="event_header">
@@ -76,6 +88,7 @@
         <p class = "subtitleforbackpack">Pokedex</p>
         <button class="closeBtn">X</button>
       </div>
+      
       <div class="pokemon_list">
         <div id="pokedex_controls">
           <input type="text" id="pokedex_search" class="pokedex_filter" placeholder="Zoek Pokémon..." />
@@ -87,6 +100,7 @@
               <option value="speed">Snelheid</option>
             </select>
           </label>
+
           <div id="pokedex_filters">
             <button id="pokedex_filterBtn">filter opties</button>
             <div id="pokedex_filters_dropdown">
@@ -114,6 +128,7 @@
         </table>
       </div>
     </div>
+
     <div id="menu_pokemonDetail" class="menuEvent">
       <!-- pokemon Detail -->
       <div class="event_header">
@@ -121,6 +136,7 @@
         <p class = "subtitleforbackpack">Pokedex</p>
         <button class="closeBtn">X</button>
       </div>
+      
       <div id="pokedex_detail">
         <div id="pokedex_stats">
           <p>gevechten gewonnen: 0</p>
@@ -133,25 +149,30 @@
           <p>sp def: 0</p>
           <p>speed: 0</p>
         </div>
+
         <div id="pokedex_pokemon">
           <p c>pokemon</p>
           <img src="./images/pikachu_silouhette.png">
         </div>
+
         <div id="pokedex_options">
           <button>kies companion</button>
           <button>laat los</button>
           <button>vergelijken</button>
         </div>
+
         <div id="pokedex_evolution">
           <div class="pokedex_evolutionStep">
             <img src="./images/pikachu_silouhette.png">
             <p>pokemon</p>
           </div>
+
           <div class="pokedex_evolutionArrow">></div>
           <div class="pokedex_evolutionStep">
             <img src="./images/pikachu_silouhette.png">
             <p>pokemon</p>
           </div>
+
           <div class="pokedex_evolutionArrow">></div>
           <div class="pokedex_evolutionStep">
             <img src="./images/pikachu_silouhette.png">
@@ -160,19 +181,23 @@
         </div>
       </div>
     </div>
+
     <div id="menu_compare" class="menuEvent">
+
       <!-- compare -->
       <div class="event_header">
         <button class="backBtn">&larr;</button>
         <p class= "subtitleforbackpack"> vergelijken</p>
         <button class="closeBtn">X</button>
       </div>
+
       <div id="compare_main">
         <div id="compare_left">
           <div id="compare_left_search" class="pokemon_list">
             <table>
             </table>
           </div>
+
           <div id="compare_left_pokemon" class="compare_sides">
             <img src="./images/pikachu_silouhette.png">
             <p>pokemon</p>
@@ -184,14 +209,17 @@
               <p>sp def: <span>0 +0</span></p>
               <p>speed: <span>0 +0</span></p>
             </div>
+
             <button class="compare_reselect">opnieuw selecteren</button>
           </div>
         </div>
+        
         <div id="compare_right">
           <div id="compare_right_search" class="pokemon_list">
             <table>
             </table>
           </div>
+
           <div id="compare_right_pokemon" class="compare_sides">
             <img src="./images/pikachu_silouhette.png">
             <p>pokemon</p>
@@ -203,11 +231,13 @@
               <p>sp def: <span>0 +0</span></p>
               <p>speed: <span>0 +0</span></p>
             </div>
+
             <button class="compare_reselect">opnieuw selecteren</button>
           </div>
         </div>
       </div>
     </div>
+
     <!-- who's that -->
     <div id="menu_whosThat" class="menuEvent">
       <div class="event_header">
@@ -215,6 +245,7 @@
         <p class = "subtitleforbackpack">Who's that pokemon</p>
         <button class="closeBtn">X</button>
       </div>
+
       <div id="whosThat_main">
         <img src="./images/pikachu_silouhette.png">
         <p>???</p>
@@ -229,6 +260,7 @@
         <p>gevecht</p>
         <button class="closeBtn">X</button>
       </div>
+
       <div id="battle_main">
         <div id="battle_left" class="battle_stage">
           <div class="statusbar">
@@ -239,6 +271,7 @@
           </div>
           <img src="./images/pikachu_silouhette.png"></img>
         </div>
+
         <div id="battle_right" class="battle_stage">
           <div class="statusbar">
             <p>pikachu</p>
@@ -248,10 +281,12 @@
           </div>
           <img src="./images/pikachu_silouhette.png"></img>
         </div>
+
         <div id="battle_text">
           <p></p>
           <p>klik om verder te gaan</p>
         </div>
+
         <div id="battle_buttons">
           <button class="battle_button">normal attack</button>
           <button class="battle_button">special attack</button>
@@ -259,6 +294,7 @@
         </div>
       </div>
     </div>
+
     <div id="menu_capture" class="menuEvent">
       <!-- capture -->
       <div class="event_header">
@@ -266,10 +302,12 @@
         <p>vangen</p>
         <button class="closeBtn">X</button>
       </div>
+
       <div id="capture_main">
         <p>pikachu</p>
         <img src="./images/pikachu_silouhette.png">
         <button id="capture_button" src="./images/pokeball.png"></button>
+        
         <div id="capture_chances">
           <img src="./images/pokeball.png">
           <img src="./images/pokeball.png">
