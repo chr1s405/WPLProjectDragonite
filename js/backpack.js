@@ -36,6 +36,7 @@ const menuEvents = [
   { event: backpackMenu, open: openMenu, close: closeMenu },
 ]
 let previousMenu = [];
+let currentMenu;
 
 
 backpackIcon.addEventListener("click", (e) => {
@@ -70,7 +71,7 @@ function closeAllEvents() {
   previousMenu = [];
   Player.isInEvent = false;
 }
-function backbuttonPressed(currentMenu) {
+function backbuttonPressed() {
   currentMenu.close();
   previousMenu[previousMenu.length - 1].open();
   previousMenu.pop();
@@ -81,11 +82,7 @@ function openMenu() {
   Player.isInEvent = true;
   backpackIcon.style.display = "none";
   backpackMenu.style.display = "block";
-}
-function openEvent(event) {
-  Player.isInEvent = true;
-  backpackMenu.style.display = "none"
-  event.style.display = "block";
+  currentMenu = backpackMenu;
 }
 function closeMenu(event = undefined) {
   backpackIcon.style.display = "block";
@@ -100,7 +97,9 @@ function closeMenu(event = undefined) {
 function openPokedexEvent() {
   Player.isInEvent = true;
   pokedexMenuEvent.style.display = "block"
+  currentMenu = menuEvents.find(menuEvent => menuEvent.event === pokedexMenuEvent);
   const table = pokedexMenuEvent.getElementsByClassName("pokemon_list")[0].getElementsByTagName("table")[0];
+  resetFilters();
   createPokemonList(table, getFilteredList(table), pokedexRowClick);
 }
 function closePokedexEvent() {
@@ -110,7 +109,6 @@ function closePokedexEvent() {
 function getFilteredList(table) {
   let filteredList = allPokemon;
   const filters = table.parentElement.getElementsByClassName("pokedex_filter");
-  console.log(filters)
   if (filters.length > 0) {
     const filterText = filters[0];
     const sortOption = filters[1];
@@ -138,6 +136,13 @@ function getFilteredList(table) {
   }
   return filteredList;
 }
+function resetFilters() {
+  const filters = document.getElementsByClassName("pokedex_filter");
+  filters[0].value = "";
+  filters[1].value = "id";
+  filters[2].checked = false;
+  filters[3].value = "all";
+}
 function createPokemonList(table, pokemonList, rowFunction) {
   table.innerHTML = "";
   pokemonList.forEach(pokemon => {
@@ -157,7 +162,14 @@ function createPokemonList(table, pokemonList, rowFunction) {
     tableRow.appendChild(pokemonImg);
     tableRow.appendChild(pokemonInfo);
     tableRow.addEventListener("click", () => {
-      rowFunction(pokemon);
+      if (pokemon.is_known) {
+        rowFunction(pokemon);
+      }
+      else {
+        previousMenu.push(currentMenu);
+        currentMenu.close();
+        openWhosThatEvent(pokemon);
+      }
     });
   })
 }
@@ -165,19 +177,16 @@ function updatePokemonList(table, rowFunction) {
   createPokemonList(table, getFilteredList(table), rowFunction);
 }
 function pokedexRowClick(pokemon) {
-  const currentMenu = menuEvents.find(menuEvent => menuEvent.event === pokedexMenuEvent)
   currentMenu.close();
-  openDetailEvent(pokemon);
+  console.log(currentMenu)
   previousMenu.push(currentMenu)
+  openDetailEvent(pokemon);
 }
 function compareLeftRowClick(pokemon) {
-  const currentMenu = menuEvents.find(menuEvent => menuEvent.event === compareMenuEvent)
-
   const compareSide = compareMenuEvent.getElementsByClassName("compare_sides")[0];
   openCompareSide(compareSide, pokemon);
 }
 function compareRightRowClick(pokemon) {
-  const currentMenu = menuEvents.find(menuEvent => menuEvent.event === compareMenuEvent);
   const compareSide = compareMenuEvent.getElementsByClassName("compare_sides")[1];
   openCompareSide(compareSide, pokemon);
 }
@@ -186,6 +195,7 @@ function compareRightRowClick(pokemon) {
 function openDetailEvent(pokemon) {
   Player.isInEvent = true;
   pokedexDetailMenuEvent.style.display = "block";
+  currentMenu = menuEvents.find(menuEvent => menuEvent.event === pokedexDetailMenuEvent);
   if (!pokemon) {
     return;
   }
@@ -246,9 +256,11 @@ function closeDetailsEvent() {
 function openCompareEvent() {
   Player.isInEvent = true;
   compareMenuEvent.style.display = "block";
+  currentMenu = menuEvents.find(menuEvent => menuEvent.event === compareMenuEvent);
   const tableLeft = compareMenuEvent.getElementsByClassName("pokemon_list")[0];
-  createPokemonList(tableLeft, getFilteredList(compareMenuEvent), compareLeftRowClick);
   const tableRight = compareMenuEvent.getElementsByClassName("pokemon_list")[1];
+  resetFilters();
+  createPokemonList(tableLeft, getFilteredList(compareMenuEvent), compareLeftRowClick);
   createPokemonList(tableRight, getFilteredList(compareMenuEvent), compareRightRowClick);
 }
 function closeCompareEvent() {
@@ -319,10 +331,31 @@ for (let i = 0; i < reselectBtns.length; i++) {
 }
 
 // ========= who's that pokemon ======== //
-function openWhosThatEvent() {
+function openWhosThatEvent(pokemon) {
   Player.isInEvent = true;
-  whosThatMenuEvent.style.display = "blok";
-}
+  whosThatMenuEvent.style.display = "block";
+  currentMenu = menuEvents.find(menuEvent => menuEvent.event === whosThatMenuEvent);
+
+  const whosThatDiv = document.getElementById("whosThat_main");
+  const img = whosThatDiv.getElementsByTagName("img")[0];
+  const name = whosThatDiv.getElementsByTagName("p")[0];
+  const input = whosThatDiv.getElementsByTagName("input")[0];
+  img.src = pokemon.sprites["front_default"];
+  img.style.filter = "brightness(0%)";
+  name.innerHTML = "???";
+  input.value = "";
+  input.style.display = "block";
+  input.addEventListener("input", () => {
+      if (input.value === pokemon.name) {
+        pokemon.is_known = true;
+        img.style.filter = "brightness(100%)";
+        name.innerHTML = pokemon.name;
+        input.style.display = "none";
+        alert("je hebt de pokemon juist geraden");
+        input.replaceWith(input.cloneNode(true));
+      }
+  });
+} 
 function closeWhosThatEvent() {
   whosThatMenuEvent.style.display = "none";
 }
@@ -331,6 +364,7 @@ function closeWhosThatEvent() {
 export function openBattleEvent() {
   Player.isInEvent = true;
   battleMenuEvent.style.display = "block";
+  currentMenu = menuEvents.find(menuEvent => menuEvent.event === battleMenuEvent);
   const stages = document.getElementsByClassName("battle_stage");
   const stage = [];
   for (let i = 0; i < stages.length; i++) {
@@ -352,6 +386,7 @@ export function closeBattleEvent() {
 export function openCaptureEvent() {
   Player.isInEvent = true;
   captureMenuEvent.style.display = "block"
+  currentMenu = menuEvents.find(menuEvent => menuEvent.event === captureMenuEvent);
   const element = document.getElementById("capture_main");
   const stage = {
     name: element.children[0],
