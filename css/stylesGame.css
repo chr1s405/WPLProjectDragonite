@@ -108,7 +108,7 @@ html {
   justify-content: space-between;
   border-bottom: 2px solid black;
   /* background-color: palegreen; */
-  background-image: linear-gradient(45deg, rgb(220, 255, 220), rgb(50, 156, 71), rgb(0, 104, 0));
+  background-color: lightgreen;
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
 }
