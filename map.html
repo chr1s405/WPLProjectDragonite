@@ -200,12 +200,23 @@
         </div>
       </div>
     </div>
-    <div id="menu_who'sThat" class="menuEvent">
+    <div id="menu_whosThat" class="menuEvent">
       <!-- who's that -->
       <div class="event_header">
         <button class="backBtn">&larr;</button>
         <p class = "subtitleforbackpack">Who's that pokemon</p>
         <button class="closeBtn">X</button>
+      </div>
+
+      <div class = "whosthatsilhouette">
+        <img id="pkmsilhouette" src = "./images/Mew.png"> 
+      </div>
+
+      <div class = "whosthatguess">
+        <form id = "guess" action = "/" method = "GET">
+          <input type = "text" class = "whosthatanswer" name="whosthatname" id = "whosthatanswerid">
+          <button type = "submit">Button</button>
+        </form>
       </div>
     </div>
     <div id="menu_battle" class="menuEvent">

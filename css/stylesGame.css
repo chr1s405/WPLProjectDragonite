@@ -795,3 +795,43 @@ html {
 #gamePage button:hover {
   cursor: pointer;
 }
+
+
+/*who's that*/
+#pkmsilhouette{
+  height: 200px;
+  grid-area: "p";
+  margin: auto;
+  display: block;
+}
+
+#menu_whosThat #eventheader{
+  grid-area: "t";
+}
+
+.whosthatguess{
+  grid-area: "w";
+ text-align: center;
+}
+
+
+#menu_whosThat{
+  display: grid;
+  grid-template-areas:
+  "t"
+  "p"
+  "w";
+}
+
+.whosthatanswer{
+  display: block;
+  margin: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  height: 30px;
+  width: 300px;
+  border-radius: 5px;
+  border-color: rgb(255, 255, 255, 0.5);
+  border-style: solid;
+  color:rgb(255, 255, 255, 0.5);
+}
