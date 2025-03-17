@@ -360,6 +360,8 @@ function closeWhosThatEvent() {
   whosThatMenuEvent.style.display = "none";
 }
 
+
+
 // ========= battle ======== //
 export function openBattleEvent() {
   Player.isInEvent = true;

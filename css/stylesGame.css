@@ -55,7 +55,7 @@ html {
   font-family: sans-serif;
   font-weight: bold;
   font-size: 2rem;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 20px;
   top: 0px;
@@ -65,11 +65,11 @@ html {
 }
 
 #gamePage .closeBtn {
-  font-family: sans-serif;
-  font-size: 30px;
-  font-weight: bold;
-  margin-right: 10px;
-  float: right;
+  position: absolute;
+  top: 8px;
+  right: 0;
+  margin: 15px;
+  color: white;
 }
 
 .closeBtn:hover {
@@ -80,13 +80,15 @@ html {
 
 /* stijl voor back knop rugzak*/
 
-.backBtn {}
-
 #gamePage .backBtn {
-  font-size: 30px;
-  font-weight: bold;
-  margin-left: 10px;
+  position: absolute;
+  top: 8px;
+  left: 0;
+  margin: 15px;
+  color: white;
 }
+
+
 
 #gamePage .backBtn:hover {
   transition: background-color 0.3s ease, transform 0.2s ease-in-out;
@@ -231,7 +233,6 @@ html {
   margin: 15px;
   color: white;
   transition: transform 0.2s ease-in-out;
-
 }
 
 #gamePage #backpackMenu #backpackMenuCloseBtn:hover {
@@ -246,7 +247,8 @@ html {
   font-weight: bold;
   text-align: center;
   margin: 15px;
-  color: white;
+  font-family: var(--pokemon-hollow-font);
+  color: rgb(255, 0, 0);
 }
 
 #gamePage #backpackMenu #backpackMenuItems {
@@ -277,6 +279,14 @@ html {
   transform: translateX(-50%);
 }
 
+.subtitleforbackpack{
+  font-family: var(--pokemon-hollow-font);
+  font-size: 40px;
+  margin: 0;
+  padding: 0;
+}
+
+
 #gamePage #backpackMenu .backpackMenuBtn p {
   position: absolute;
   line-height: .8;
@@ -306,12 +316,11 @@ html {
   transform: translateY(-50%);
 
   color: white;
-
   border: 2px solid black;
-  border-radius: 10px;
-  box-shadow: 0px 0px 5px 5px rgb(10, 10, 10);
-  background-color: rgba(0, 0, 0, 0.8);
-
+  border-radius: 2px;
+  /* box-shadow: 0px 0px 5px 5px rgb(10, 10, 10); */
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
   overflow-y: hidden;
 }
 
@@ -722,6 +731,7 @@ html {
   color: #00ff00;
 }
 
+
 /* ========== battle ==========*/
 #gamePage #menu_battle {
   display: none;
@@ -929,3 +939,60 @@ html {
 #gamePage button:hover {
   cursor: pointer;
 }
+
+
+/*who's that*/
+#pkmsilhouette{
+  height: 200px;
+  grid-area: "p";
+  margin: auto;
+  display: block;
+}
+
+#menu_whosThat #eventheader{
+  grid-area: "t";
+}
+
+.whosthatguess{
+  grid-area: "w";
+ text-align: center;
+}
+
+
+#menu_whosThat{
+  display: grid;
+  grid-template-areas:
+  "t"
+  "p"
+  "w";
+}
+
+.whosthatanswer{
+  display: block;
+  margin: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  height: 30px;
+  width: 300px;
+  border-radius: 5px;
+  border-color: rgb(255, 255, 255, 0.5);
+  border-style: solid;
+  color:rgb(255, 255, 255, 0.5);
+}
+
+.whosthatbtn{
+  margin-top: 20px;
+  background-image: linear-gradient(45deg, rgb(130, 130, 130), rgb(226, 255, 207));
+  width: 150px;
+  height: 40px;
+  border-radius: 20px;
+  color: rgb(130, 130, 130);
+  font-size: 20qpx;
+}
+
+.whosthatbtn:hover{
+  border-style: solid;
+  border-color: rgb(226, 255, 207);
+  color:rgb(226, 255, 207);
+}
+

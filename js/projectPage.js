@@ -1,11 +1,11 @@
 "use strict";
 
 const playButton = document.getElementById("bigrectanglecontainer")
-// Verzamel alle afbeeldingen uit de choise-menu
-const images = Array.from(document.querySelectorAll(".choise-menu img")).map(
+// Verzamel alle afbeeldingen uit de choice-menu
+const images = Array.from(document.querySelectorAll(".choice-menu img")).map(
   (img) => img.src
 );
-const gameDivs = document.querySelectorAll(".choise-menu div");
+const gameDivs = document.querySelectorAll(".choice-menu div");
 
 // Achtergrondafbeeldingen voor elke game
 const backgrounds = {
@@ -44,7 +44,7 @@ function updateLogo(index) {
   const newSrc = images[index];
   gameLogo.src = newSrc;
 
-  const allImages = document.querySelectorAll(".choise-menu img");
+  const allImages = document.querySelectorAll(".choice-menu img");
 
   if (index < 0 || index >= allImages.length) {
     console.error("Ongeldige index:", index);
