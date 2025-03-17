@@ -3,7 +3,7 @@ import { Player } from "./gameObjects/player.js";
 import { Companion } from "./gameObjects/companion.js";
 import { Npcs } from "./gameObjects/npc's.js";
 import { Pokemon } from "./gameObjects/pokemon.js";
-import { createPokemonList } from "../js/backpack.js";
+import { getPokemon } from "../js/backpack.js";
 
 
 GetPokemon();
@@ -125,8 +125,9 @@ async function GetPokemon() {
           ],
           types: pokemon.types,
           //weight: pokemon.weight,
-          nickname: "",
+          nickname: "???",
           evolution_chain: [],
+          is_known: false,
         });
       });
       console.log(pokemonList);
@@ -136,7 +137,7 @@ async function GetPokemon() {
       Npcs.getPokemon(pokemonList);
       Pokemon.getPokemon(pokemonList);
       Pokemon.spawnPokemon();
-      createPokemonList(pokemonList);
+      getPokemon(pokemonList);
       getPokemonEvolutions(pokemonList);
     });
 

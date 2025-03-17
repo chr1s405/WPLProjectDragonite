@@ -1,5 +1,20 @@
 import { Player } from "./gameObjects/player.js";
 
+let allPokemon;
+export function getPokemon(pokemonList) {
+  allPokemon = pokemonList;
+
+  const filters = pokedexMenuEvent.getElementsByClassName("pokedex_filter");
+  const filterText = filters[0];
+  const table = pokedexMenuEvent.getElementsByClassName("pokemon_list")[0].getElementsByTagName("table")[0];
+  filterText.addEventListener("input", () => { updatePokemonList(table, pokedexRowClick) });
+  const filterCaught = filters[1];
+  filterCaught.addEventListener("change", () => { updatePokemonList(table, pokedexRowClick) });
+  const filterType = filters[2];
+  filterType.addEventListener("change", () => { updatePokemonList(table, pokedexRowClick) });
+  const sortOption = filters[3];
+  sortOption.addEventListener("change", () => { updatePokemonList(table, pokedexRowClick) });
+}
 
 const backpackIcon = document.getElementById("backpackIcon");
 const backpackMenu = document.getElementById("backpackMenu")
@@ -7,7 +22,7 @@ const backpackMenuItems = document.getElementsByClassName("backpackMenuBtn");
 const pokedexMenuEvent = document.getElementById("menu_pokedex");
 const pokedexDetailMenuEvent = document.getElementById("menu_pokemonDetail");
 const compareMenuEvent = document.getElementById("menu_compare");
-const whosThatMenuEvent = document.getElementById("menu_who'sThat");
+const whosThatMenuEvent = document.getElementById("menu_whosThat");
 const battleMenuEvent = document.getElementById("menu_battle");
 const captureMenuEvent = document.getElementById("menu_capture");
 //const menuEvents = document.getElementsByClassName("menuEvent");
@@ -28,7 +43,8 @@ backpackIcon.addEventListener("click", (e) => {
 })
 for (let i = 0; i < backpackMenuItems.length - 1; i++) {
   backpackMenuItems[i].addEventListener("click", (e) => {
-    openEvent(menuEvents[i].event);
+    menuEvents[i].open();
+    backpackMenu.style.display = "none"
     previousMenu.push(menuEvents[menuEvents.length - 1]);
   });
 }
@@ -84,97 +100,87 @@ function closeMenu(event = undefined) {
 function openPokedexEvent() {
   Player.isInEvent = true;
   pokedexMenuEvent.style.display = "block"
+  const table = pokedexMenuEvent.getElementsByClassName("pokemon_list")[0].getElementsByTagName("table")[0];
+  createPokemonList(table, getFilteredList(table), pokedexRowClick);
 }
 function closePokedexEvent() {
   pokedexMenuEvent.style.display = "none"
 }
-// ik heb de function creatPokemonList aangepast zodanig dat de filters werken 
-export function createPokemonList(allPokemon) {
-  const tables = document.getElementsByClassName("pokemon_list");
 
-  // Selecteer de invoervelden en filters
-  const searchInput = document.getElementById("pokedex_search");
-  const filterCheckbox = document.getElementById("pokedex_filter_caught");
-  const typeFilter = document.getElementById("pokedex_filter_type");
-  const sortFilter = document.getElementById("pokedex_sort");
+function getFilteredList(table) {
+  let filteredList = allPokemon;
+  const filters = table.parentElement.getElementsByClassName("pokedex_filter");
+  console.log(filters)
+  if (filters.length > 0) {
+    const filterText = filters[0];
+    const sortOption = filters[1];
+    const filterCaught = filters[2];
+    const filterType = filters[3];
 
-  function updateList() {
-      let searchText = searchInput.value.toLowerCase();
-      let onlyCaught = filterCheckbox.checked;
-      let selectedType = typeFilter.value;
-      let sortOption = sortFilter.value;
-
-      for (let i = 0; i < tables.length; i++) {
-          const table = tables[i].getElementsByTagName("table")[0];
-          table.innerHTML = ""; // Maak de lijst leeg
-
-          // Filter Pokémon
-          let filteredList = allPokemon.filter(pokemon => {
-              let matchesSearch = pokemon.name.toLowerCase().includes(searchText);
-              let isCaught = Player.capturedPokemon.includes(pokemon); // Controleer of de Pokémon gevangen is
-              let matchesType = selectedType === "all" || pokemon.types.some(t => t.type.name === selectedType);
-              
-              return matchesSearch && (!onlyCaught || isCaught) && matchesType;
-          });
-
-          // Sorteer Pokémon op geselecteerde optie
-          filteredList.sort((a, b) => {
-              if (sortOption === "id") {
-                  return a.id - b.id;
-              } else if (sortOption === "hp") {
-                  return b.stats[0].base_stat - a.stats[0].base_stat; // HP
-              } else if (sortOption === "attack") {
-                  return b.stats[1].base_stat - a.stats[1].base_stat; // Aanval
-              } else if (sortOption === "speed") {
-                  return b.stats[5].base_stat - a.stats[5].base_stat; // Snelheid
-              }
-              return 0;
-          });
-
-          // Voeg de gefilterde en gesorteerde Pokémon toe aan de lijst
-          filteredList.forEach(pokemon => {
-              const tableRow = document.createElement("tr");
-              tableRow.setAttribute("class", "tableRow");
-
-              const pokemonImg = document.createElement("img");
-              pokemonImg.setAttribute("class", "tableImg");
-              pokemonImg.src = pokemon.sprites["front_default"];
-
-              const pokemonInfo = document.createElement("p");
-              pokemonInfo.setAttribute("class", "tableInfo");
-              pokemonInfo.innerHTML = `#${pokemon.id} - ${pokemon.name}`;
-
-              table.appendChild(tableRow);
-              tableRow.appendChild(pokemonImg);
-              tableRow.appendChild(pokemonInfo);
-
-              tableRow.addEventListener("click", () => {
-                  if (i === 0) {
-                      openDetailEvent(pokemon);
-                      previousMenu.push(menuEvents.find(menuEvent => menuEvent.event === pokedexMenuEvent));
-                      pokedexMenuEvent.style.display = "none";
-                  } else {
-                      const compareSide = compareMenuEvent.getElementsByClassName("compare_sides")[i - 1];
-                      createCompareSide(compareSide, pokemon);
-                  }
-              });
-          });
+    filteredList = filteredList.filter((pokemon) => {
+      const matchesSearch = pokemon.name.toLowerCase().includes(filterText.value.toLowerCase());
+      const isCaught = Player.capturedPokemon.includes(pokemon);
+      const isType = filterType.value === "all" || pokemon.types.some(t => t.type.name === filterType.value);
+      return matchesSearch && (!filterCaught.checked || isCaught) && isType;
+    });
+    filteredList.sort((a, b) => {
+      if (sortOption.value === "id") {
+        return a.id - b.id;
+      } else if (sortOption.value === "hp") {
+        return b.stats[0].base_stat - a.stats[0].base_stat; // HP
+      } else if (sortOption.value === "attack") {
+        return b.stats[1].base_stat - a.stats[1].base_stat; // Aanval
+      } else if (sortOption.value === "speed") {
+        return b.stats[5].base_stat - a.stats[5].base_stat; // Snelheid
       }
+      return 0;
+    });
   }
-
-  // Voeg event listeners toe aan de zoekbalk en filters
-  searchInput.addEventListener("input", updateList);
-  filterCheckbox.addEventListener("change", updateList);
-  typeFilter.addEventListener("change", updateList);
-  sortFilter.addEventListener("change", updateList);
-
-  // Initialiseer de lijst
-  updateList();
+  return filteredList;
 }
+function createPokemonList(table, pokemonList, rowFunction) {
+  table.innerHTML = "";
+  pokemonList.forEach(pokemon => {
+    const tableRow = document.createElement("tr");
+    tableRow.setAttribute("class", "tableRow");
 
+    const pokemonImg = document.createElement("img");
+    pokemonImg.setAttribute("class", "tableImg");
+    pokemonImg.src = pokemon.sprites["front_default"];
+    pokemonImg.style.filter = pokemon.is_known ? "brightness(100%)" : "brightness(0%)";
 
+    const pokemonInfo = document.createElement("p");
+    pokemonInfo.setAttribute("class", "tableInfo");
+    pokemonInfo.innerHTML = `#${pokemon.id}</br>${pokemon.is_known ? pokemon.name : "???"}`;
 
+    table.appendChild(tableRow);
+    tableRow.appendChild(pokemonImg);
+    tableRow.appendChild(pokemonInfo);
+    tableRow.addEventListener("click", () => {
+      rowFunction(pokemon);
+    });
+  })
+}
+function updatePokemonList(table, rowFunction) {
+  createPokemonList(table, getFilteredList(table), rowFunction);
+}
+function pokedexRowClick(pokemon) {
+  const currentMenu = menuEvents.find(menuEvent => menuEvent.event === pokedexMenuEvent)
+  currentMenu.close();
+  openDetailEvent(pokemon);
+  previousMenu.push(currentMenu)
+}
+function compareLeftRowClick(pokemon) {
+  const currentMenu = menuEvents.find(menuEvent => menuEvent.event === compareMenuEvent)
 
+  const compareSide = compareMenuEvent.getElementsByClassName("compare_sides")[0];
+  openCompareSide(compareSide, pokemon);
+}
+function compareRightRowClick(pokemon) {
+  const currentMenu = menuEvents.find(menuEvent => menuEvent.event === compareMenuEvent);
+  const compareSide = compareMenuEvent.getElementsByClassName("compare_sides")[1];
+  openCompareSide(compareSide, pokemon);
+}
 
 // ========= pokedex detail ======== //
 function openDetailEvent(pokemon) {
@@ -191,8 +197,9 @@ function openDetailEvent(pokemon) {
     stats[i].innerHTML = text.substring(0, text.indexOf(':') + 1) + ` ${pokemon.stats[(stats.length - 2 + i) % stats.length].base_stat}`
   }
   const pokemonDiv = pokedexDetails.children[1];
-  pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.nickname !== "" ? pokemon.nickname : pokemon.name;
+  pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.is_known ? pokemon.name : "???";
   pokemonDiv.getElementsByTagName("img")[0].src = pokemon.sprites["front_default"];
+  pokemonDiv.getElementsByTagName("img")[0].style.filter = pokemon.is_known ? "brightness(100%)" : "brightness(0%)";
   const buttonsDiv = pokedexDetails.children[2];
   const buttons = buttonsDiv.getElementsByTagName("button");
   buttons[0].replaceWith(buttons[0].cloneNode(true));
@@ -207,7 +214,7 @@ function openDetailEvent(pokemon) {
   buttons[2].addEventListener("click", () => {
     closeDetailsEvent();
     const compareSide = compareMenuEvent.getElementsByClassName("compare_sides")[0];
-    createCompareSide(compareSide, pokemon);
+    openCompareSide(compareSide, pokemon);
     openCompareEvent();
     previousMenu.push(menuEvents.find((menuEvent) => { return menuEvent.event === pokedexDetailMenuEvent }));
   })
@@ -221,8 +228,10 @@ function openDetailEvent(pokemon) {
     }
   }
   for (let i = 0; i < pokemon.evolution_chain.length; i++) {
+    const evolutionPokemon = allPokemon.find((value) => { return value.name === pokemon.evolution_chain[i].name });
+    evolutionSteps[i].children[1].innerHTML = evolutionPokemon.is_known ? pokemon.evolution_chain[i].name : "???";
     evolutionSteps[i].children[0].src = pokemon.evolution_chain[i].sprite;
-    evolutionSteps[i].children[1].innerHTML = pokemon.evolution_chain[i].name;
+    evolutionSteps[i].children[0].style.filter = evolutionPokemon.is_known ? "brightness(100%)" : "brightness(0%)";
     evolutionSteps[i].style.display = "block";
     if (i > 0) {
       evolutionArrows[i - 1].style.display = "block";
@@ -237,6 +246,10 @@ function closeDetailsEvent() {
 function openCompareEvent() {
   Player.isInEvent = true;
   compareMenuEvent.style.display = "block";
+  const tableLeft = compareMenuEvent.getElementsByClassName("pokemon_list")[0];
+  createPokemonList(tableLeft, getFilteredList(compareMenuEvent), compareLeftRowClick);
+  const tableRight = compareMenuEvent.getElementsByClassName("pokemon_list")[1];
+  createPokemonList(tableRight, getFilteredList(compareMenuEvent), compareRightRowClick);
 }
 function closeCompareEvent() {
   const compareSides = compareMenuEvent.getElementsByClassName("compare_sides");
@@ -247,7 +260,7 @@ function closeCompareEvent() {
   }
   compareMenuEvent.style.display = "none"
 }
-function createCompareSide(compareSide, pokemon) {
+function openCompareSide(compareSide, pokemon) {
   compareSide.getElementsByTagName("img")[0].src = pokemon.sprites["front_default"];
   compareSide.getElementsByTagName("p")[0].innerHTML = pokemon.name;
   const statsDiv = compareSide.getElementsByTagName("div")[0];
@@ -278,8 +291,6 @@ function updateComparePage() {
     for (let i = 0; i < statsLeft.length; i++) {
       let textLeft = statsLeft[i].innerHTML.match(/\d+/g)[0];
       let textRight = statsRight[i].innerHTML.match(/\d+/g)[0];
-      console.log(textLeft);
-      console.log(textRight);
       const difference = textLeft - textRight;
       if (difference !== 0) {
         textLeft += ` ${difference < 0 ? "-" : "+"}${Math.abs(difference)}`

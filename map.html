@@ -72,32 +72,37 @@
         <p>pokedex</p>
         <button class="closeBtn">X</button>
       </div>
-      <div class="pokedex_controls">
-        <input type="text" id="pokedex_search" placeholder="Zoek Pokémon..." />
-    
-        <label for="pokedex_filter_caught">
-          <input type="checkbox" id="pokedex_filter_caught"> Gevangen Pokémon</label>
-    
-        <label for="pokedex_filter_type">Type:</label>
-        <select id="pokedex_filter_type">
-            <option value="all">Alle Types</option>
-            <option value="fire">Fire</option>
-            <option value="water">Water</option>
-            <option value="grass">Grass</option>
-            <option value="electric">Electric</option>
-            <option value="fairy">Fairy</option>
-        </select>
-    
-        <label for="pokedex_sort">Sorteren op:</label>
-        <select id="pokedex_sort">
-            <option value="id">Pokedex Nummer</option>
-            <option value="hp">HP</option>
-            <option value="attack">Aanvalskracht</option>
-            <option value="speed">Snelheid</option>
-        </select>
-    </div>
-    
       <div class="pokemon_list">
+        <div id="pokedex_controls">
+          <input type="text" id="pokedex_search" class="pokedex_filter" placeholder="Zoek Pokémon..." />
+          <label for="pokedex_sort" id="pokedex_sort_label">Sorteren op:
+            <select id="pokedex_sort" class="pokedex_filter">
+              <option value="id">Pokedex Nummer</option>
+              <option value="hp">HP</option>
+              <option value="attack">Aanvalskracht</option>
+              <option value="speed">Snelheid</option>
+            </select>
+          </label>
+          <div id="pokedex_filters">
+            <button id="pokedex_filterBtn">filter opties</button>
+            <div id="pokedex_filters_dropdown">
+              <label for="pokedex_filter_caught">Gevangen Pokémon
+                <input type="checkbox" id="pokedex_filter_caught" class="pokedex_filter">
+              </label>
+
+              <label for="pokedex_filter_type">Type:
+                <select id="pokedex_filter_type" class="pokedex_filter">
+                  <option value="all">Alle Types</option>
+                  <option value="fire">Fire</option>
+                  <option value="water">Water</option>
+                  <option value="grass">Grass</option>
+                  <option value="electric">Electric</option>
+                  <option value="fairy">Fairy</option>
+                </select>
+              </label>
+            </div>
+          </div>
+        </div>
         <table>
         </table>
       </div>
@@ -196,12 +201,16 @@
         </div>
       </div>
     </div>
-    <div id="menu_who'sThat" class="menuEvent">
-      <!-- who's that -->
+    <!-- who's that -->
+    <div id="menu_whosThat" class="menuEvent">
       <div class="event_header">
         <button class="backBtn">&larr;</button>
         <p>Who's that pokemon</p>
         <button class="closeBtn">X</button>
+      </div>
+      <div id="whosThat_main">
+        <img src="./images/pokeball.png">
+        <input id="whosThat_input" type="text">
       </div>
     </div>
     <div id="menu_battle" class="menuEvent">
