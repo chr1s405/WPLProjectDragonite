@@ -240,7 +240,7 @@ function openDetailEvent(pokemon) {
   }
   for (let i = 0; i < pokemon.evolution_chain.length; i++) {
     const evolutionPokemon = allPokemon.find((value) => { return value.name === pokemon.evolution_chain[i].name });
-    const isKnown = evolutionPokemon? (evolutionPokemon.is_known) : false;
+    const isKnown = evolutionPokemon ? (evolutionPokemon.is_known) : false;
     evolutionSteps[i].children[1].innerHTML = isKnown ? pokemon.evolution_chain[i].name : "???";
     evolutionSteps[i].children[0].src = pokemon.evolution_chain[i].sprite;
     evolutionSteps[i].children[0].style.filter = isKnown ? "brightness(100%)" : "brightness(0%)";
@@ -342,21 +342,29 @@ function openWhosThatEvent(pokemon) {
   const img = whosThatDiv.getElementsByTagName("img")[0];
   const name = whosThatDiv.getElementsByTagName("p")[0];
   const input = whosThatDiv.getElementsByTagName("input")[0];
+  const button = whosThatDiv.getElementsByTagName("button")[0];
   img.src = pokemon.sprites["front_default"];
   img.style.filter = "brightness(0%)";
   name.innerHTML = "???";
   input.value = "";
   input.style.display = "block";
-  input.addEventListener("input", () => {
+  button.innerHTML = "confirm"
+  button.addEventListener("click", () => {
+    if (button.innerHTML === "confirm") {
       if (input.value === pokemon.name) {
         pokemon.is_known = true;
         img.style.filter = "brightness(100%)";
         name.innerHTML = pokemon.name;
         input.style.display = "none";
-        input.replaceWith(input.cloneNode(true));
+        button.style.display = "none"
+        button.replaceWith(button.cloneNode(true));
       }
+      else{
+        alert("dat is niet de juiste pokemon");
+      }
+    }
   });
-} 
+}
 function closeWhosThatEvent() {
   whosThatMenuEvent.style.display = "none";
 }

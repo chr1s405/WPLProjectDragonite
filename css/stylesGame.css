@@ -31,9 +31,6 @@ h1{
   height: 10px;
 }
 
-html {
-  overflow: hidden;
-}
 
 /*========================================*/
 /*========================================*/
@@ -47,6 +44,7 @@ html {
     "header"
     "main";
   grid-template-rows: 100px auto;
+  overflow: hidden;
 }
 
 #gamePage .event_header {
@@ -228,6 +226,7 @@ html {
   border: 4px solid black;
   border-radius: 20px;
   background-color: rgba(30, 30, 30, 0.8);
+  overflow-y: scroll;
 }
 
 #gamePage #backpackMenu #backpackMenuCloseBtn {
@@ -252,7 +251,7 @@ html {
   font-size: 50px;
   font-weight: bold;
   text-align: center;
-  margin: -20px;
+  margin: -20px 0 -20px 0;
   font-family: var(--pokemon-hollow-font);
   color: rgb(255, 0, 0);
 }
@@ -288,7 +287,8 @@ html {
 .subtitleforbackpack{
   font-family: var(--pokemon-hollow-font);
   font-size: 40px;
-  margin: -40px;
+  margin: -40px 0px -40px 0px;
+  margin-bottom: -20px;
   padding: 0;
 }
 
@@ -348,9 +348,10 @@ html {
   display: grid;
   grid-template-areas:
     "image info stats";
-  grid-template-columns: max-content auto 80%;
+  grid-template-columns: max-content max-content auto;
 
   height: max-content;
+  width: 100%;
   background-color: gray;
   border: 2px solid black;
   border-radius: 50px;
@@ -386,24 +387,26 @@ html {
   display: grid;
   grid-template-areas:
     "search sort filter";
-  grid-template-columns: 200px auto 20%;
+  grid-template-columns: 30% auto max-content;
+  gap: 20px;
   align-items: center;
+  width: 100%;
 }
 
 #pokedex_controls #pokedex_search {
   grid-area: search;
-  margin: 10px;
-  margin-right: 20%;
-  padding: 8px 20px;
+  padding: 8px 15px;
+  margin-bottom: 5px;
   max-width: 300px;
   color: black;
   background-color: white;
   border: 2px solid black;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
 #pokedex_controls #pokedex_sort_label {
   grid-area: sort;
+  font-size: 12px;
 }
 
 #pokedex_controls #pokedex_sort {
@@ -428,8 +431,7 @@ html {
   color: white;
   text-align: center;
   margin-left: auto;
-  padding: 8px 20px;
-  width: 150px;
+  padding: 4px 15px;
 
   background-color: gray;
   border: 2px solid black;
@@ -899,16 +901,18 @@ html {
 }
 
 #gamePage #whosThat_main {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 10px;
   text-align: center;
   align-content: center;
+  height: 100%;
 }
 
 #gamePage #whosThat_main img {
   display: block;
-  margin: auto;
+  margin: 5% auto 0px auto;
   margin-top: 5%;
   width: 20%;
   min-width: 150px;
@@ -920,10 +924,21 @@ html {
   text-align: center;
   color: black;
   padding: 5px;
-  margin: auto;
-  margin-top: 20px;
+  margin: 20px auto 0px auto;
   width: 40%;
   background-color: white;
+  border: 2px solid black;
+  border-radius: 50px;
+}
+
+#gamePage #whosThat_main #whosThat_btn {
+  display: block;
+  text-align: center;
+  color: black;
+  padding: 5px;
+  margin: 20px auto 0px auto;
+  width: 20%;
+  background-color: gray;
   border: 2px solid black;
   border-radius: 50px;
 }
