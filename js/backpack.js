@@ -4,16 +4,18 @@ let allPokemon;
 export function getPokemon(pokemonList) {
   allPokemon = pokemonList;
 
+  const table = pokedexMenuEvent.getElementsByClassName("pokemon_list")[0].getElementsByTagName("table")[0];
   const filters = pokedexMenuEvent.getElementsByClassName("pokedex_filter");
   const filterText = filters[0];
-  const table = pokedexMenuEvent.getElementsByClassName("pokemon_list")[0].getElementsByTagName("table")[0];
   filterText.addEventListener("input", () => { updatePokemonList(table, pokedexRowClick) });
-  const filterCaught = filters[1];
-  filterCaught.addEventListener("change", () => { updatePokemonList(table, pokedexRowClick) });
-  const filterType = filters[2];
-  filterType.addEventListener("change", () => { updatePokemonList(table, pokedexRowClick) });
-  const sortOption = filters[3];
+  const sortOption = filters[1];
   sortOption.addEventListener("change", () => { updatePokemonList(table, pokedexRowClick) });
+  const filterCaught = filters[2];
+  filterCaught.addEventListener("change", () => { updatePokemonList(table, pokedexRowClick) });
+  const filterKnown = filters[3];
+  filterKnown.addEventListener("change", () => { updatePokemonList(table, pokedexRowClick) });
+  const filterType = filters[4];
+  filterType.addEventListener("change", () => { updatePokemonList(table, pokedexRowClick) });
 }
 
 const backpackIcon = document.getElementById("backpackIcon");
@@ -145,7 +147,8 @@ function resetFilters() {
   filters[0].value = "";
   filters[1].value = "id";
   filters[2].checked = false;
-  filters[3].value = "all";
+  filters[3].checked = false;
+  filters[4].value = "all";
 }
 function createPokemonList(table, pokemonList, rowFunction) {
   table.innerHTML = "";
