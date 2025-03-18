@@ -373,13 +373,24 @@ function capture(pokemon) {
                 if (chances === 0) {
                     if (hasPokemon) {
                         alert(`je hebt ${pokemon.name} gevangen`);
+                        const nickNameDiv = document.getElementById("capture_nickname");
+                        const input = nickNameDiv.getElementsByTagName("input")[0];
+                        input.value = "";
+                        nickNameDiv.style.display = "block";
+                        nickNameDiv.getElementsByTagName("button")[0].addEventListener("click", () => {
+                            pokemon.nickname = input.value;
+                            closeCaptureEvent();
+                            nickNameDiv.style.display = "none";
+                            Player.isInEvent = false;
+                        }, { once: true });
                     }
                     else {
                         alert(`${pokemon.name} is weggelopen`);
+                        closeCaptureEvent();
+                        Player.isInEvent = false;
                     }
                     clearInterval(intervalId);
-                    closeCaptureEvent();
-                    Player.isInEvent = false;
+
                 }
             }
         }

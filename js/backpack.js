@@ -40,7 +40,9 @@ let currentMenu;
 
 
 backpackIcon.addEventListener("click", (e) => {
-  openMenu();
+  if (!Player.isInEvent) {
+    openMenu();
+  }
 })
 for (let i = 0; i < backpackMenuItems.length - 1; i++) {
   backpackMenuItems[i].addEventListener("click", (e) => {
@@ -348,9 +350,8 @@ function openWhosThatEvent(pokemon) {
   name.innerHTML = "???";
   input.value = "";
   input.style.display = "block";
-  button.innerHTML = "confirm"
+  button.innerHTML = "bevestigen"
   button.addEventListener("click", () => {
-    if (button.innerHTML === "confirm") {
       if (input.value === pokemon.name) {
         pokemon.is_known = true;
         img.style.filter = "brightness(100%)";
@@ -359,9 +360,8 @@ function openWhosThatEvent(pokemon) {
         button.style.display = "none"
         button.replaceWith(button.cloneNode(true));
       }
-      else{
+      else {
         alert("dat is niet de juiste pokemon");
-      }
     }
   });
 }

@@ -896,6 +896,35 @@ h1{
   width: 30%;
 }
 
+#gamePage #capture_nickname {
+  display: none;
+  position: absolute;
+  padding: 10px;
+  width: 80%;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+#gamePage #capture_nickname_input {
+  text-align: left;
+  padding: 2px;
+  width: 60%;
+  color: black;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+#gamePage #capture_nickname_button {
+  padding: 2px 10px;
+  background-color: gray;
+  border: 2px solid black;
+  border-radius: 50px;
+}
+
 /* ========== who's that pokemon ==========*/
 #gamePage #menu_whosThat {
 }
@@ -963,7 +992,7 @@ h1{
 
 
 /*who's that*/
-#pkmsilhouette{
+/* #pkmsilhouette{
   height: 200px;
   grid-area: "p";
   margin: auto;
@@ -999,7 +1028,7 @@ h1{
   border-color: rgb(255, 255, 255, 0.5);
   border-style: solid;
   color:rgb(255, 255, 255, 0.5);
-}
+} */
 
 .whosthatbtn{
   margin-top: 20px;
