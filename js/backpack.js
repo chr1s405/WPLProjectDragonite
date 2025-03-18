@@ -4,16 +4,18 @@ let allPokemon;
 export function getPokemon(pokemonList) {
   allPokemon = pokemonList;
 
+  const table = pokedexMenuEvent.getElementsByClassName("pokemon_list")[0].getElementsByTagName("table")[0];
   const filters = pokedexMenuEvent.getElementsByClassName("pokedex_filter");
   const filterText = filters[0];
-  const table = pokedexMenuEvent.getElementsByClassName("pokemon_list")[0].getElementsByTagName("table")[0];
   filterText.addEventListener("input", () => { updatePokemonList(table, pokedexRowClick) });
-  const filterCaught = filters[1];
-  filterCaught.addEventListener("change", () => { updatePokemonList(table, pokedexRowClick) });
-  const filterType = filters[2];
-  filterType.addEventListener("change", () => { updatePokemonList(table, pokedexRowClick) });
-  const sortOption = filters[3];
+  const sortOption = filters[1];
   sortOption.addEventListener("change", () => { updatePokemonList(table, pokedexRowClick) });
+  const filterCaught = filters[2];
+  filterCaught.addEventListener("change", () => { updatePokemonList(table, pokedexRowClick) });
+  const filterKnown = filters[3];
+  filterKnown.addEventListener("change", () => { updatePokemonList(table, pokedexRowClick) });
+  const filterType = filters[4];
+  filterType.addEventListener("change", () => { updatePokemonList(table, pokedexRowClick) });
 }
 
 const backpackIcon = document.getElementById("backpackIcon");
@@ -40,7 +42,9 @@ let currentMenu;
 
 
 backpackIcon.addEventListener("click", (e) => {
-  openMenu();
+  if (!Player.isInEvent) {
+    openMenu();
+  }
 })
 for (let i = 0; i < backpackMenuItems.length - 1; i++) {
   backpackMenuItems[i].addEventListener("click", (e) => {
@@ -143,7 +147,8 @@ function resetFilters() {
   filters[0].value = "";
   filters[1].value = "id";
   filters[2].checked = false;
-  filters[3].value = "all";
+  filters[3].checked = false;
+  filters[4].value = "all";
 }
 function createPokemonList(table, pokemonList, rowFunction) {
   table.innerHTML = "";
@@ -240,7 +245,7 @@ function openDetailEvent(pokemon) {
   }
   for (let i = 0; i < pokemon.evolution_chain.length; i++) {
     const evolutionPokemon = allPokemon.find((value) => { return value.name === pokemon.evolution_chain[i].name });
-    const isKnown = evolutionPokemon? (evolutionPokemon.is_known) : false;
+    const isKnown = evolutionPokemon ? (evolutionPokemon.is_known) : false;
     evolutionSteps[i].children[1].innerHTML = isKnown ? pokemon.evolution_chain[i].name : "???";
     evolutionSteps[i].children[0].src = pokemon.evolution_chain[i].sprite;
     evolutionSteps[i].children[0].style.filter = isKnown ? "brightness(100%)" : "brightness(0%)";
@@ -342,21 +347,27 @@ function openWhosThatEvent(pokemon) {
   const img = whosThatDiv.getElementsByTagName("img")[0];
   const name = whosThatDiv.getElementsByTagName("p")[0];
   const input = whosThatDiv.getElementsByTagName("input")[0];
+  const button = whosThatDiv.getElementsByTagName("button")[0];
   img.src = pokemon.sprites["front_default"];
   img.style.filter = "brightness(0%)";
   name.innerHTML = "???";
   input.value = "";
   input.style.display = "block";
-  input.addEventListener("input", () => {
+  button.innerHTML = "bevestigen"
+  button.addEventListener("click", () => {
       if (input.value === pokemon.name) {
         pokemon.is_known = true;
         img.style.filter = "brightness(100%)";
         name.innerHTML = pokemon.name;
         input.style.display = "none";
-        input.replaceWith(input.cloneNode(true));
+        button.style.display = "none"
+        button.replaceWith(button.cloneNode(true));
       }
+      else {
+        alert("dat is niet de juiste pokemon");
+    }
   });
-} 
+}
 function closeWhosThatEvent() {
   whosThatMenuEvent.style.display = "none";
 }

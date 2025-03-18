@@ -35,6 +35,9 @@ addEventListener("keydown", (e) => {
     if (e.keyCode === 79 /*o*/) {
       toggleDebug();
     }
+    if (e.keyCode === 73 /*i*/) {
+      
+    }
     if (e.keyCode === 13 /*enter*/) {
       Player.interact();
     }
