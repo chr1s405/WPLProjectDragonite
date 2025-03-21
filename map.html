@@ -15,7 +15,7 @@
 </head>
 
 <body id="gamePage">
-  <header id = "landingpageheader">
+  <header id="landingpageheader">
     <div id="nav-profile">
       <img src="./images/pokeball.png">
       <h1>username</h1>
@@ -33,62 +33,26 @@
         <p class="debug"></p>
       </div>
     </div>
-  
+
     <img src="../images/backpack.png" id="backpackIcon">
 
-    <div id="backpackMenu">
-      <h1 id = "backpacktitle">Rugzak</h1>
-      <button id="backpackMenuCloseBtn" class="closeBtn">
-        X</button>
-      <div id="backpackMenuItems">
-        <button class="backpackMenuBtn">
-          <img src="./images/pokedex.webp">
-          <p>pokedex</p>
-        </button>
+    <div id="debug">
+      <p id="characterCoor"></p>
+      <p id="companionCoor"></p>
+      <p id="mapCoor"></p>
+    </div>
+  </main>
 
-        <button class="backpackMenuBtn" style="display:none">
-          <img src="./images/pokeball.png">
-          <p>pokemon Detail</p>
-        </button>
-
-        <button class="backpackMenuBtn">
-          <img src="./images/pokeball.png">
-          <p>pokemon vergelijken</p>
-        </button>
-
-        <button class="backpackMenuBtn" style="display:none">
-          <img src="./images/who's_that_icon.png">
-          <p>who's that pokemon</p>
-        </button>
-
-        <button class="backpackMenuBtn" style="display:none">
-          <img src="./images/pokeball.png">
-          <p>battle</p>
-        </button>
-
-        <button class="backpackMenuBtn" style="display:none">
-          <img src="./images/pokeball.png">
-          <p>capture</p>
-        </button>
-
-        <button class="backpackMenuBtn">
-          <a href="./login.html">
-          <img src="./images/log_out_icon.png">
-          </a>
-          <p>log out</p>
-        </button>
-
-      </div>
+  <aside id="backpackContents">
+    <div id="backpackHeader">
+      <button id="backpack_backBtn">←</button>
+      <p id="backpackTitle">rugzak</p>
+      <button id="backpack_closeBtn">X</button>
     </div>
 
     <div id="menu_pokedex" class="menuEvent">
       <!-- pokedex -->
-      <div class="event_header">
-        <button class="backBtn">&larr;</button>
-        <p class = "subtitleforbackpack">Pokedex</p>
-        <button class="closeBtn">X</button>
-      </div>
-      
+
       <div class="pokemon_list">
         <div id="pokedex_controls">
           <input type="text" id="pokedex_search" class="pokedex_filter" placeholder="Zoek Pokémon..." />
@@ -131,12 +95,7 @@
 
     <div id="menu_pokemonDetail" class="menuEvent">
       <!-- pokemon Detail -->
-      <div class="event_header">
-        <button class="backBtn">&larr;</button>
-        <p class = "subtitleforbackpack">Pokedex</p>
-        <button class="closeBtn">X</button>
-      </div>
-      
+
       <div id="pokedex_detail">
         <div id="pokedex_stats">
           <p>gevechten gewonnen: 0</p>
@@ -183,13 +142,7 @@
     </div>
 
     <div id="menu_compare" class="menuEvent">
-
       <!-- compare -->
-      <div class="event_header">
-        <button class="backBtn">&larr;</button>
-        <p class= "subtitleforbackpack"> vergelijken</p>
-        <button class="closeBtn">X</button>
-      </div>
 
       <div id="compare_main">
         <div id="compare_left">
@@ -213,7 +166,7 @@
             <button class="compare_reselect">opnieuw selecteren</button>
           </div>
         </div>
-        
+
         <div id="compare_right">
           <div id="compare_right_search" class="pokemon_list">
             <table>
@@ -240,11 +193,6 @@
 
     <!-- who's that -->
     <div id="menu_whosThat" class="menuEvent">
-      <div class="event_header">
-        <button class="backBtn">&larr;</button>
-        <p class = "subtitleforbackpack">Who's that pokemon</p>
-        <button class="closeBtn">X</button>
-      </div>
 
       <div id="whosThat_main">
         <img src="./images/pikachu_silouhette.png">
@@ -256,11 +204,6 @@
 
     <div id="menu_battle" class="menuEvent">
       <!-- battle -->
-      <div class="event_header">
-        <button class="backBtn">&larr;</button>
-        <p>gevecht</p>
-        <button class="closeBtn">X</button>
-      </div>
 
       <div id="battle_main">
         <div id="battle_left" class="battle_stage">
@@ -298,17 +241,12 @@
 
     <div id="menu_capture" class="menuEvent">
       <!-- capture -->
-      <div class="event_header">
-        <button class="backBtn">&larr;</button>
-        <p>vangen</p>
-        <button class="closeBtn">X</button>
-      </div>
 
       <div id="capture_main">
         <p>pikachu</p>
         <img src="./images/pikachu_silouhette.png">
         <button id="capture_button" src="./images/pokeball.png"></button>
-        
+
         <div id="capture_chances">
           <img src="./images/pokeball.png">
           <img src="./images/pokeball.png">
@@ -322,13 +260,49 @@
       </div>
     </div>
 
+    <div id="mainMenu" class="menuEvent">
+      <div id="mainMenu_main">
+        <button class="backpackMenuBtn">
+          <img src="./images/pokedex.webp">
+          <p>pokedex</p>
+        </button>
 
-    <div id="debug">
-      <p id="characterCoor"></p>
-      <p id="companionCoor"></p>
-      <p id="mapCoor"></p>
+        <button class="backpackMenuBtn" style="display:none">
+          <img src="./images/pokeball.png">
+          <p>pokemon Detail</p>
+        </button>
+
+        <button class="backpackMenuBtn">
+          <img src="./images/pokeball.png">
+          <p>pokemon vergelijken</p>
+        </button>
+
+        <button class="backpackMenuBtn" style="display:none">
+          <img src="./images/who's_that_icon.png">
+          <p>who's that pokemon</p>
+        </button>
+
+        <button class="backpackMenuBtn" style="display:none">
+          <img src="./images/pokeball.png">
+          <p>battle</p>
+        </button>
+
+        <button class="backpackMenuBtn" style="display:none">
+          <img src="./images/pokeball.png">
+          <p>capture</p>
+        </button>
+
+        <button class="backpackMenuBtn">
+          <a href="./login.html">
+            <img src="./images/log_out_icon.png">
+          </a>
+          <p>log out</p>
+        </button>
+      </div>
     </div>
-  </main>
+
+
+  </aside>
 </body>
 
 </html>

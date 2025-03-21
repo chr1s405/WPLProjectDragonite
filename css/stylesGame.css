@@ -3,6 +3,13 @@
   --pokemon-solid-font: 'Pokemon Solid', sans-serif;
   /*pokémon font als de letters doorzichtig zijn*/
   --pokemon-hollow-font: 'Pokemon Hollow', sans-serif;
+
+  --color_primary: #5f1026;
+  --color_secondary: #9c2b26;
+  --color_tertiary: #85a175;
+  --color_accent1: #2f4c42;
+  --color_accent2: #d87a2a;
+  --color_accent3: #e97d2e;
 }
 
 /*standard settings for pages*/
@@ -35,54 +42,6 @@
   grid-template-rows: 100px auto;
   overflow: hidden;
 }
-
-#gamePage .event_header {
-  display: flex;
-  text-align: center;
-  font-family: sans-serif;
-  font-weight: bold;
-  font-size: 2rem;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  top: 0px;
-  width: 100%;
-  padding: 10px;
-  color: white;
-}
-
-#gamePage .closeBtn {
-  position: absolute;
-  top: 8px;
-  right: 0;
-  margin: 15px;
-  color: white;
-}
-
-.closeBtn:hover {
-  transition: 0, 3s;
-  transform: scale(1.1);
-}
-
-/* stijl voor back knop rugzak*/
-
-#gamePage .backBtn {
-  position: absolute;
-  top: 8px;
-  left: 0;
-  margin: 15px;
-  color: white;
-}
-
-
-
-#gamePage .backBtn:hover {
-  transition: background-color 0.3s ease, transform 0.2s ease-in-out;
-  transform: scale(1.1);
-}
-
-
-
 
 /*==============================*/
 /*=========== Header ===========*/
@@ -189,10 +148,6 @@
   background-size: 100%;
 }
 
-/*==============================*/
-/*============ Menu ============*/
-/*==============================*/
-
 #gamePage main #backpackIcon {
   position: absolute;
   width: 80px;
@@ -200,60 +155,54 @@
   right: 20px;
   bottom: 20px;
 }
-
-#gamePage main #backpackMenu {
-  position: relative;
-  display: none;
-
-  width: 70%;
-  height: 80%;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  padding-bottom: 20px;
-  border: 4px solid black;
-  border-radius: 20px;
-  background-color: rgba(30, 30, 30, 0.8);
-  overflow-y: scroll;
+/*==============================*/
+/*============ Menu ============*/
+/*==============================*/
+#gamePage #backpackHeader {
+  display: flex;
+  color: white;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 2rem;
+  text-align: center;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  top: 0px;
+  width: 100%;
 }
 
-#gamePage #backpackMenu #backpackMenuCloseBtn {
-  position: absolute;
-  top: 10px;
-  right: 2%;
+#backpackTitle{
+  font-family: var(--pokemon-hollow-font);
+  font-size: 40px;
+  margin: -40px 0px -40px 0px;
+  margin-bottom: -20px;
+  padding: 0;
+}
+
+#gamePage #backpack_closeBtn {
+  top: 8px;
   margin: 15px;
   color: white;
-  font-size: 30px;
-  font-weight: bold;
-  transition: transform 0.2s ease-in-out;
 }
 
-#gamePage #backpackMenu #backpackMenuCloseBtn:hover {
-  transform: scale(1.2);
-
-  color: red;
-
+#backpack_closeBtn:hover {
+  transition: 0, 3s;
+  transform: scale(1.1);
 }
 
-#gamePage #backpackMenu h1 {
-  font-size: 50px;
-  font-weight: bold;
-  text-align: center;
-  margin: -20px 0 -20px 0;
-  font-family: var(--pokemon-hollow-font);
-  color: rgb(255, 0, 0);
+#gamePage #backpack_backBtn {
+  visibility: hidden;
+  margin: 15px;
+  color: white;
 }
 
-#gamePage #backpackMenu #backpackMenuItems {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-  margin-top: 50px;
-
+#gamePage #backpack_backBtn:hover {
+  transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+  transform: scale(1.1);
 }
 
-#gamePage #backpackMenu .backpackMenuBtn {
+#gamePage #backpackContents .backpackMenuBtn {
   position: relative;
   width: 120px;
   height: 120px;
@@ -264,7 +213,7 @@
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-#gamePage #backpackMenu .backpackMenuBtn img {
+#gamePage #backpackContents .backpackMenuBtn img {
   position: absolute;
   width: 60%;
   top: 10px;
@@ -272,16 +221,8 @@
   transform: translateX(-50%);
 }
 
-.subtitleforbackpack{
-  font-family: var(--pokemon-hollow-font);
-  font-size: 40px;
-  margin: -40px 0px -40px 0px;
-  margin-bottom: -20px;
-  padding: 0;
-}
 
-
-#gamePage #backpackMenu .backpackMenuBtn p {
+#gamePage #backpackContents .backpackMenuBtn p {
   position: absolute;
   line-height: .8;
   width: 100%;
@@ -291,7 +232,7 @@
   color: white;
 }
 
-#gamePage #backpackMenu .backpackMenuBtn:hover {
+#gamePage #backpackContents .backpackMenuBtn:hover {
   transform: scale(1.1);
   box-shadow: 0px 5px 15px rgba(255, 0, 0, 0.6);
 }
@@ -299,25 +240,37 @@
 /*==============================*/
 /*=========== events ===========*/
 /*==============================*/
+#gamePage #backpackContents{
+  display: none;
+  position: absolute;
+  padding: 10px;
+  transform: translate(-50%,-50%);
+  left: 50%;
+  top: calc(50px + 50%);
+  width: 80%;
+  height: calc(80% - 100px);
 
-#gamePage main .menuEvent {
+  background-color: #888888;
+  border: 4px solid black;
+  border-radius: 20px;
+}
+
+#gamePage aside .menuEvent {
   display: none;
   position: relative;
-  width: 90%;
-  height: 90%;
-  margin: auto;
-  top: 50%;
-  transform: translateY(-50%);
+  width: 100%;
 
   color: white;
   border: 2px solid black;
-  border-radius: 2px;
-  /* box-shadow: 0px 0px 5px 5px rgb(10, 10, 10); */
-  border-radius: 20px;
   background-color: rgba(0, 0, 0, 0.6);
-  overflow-y: hidden;
 }
 
+#gamePage #backpackContents #mainMenu_main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
 
 /* ========== pokemon list ==========*/
 #gamePage .pokemon_list {
@@ -587,12 +540,10 @@
 
 /* ========== pokedex ==========*/
 #gamePage #menu_pokedex {
-  height: 500px;
 }
 
 
 #gamePage #menu_pokemonDetail {
-  height: 500px;
 }
 
 #gamePage #pokedex_detail {
@@ -670,7 +621,6 @@
 
 /* ========== compare ==========*/
 #gamePage #menu_compare {
-  height: 500px;
 }
 
 #gamePage #menu_compare #compare_main {
@@ -731,11 +681,6 @@
 /* ========== battle ==========*/
 #gamePage #menu_battle {
   display: none;
-}
-
-#gamePage #menu_battle .backBtn,
-#gamePage #menu_battle .closeBtn {
-  visibility: hidden;
 }
 
 #gamePage #menu_battle #battle_main {
@@ -830,20 +775,12 @@
 /* ========== capture ==========*/
 #gamePage #menu_capture {}
 
-#gamePage #menu_capture .backBtn {
-  visibility: hidden;
-}
-
 #gamePage #menu_capture #capture_main {
   display: flex;
   text-align: center;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-}
-
-#gamePage #menu_capture #capture_main .backBtn {
-  display: hidden;
 }
 
 #gamePage #menu_capture #capture_main>img {
