@@ -390,6 +390,7 @@ export function openBattleEvent() {
   return stage;
 }
 export function closeBattleEvent() {
+  battleMenuEvent.style.display = "none";
   closeAllEvents();
 }
 
@@ -408,5 +409,6 @@ export function openCaptureEvent() {
   return stage;
 }
 export function closeCaptureEvent() {
+  captureMenuEvent.style.display = "none";
   closeAllEvents();
 }
