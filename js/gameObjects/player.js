@@ -118,10 +118,11 @@ export const Player = {
         })
         let isOnPokemon;
         if (Pokemon.isActive) {
-            isOnPokemon = playerPos === Map.positionInGrid(Pokemon.x, Pokemon.y)
+            isOnPokemon = playerPos === Map.positionInGrid(Pokemon.x, Pokemon.y);
         }
+        const isOnCompanion = playerPos === Map.positionInGrid(this.companion.x, this.companion.y);
         const isOnCollisionTile = Map.collisionTiles.includes(tileId);
-        if (!isOnCollisionTile && !isOnNpc && !isOnPokemon) {
+        if (!isOnCollisionTile && !isOnNpc && !isOnPokemon && !isOnCompanion) {
             this.x = newX;
             this.y = newY;
         }
@@ -256,6 +257,9 @@ function battle(pokemon) {
                 closeBattleEvent();
                 Player.isInBattle = false;
                 Player.isInEvent = false;
+                if(enemyHp === 0 && !pokemon.is_captured ){
+                    capture(pokemon);
+                }
                 return;
             }
             if (enemyHp === 0) {
@@ -330,15 +334,11 @@ function battle(pokemon) {
 // ================ capture ================= //
 // ========================================== //
 
-const captureBtn = document.getElementById("capture_button");
-let isCaptureBtnPressed = false;
-captureBtn.addEventListener("click", () => {
-    isCaptureBtnPressed = true;
-})
 function capture(pokemon) {
     const stage = openCaptureEvent();
     stage.name.innerHTML = pokemon.name;
     stage.img.src = pokemon.sprites["front_default"];
+    stage.nickNameDiv.style.display = "none";
     let hasPokemon = Player.capturedPokemon.includes(pokemon);
     let chances = 3;
     for (let i = 0; i < stage.chances.children.length; i++) {
@@ -351,6 +351,13 @@ function capture(pokemon) {
     else {
         stage.button.style.border = "3px solid red";
     }
+
+    let isCaptureBtnPressed = false;
+    const captureBtn = document.getElementById("capture_button");
+    captureBtn.addEventListener("click", () => {
+        isCaptureBtnPressed = true;
+    })
+
     const intervalId = setInterval(() => {
         if (isCaptureBtnPressed) {
             isCaptureBtnPressed = false;
@@ -373,19 +380,17 @@ function capture(pokemon) {
                 if (chances === 0) {
                     if (hasPokemon) {
                         alert(`je hebt ${pokemon.name} gevangen`);
-                        const nickNameDiv = document.getElementById("capture_nickname");
-                        const input = nickNameDiv.getElementsByTagName("input")[0];
+                        const input = stage.nickNameDiv.getElementsByTagName("input")[0];
                         input.value = "";
-                        nickNameDiv.style.display = "block";
-                        nickNameDiv.getElementsByTagName("button")[0].addEventListener("click", () => {
+                        stage.nickNameDiv.style.display = "block";
+                        stage.nickNameDiv.getElementsByTagName("button")[0].addEventListener("click", () => {
                             pokemon.nickname = input.value;
                             closeCaptureEvent();
-                            nickNameDiv.style.display = "none";
                             Player.isInEvent = false;
-                        }, { once: true });
+                        });
                     }
                     else {
-                        alert(`${pokemon.name} is weggelopen`);
+                        alert(`${pokemon.name} is ontsnapt`);
                         closeCaptureEvent();
                         Player.isInEvent = false;
                     }

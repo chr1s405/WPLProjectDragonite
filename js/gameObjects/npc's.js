@@ -17,7 +17,7 @@ export const Npcs = {
   assignPokemon() {
     this.npcList.forEach((npc) => {
       if (npc.pokemon === undefined) {
-        npc.pokemon = pokemonList[Math.trunc(Math.random() * pokemonList.length)];
+        npc.assignPokemon(pokemonList[Math.trunc(Math.random() * pokemonList.length)]);
       }
     });
   },
@@ -56,7 +56,8 @@ export const Npcs = {
         }
       },
       assignPokemon(pokemon) {
-        this.pokemon = pokemon;
+        this.pokemon = Object.assign({}, pokemon);
+        this.pokemon.is_captured = true;
       },
     };
     Npcs.npcList.push(npc);
