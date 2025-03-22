@@ -351,7 +351,8 @@ function openWhosThatEvent(pokemon) {
   name.innerHTML = "???";
   input.value = "";
   input.style.display = "block";
-  button.innerHTML = "bevestigen"
+  button.style.display = "block";
+  button.innerHTML = "bevestigen";
   button.addEventListener("click", () => {
     if (input.value === pokemon.name) {
       pokemon.is_known = true;

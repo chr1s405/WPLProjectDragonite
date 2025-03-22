@@ -4,12 +4,12 @@
   /*pokémon font als de letters doorzichtig zijn*/
   --pokemon-hollow-font: 'Pokemon Hollow', sans-serif;
 
-  --color_primary: #5f1026;
-  --color_secondary: #9c2b26;
-  --color_tertiary: #85a175;
-  --color_accent1: #2f4c42;
-  --color_accent2: #d87a2a;
-  --color_accent3: #e97d2e;
+  --color_primary: #c02030;
+  --color_secondary: #f03030;
+  --color_tertiary: #af0d33;
+  --color_accent1: #640b0b;
+  --color_accent2: #000;
+  --color_accent3: #000;
 }
 
 /*standard settings for pages*/
@@ -22,7 +22,7 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--color_secondary);
   border-radius: 50px;
   height: 10px;
 }
@@ -51,8 +51,8 @@
   grid-area: header;
   display: flex;
   justify-content: space-between;
-  border-bottom: 2px solid black;
-  background-color: #98fb98;
+  color: white;
+  background-color: var(--color_primary);
   /* background-color: lightgreen; */
 }
 
@@ -61,16 +61,16 @@
   margin: 10px;
   padding: 10px;
 
-  border: 3px solid black;
+  border: 3px solid var(--color_accent1);
   border-radius: 50px;
 
-  background-color: greenyellow;
+  background-color: var(--color_secondary);
 }
 
 #gamePage header #nav-profile img {
   margin-right: 10px;
 
-  border: 3px solid black;
+  border: 3px solid var(--color_accent1);
   border-radius: 50%;
 }
 
@@ -85,10 +85,10 @@
   margin: 10px;
   padding: 10px;
 
-  border: 3px solid black;
+  border: 3px solid var(--color_accent1);
   border-radius: 50px;
 
-  background-color: greenyellow;
+  background-color: var(--color_secondary);
 }
 
 #gamePage main {
@@ -98,6 +98,9 @@
 /*==============================*/
 /*============ Map =============*/
 /*==============================*/
+#gamePage main{
+  border: 3px solid var(--color_accent1);
+}
 
 #gamePage main #overworldMap {
   position: absolute;
@@ -148,10 +151,18 @@
 
 #gamePage main #backpackIcon {
   position: absolute;
-  width: 80px;
-  height: 80px;
   right: 20px;
   bottom: 20px;
+  width: 100px;
+  height: 100px;
+
+  background-image: url("../images/backpack.png");
+  background-position: center;
+  background-size: calc(100% - 10px);
+  background-repeat: no-repeat;
+  background-color: var(--color_secondary);
+  border: 4px solid var(--color_accent1);
+  border-radius: 20px;
 }
 
 /*==============================*/
@@ -167,8 +178,8 @@
   width: 80%;
   height: calc(80% - 100px);
 
-  background-color: #888888;
-  border: 4px solid black;
+  background-color: var(--color_primary);
+  border: 4px solid var(--color_accent1);
   border-radius: 20px;
 }
 
@@ -177,7 +188,7 @@
     width: 100%;
     height: calc(100% - 100px);
 
-  border: 2px solid black;
+  border: 2px solid var(--color_accent1);
   border-radius: 0px;
   }
 }
@@ -232,7 +243,7 @@
     position: relative;
     width: 120px;
     height: 120px;
-    border: 4px solid black;
+    border: 4px solid var(--color_accent1);
     border-radius: 10px;
     background-color: red;
     cursor: pointer;
@@ -274,8 +285,8 @@
     z-index: -1;
 
     color: white;
-    border: 2px solid black;
-    background-color: rgba(0, 0, 0, 0.6);
+    border: 2px solid var(--color_accent1);
+    background-color: var(--color_tertiary);
   }
 
   #gamePage #backpackContents #mainMenu_main {
@@ -306,8 +317,8 @@
 
     height: max-content;
     width: 100%;
-    background-color: gray;
-    border: 2px solid black;
+    background-color: var(--color_secondary);
+    border: 2px solid var(--color_accent1);
     border-radius: 50px;
   }
 
@@ -320,7 +331,7 @@
     padding: 5px;
     margin: auto;
     width: 80%;
-    border-right: 2px solid black;
+    border-right: 2px solid var(--color_accent1);
     border-radius: 50px;
   }
 
@@ -348,7 +359,7 @@
     top: 0px;
     width: 100%;
     z-index: 1;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: var(--color_tertiary);
   }
 
   #pokedex_controls #pokedex_search {
@@ -358,7 +369,7 @@
     max-width: 300px;
     color: black;
     background-color: white;
-    border: 2px solid black;
+    border: 2px solid var(--color_accent1);
     border-radius: 10px;
   }
 
@@ -373,7 +384,7 @@
     padding: 8px 15px 3px 15px;
     width: auto;
     background-color: white;
-    border: 2px solid black;
+    border: 2px solid var(--color_accent1);
     border-radius: 10px;
   }
 
@@ -391,8 +402,8 @@
     margin-left: auto;
     padding: 4px 15px;
 
-    background-color: gray;
-    border: 2px solid black;
+    background-color: var(--color_secondary);
+    border: 2px solid var(--color_accent1);
     border-radius: 5px;
   }
 
@@ -408,7 +419,7 @@
     padding: 20px;
 
     background-color: rgba(0, 0, 0, 0.5);
-    border: 2px solid black;
+    border: 2px solid var(--color_accent1);
     border-radius: 5px;
   }
 
@@ -518,8 +529,8 @@
     padding: 10px;
     max-width: 200px;
     width: 90%;
-    background-color: gray;
-    border: 2px solid black;
+    background-color: var(--color_secondary);
+    border: 2px solid var(--color_accent1);
     border-radius: 50px;
   }
 
@@ -562,24 +573,26 @@
 
   #gamePage .compare_sides .compare_stats {
     padding: 20px;
-    border: 2px solid black;
+    border: 2px solid var(--color_accent1);
     border-radius: 20px;
   }
 
   #gamePage .compare_sides .compare_reselect {
     margin: 10px;
     padding: 10px;
-    border: 2px solid black;
+    border: 2px solid var(--color_accent1);
     border-radius: 20px;
-    background-color: gray;
+    background-color: var(--color_secondary);
   }
 
   .redText {
     color: #ff0000;
+    text-shadow: 0px 0px 2px rgb(255, 31, 244);
   }
 
   .greenText {
     color: #00ff00;
+    text-shadow: 0px 0px 3px rgb(0, 0, 0);
   }
 
 
@@ -625,7 +638,7 @@
     height: 15px;
     padding-left: 5px;
     background: linear-gradient(to right, #00ff00 100%, #000000 100%);
-    border: 2px solid black;
+    border: 2px solid var(--color_accent1);
     border-radius: 50px;
   }
 
@@ -672,8 +685,8 @@
     text-align: center;
     width: 30%;
     height: 50px;
-    background-color: gray;
-    border: 3px solid black;
+    background-color: var(--color_secondary);
+    border: 3px solid var(--color_accent1);
     border-radius: 50px;
   }
 
@@ -703,7 +716,7 @@
     max-width: 100px;
     width: 70px;
     aspect-ratio: 1 /1;
-    border: 3px solid black;
+    border: 3px solid var(--color_accent1);
     border-radius: 50%;
   }
 
@@ -719,7 +732,7 @@
     width: 70px;
     max-width: 100px;
     padding: 10px;
-    border: 3px solid black;
+    border: 3px solid var(--color_accent1);
     border-radius: 50px;
   }
 
@@ -736,7 +749,7 @@
     top: 50%;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.5);
-    border: 2px solid black;
+    border: 2px solid var(--color_accent1);
     border-radius: 5px;
   }
 
@@ -746,14 +759,14 @@
     width: 60%;
     color: black;
     background-color: white;
-    border: 2px solid black;
+    border: 2px solid var(--color_accent1);
     border-radius: 5px;
   }
 
   #gamePage #capture_nickname_button {
     padding: 2px 10px;
-    background-color: gray;
-    border: 2px solid black;
+    background-color: var(--color_secondary);
+    border: 2px solid var(--color_accent1);
     border-radius: 50px;
   }
 
@@ -788,7 +801,7 @@
     width: 40%;
     min-width: 150px;
     background-color: white;
-    border: 2px solid black;
+    border: 2px solid var(--color_accent1);
     border-radius: 50px;
   }
 
@@ -799,8 +812,8 @@
     padding: 5px;
     margin: 20px auto 0px auto;
     width: 150px;
-    background-color: gray;
-    border: 2px solid black;
+    background-color: var(--color_secondary);
+    border: 2px solid var(--color_accent1);
     border-radius: 50px;
   }
 
@@ -815,7 +828,7 @@
     bottom: 20px;
     right: 20px;
     text-align: right;
-    background-color: gray;
+    background-color: var(--color_secondary);
   }
 
   #gamePage button:hover {
