@@ -4,9 +4,9 @@
   /*pokémon font als de letters doorzichtig zijn*/
   --pokemon-hollow-font: 'Pokemon Hollow', sans-serif;
 
-  --color_primary: #c02030;
-  --color_secondary: #f03030;
-  --color_tertiary: #af0d33;
+  --color_primary: #a31c29;
+  --color_secondary: #bd3131;
+  --color_tertiary: #8b1631;
   --color_accent1: #640b0b;
   --color_accent2: #000;
   --color_accent3: #000;
@@ -18,7 +18,7 @@
 }
 
 *::-webkit-scrollbar {
-  width: 5px;
+  width: 0px;
 }
 
 *::-webkit-scrollbar-thumb {
@@ -212,8 +212,8 @@
   #backpackTitle {
     font-family: var(--pokemon-hollow-font);
     font-size: 40px;
-    margin: -40px 0px -40px 0px;
-    margin-bottom: -20px;
+    line-height: 3rem;
+    margin: -25px 0px 0px 0px;
     padding: 0;
   }
 
@@ -347,64 +347,48 @@
     margin-left: 10%;
   }
 
-  /* hier staat al het stijl voor de filters */
   #pokedex_controls {
     position: sticky;
-    display: grid;
-    grid-template-areas:
-      "search sort filter";
-    grid-template-columns: 30% calc(50% - 20px) 20%;
-    gap: 10px;
-    align-items: center;
+    display: flex;
+    justify-content: center;
     top: 0px;
+    margin: auto;
     width: 100%;
     z-index: 1;
     background-color: var(--color_tertiary);
   }
 
   #pokedex_controls #pokedex_search {
-    grid-area: search;
-    padding: 8px 15px 3px 15px;
-    margin-bottom: 5px;
-    max-width: 300px;
+    padding: 8px 40px 3px 15px;
+    margin: 5px;
+    margin-right: 0px;
+    width: 100%;
     color: black;
-    background-color: white;
     border: 2px solid var(--color_accent1);
     border-radius: 10px;
-  }
-
-  #pokedex_controls #pokedex_sort_label {
-    grid-area: sort;
-    font-size: 12px;
-  }
-
-  #pokedex_controls #pokedex_sort {
-    font-size: 16px;
-    color: black;
-    padding: 8px 15px 3px 15px;
-    width: auto;
     background-color: white;
-    border: 2px solid var(--color_accent1);
-    border-radius: 10px;
-  }
-
-  #pokedex_controls #pokedex_filters {
-    grid-area: filter;
-    position: relative;
-    margin-right: 20%;
-    width: max-content;
+    background-image: url("../images/icons/search_icon.png");
+    background-size: 25px;
+    background-position: right 5px center;
+    background-repeat: no-repeat;
   }
 
   #pokedex_controls #pokedex_filterBtn {
     display: block;
     color: white;
     text-align: center;
-    margin-left: auto;
     padding: 4px 15px;
+    margin: 5px;
+    width: 50px;
+    height: calc(100% - 10px);
 
-    background-color: var(--color_secondary);
     border: 2px solid var(--color_accent1);
     border-radius: 5px;
+    background-color: var(--color_secondary);
+    background-image: url("../images/icons/filter_icon.png");
+    background-size: 40px;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   #pokedex_controls #pokedex_filters:hover #pokedex_filters_dropdown {
@@ -417,21 +401,35 @@
     flex-direction: column;
     right: 0px;
     padding: 20px;
+    width: 100%;
+    max-width: calc(100vw - 20px);
+    max-width: 500px;
 
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--color_tertiary);
+    /* background-color: rgba(0, 0, 0, 0.5); */
     border: 2px solid var(--color_accent1);
-    border-radius: 5px;
   }
 
+  #pokedex_controls #pokedex_filters_dropdown p{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
   #pokedex_controls #pokedex_filters label {
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: white;
     font-size: 16px;
-    gap: 30px;
-    margin: 5px;
+    margin: 5px 5px 20px 5px;
     cursor: pointer;
+    gap: 10px;
+  }
+
+  #pokedex_controls #pokedex_filters label:has(select){
+    flex-direction: column;
+    align-items: baseline;
   }
 
   #pokedex_controls input[type="checkbox"] {
@@ -440,7 +438,6 @@
     accent-color: green;
     cursor: pointer;
     appearance: auto;
-    margin-right: 5px;
   }
 
   #pokedex_controls select {
@@ -448,7 +445,7 @@
     color: #000000;
     align-items: center;
     padding-left: 10px;
-    width: 160px;
+    width: 100%;
     height: 35px;
 
     background-color: white;

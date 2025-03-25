@@ -55,19 +55,12 @@
 
       <div class="pokemon_list">
         <div id="pokedex_controls">
-          <input type="text" id="pokedex_search" class="pokedex_filter" placeholder="Zoek Pokémon..." />
-          <label for="pokedex_sort" id="pokedex_sort_label">Sorteren op:
-            <select id="pokedex_sort" class="pokedex_filter">
-              <option value="id">Pokedex Nummer</option>
-              <option value="hp">HP</option>
-              <option value="attack">Aanvalskracht</option>
-              <option value="speed">Snelheid</option>
-            </select>
-          </label>
+          <input type="text" id="pokedex_search" class="pokedex_filter" placeholder="" />
 
           <div id="pokedex_filters">
-            <button id="pokedex_filterBtn">filters</button>
+            <button id="pokedex_filterBtn"></button>
             <div id="pokedex_filters_dropdown">
+            <p>filters</p>
               <label for="pokedex_filter_caught">Gevangen Pokémon
                 <input type="checkbox" id="pokedex_filter_caught" class="pokedex_filter">
               </label>
@@ -75,14 +68,22 @@
                 <input type="checkbox" id="pokedex_filter_known" class="pokedex_filter">
               </label>
 
-              <label for="pokedex_filter_type">Type:
+              <label for="pokedex_filter_type">Type:<br>
                 <select id="pokedex_filter_type" class="pokedex_filter">
-                  <option value="all">Alle Types</option>
+                  <option value="all" selected>Alle Types</option>
                   <option value="fire">Fire</option>
                   <option value="water">Water</option>
                   <option value="grass">Grass</option>
                   <option value="electric">Electric</option>
                   <option value="fairy">Fairy</option>
+                </select>
+              </label>
+              <label for="pokedex_sort">Sorteren op:<br>
+                <select id="pokedex_sort" class="pokedex_filter">
+                  <option value="id" selected>Pokedex Nummer</option>
+                  <option value="hp">HP</option>
+                  <option value="attack">Aanvalskracht</option>
+                  <option value="speed">Snelheid</option>
                 </select>
               </label>
             </div>

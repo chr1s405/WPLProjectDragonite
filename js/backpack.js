@@ -125,15 +125,24 @@ function closePokedexEvent() {
   }
 }
 
+function resetFilters() {
+  const filters = document.getElementsByClassName("pokedex_filter");
+  filters[0].value = "";
+  filters[1].checked = false;
+  filters[2].checked = false;
+  filters[3].value = "all";
+  filters[4].value = "id";
+}
+
 function getFilteredList(table) {
   let filteredList = allPokemon;
   const filters = table.parentElement.getElementsByClassName("pokedex_filter");
   if (filters.length > 0) {
     const filterText = filters[0];
-    const sortOption = filters[1];
-    const filterCaught = filters[2];
-    const filterKnown = filters[3];
-    const filterType = filters[4];
+    const filterCaught = filters[1];
+    const filterKnown = filters[2];
+    const filterType = filters[3];
+    const sortOption = filters[4];
 
     filteredList = filteredList.filter((pokemon) => {
       const matchesSearch = pokemon.name.toLowerCase().includes(filterText.value.toLowerCase());
@@ -157,14 +166,7 @@ function getFilteredList(table) {
   }
   return filteredList;
 }
-function resetFilters() {
-  const filters = document.getElementsByClassName("pokedex_filter");
-  filters[0].value = "";
-  filters[1].value = "id";
-  filters[2].checked = false;
-  filters[3].checked = false;
-  filters[4].value = "all";
-}
+
 function createPokemonList(table, pokemonList, rowFunction) {
   table.innerHTML = "";
   pokemonList.forEach(pokemon => {
@@ -195,7 +197,6 @@ function createPokemonList(table, pokemonList, rowFunction) {
 }
 function updatePokemonList(table, rowFunction) {
   createPokemonList(table, getFilteredList(table), rowFunction);
-  console.log(1)
 }
 function pokedexRowClick(pokemon) {
   if (pokemon) {
