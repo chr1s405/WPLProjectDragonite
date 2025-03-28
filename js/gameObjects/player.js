@@ -16,6 +16,7 @@ export const Player = {
     speed: character.clientWidth,
     direction: Direction.down,
     prevDirection: Direction.down,
+    baseSprite: "player",
     hasCompanion: false,
     companion: Companion,
     capturedPokemon: [],
@@ -23,141 +24,164 @@ export const Player = {
     isInEvent: false,
     isDebugOn: false,
 
-    update() {
-        this.div.style.left = `${this.x}px`;
-        this.div.style.top = `${this.y}px`;
-        if (this.prevDirection != this.direction) {
-            this.prevDirection = this.direction;
-            switch (this.direction) {
-                case Direction.up: this.div.style.backgroundImage = `url(${"../../images/characters/player_back.png"})`; break;
-                case Direction.down: this.div.style.backgroundImage = `url(${"../../images/characters/player_front.png"})`; break;
-                case Direction.left: this.div.style.backgroundImage = `url(${"../../images/characters/player_left.png"})`; break;
-                case Direction.right: this.div.style.backgroundImage = `url(${"../../images/characters/player_right.png"})`; break;
-            }
-        }
-        if (this.hasCompanion) {
-            Companion.update();
-        }
-        if (this.isDebugOn) {
-            this.debug();
-        }
-    },
-    getPokemon(allPokemon) {
-        pokemonList = allPokemon;
-        //dit moet weg
-        const pokemon = pokemonList[Math.trunc(Math.random() * pokemonList.length)];
-        pokemon.is_known = true;
-        this.capturedPokemon.push(pokemon);
-        this.setCompanion(pokemon);
-        //tot hier
-    },
-    releasePokemon(pokemon) {
-        if (pokemon === this.companion.pokemon) {
-            alert("kies eerst een andere companion");
-        }
-        else if (!this.capturedPokemon.includes(pokemon)) {
-            alert("je hebt deze pokemon niet gevangen");
-        }
-        else {
-            alert(`je hebt ${pokemon.name} losgelaten`);
-            const pokemonIdx = Player.capturedPokemon.indexOf(pokemon);
-            Player.capturedPokemon.splice(pokemonIdx, 1);
-        }
-    },
-    setCompanion(pokemon) {
-        if (Player.capturedPokemon.includes(pokemon)) {
-            this.hasCompanion = true;
-            Companion.setCompanion(pokemon);
-            document.getElementById("nav-pokemon").src = Companion.pokemon.sprites["front_default"]
-        }
-        else {
-            alert("je hebt deze pokemon nog niet gevangen")
-        }
-    },
-    removeCompanion() {
-        this.hasCompanion = false;
-        Companion.removeCompanion();
-        document.getElementById("nav-pokemon").src = "../images/pikachu_silouhette.png"
-    },
-    moveUp() {
-        this.direction = Direction.up;
-        const tempY = this.y - this.speed;
-        if (!(tempY < 0)) {
-            this.move(this.x, tempY);
-        }
-    },
-    moveDown() {
-        this.direction = Direction.down;
-        const tempY = this.y + this.speed;
-        if (!(tempY + this.height > Map.height)) {
-            this.move(this.x, tempY);
-        }
-    },
-    moveLeft() {
-        this.direction = Direction.left;
-        const tempX = this.x - this.speed;
-        if (!(tempX < 0)) {
-            this.move(tempX, this.y);
-        }
-    },
-    moveRight() {
-        this.direction = Direction.right;
-        const tempX = this.x + this.speed;
-        if (!(tempX + this.width > Map.width)) {
-            this.move(tempX, this.y);
-        }
-    },
-    move(newX, newY) {
-        const playerPos = Map.positionInGrid(newX, newY);
-        const tileId = Map.layerData[(playerPos)];
-        let isOnNpc;
-        Npcs.npcsActive.forEach((npc) => {
-            if (playerPos === Map.positionInGrid(npc.x, npc.y)) {
-                isOnNpc = true;
-            }
-        })
-        let isOnPokemon;
-        if (Pokemon.isActive) {
-            isOnPokemon = playerPos === Map.positionInGrid(Pokemon.x, Pokemon.y);
-        }
-        const isOnCompanion = playerPos === Map.positionInGrid(this.companion.x, this.companion.y);
-        const isOnCollisionTile = Map.collisionTiles.includes(tileId);
-        if (!isOnCollisionTile && !isOnNpc && !isOnPokemon && !isOnCompanion) {
-            this.x = newX;
-            this.y = newY;
-        }
-        if (tileId === 32) {
-            const rand = Math.trunc(Math.random() * 10);
-            if (rand === 0) {
-                const pokemon = pokemonList[Math.trunc(Math.random() * pokemonList.length)];
-                battle(pokemon)
-            }
-        }
-    },
-    interact() {
-        if (interactNpc()) {
-            return;
-        }
-        if (interactPokemon()) {
-            return;
-        }
-    },
-    toggleDebug() {
-        this.isDebugOn = !this.isDebugOn;
-        if (this.isDebugOn) {
-            this.div.getElementsByClassName("debug")[0].style.display = "block";
-        }
-        else {
-            this.div.getElementsByClassName("debug")[0].style.display = "none";
-        }
-    },
-    debug() {
-        this.div.getElementsByClassName("debug")[0].innerHTML =
-            `(${this.x}, ${this.y})</br>${Map.positionInGrid(this.x, this.y)}`;
-    },
+    update,
+    moveUp,
+    moveRight,
+    moveDown,
+    moveLeft,
+    move,
+    setCompanion,
+    removeCompanion,
+    releasePokemon,
+    interact,
+
+    getPokemon,
 }
 
 
+function update() {
+    this.div.style.left = `${this.x}px`;
+    this.div.style.top = `${this.y}px`;
+    if (this.prevDirection != this.direction) {
+        this.prevDirection = this.direction;
+        switch (this.direction) {
+            case Direction.up: this.div.style.backgroundImage = `url(${`../../images/characters/${this.baseSprite}_back.png`})`; break;
+            case Direction.down: this.div.style.backgroundImage = `url(${`../../images/characters/${this.baseSprite}_front.png`})`; break;
+            case Direction.left: this.div.style.backgroundImage = `url(${`../../images/characters/${this.baseSprite}_left.png`})`; break;
+            case Direction.right: this.div.style.backgroundImage = `url(${`../../images/characters/${this.baseSprite}_right.png`})`; break;
+        }
+    }
+    if (this.hasCompanion) {
+        Companion.update();
+    }
+    if (this.isDebugOn) {
+        this.debug();
+    }
+}
+
+// movement
+function moveUp() {
+    this.direction = Direction.up;
+    const tempY = this.y - this.speed;
+    if (!(tempY < 0)) {
+        this.move(this.x, tempY);
+    }
+}
+function moveDown() {
+    this.direction = Direction.down;
+    const tempY = this.y + this.speed;
+    if (!(tempY + this.height > Map.height)) {
+        this.move(this.x, tempY);
+    }
+}
+function moveLeft() {
+    this.direction = Direction.left;
+    const tempX = this.x - this.speed;
+    if (!(tempX < 0)) {
+        this.move(tempX, this.y);
+    }
+}
+function moveRight() {
+    this.direction = Direction.right;
+    const tempX = this.x + this.speed;
+    if (!(tempX + this.width > Map.width)) {
+        this.move(tempX, this.y);
+    }
+}
+function move(newX, newY) {
+    const playerPos = Map.positionInGrid(newX, newY);
+    const tileId = Map.layerData[(playerPos)];
+    let isOnNpc;
+    Npcs.npcsActive.forEach((npc) => {
+        if (playerPos === Map.positionInGrid(npc.x, npc.y)) {
+            isOnNpc = true;
+        }
+    })
+    let isOnPokemon;
+    if (Pokemon.isActive) {
+        isOnPokemon = playerPos === Map.positionInGrid(Pokemon.x, Pokemon.y);
+    }
+    const isOnCompanion = playerPos === Map.positionInGrid(this.companion.x, this.companion.y);
+    const isOnCollisionTile = Map.collisionTiles.includes(tileId);
+    if (!isOnCollisionTile && !isOnNpc && !isOnPokemon && !isOnCompanion) {
+        this.x = newX;
+        this.y = newY;
+    }
+    if (tileId === 32) {
+        const rand = Math.trunc(Math.random() * 10);
+        if (rand === 0) {
+            const pokemon = pokemonList[Math.trunc(Math.random() * pokemonList.length)];
+            battle(pokemon)
+        }
+    }
+}
+
+//pokemon
+function getPokemon(allPokemon) {
+    pokemonList = allPokemon;
+    //dit moet weg
+    const pokemon = pokemonList[Math.trunc(Math.random() * pokemonList.length)];
+    pokemon.is_known = true;
+    this.capturedPokemon.push(pokemon);
+    this.setCompanion(pokemon);
+    //tot hier
+}
+function setCompanion(pokemon) {
+    if (Player.capturedPokemon.includes(pokemon)) {
+        this.hasCompanion = true;
+        Companion.setCompanion(pokemon);
+        document.getElementById("nav-pokemon").src = Companion.pokemon.sprites["front_default"]
+    }
+    else {
+        alert("je hebt deze pokemon nog niet gevangen")
+    }
+}
+function removeCompanion() {
+    this.hasCompanion = false;
+    Companion.removeCompanion();
+    document.getElementById("nav-pokemon").src = "../images/pikachu_silouhette.png"
+}
+function releasePokemon(pokemon) {
+    if (pokemon === this.companion.pokemon) {
+        alert("kies eerst een andere companion");
+    }
+    else if (!this.capturedPokemon.includes(pokemon)) {
+        alert("je hebt deze pokemon niet gevangen");
+    }
+    else {
+        alert(`je hebt ${pokemon.name} losgelaten`);
+        const pokemonIdx = Player.capturedPokemon.indexOf(pokemon);
+        Player.capturedPokemon.splice(pokemonIdx, 1);
+    }
+}
+
+//debug
+function toggleDebug() {
+    this.isDebugOn = !this.isDebugOn;
+    if (this.isDebugOn) {
+        this.div.getElementsByClassName("debug")[0].style.display = "block";
+    }
+    else {
+        this.div.getElementsByClassName("debug")[0].style.display = "none";
+    }
+}
+function debug() {
+    this.div.getElementsByClassName("debug")[0].innerHTML =
+        `(${this.x}, ${this.y})</br>${Map.positionInGrid(this.x, this.y)}`;
+}
+
+
+
+
+//interact
+function interact() {
+    if (interactNpc()) {
+        return;
+    }
+    if (interactPokemon()) {
+        return;
+    }
+}
 function interactNpc() {
     Npcs.npcsActive.forEach((npc) => {
         const distX = (Player.x + Player.width / 2) - (npc.x + npc.width / 2);
@@ -257,7 +281,7 @@ function battle(pokemon) {
                 closeBattleEvent();
                 Player.isInBattle = false;
                 Player.isInEvent = false;
-                if(enemyHp === 0 && !pokemon.is_captured ){
+                if (enemyHp === 0 && !pokemon.is_captured) {
                     capture(pokemon);
                 }
                 return;
