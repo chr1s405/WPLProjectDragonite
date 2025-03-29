@@ -5,143 +5,190 @@ import { Npcs } from "./gameObjects/npc's.js";
 import { Pokemon } from "./gameObjects/pokemon.js";
 import { getPokemon } from "../js/backpack.js";
 
-
-GetPokemon();
-Npcs.createNpc(200, 300);
-Npcs.createNpc(700, 250);
-Npcs.createNpc(300, 1050);
-Npcs.createNpc(700, 750);
-Npcs.createNpc(950, 550);
 let pause = false;
 
-addEventListener("keydown", (e) => {
-  //   alert(e.keyCode);
-  if (e.keyCode === 80) {
-    pause = !pause;
-  }
-  if (!pause && !Player.isInEvent) {
-    if (e.keyCode === 87 || e.keyCode === 38 /*w*/) {
-      Player.moveUp();
-    }
-    if (e.keyCode === 65 || e.keyCode === 37 /*a*/) {
-      Player.moveLeft();
-    }
-    if (e.keyCode === 83 || e.keyCode === 40 /*s*/) {
-      Player.moveDown();
-    }
-    if (e.keyCode === 68 || e.keyCode === 39 /*d*/) {
-      Player.moveRight();
-    }
-    if (e.keyCode === 79 /*o*/) {
-      toggleDebug();
-    }
-    if (e.keyCode === 73 /*i*/) {
-      
-    }
-    if (e.keyCode === 13 /*enter*/) {
-      Player.interact();
-    }
-    if (e.keyCode === 32 /*space*/) {
-    }
-  }
-});
-const intervalId = setInterval(() => {
-  if (!pause && !Player.isInEvent) {
-    Player.update();
-    Npcs.update();
-    Map.update()
-  };
-  if (false) {
-    clearInterval(intervalId);
-  }
-}, 45);
+let Map1;
+let Player1;
 
-function toggleDebug() {
-  Player.toggleDebug();
-  Companion.toggleDebug();
+const allPokemon = await GetPokemon();
+await intro();
+await gameInit();
+await gameLoop();
+
+async function intro() {
+  const introPage = document.getElementById("gameIntro");
+  let optionsDiv;
+  optionsDiv = introPage.getElementsByClassName("intro_selection")[0];
+  let playerIndex = await getIntroSelection(optionsDiv);
+
+  optionsDiv = introPage.getElementsByClassName("intro_selection")[1];
+  const starterPokemon = allPokemon.slice(0, 3).map((pokemon) => {
+    return { name: pokemon.name, img: pokemon.sprites["front_default"] };
+  });
+  createIntroOptions(optionsDiv, starterPokemon)
+  let pokemonIndex = await getIntroSelection(optionsDiv);
+  introPage.style.display = "none"
+}
+
+function createIntroOptions(optionsDiv, optionsList = undefined) {
+  const options = optionsDiv.getElementsByClassName("intro_selectOptions")[0];
+  optionsList.forEach((option) => {
+    const div = document.createElement("div");
+    div.classList.add("intro_selectOption")
+    const img = document.createElement("img");
+    img.src = option.img;
+    const p = document.createElement("p");
+    p.innerHTML = option.name;
+
+    div.appendChild(img);
+    div.appendChild(p);
+    options.appendChild(div);
+  });
+}
+
+async function getIntroSelection(optionsDiv) {
+  optionsDiv.style.display = "block";
+  const options = optionsDiv.getElementsByClassName("intro_selectOption");
+  return new Promise((resolve, reject) => {
+
+    for (let i = 0; i < options.length; i++) {
+
+      options[i].addEventListener("click", () => {
+        resolve(i);
+        optionsDiv.style.display = "none";
+        optionsDiv.replaceWith(optionsDiv.cloneNode(true));
+      })
+    };
+  })
+}
+
+function gameInit() {
+  Npcs.createNpc(200, 300);
+  Npcs.createNpc(700, 250);
+  Npcs.createNpc(300, 1050);
+  Npcs.createNpc(700, 750);
+  Npcs.createNpc(950, 550);
+
+  addEventListener("keydown", (e) => {
+    //   alert(e.keyCode);
+    if (e.keyCode === 80) {
+      pause = !pause;
+    }
+    if (!pause && !Player.isInEvent) {
+      if (e.keyCode === 87 || e.keyCode === 38 /*w*/) {
+        Player.moveUp();
+      }
+      if (e.keyCode === 65 || e.keyCode === 37 /*a*/) {
+        Player.moveLeft();
+      }
+      if (e.keyCode === 83 || e.keyCode === 40 /*s*/) {
+        Player.moveDown();
+      }
+      if (e.keyCode === 68 || e.keyCode === 39 /*d*/) {
+        Player.moveRight();
+      }
+      if (e.keyCode === 79 /*o*/) {
+        toggleDebug();
+      }
+      if (e.keyCode === 73 /*i*/) {
+
+      }
+      if (e.keyCode === 13 /*enter*/) {
+        Player.interact();
+      }
+      if (e.keyCode === 32 /*space*/) {
+      }
+    }
+  });
+
+  // document.getElementById("overworldMap").style.display = "block";
+  document.getElementById("backpackIcon").style.display = "block";
+}
+
+function gameLoop() {
+  const intervalId = setInterval(() => {
+    if (!pause && !Player.isInEvent) {
+      Player.update();
+      Npcs.update();
+      Map.update()
+    };
+    if (false) {
+      clearInterval(intervalId);
+    }
+  }, 45);
 }
 
 async function GetPokemon() {
-  const pokemonList = [];
-  fetch("https://pokeapi.co/api/v2/pokemon?limit=51&offset=0")
-    .then((result) => {
-      return result.json();
-    })
-    .then((result) => {
-      const pokemonData = result["results"];
-      return pokemonData;
-    })
-    .then((result) => {
-      return Promise.all(result.map((value) => fetch(value.url)));
-    })
-    .then((result) => {
-      return Promise.all(result.map((value) => value.json()));
-    })
-    .then((result) => {
-      result.forEach((pokemon) => {
-        pokemonList.push({
-          abilities: pokemon.abilities,
-          base_experience: pokemon.base_experience,
-          //cries: pokemon.cries,
-          //forms: pokemon.forms,
-          //game_indices: pokemon.game_indices,
-          //height: pokemon.height,
-          //held_items: pokemon.held_items,
-          id: pokemon.id,
-          is_default: pokemon.is_default,
-          //location_area_encount: pokemon.location_area_encount,
-          moves: pokemon.moves,
-          name: pokemon.name,
-          //order: pokemon.order,
-          //past_abilities: pokemon.past_abilities,
-          //past_types: pokemon.past_types,
-          species: pokemon.species,
-          sprites: pokemon.sprites,
-          //other: pokemon.other,
-          //versions: pokemon.versions,
-          stats: [
-            pokemon.stats[0],
-            pokemon.stats[1],
-            pokemon.stats[2],
-            pokemon.stats[3],
-            pokemon.stats[4],
-            pokemon.stats[5],
-            {
-              base_stat: 0,
-              effort: 0,
-              stat: {
-                name: "wins",
-                url: "",
-              }
-            },
-            {
-              base_stat: 0,
-              effort: 0,
-              stat: {
-                name: "losses",
-                url: "",
-              }
-            },
+  let pokemonList = [];
+  let pokemonFetch = await fetch("https://pokeapi.co/api/v2/pokemon?limit=51&offset=0")
+  let pokemonJson = await pokemonFetch.json();
+  let pokemonData = pokemonJson["results"];
+  pokemonFetch = await Promise.all(pokemonData.map((value) => fetch(value.url)));
+  pokemonJson = await Promise.all(pokemonFetch.map((value) => value.json()));
+  pokemonJson.forEach((pokemon) => {
+    pokemonList.push({
+      abilities: pokemon.abilities,
+      base_experience: pokemon.base_experience,
+      //cries: pokemon.cries,
+      //forms: pokemon.forms,
+      //game_indices: pokemon.game_indices,
+      //height: pokemon.height,
+      //held_items: pokemon.held_items,
+      id: pokemon.id,
+      is_default: pokemon.is_default,
+      //location_area_encount: pokemon.location_area_encount,
+      moves: pokemon.moves,
+      name: pokemon.name,
+      //order: pokemon.order,
+      //past_abilities: pokemon.past_abilities,
+      //past_types: pokemon.past_types,
+      species: pokemon.species,
+      sprites: pokemon.sprites,
+      //other: pokemon.other,
+      //versions: pokemon.versions,
+      stats: [
+        pokemon.stats[0],
+        pokemon.stats[1],
+        pokemon.stats[2],
+        pokemon.stats[3],
+        pokemon.stats[4],
+        pokemon.stats[5],
+        {
+          base_stat: 0,
+          effort: 0,
+          stat: {
+            name: "wins",
+            url: "",
+          }
+        },
+        {
+          base_stat: 0,
+          effort: 0,
+          stat: {
+            name: "losses",
+            url: "",
+          }
+        },
 
-          ],
-          types: pokemon.types,
-          //weight: pokemon.weight,
-          nickname: "???",
-          evolution_chain: [],
-          is_known: false,
-          is_captured: false,
-        });
-      });
-      console.log(pokemonList);
-      //console.log(pokemonList.sort((a, b) => a.base_experience - b.base_experience))
-      //als je ergens de pokemon nodig hebt stuur da hier als parameter door
-      Player.getPokemon(pokemonList);
-      Npcs.getPokemon(pokemonList);
-      Pokemon.getPokemon(pokemonList);
-      Pokemon.spawnPokemon();
-      getPokemon(pokemonList);
-      getPokemonEvolutions(pokemonList);
+      ],
+      types: pokemon.types,
+      //weight: pokemon.weight,
+      nickname: "???",
+      evolution_chain: [],
+      is_known: false,
+      is_captured: false,
     });
+  });
+  console.log(pokemonList);
+  console.log(pokemonList.sort((a, b) => a.base_experience - b.base_experience))
+  //als je ergens de pokemon nodig hebt stuur da hier als parameter door
+  Player.getPokemon(pokemonList);
+  Npcs.getPokemon(pokemonList);
+  Pokemon.getPokemon(pokemonList);
+  Pokemon.spawnPokemon();
+  getPokemon(pokemonList);
+  getPokemonEvolutions(pokemonList);
+  return pokemonList;
 
 }
 async function getPokemonEvolutions(pokemonList) {
@@ -162,14 +209,20 @@ async function getPokemonEvolutions(pokemonList) {
       chain = chain.evolves_to.length ? chain.evolves_to[0] : null;
     }
     for (let name of evolutionChain) {
-      const pokemonMatch = pokemonList.find((value)=>{
+      const pokemonMatch = pokemonList.find((value) => {
         return value.name === name;
       })
       pokemonList[index].evolution_chain.push({
         name,
-        sprite: pokemonMatch? pokemonMatch.sprites["front_default"] : "../images/pikachu_silouhette.png"}
+        sprite: pokemonMatch ? pokemonMatch.sprites["front_default"] : "../images/pikachu_silouhette.png"
+      }
       );
 
     }
   })
+}
+
+function toggleDebug() {
+  Player.toggleDebug();
+  Companion.toggleDebug();
 }

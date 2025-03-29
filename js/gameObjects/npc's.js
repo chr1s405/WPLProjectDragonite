@@ -12,14 +12,6 @@ export const Npcs = {
   },
   getPokemon(allPokemon){
     pokemonList = allPokemon;
-    this.assignPokemon();
-  },
-  assignPokemon() {
-    this.npcList.forEach((npc) => {
-      if (npc.pokemon === undefined) {
-        npc.assignPokemon(pokemonList[Math.trunc(Math.random() * pokemonList.length)]);
-      }
-    });
   },
   createNpc(x, y) {
     const npcDiv = document.createElement("div");
@@ -60,6 +52,7 @@ export const Npcs = {
         this.pokemon.is_captured = true;
       },
     };
+    npc.assignPokemon(pokemonList[Math.trunc(Math.random() * pokemonList.length)]);
     Npcs.npcList.push(npc);
   },
 };

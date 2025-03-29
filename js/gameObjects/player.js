@@ -5,10 +5,16 @@ import { Pokemon } from "./pokemon.js";
 import { openBattleEvent, closeBattleEvent, openCaptureEvent, closeCaptureEvent } from "../backpack.js";
 
 let pokemonList;
-const character = document.getElementById("character")
-const Direction = { up: "up", down: "down", left: "left", right: "right", };
+const character = document.getElementById("character");
+character.style.backgroundImage = `url(${"../../images/characters/player2Sprites.jpg"})`;
+const Direction = {
+    down:   { index: 0, direction: "front"},
+    left:   { index: 1, direction: "left"},
+    right:  { index: 2, direction: "right"},
+    up:     { index: 3, direction: "back" },
+};
 export const Player = {
-    div: document.getElementById("character"),
+    div: character,
     x: character.offsetLeft,
     y: character.offsetTop,
     width: character.clientWidth,
@@ -16,7 +22,6 @@ export const Player = {
     speed: character.clientWidth,
     direction: Direction.down,
     prevDirection: Direction.down,
-    baseSprite: "player",
     hasCompanion: false,
     companion: Companion,
     capturedPokemon: [],
@@ -45,10 +50,10 @@ function update() {
     if (this.prevDirection != this.direction) {
         this.prevDirection = this.direction;
         switch (this.direction) {
-            case Direction.up: this.div.style.backgroundImage = `url(${`../../images/characters/${this.baseSprite}_back.png`})`; break;
-            case Direction.down: this.div.style.backgroundImage = `url(${`../../images/characters/${this.baseSprite}_front.png`})`; break;
-            case Direction.left: this.div.style.backgroundImage = `url(${`../../images/characters/${this.baseSprite}_left.png`})`; break;
-            case Direction.right: this.div.style.backgroundImage = `url(${`../../images/characters/${this.baseSprite}_right.png`})`; break;
+            case Direction.up: this.div.style.backgroundPositionY = `${this.direction.index * -52}px`; break;
+            case Direction.down: this.div.style.backgroundPositionY = `${this.direction.index * -52}px`; break;
+            case Direction.left: this.div.style.backgroundPositionY = `${this.direction.index * -52}px`; break;
+            case Direction.right: this.div.style.backgroundPositionY = `${this.direction.index * -52}px`; break;
         }
     }
     if (this.hasCompanion) {
