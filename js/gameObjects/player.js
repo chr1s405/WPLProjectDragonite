@@ -7,7 +7,7 @@
 import { createCompanion } from "./companion.js";
 
 let pokemonList;
-const Direction = {
+export const Direction = {
     down: { index: 0, direction: "front" },
     left: { index: 1, direction: "left" },
     right: { index: 2, direction: "right" },
@@ -16,7 +16,7 @@ const Direction = {
 
 export function createPlayer() {
     const character = document.getElementById("character");
-    character.style.backgroundImage = `url(${"../../images/characters/player2Sprites.png"})`;
+    // character.style.backgroundImage = `url(${"../../images/characters/player2Sprites.png"})`;
     const player = {
         div: character,
         x: character.offsetLeft,
@@ -44,9 +44,9 @@ export function createPlayer() {
         moveDown,
         moveLeft,
         move,
-        handleMapCollision,
         setDirection,
         setCompanion,
+        capturePokemon,
         removeCompanion,
         releasePokemon,
         interact,
@@ -63,7 +63,7 @@ function update(map) {
     this.div.style.left = `${this.x}px`;
     this.div.style.top = `${this.y}px`;
     if (this.hasCompanion) {
-        Companion.update(map);
+        this.companion.update(map);
     }
     if (this.isDebugOn) {
         this.debug(map);
@@ -116,83 +116,11 @@ function move(map) {
     }
     this.x = newX;
     this.y = newY;
-    this.handleMapCollision(map)
+    map.handleCollision(this)
     map.centerMap(this);
     // }
 }
-function handleMapCollision(map) {
-    const hitbox = [
-        { x: this.x, y: this.y },
-        { x: this.x + this.width, y: this.y },
-        { x: this.x, y: this.y + this.width },
-        { x: this.x + this.width, y: this.y + this.height }];
-    let tileId;
-    let tileBounderies;
-    if (this.direction === Direction.up) {
-        tileId = map.positionInGrid(hitbox[0].x, hitbox[0].y);
-        if (map.collisionTiles.includes(map.layerData[tileId])) {
-            tileBounderies = map.positionInWorld(tileId);
-            if (hitbox[0].y < tileBounderies.y + tileBounderies.height && hitbox[1].y < tileBounderies.y + tileBounderies.height) {
-                this.y = tileBounderies.y + tileBounderies.height + 1;
-            }
-        }
-        tileId = map.positionInGrid(hitbox[1].x, hitbox[1].y);
-        if (map.collisionTiles.includes(map.layerData[tileId])) {
-            tileBounderies = map.positionInWorld(tileId);
-            if (hitbox[0].y < tileBounderies.y + tileBounderies.height && hitbox[1].y < tileBounderies.y + tileBounderies.height) {
-                this.y = tileBounderies.y + tileBounderies.height + 1;
-            }
-        }
-    }
-    if (this.direction === Direction.down) {
-        tileId = map.positionInGrid(hitbox[2].x, hitbox[2].y);
-        if (map.collisionTiles.includes(map.layerData[tileId])) {
-            tileBounderies = map.positionInWorld(tileId);
-            if (hitbox[2].y > tileBounderies.y && hitbox[3].y > tileBounderies.y) {
-                this.y = tileBounderies.y - this.height - 1;
-            }
-        }
-        tileId = map.positionInGrid(hitbox[3].x, hitbox[3].y);
-        if (map.collisionTiles.includes(map.layerData[tileId])) {
-            tileBounderies = map.positionInWorld(tileId);
-            if (hitbox[2].y > tileBounderies.y && hitbox[3].y > tileBounderies.y) {
-                this.y = tileBounderies.y - this.height - 1;
-            }
-        }
-    }
-    if (this.direction === Direction.left) {
-        tileId = map.positionInGrid(hitbox[0].x, hitbox[0].y);
-        if (map.collisionTiles.includes(map.layerData[tileId])) {
-            tileBounderies = map.positionInWorld(tileId);
-            if (hitbox[0].x < tileBounderies.x + tileBounderies.width && hitbox[2].x < tileBounderies.x + tileBounderies.width) {
-                this.x = tileBounderies.x + tileBounderies.width + 1;
-            }
-        }
-        tileId = map.positionInGrid(hitbox[2].x, hitbox[2].y);
-        if (map.collisionTiles.includes(map.layerData[tileId])) {
-            tileBounderies = map.positionInWorld(tileId);
-            if (hitbox[0].x < tileBounderies.x + tileBounderies.width && hitbox[2].x < tileBounderies.x + tileBounderies.width) {
-                this.x = tileBounderies.x + tileBounderies.width + 1;
-            }
-        }
-    }
-    if (this.direction === Direction.right) {
-        tileId = map.positionInGrid(hitbox[1].x, hitbox[1].y);
-        if (map.collisionTiles.includes(map.layerData[tileId])) {
-            tileBounderies = map.positionInWorld(tileId);
-            if (hitbox[1].x > tileBounderies.x && hitbox[3].x > tileBounderies.x) {
-                this.x = tileBounderies.x - this.width - 1;
-            }
-        }
-        tileId = map.positionInGrid(hitbox[3].x, hitbox[3].y);
-        if (map.collisionTiles.includes(map.layerData[tileId])) {
-            tileBounderies = map.positionInWorld(tileId);
-            if (hitbox[1].x > tileBounderies.x && hitbox[3].x > tileBounderies.x) {
-                this.x = tileBounderies.x - this.width - 1;
-            }
-        }
-    }
-}
+
 function setDirection(direction) {
     this.direction = direction;
     if (this.prevDirection != this.direction) {
@@ -206,73 +134,13 @@ function setDirection(direction) {
         this.div.style.backgroundPositionX = `${Math.trunc(this.spriteIndex) * -52}px`;
     }
 }
-function isColliding(map, x, y) {
-    if (map.collisionTiles.includes(map.layerData[map.positionInGrid(x, y)])) {
-        return true;
-    }
-}
-// function moveUp() {
-//     this.direction = Direction.up;
-//     const tempY = this.y - this.speed;
-//     if (!(tempY < 0)) {
-//         this.move(this.x, tempY);
-//     }
-// }
-// function moveDown() {
-//     this.direction = Direction.down;
-//     const tempY = this.y + this.speed;
-//     if (!(tempY + this.height > Map.height)) {
-//         this.move(this.x, tempY);
-//     }
-// }
-// function moveLeft() {
-//     this.direction = Direction.left;
-//     const tempX = this.x - this.speed;
-//     if (!(tempX < 0)) {
-//         this.move(tempX, this.y);
-//     }
-// }
-// function moveRight() {
-//     this.direction = Direction.right;
-//     const tempX = this.x + this.speed;
-//     if (!(tempX + this.width > Map.width)) {
-//         this.move(tempX, this.y);
-//     }
-// }
-// function move(newX, newY) {
-//     const playerPos = Map.positionInGrid(newX, newY);
-//     const tileId = Map.layerData[(playerPos)];
-//     let isOnNpc;
-//     Npcs.npcsActive.forEach((npc) => {
-//         if (playerPos === Map.positionInGrid(npc.x, npc.y)) {
-//             isOnNpc = true;
-//         }
-//     })
-//     let isOnPokemon;
-//     if (Pokemon.isActive) {
-//         isOnPokemon = playerPos === Map.positionInGrid(Pokemon.x, Pokemon.y);
-//     }
-//     const isOnCompanion = playerPos === Map.positionInGrid(this.companion.x, this.companion.y);
-//     const isOnCollisionTile = Map.collisionTiles.includes(tileId);
-//     if (!isOnCollisionTile && !isOnNpc && !isOnPokemon && !isOnCompanion) {
-//         this.x = newX;
-//         this.y = newY;
-//     }
-//     if (tileId === 32) {
-//         const rand = Math.trunc(Math.random() * 10);
-//         if (rand === 0) {
-//             const pokemon = pokemonList[Math.trunc(Math.random() * pokemonList.length)];
-//             battle(pokemon)
-//         }
-//     }
-// }
 
 //pokemon
 function setCompanion(pokemon) {
-    if (Player.capturedPokemon.includes(pokemon)) {
+    if (this.capturedPokemon.includes(pokemon)) {
         this.hasCompanion = true;
-        Companion.setCompanion(pokemon);
-        document.getElementById("nav-pokemon").src = Companion.pokemon.sprites["front_default"]
+        this.companion.setCompanion(pokemon);
+        document.getElementById("nav-pokemon").src = this.companion.pokemon.sprites["front_default"]
     }
     else {
         alert("je hebt deze pokemon nog niet gevangen")
@@ -282,6 +150,11 @@ function removeCompanion() {
     this.hasCompanion = false;
     Companion.removeCompanion();
     document.getElementById("nav-pokemon").src = "../images/pikachu_silouhette.png"
+}
+function capturePokemon(pokemon){
+    pokemon.is_known = true;
+    pokemon.is_captured = true;
+    this.capturedPokemon.push(pokemon);
 }
 function releasePokemon(pokemon) {
     if (pokemon === this.companion.pokemon) {

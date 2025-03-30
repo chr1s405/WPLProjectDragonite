@@ -1,25 +1,32 @@
-import { Map } from "./gameObjects/map.js";
-import { Player } from "./gameObjects/player.js";
-import { Companion } from "./gameObjects/companion.js";
-import { Npcs } from "./gameObjects/npc's.js";
-import { Pokemon } from "./gameObjects/pokemon.js";
-import { getPokemon } from "../js/backpack.js";
+import { createMap } from "./gameObjects/map.js";
+import { createPlayer } from "./gameObjects/player.js";
+import { createNpc } from "./gameObjects/npc's.js";
+// import { Companion } from "./gameObjects/companion.js";
+// import { Pokemon } from "./gameObjects/pokemon.js";
+// import { getPokemon } from "../js/backpack.js";
 
-let pause = false;
+let pause = true;
 
-let Map1;
-let Player1;
+let allPokemon;
+let map;
+let player;
+let npcs = [];
 
-const allPokemon = await GetPokemon();
-await intro();
+allPokemon = await GetPokemon();
 await gameInit();
+await intro();
 await gameLoop();
 
 async function intro() {
   const introPage = document.getElementById("gameIntro");
   let optionsDiv;
   optionsDiv = introPage.getElementsByClassName("intro_selection")[0];
+  const starterCharacters = [
+    { name: "man", img: "../../images/characters/player1Sprites.png" },
+    { name: "vrouw", img: "../../images/characters/player2Sprites.png" }];
+  createIntroOptions(optionsDiv, starterCharacters)
   let playerIndex = await getIntroSelection(optionsDiv);
+  player.div.style.backgroundImage = `url(${starterCharacters[playerIndex].img})`;
 
   optionsDiv = introPage.getElementsByClassName("intro_selection")[1];
   const starterPokemon = allPokemon.slice(0, 3).map((pokemon) => {
@@ -27,7 +34,11 @@ async function intro() {
   });
   createIntroOptions(optionsDiv, starterPokemon)
   let pokemonIndex = await getIntroSelection(optionsDiv);
+  player.capturePokemon(allPokemon[pokemonIndex]);
+  player.setCompanion(allPokemon[pokemonIndex]);
   introPage.style.display = "none"
+
+  pause = false;
 }
 
 function createIntroOptions(optionsDiv, optionsList = undefined) {
@@ -63,29 +74,31 @@ async function getIntroSelection(optionsDiv) {
 }
 
 function gameInit() {
-  Npcs.createNpc(200, 300);
-  Npcs.createNpc(700, 250);
-  Npcs.createNpc(300, 1050);
-  Npcs.createNpc(700, 750);
-  Npcs.createNpc(950, 550);
+  map = createMap();
+  player = createPlayer();
+  npcs.push(createNpc(allPokemon, map, 200, 300));
+  npcs.push(createNpc(allPokemon, map, 700, 250));
+  npcs.push(createNpc(allPokemon, map, 300, 1050));
+  npcs.push(createNpc(allPokemon, map, 700, 750));
+  npcs.push(createNpc(allPokemon, map, 950, 550));
 
   addEventListener("keydown", (e) => {
     //   alert(e.keyCode);
     if (e.keyCode === 80) {
       pause = !pause;
     }
-    if (!pause && !Player.isInEvent) {
+    if (!pause && !player.isInEvent) {
       if (e.keyCode === 87 || e.keyCode === 38 /*w*/) {
-        Player.moveUp();
+        player.moveUp(true);
       }
       if (e.keyCode === 65 || e.keyCode === 37 /*a*/) {
-        Player.moveLeft();
+        player.moveLeft(true);
       }
       if (e.keyCode === 83 || e.keyCode === 40 /*s*/) {
-        Player.moveDown();
+        player.moveDown(true);
       }
       if (e.keyCode === 68 || e.keyCode === 39 /*d*/) {
-        Player.moveRight();
+        player.moveRight(true);
       }
       if (e.keyCode === 79 /*o*/) {
         toggleDebug();
@@ -94,12 +107,26 @@ function gameInit() {
 
       }
       if (e.keyCode === 13 /*enter*/) {
-        Player.interact();
+        player.interact();
       }
       if (e.keyCode === 32 /*space*/) {
       }
     }
   });
+  addEventListener("keyup", (e) => {
+    if (e.keyCode === 87 || e.keyCode === 38 /*w*/) {
+      player.moveUp(false);
+    }
+    if (e.keyCode === 65 || e.keyCode === 37 /*a*/) {
+      player.moveLeft(false);
+    }
+    if (e.keyCode === 83 || e.keyCode === 40 /*s*/) {
+      player.moveDown(false);
+    }
+    if (e.keyCode === 68 || e.keyCode === 39 /*d*/) {
+      player.moveRight(false);
+    }
+  })
 
   // document.getElementById("overworldMap").style.display = "block";
   document.getElementById("backpackIcon").style.display = "block";
@@ -107,10 +134,10 @@ function gameInit() {
 
 function gameLoop() {
   const intervalId = setInterval(() => {
-    if (!pause && !Player.isInEvent) {
-      Player.update();
-      Npcs.update();
-      Map.update()
+    if (!pause && !player.isInEvent) {
+      map.update(player);
+      player.update(map);
+      // Npcs.update();
     };
     if (false) {
       clearInterval(intervalId);
@@ -182,11 +209,11 @@ async function GetPokemon() {
   console.log(pokemonList);
   console.log(pokemonList.sort((a, b) => a.base_experience - b.base_experience))
   //als je ergens de pokemon nodig hebt stuur da hier als parameter door
-  Player.getPokemon(pokemonList);
-  Npcs.getPokemon(pokemonList);
-  Pokemon.getPokemon(pokemonList);
-  Pokemon.spawnPokemon();
-  getPokemon(pokemonList);
+  // Player.getPokemon(pokemonList);
+  // Npcs.getPokemon(pokemonList);
+  // Pokemon.getPokemon(pokemonList);
+  // Pokemon.spawnPokemon();
+  // getPokemon(pokemonList); // backpack.js
   getPokemonEvolutions(pokemonList);
   return pokemonList;
 
@@ -223,6 +250,5 @@ async function getPokemonEvolutions(pokemonList) {
 }
 
 function toggleDebug() {
-  Player.toggleDebug();
-  Companion.toggleDebug();
+  player.toggleDebug();
 }

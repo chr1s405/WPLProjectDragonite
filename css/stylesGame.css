@@ -130,11 +130,11 @@
   background-color: var(--color_secondary);
   cursor: pointer;
 }
-#gamePage #intro_characterOptions .intro_selectOption div{
-  width: 100%;
-  aspect-ratio: 1/1;
-  
-  background-size: 400%;
+#gamePage #intro_characterOptions img{
+  width: 64px;
+  height: 64px;
+  object-fit: none;
+  object-position: 0px 0px;
 
 }
 
