@@ -1,136 +1,273 @@
-import { Map } from "./map.js";
-import { Npcs } from "./npc's.js";
-import { Companion } from "./companion.js";
-import { Pokemon } from "./pokemon.js";
-import { openBattleEvent, closeBattleEvent, openCaptureEvent, closeCaptureEvent } from "../backpack.js";
+// // import { Map } from "./map.js";
+// import { Npcs } from "./npc's.js";
+// import { Companion } from "./companion.js";
+// // import { Pokemon } from "./pokemon.js";
+// import { openBattleEvent, closeBattleEvent, openCaptureEvent, closeCaptureEvent } from "../backpack.js";
+
+import { createCompanion } from "./companion.js";
 
 let pokemonList;
-const character = document.getElementById("character");
-character.style.backgroundImage = `url(${"../../images/characters/player2Sprites.jpg"})`;
 const Direction = {
-    down:   { index: 0, direction: "front"},
-    left:   { index: 1, direction: "left"},
-    right:  { index: 2, direction: "right"},
-    up:     { index: 3, direction: "back" },
+    down: { index: 0, direction: "front" },
+    left: { index: 1, direction: "left" },
+    right: { index: 2, direction: "right" },
+    up: { index: 3, direction: "back" },
 };
-export const Player = {
-    div: character,
-    x: character.offsetLeft,
-    y: character.offsetTop,
-    width: character.clientWidth,
-    height: character.clientHeight,
-    speed: character.clientWidth,
-    direction: Direction.down,
-    prevDirection: Direction.down,
-    hasCompanion: false,
-    companion: Companion,
-    capturedPokemon: [],
-    isInBattle: false,
-    isInEvent: false,
-    isDebugOn: false,
 
-    update,
-    moveUp,
-    moveRight,
-    moveDown,
-    moveLeft,
-    move,
-    setCompanion,
-    removeCompanion,
-    releasePokemon,
-    interact,
+export function createPlayer() {
+    const character = document.getElementById("character");
+    character.style.backgroundImage = `url(${"../../images/characters/player2Sprites.png"})`;
+    const player = {
+        div: character,
+        x: character.offsetLeft,
+        y: character.offsetTop,
+        width: character.clientWidth,
+        height: character.clientHeight,
+        speed: 20,//character.clientWidth,
+        isMovingUp: false,
+        isMovingDown: false,
+        isMovingLeft: false,
+        isMovingRight: false,
+        direction: Direction.down,
+        prevDirection: Direction.down,
+        spriteIndex: 0,
+        hasCompanion: false,
+        companion: undefined,
+        capturedPokemon: [],
+        isInBattle: false,
+        isInEvent: false,
+        isDebugOn: false,
 
-    getPokemon,
+        update,
+        moveUp,
+        moveRight,
+        moveDown,
+        moveLeft,
+        move,
+        handleMapCollision,
+        setDirection,
+        setCompanion,
+        removeCompanion,
+        releasePokemon,
+        interact,
+
+        toggleDebug,
+        debug,
+    }
+    player.companion = createCompanion(player);
+    return player;
 }
 
-
-function update() {
+function update(map) {
+    this.move(map);
     this.div.style.left = `${this.x}px`;
     this.div.style.top = `${this.y}px`;
-    if (this.prevDirection != this.direction) {
-        this.prevDirection = this.direction;
-        switch (this.direction) {
-            case Direction.up: this.div.style.backgroundPositionY = `${this.direction.index * -52}px`; break;
-            case Direction.down: this.div.style.backgroundPositionY = `${this.direction.index * -52}px`; break;
-            case Direction.left: this.div.style.backgroundPositionY = `${this.direction.index * -52}px`; break;
-            case Direction.right: this.div.style.backgroundPositionY = `${this.direction.index * -52}px`; break;
-        }
-    }
     if (this.hasCompanion) {
-        Companion.update();
+        Companion.update(map);
     }
     if (this.isDebugOn) {
-        this.debug();
+        this.debug(map);
     }
 }
 
 // movement
-function moveUp() {
-    this.direction = Direction.up;
-    const tempY = this.y - this.speed;
-    if (!(tempY < 0)) {
-        this.move(this.x, tempY);
+function moveUp(isMoving) {
+    this.isMovingUp = isMoving;
+    if (!isMoving) { this.spriteIndex = 0 
+        this.div.style.backgroundPositionX = `0px`;
     }
 }
-function moveDown() {
-    this.direction = Direction.down;
-    const tempY = this.y + this.speed;
-    if (!(tempY + this.height > Map.height)) {
-        this.move(this.x, tempY);
+function moveDown(isMoving) {
+    this.isMovingDown = isMoving;
+    if (!isMoving) { this.spriteIndex = 0 
+        this.div.style.backgroundPositionX = `0px`;
     }
 }
-function moveLeft() {
-    this.direction = Direction.left;
-    const tempX = this.x - this.speed;
-    if (!(tempX < 0)) {
-        this.move(tempX, this.y);
+function moveLeft(isMoving) {
+    this.isMovingLeft = isMoving;
+    if (!isMoving) { this.spriteIndex = 0 
+        this.div.style.backgroundPositionX = `0px`;
     }
 }
-function moveRight() {
-    this.direction = Direction.right;
-    const tempX = this.x + this.speed;
-    if (!(tempX + this.width > Map.width)) {
-        this.move(tempX, this.y);
+function moveRight(isMoving) {
+    this.isMovingRight = isMoving;
+    if (!isMoving) { this.spriteIndex = 0 
+        this.div.style.backgroundPositionX = `0px`;
     }
 }
-function move(newX, newY) {
-    const playerPos = Map.positionInGrid(newX, newY);
-    const tileId = Map.layerData[(playerPos)];
-    let isOnNpc;
-    Npcs.npcsActive.forEach((npc) => {
-        if (playerPos === Map.positionInGrid(npc.x, npc.y)) {
-            isOnNpc = true;
+function move(map) {
+    let newX = this.x;
+    let newY = this.y;
+    if (this.isMovingRight) {
+        newX += this.speed;
+        this.setDirection(Direction.right);
+    }
+    else if (this.isMovingLeft) {
+        newX -= this.speed;
+        this.setDirection(Direction.left);
+    }
+    else if (this.isMovingUp) {
+        newY -= this.speed;
+        this.setDirection(Direction.up);
+    }
+    else if (this.isMovingDown) {
+        newY += this.speed;
+        this.setDirection(Direction.down);
+    }
+    this.x = newX;
+    this.y = newY;
+    this.handleMapCollision(map)
+    map.centerMap(this);
+    // }
+}
+function handleMapCollision(map) {
+    const hitbox = [
+        { x: this.x, y: this.y },
+        { x: this.x + this.width, y: this.y },
+        { x: this.x, y: this.y + this.width },
+        { x: this.x + this.width, y: this.y + this.height }];
+    let tileId;
+    let tileBounderies;
+    if (this.direction === Direction.up) {
+        tileId = map.positionInGrid(hitbox[0].x, hitbox[0].y);
+        if (map.collisionTiles.includes(map.layerData[tileId])) {
+            tileBounderies = map.positionInWorld(tileId);
+            if (hitbox[0].y < tileBounderies.y + tileBounderies.height && hitbox[1].y < tileBounderies.y + tileBounderies.height) {
+                this.y = tileBounderies.y + tileBounderies.height + 1;
+            }
         }
-    })
-    let isOnPokemon;
-    if (Pokemon.isActive) {
-        isOnPokemon = playerPos === Map.positionInGrid(Pokemon.x, Pokemon.y);
+        tileId = map.positionInGrid(hitbox[1].x, hitbox[1].y);
+        if (map.collisionTiles.includes(map.layerData[tileId])) {
+            tileBounderies = map.positionInWorld(tileId);
+            if (hitbox[0].y < tileBounderies.y + tileBounderies.height && hitbox[1].y < tileBounderies.y + tileBounderies.height) {
+                this.y = tileBounderies.y + tileBounderies.height + 1;
+            }
+        }
     }
-    const isOnCompanion = playerPos === Map.positionInGrid(this.companion.x, this.companion.y);
-    const isOnCollisionTile = Map.collisionTiles.includes(tileId);
-    if (!isOnCollisionTile && !isOnNpc && !isOnPokemon && !isOnCompanion) {
-        this.x = newX;
-        this.y = newY;
+    if (this.direction === Direction.down) {
+        tileId = map.positionInGrid(hitbox[2].x, hitbox[2].y);
+        if (map.collisionTiles.includes(map.layerData[tileId])) {
+            tileBounderies = map.positionInWorld(tileId);
+            if (hitbox[2].y > tileBounderies.y && hitbox[3].y > tileBounderies.y) {
+                this.y = tileBounderies.y - this.height - 1;
+            }
+        }
+        tileId = map.positionInGrid(hitbox[3].x, hitbox[3].y);
+        if (map.collisionTiles.includes(map.layerData[tileId])) {
+            tileBounderies = map.positionInWorld(tileId);
+            if (hitbox[2].y > tileBounderies.y && hitbox[3].y > tileBounderies.y) {
+                this.y = tileBounderies.y - this.height - 1;
+            }
+        }
     }
-    if (tileId === 32) {
-        const rand = Math.trunc(Math.random() * 10);
-        if (rand === 0) {
-            const pokemon = pokemonList[Math.trunc(Math.random() * pokemonList.length)];
-            battle(pokemon)
+    if (this.direction === Direction.left) {
+        tileId = map.positionInGrid(hitbox[0].x, hitbox[0].y);
+        if (map.collisionTiles.includes(map.layerData[tileId])) {
+            tileBounderies = map.positionInWorld(tileId);
+            if (hitbox[0].x < tileBounderies.x + tileBounderies.width && hitbox[2].x < tileBounderies.x + tileBounderies.width) {
+                this.x = tileBounderies.x + tileBounderies.width + 1;
+            }
+        }
+        tileId = map.positionInGrid(hitbox[2].x, hitbox[2].y);
+        if (map.collisionTiles.includes(map.layerData[tileId])) {
+            tileBounderies = map.positionInWorld(tileId);
+            if (hitbox[0].x < tileBounderies.x + tileBounderies.width && hitbox[2].x < tileBounderies.x + tileBounderies.width) {
+                this.x = tileBounderies.x + tileBounderies.width + 1;
+            }
+        }
+    }
+    if (this.direction === Direction.right) {
+        tileId = map.positionInGrid(hitbox[1].x, hitbox[1].y);
+        if (map.collisionTiles.includes(map.layerData[tileId])) {
+            tileBounderies = map.positionInWorld(tileId);
+            if (hitbox[1].x > tileBounderies.x && hitbox[3].x > tileBounderies.x) {
+                this.x = tileBounderies.x - this.width - 1;
+            }
+        }
+        tileId = map.positionInGrid(hitbox[3].x, hitbox[3].y);
+        if (map.collisionTiles.includes(map.layerData[tileId])) {
+            tileBounderies = map.positionInWorld(tileId);
+            if (hitbox[1].x > tileBounderies.x && hitbox[3].x > tileBounderies.x) {
+                this.x = tileBounderies.x - this.width - 1;
+            }
         }
     }
 }
+function setDirection(direction) {
+    this.direction = direction;
+    if (this.prevDirection != this.direction) {
+        this.prevDirection = this.direction;
+        this.div.style.backgroundPositionY = `${this.direction.index * -52}px`
+        this.div.style.backgroundPositionX = `0px`;
+        this.spriteIndex = 0;
+    }
+    else {
+        this.spriteIndex = (this.spriteIndex + .3) % 4;
+        this.div.style.backgroundPositionX = `${Math.trunc(this.spriteIndex) * -52}px`;
+    }
+}
+function isColliding(map, x, y) {
+    if (map.collisionTiles.includes(map.layerData[map.positionInGrid(x, y)])) {
+        return true;
+    }
+}
+// function moveUp() {
+//     this.direction = Direction.up;
+//     const tempY = this.y - this.speed;
+//     if (!(tempY < 0)) {
+//         this.move(this.x, tempY);
+//     }
+// }
+// function moveDown() {
+//     this.direction = Direction.down;
+//     const tempY = this.y + this.speed;
+//     if (!(tempY + this.height > Map.height)) {
+//         this.move(this.x, tempY);
+//     }
+// }
+// function moveLeft() {
+//     this.direction = Direction.left;
+//     const tempX = this.x - this.speed;
+//     if (!(tempX < 0)) {
+//         this.move(tempX, this.y);
+//     }
+// }
+// function moveRight() {
+//     this.direction = Direction.right;
+//     const tempX = this.x + this.speed;
+//     if (!(tempX + this.width > Map.width)) {
+//         this.move(tempX, this.y);
+//     }
+// }
+// function move(newX, newY) {
+//     const playerPos = Map.positionInGrid(newX, newY);
+//     const tileId = Map.layerData[(playerPos)];
+//     let isOnNpc;
+//     Npcs.npcsActive.forEach((npc) => {
+//         if (playerPos === Map.positionInGrid(npc.x, npc.y)) {
+//             isOnNpc = true;
+//         }
+//     })
+//     let isOnPokemon;
+//     if (Pokemon.isActive) {
+//         isOnPokemon = playerPos === Map.positionInGrid(Pokemon.x, Pokemon.y);
+//     }
+//     const isOnCompanion = playerPos === Map.positionInGrid(this.companion.x, this.companion.y);
+//     const isOnCollisionTile = Map.collisionTiles.includes(tileId);
+//     if (!isOnCollisionTile && !isOnNpc && !isOnPokemon && !isOnCompanion) {
+//         this.x = newX;
+//         this.y = newY;
+//     }
+//     if (tileId === 32) {
+//         const rand = Math.trunc(Math.random() * 10);
+//         if (rand === 0) {
+//             const pokemon = pokemonList[Math.trunc(Math.random() * pokemonList.length)];
+//             battle(pokemon)
+//         }
+//     }
+// }
 
 //pokemon
-function getPokemon(allPokemon) {
-    pokemonList = allPokemon;
-    //dit moet weg
-    const pokemon = pokemonList[Math.trunc(Math.random() * pokemonList.length)];
-    pokemon.is_known = true;
-    this.capturedPokemon.push(pokemon);
-    this.setCompanion(pokemon);
-    //tot hier
-}
 function setCompanion(pokemon) {
     if (Player.capturedPokemon.includes(pokemon)) {
         this.hasCompanion = true;
@@ -167,12 +304,15 @@ function toggleDebug() {
         this.div.getElementsByClassName("debug")[0].style.display = "block";
     }
     else {
+        this.div.style.backgroundColor = "none";
         this.div.getElementsByClassName("debug")[0].style.display = "none";
     }
+    this.companion.toggleDebug();
 }
-function debug() {
+function debug(map) {
+    this.div.style.backgroundColor = "red";
     this.div.getElementsByClassName("debug")[0].innerHTML =
-        `(${this.x}, ${this.y})</br>${Map.positionInGrid(this.x, this.y)}`;
+        `(${this.x}, ${this.y})</br>${map.positionInGrid(this.x, this.y)}`;
 }
 
 
