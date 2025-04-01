@@ -1,84 +1,149 @@
-import { Player } from "./gameObjects/player.js";
+// import { Player } from "./gameObjects/player.js";
+import { allPokemon } from "./game.js";
 
-let allPokemon;
-export function getPokemon(pokemonList) {
-  allPokemon = pokemonList;
+export function createBackpack(player) {
+  const backpack = {
+    player: player,
+    backpackIcon: document.getElementById("backpackIcon"),
+    backpackMenu: document.getElementById("backpackContents"),
+    previousMenu: [],
+    currentMenu: undefined,
 
-}
+    openMenu, //open the menu (sreen that displays all menu's)
+    closeMenu,
 
-const backpack = document.getElementById("backpackContents");
-const backpackIcon = document.getElementById("backpackIcon");
-const backpackMenu = document.getElementById("mainMenu");
-const backpackBtns = document.getElementsByClassName("backpackMenuBtn");
-const pokedexMenuEvent = document.getElementById("menu_pokedex");
-const pokedexDetailMenuEvent = document.getElementById("menu_pokemonDetail");
-const compareMenuEvent = document.getElementById("menu_compare");
-const whosThatMenuEvent = document.getElementById("menu_whosThat");
-const battleMenuEvent = document.getElementById("menu_battle");
-const captureMenuEvent = document.getElementById("menu_capture");
-//const menuEvents = document.getElementsByClassName("menuEvent");
-const menuEvents = [
-  { event: pokedexMenuEvent, title: "pokedex", open: openPokedexEvent, close: closePokedexEvent },
-  { event: pokedexDetailMenuEvent, title: "pokedex", open: openDetailEvent, close: closeDetailsEvent },
-  { event: compareMenuEvent, title: "vergelijken", open: openCompareEvent, close: closeCompareEvent },
-  { event: whosThatMenuEvent, title: "who's that pokemon", open: openWhosThatEvent, close: closeWhosThatEvent },
-  { event: battleMenuEvent, title: "gevecht", open: openBattleEvent, close: closeBattleEvent },
-  { event: captureMenuEvent, title: "vangen", open: openCaptureEvent, close: closeCaptureEvent },
-  { event: backpackMenu, title: "rugzak", open: openMainMenu, close: closeMainMenu },
-]
-let previousMenu = [];
-let currentMenu;
+    openEvent, //general (all openEvents call this)
+    closeAllEvents,
+    backbuttonPressed,
 
+    openMainMenu, //menu with init buttons
+    // closeMainMenu,
 
-backpackIcon.addEventListener("click", (e) => {
-  if (!Player.isInEvent) {
-    openMenu();
-    openMainMenu();
+    // openPokedexEvent,
+    // closePokedexEvent,
+    // openDetailEvent,
+    // closeDetailsEvent,
+
+    // openCompareEvent,
+    // closeCompareEvent,
+    openCompareSide,
+
+    createPokemonList,
+
+    // closeWhosThatEvent,
+    // openWhosThatEvent,
+
+    openBattleEvent,
+    closeBattleEvent,
+
+    openCaptureEvent,
+    closeCaptureEvent,
   }
-})
-
-for (let i = 0; i < backpackBtns.length - 1; i++) {
-  backpackBtns[i].addEventListener("click", (e) => {
-    menuEvents[i].open();
+  backpack.menuEvents = [
+    { event: document.getElementById("menu_pokedex"), title: "pokedex", open: openPokedexEvent.bind(backpack), close: closePokedexEvent.bind(backpack) },
+    { event: document.getElementById("menu_pokemonDetail"), title: "stats", open: openDetailEvent.bind(backpack), close: closeDetailsEvent.bind(backpack) },
+    { event: document.getElementById("menu_compare"), title: "vergelijken", open: openCompareEvent.bind(backpack), close: closeCompareEvent.bind(backpack) },
+    { event: document.getElementById("menu_whosThat"), title: "who's that pokemon", open: openWhosThatEvent.bind(backpack), close: closeWhosThatEvent.bind(backpack) },
+    { event: document.getElementById("menu_battle"), title: "gevecht", open: openBattleEvent.bind(backpack), close: closeBattleEvent.bind(backpack) },
+    { event: document.getElementById("menu_capture"), title: "vangen", open: openCaptureEvent.bind(backpack), close: closeCaptureEvent.bind(backpack) },
+    { event: document.getElementById("mainMenu"), title: "rugzak", open: openMainMenu.bind(backpack), close: closeMainMenu.bind(backpack) },
+  ];
+  backpackIcon.addEventListener("click", (e) => {
+    if (!player.isInEvent) {
+      backpack.openMainMenu(backpack.menuEvents[backpack.menuEvents.length - 1].event);
+    }
+  })
+  for (let i = 0; i < backpackBtns.length - 1; i++) {
+    backpackBtns[i].addEventListener("click", (e) => {
+      backpack.menuEvents[i].open(backpack.menuEvents[i].event);
+    });
+  }
+  document.getElementById("backpack_closeBtn").addEventListener("click", (e) => {
+    backpack.closeAllEvents();
   });
+  document.getElementById("backpack_backBtn").addEventListener("click", (e) => {
+    backpack.backbuttonPressed(backpack.currentMenu);
+  });
+  return backpack;
 }
-document.getElementById("backpack_closeBtn").addEventListener("click", (e) => {
-  closeAllEvents();
-});
-document.getElementById("backpack_backBtn").addEventListener("click", (e) => {
-  backbuttonPressed(currentMenu);
-});
+
+// const backpackMenu = document.getElementById("backpackContents");
+// const backpackIcon = document.getElementById("backpackIcon");
+// const backpackMainMenu = document.getElementById("mainMenu");
+const backpackBtns = document.getElementsByClassName("backpackMenuBtn");
+// const pokedexMenuEvent = document.getElementById("menu_pokedex");
+// const pokedexDetailMenuEvent = document.getElementById("menu_pokemonDetail");
+const compareMenuEvent = document.getElementById("menu_compare");
+// const whosThatMenuEvent = document.getElementById("menu_whosThat");
+// const battleMenuEvent = document.getElementById("menu_battle");
+// const captureMenuEvent = document.getElementById("menu_capture");
+// //const menuEvents = document.getElementsByClassName("menuEvent");
+// const menuEvents = [
+//   { event: document.getElementById("menu_pokedex"), title: "pokedex", open: openPokedexEvent, close: closePokedexEvent },
+//   { event: document.getElementById("menu_pokemonDetail"), title: "pokedex", open: openDetailEvent, close: closeDetailsEvent },
+//   { event: document.getElementById("menu_compare"), title: "vergelijken", open: openCompareEvent, close: closeCompareEvent },
+//   { event: document.getElementById("menu_whosThat"), title: "who's that pokemon", open: openWhosThatEvent, close: closeWhosThatEvent },
+//   { event: document.getElementById("menu_battle"), title: "gevecht", open: openBattleEvent, close: closeBattleEvent },
+//   { event: document.getElementById("menu_capture"), title: "vangen", open: openCaptureEvent, close: closeCaptureEvent },
+//   { event: document.getElementById("mainMenu"), title: "rugzak", open: openMainMenu, close: closeMainMenu },
+// ]
+// let previousMenu = [];
+// let currentMenu;
+
+
+// backpackIcon.addEventListener("click", (e) => {
+//   if (!Player.isInEvent) {
+//     openMenu();
+//     openMainMenu();
+//   }
+// })
+
+// for (let i = 0; i < backpackBtns.length - 1; i++) {
+//   backpackBtns[i].addEventListener("click", (e) => {
+//     menuEvents[i].open(menuEvents[i].event);
+//   });
+// }
+// document.getElementById("backpack_closeBtn").addEventListener("click", (e) => {
+//   closeAllEvents();
+// });
+// document.getElementById("backpack_backBtn").addEventListener("click", (e) => {
+//   backbuttonPressed(currentMenu);
+// });
+
+
+
+
 
 function closeAllEvents() {
-  closeMenu();
-  menuEvents.forEach((menuEvent) => {
+  this.closeMenu();
+  this.menuEvents.forEach((menuEvent) => {
     if (menuEvent.event.style.display === "block") {
-      menuEvent.close();
+      menuEvent.close(menuEvent.event);
     }
   });
-  previousMenu = [];
-  currentMenu = undefined;
-  Player.isInEvent = false;
+  this.previousMenu = [];
+  this.currentMenu = undefined;
+  this.player.isInEvent = false;
 }
 function backbuttonPressed() {
-  if (previousMenu.length > 0) {
-    currentMenu.close();
-    previousMenu[previousMenu.length - 1].open();
-    previousMenu.pop();
-    previousMenu.pop();
+  if (this.previousMenu.length > 0) {
+    this.currentMenu.close(this.currentMenu.event);
+    this.previousMenu[this.previousMenu.length - 1].open(this.previousMenu[this.previousMenu.length - 1].event);
+    this.previousMenu.pop();
+    this.previousMenu.pop();
   }
 }
 
 
 function openMenu() {
-  backpackIcon.style.display = "none";
-  backpack.style.display = "block";
+  this.backpackIcon.style.display = "none";
+  this.backpackMenu.style.display = "block";
   document.getElementById("backpack_closeBtn").style.visibility = "visible";
 }
-function closeMenu(event = undefined) {
-  backpackIcon.style.display = "block";
-  backpack.style.display = "none";
-  backpackMenu.style.display = "none";
+function closeMenu() {
+  this.backpackIcon.style.display = "block";
+  this.backpackMenu.style.display = "none";
+  // backpackMainMenu.style.display = "none";
 }
 
 
@@ -86,40 +151,42 @@ function closeMenu(event = undefined) {
 // ========= events ======== //
 // ========================= //
 function openEvent(event) {
-  Player.isInEvent = true;
-  if (currentMenu) {
-    currentMenu.close();
-    previousMenu.push(currentMenu);
+  this.player.isInEvent = true;
+  this.openMenu();
+  if (this.currentMenu) {
+    console.log(this.currentMenu)
+    this.currentMenu.close(this.currentMenu.event);
+    this.previousMenu.push(this.currentMenu);
   }
-  currentMenu = menuEvents.find(menuEvent => menuEvent.event === event);
-  currentMenu.event.style.display = "block";
-  document.getElementById("backpackTitle").innerHTML = currentMenu.title;
+  this.currentMenu = this.menuEvents.find(menuEvent => menuEvent.event === event);
+  this.currentMenu.event.style.display = "block";
+  document.getElementById("backpackTitle").innerHTML = this.currentMenu.title;
 }
 // ========= main menu ======== //
-function openMainMenu() {
-  openEvent(backpackMenu);
+function openMainMenu(event) {
+  this.openEvent(event);
   document.getElementById("backpack_backBtn").style.visibility = "hidden";
 }
-function closeMainMenu() {
-  backpackMenu.style.display = "none";
+function closeMainMenu(event) {
+  event.style.display = "none";
   document.getElementById("backpack_backBtn").style.visibility = "visible";
 }
 
 // ========= pokedex ======== //
-function openPokedexEvent() {
-  openEvent(pokedexMenuEvent);
-  const table = pokedexMenuEvent.getElementsByClassName("pokemon_list")[0].getElementsByTagName("table")[0];
-  const filters = pokedexMenuEvent.getElementsByClassName("pokedex_filter");
+function openPokedexEvent(event) {
+  this.openEvent(event);
+  const table = event.getElementsByClassName("pokemon_list")[0].getElementsByTagName("table")[0];
+  const filters = event.getElementsByClassName("pokedex_filter");
   for (let i = 0; i < filters.length; i++) {
-    filters[i].addEventListener("input", () => { updatePokemonList(table, pokedexRowClick) });
+    filters[i].addEventListener("input", () => { this.createPokemonList(table, getFilteredList(table), pokedexRowClick.bind(this)) });
   }
   resetFilters();
-  createPokemonList(table, getFilteredList(table), pokedexRowClick);
+  this.createPokemonList(table, getFilteredList(table), pokedexRowClick.bind(this));
 }
-function closePokedexEvent() {
-  pokedexMenuEvent.style.display = "none";
-  const table = pokedexMenuEvent.getElementsByClassName("pokemon_list")[0].getElementsByTagName("table")[0];
-  const filters = pokedexMenuEvent.getElementsByClassName("pokedex_filter");
+function closePokedexEvent(event) {
+  event.style.display = "none";
+  const table = event.getElementsByClassName("pokemon_list")[0].getElementsByTagName("table")[0];
+  const filters = event.getElementsByClassName("pokedex_filter");
   for (let i = 0; i < filters.length; i++) {
     filters[i].replaceWith(filters[i].cloneNode(true));
   }
@@ -146,8 +213,8 @@ function getFilteredList(table) {
 
     filteredList = filteredList.filter((pokemon) => {
       const matchesSearch = pokemon.name.toLowerCase().includes(filterText.value.toLowerCase());
-      const isCaught = Player.capturedPokemon.includes(pokemon);
-      const isKnown = pokemon.is_known;
+      const isCaught = pokemon.isCaptured//Player.capturedPokemon.includes(pokemon);
+      const isKnown = pokemon.isKnown;
       const isType = filterType.value === "all" || pokemon.types.some(t => t.type.name === filterType.value);
       return matchesSearch && (!filterCaught.checked || isCaught) && (!filterKnown.checked || isKnown) && isType;
     });
@@ -167,7 +234,7 @@ function getFilteredList(table) {
   return filteredList;
 }
 
-function createPokemonList(table, pokemonList, rowFunction) {
+function createPokemonList(table, pokemonList, rowClickFunction) {
   table.innerHTML = "";
   pokemonList.forEach(pokemon => {
     const tableRow = document.createElement("tr");
@@ -176,49 +243,44 @@ function createPokemonList(table, pokemonList, rowFunction) {
     const pokemonImg = document.createElement("img");
     pokemonImg.setAttribute("class", "tableImg");
     pokemonImg.src = pokemon.sprites["front_default"];
-    pokemonImg.style.filter = pokemon.is_known ? "brightness(100%)" : "brightness(0%)";
+    pokemonImg.style.filter = pokemon.isKnown ? "brightness(100%)" : "brightness(0%)";
 
     const pokemonInfo = document.createElement("p");
     pokemonInfo.setAttribute("class", "tableInfo");
-    pokemonInfo.innerHTML = `#${pokemon.id}</br>${pokemon.is_known ? pokemon.name : "???"}`;
+    pokemonInfo.innerHTML = `#${pokemon.id}</br>${pokemon.isKnown ? pokemon.name : "???"}`;
 
     table.appendChild(tableRow);
     tableRow.appendChild(pokemonImg);
     tableRow.appendChild(pokemonInfo);
     tableRow.addEventListener("click", () => {
-      if (pokemon.is_known) {
-        rowFunction(pokemon);
+      if (pokemon) {
+        rowClickFunction(pokemon);
       }
       else {
-        openWhosThatEvent(pokemon);
+        const menuEvent = this.menuEvents[3];//this.menuEvents.find(event=> event.title === "who's that pokemon");
+        menuEvent.open(menuEvent.event, pokemon);
       }
     });
   })
 }
-function updatePokemonList(table, rowFunction) {
-  createPokemonList(table, getFilteredList(table), rowFunction);
-}
 function pokedexRowClick(pokemon) {
-  if (pokemon) {
-    openDetailEvent(pokemon);
-  }
+  const menuEvent = this.menuEvents[1];//this.menuEvents.find(event=> event.title === "stats");
+  menuEvent.open(menuEvent.event, pokemon);
 }
 function compareLeftRowClick(pokemon) {
-  if (pokemon) {
-    const compareSide = compareMenuEvent.getElementsByClassName("compare_sides")[0];
-    openCompareSide(compareSide, pokemon);
-  }
+  const menuEvent = this.menuEvents[2];//this.menuEvents.find(event=> event.title === "stats");
+  const compareSide = menuEvent.event.getElementsByClassName("compare_sides")[0];
+  this.openCompareSide(compareSide, pokemon);
 }
 function compareRightRowClick(pokemon) {
-  if (pokemon) {
-    const compareSide = compareMenuEvent.getElementsByClassName("compare_sides")[1];
-    openCompareSide(compareSide, pokemon);
-  }
+  const menuEvent = this.menuEvents[2];//this.menuEvents.find(event=> event.title === "stats");
+  const compareSide = menuEvent.event.getElementsByClassName("compare_sides")[1];
+  this.openCompareSide(compareSide, pokemon);
 }
 
 // ========= pokedex detail ======== //
-function openDetailEvent(pokemon) {
-  openEvent(pokedexDetailMenuEvent);
+function openDetailEvent(event, pokemon) {
+  this.openEvent(event);
   if (!pokemon) {
     return;
   }
@@ -230,24 +292,25 @@ function openDetailEvent(pokemon) {
     stats[i].innerHTML = text.substring(0, text.indexOf(':') + 1) + ` ${pokemon.stats[(stats.length - 2 + i) % stats.length].base_stat}`
   }
   const pokemonDiv = pokedexDetails.children[1];
-  pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.is_known ? pokemon.name : "???";
+  pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.isKnown ? pokemon.name : "???";
   pokemonDiv.getElementsByTagName("img")[0].src = pokemon.sprites["front_default"];
-  pokemonDiv.getElementsByTagName("img")[0].style.filter = pokemon.is_known ? "brightness(100%)" : "brightness(0%)";
+  pokemonDiv.getElementsByTagName("img")[0].style.filter = pokemon.isKnown ? "brightness(100%)" : "brightness(0%)";
   const buttonsDiv = pokedexDetails.children[2];
   const buttons = buttonsDiv.getElementsByTagName("button");
   buttons[0].replaceWith(buttons[0].cloneNode(true));
   buttons[0].addEventListener("click", () => {
-    Player.setCompanion(pokemon);
+    this.player.setCompanion(pokemon);
   })
   buttons[1].replaceWith(buttons[1].cloneNode(true));
   buttons[1].addEventListener("click", () => {
-    Player.releasePokemon(pokemon);
+    this.player.releasePokemon(pokemon);
   })
   buttons[2].replaceWith(buttons[2].cloneNode(true));
   buttons[2].addEventListener("click", () => {
-    const compareSide = compareMenuEvent.getElementsByClassName("compare_sides")[0];
+    const menuEvent = this.menuEvents[2];//this.menuEvents.find(event=> event.title === "vergelijken");
+    const compareSide = menuEvent.event.getElementsByClassName("compare_sides")[0];
     openCompareSide(compareSide, pokemon);
-    openCompareEvent();
+    menuEvent.open(menuEvent.event)
   })
   const evolutionDiv = pokedexDetails.children[3];
   const evolutionSteps = evolutionDiv.getElementsByClassName("pokedex_evolutionStep");
@@ -259,8 +322,8 @@ function openDetailEvent(pokemon) {
     }
   }
   for (let i = 0; i < pokemon.evolution_chain.length; i++) {
-    const evolutionPokemon = allPokemon.find((value) => { return value.name === pokemon.evolution_chain[i].name });
-    const isKnown = evolutionPokemon ? (evolutionPokemon.is_known) : false;
+    const evolutionPokemon = allPokemon.find(value => { value.name === pokemon.evolution_chain[i].name });
+    const isKnown = evolutionPokemon ? (evolutionPokemon.isKnown) : false;
     evolutionSteps[i].children[1].innerHTML = isKnown ? pokemon.evolution_chain[i].name : "???";
     evolutionSteps[i].children[0].src = pokemon.evolution_chain[i].sprite;
     evolutionSteps[i].children[0].style.filter = isKnown ? "brightness(100%)" : "brightness(0%)";
@@ -270,27 +333,27 @@ function openDetailEvent(pokemon) {
     }
   }
 }
-function closeDetailsEvent() {
-  pokedexDetailMenuEvent.style.display = "none"
+function closeDetailsEvent(event) {
+  event.style.display = "none"
 }
 
 // ========= compare ======== //
-function openCompareEvent() {
-  openEvent(compareMenuEvent);
-  const tableLeft = compareMenuEvent.getElementsByClassName("pokemon_list")[0];
-  const tableRight = compareMenuEvent.getElementsByClassName("pokemon_list")[1];
-  resetFilters();
-  createPokemonList(tableLeft, getFilteredList(compareMenuEvent), compareLeftRowClick);
-  createPokemonList(tableRight, getFilteredList(compareMenuEvent), compareRightRowClick);
+function openCompareEvent(event) {
+  this.openEvent(event);
+  const tableLeft = event.getElementsByClassName("pokemon_list")[0];
+  const tableRight = event.getElementsByClassName("pokemon_list")[1];
+  // resetFilters();
+  this.createPokemonList(tableLeft, allPokemon, compareLeftRowClick.bind(this));
+  this.createPokemonList(tableRight, allPokemon, compareRightRowClick.bind(this));
 }
-function closeCompareEvent() {
-  const compareSides = compareMenuEvent.getElementsByClassName("compare_sides");
-  const tables = compareMenuEvent.getElementsByClassName("pokemon_list");
+function closeCompareEvent(event) {
+  const compareSides = event.getElementsByClassName("compare_sides");
+  const tables = event.getElementsByClassName("pokemon_list");
   for (let i = 0; i < compareSides.length; i++) {
     tables[i].style.display = "block";
     compareSides[i].style.display = "none";
   }
-  compareMenuEvent.style.display = "none"
+  event.style.display = "none"
 }
 function openCompareSide(compareSide, pokemon) {
   compareSide.getElementsByTagName("img")[0].src = pokemon.sprites["front_default"];
@@ -303,22 +366,26 @@ function openCompareSide(compareSide, pokemon) {
     stats[i].setAttribute("class", "");
     stats[i].setAttribute("class", "");
   }
+  const button = compareSide.getElementsByTagName("button")[0];
+  button.addEventListener("click", () => {
+    const table = compareSide.parentElement.getElementsByClassName("pokemon_list")[0];
+    table.style.display = "block";
+    compareSide.style.display = "none";
+  });
   compareSide.style.display = "block";
   compareSide.parentElement.getElementsByClassName("pokemon_list")[0].style.display = "none";
-  updateComparePage();
-}
-function updateComparePage() {
+
   let isBothChosen = true;
-  const sides = compareMenuEvent.getElementsByClassName("compare_sides");
+  const sides = compareMenuEvent.parentElement.parentElement.getElementsByClassName("compare_sides");
   for (let i = 0; i < sides.length; i++) {
     if (sides[i].style.display !== "block") {
       isBothChosen = false;
     }
   }
   if (isBothChosen) {
-    const statsDivLeft = compareMenuEvent.getElementsByClassName("compare_sides")[0].getElementsByTagName("div")[0];
+    const statsDivLeft = sides[0].getElementsByTagName("div")[0];
     const statsLeft = statsDivLeft.getElementsByTagName("span");
-    const statsDivRight = compareMenuEvent.getElementsByClassName("compare_sides")[1].getElementsByTagName("div")[0];
+    const statsDivRight = sides[1].getElementsByTagName("div")[0];
     const statsRight = statsDivRight.getElementsByTagName("span");
     for (let i = 0; i < statsLeft.length; i++) {
       let textLeft = statsLeft[i].innerHTML.match(/\d+/g)[0];
@@ -339,20 +406,12 @@ function updateComparePage() {
       statsRight[i].innerHTML = textRight;
     }
   }
-}
-const reselectBtns = compareMenuEvent.getElementsByClassName("compare_reselect");
-for (let i = 0; i < reselectBtns.length; i++) {
-  reselectBtns[i].addEventListener("click", () => {
-    const compareSides = compareMenuEvent.getElementsByClassName("compare_sides");
-    const tables = compareMenuEvent.getElementsByClassName("pokemon_list");
-    tables[i].style.display = "block";
-    compareSides[i].style.display = "none";
-  })
+
 }
 
 // ========= who's that pokemon ======== //
-function openWhosThatEvent(pokemon) {
-  openEvent(whosThatMenuEvent);
+function openWhosThatEvent(event, pokemon) {
+  this.openEvent(event);
   const whosThatDiv = document.getElementById("whosThat_main");
   const img = whosThatDiv.getElementsByTagName("img")[0];
   const name = whosThatDiv.getElementsByTagName("p")[0];
@@ -367,7 +426,7 @@ function openWhosThatEvent(pokemon) {
   button.innerHTML = "bevestigen";
   button.addEventListener("click", () => {
     if (input.value === pokemon.name) {
-      pokemon.is_known = true;
+      pokemon.isKnown = true;
       img.style.filter = "brightness(100%)";
       name.innerHTML = pokemon.name;
       input.style.display = "none";
@@ -379,16 +438,16 @@ function openWhosThatEvent(pokemon) {
     }
   });
 }
-function closeWhosThatEvent() {
-  whosThatMenuEvent.style.display = "none";
+function closeWhosThatEvent(event) {
+  event.style.display = "none";
 }
 
 
 
 // ========= battle ======== //
 export function openBattleEvent() {
-  openMenu();
-  openEvent(battleMenuEvent);
+  const event = this.menuEvents[4]//this.menuEvents.find(event => event.title === "gevecht");
+  this.openEvent(event.event);
   document.getElementById("backpack_closeBtn").style.visibility = "hidden";
   const stages = document.getElementsByClassName("battle_stage");
   const stage = [];
@@ -403,14 +462,15 @@ export function openBattleEvent() {
   return stage;
 }
 export function closeBattleEvent() {
-  battleMenuEvent.style.display = "none";
-  closeAllEvents();
+  const event = this.menuEvents[4]//this.menuEvents.find(event => event.title === "gevecht");
+  event.event.style.display = "none";
+  this.closeAllEvents();
 }
 
 // ========= capture ======== //
-export function openCaptureEvent() {
-  openMenu();
-  openEvent(captureMenuEvent);
+export function openCaptureEvent(player, pokemon) {
+  const event = this.menuEvents[5]//this.menuEvents.find(event => event.title === "vangen");
+  this.openEvent(event.event);
   const element = document.getElementById("capture_main");
   const stage = {
     name: element.children[0],
@@ -421,9 +481,11 @@ export function openCaptureEvent() {
   }
   return stage;
 }
+
 export function closeCaptureEvent() {
-  captureMenuEvent.style.display = "none";
-  closeAllEvents();
+  const event = this.menuEvents[5]//this.menuEvents.find(event => event.title === "vangen");
+  event.event.style.display = "none";
+  this.closeAllEvents();
   const nickNameDiv = document.getElementById("capture_nickname");
   nickNameDiv.replaceWith(nickNameDiv.cloneNode(true));
   const captureBtn = document.getElementById("capture_button");

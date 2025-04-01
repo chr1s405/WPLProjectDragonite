@@ -1,11 +1,5 @@
-// // import { Map } from "./map.js";
-// import { Npcs } from "./npc's.js";
-// import { Companion } from "./companion.js";
-// // import { Pokemon } from "./pokemon.js";
-// import { openBattleEvent, closeBattleEvent, openCaptureEvent, closeCaptureEvent } from "../backpack.js";
-
 import { createCompanion } from "./companion.js";
-
+import { backpack } from "../game.js";
 let pokemonList;
 export const Direction = {
     down: { index: 0, direction: "front" },
@@ -28,8 +22,7 @@ export function createPlayer() {
         isMovingDown: false,
         isMovingLeft: false,
         isMovingRight: false,
-        direction: Direction.down,
-        prevDirection: Direction.down,
+        direction: [],
         spriteIndex: 0,
         hasCompanion: false,
         companion: undefined,
@@ -43,13 +36,19 @@ export function createPlayer() {
         moveRight,
         moveDown,
         moveLeft,
+        handleNotMoving,
         move,
         setDirection,
+        drawSprites,
         setCompanion,
         capturePokemon,
         removeCompanion,
         releasePokemon,
         interact,
+        interactNpc,
+        interactPokemon,
+        battle,
+        capture,
 
         toggleDebug,
         debug,
@@ -73,26 +72,34 @@ function update(map) {
 // movement
 function moveUp(isMoving) {
     this.isMovingUp = isMoving;
-    if (!isMoving) { this.spriteIndex = 0 
-        this.div.style.backgroundPositionX = `0px`;
+    if (!isMoving) {
+        this.handleNotMoving(Direction.up);
     }
 }
 function moveDown(isMoving) {
     this.isMovingDown = isMoving;
-    if (!isMoving) { this.spriteIndex = 0 
-        this.div.style.backgroundPositionX = `0px`;
+    if (!isMoving) {
+        this.handleNotMoving(Direction.down);
     }
 }
 function moveLeft(isMoving) {
     this.isMovingLeft = isMoving;
-    if (!isMoving) { this.spriteIndex = 0 
-        this.div.style.backgroundPositionX = `0px`;
+    if (!isMoving) {
+        this.handleNotMoving(Direction.left);
     }
 }
 function moveRight(isMoving) {
     this.isMovingRight = isMoving;
-    if (!isMoving) { this.spriteIndex = 0 
-        this.div.style.backgroundPositionX = `0px`;
+    if (!isMoving) {
+        this.handleNotMoving(Direction.right);
+    }
+}
+function handleNotMoving(direction) {
+    this.spriteIndex = 0
+    this.div.style.backgroundPositionX = `0px`;
+    const index = this.direction.indexOf(direction);
+    if (index !== -1) {
+        this.direction.splice(index);
     }
 }
 function move(map) {
@@ -102,15 +109,15 @@ function move(map) {
         newX += this.speed;
         this.setDirection(Direction.right);
     }
-    else if (this.isMovingLeft) {
+    if (this.isMovingLeft) {
         newX -= this.speed;
         this.setDirection(Direction.left);
     }
-    else if (this.isMovingUp) {
+    if (this.isMovingUp) {
         newY -= this.speed;
         this.setDirection(Direction.up);
     }
-    else if (this.isMovingDown) {
+    if (this.isMovingDown) {
         newY += this.speed;
         this.setDirection(Direction.down);
     }
@@ -118,18 +125,20 @@ function move(map) {
     this.y = newY;
     map.handleCollision(this)
     map.centerMap(this);
+    this.drawSprites();
     // }
 }
 
 function setDirection(direction) {
-    this.direction = direction;
-    if (this.prevDirection != this.direction) {
-        this.prevDirection = this.direction;
-        this.div.style.backgroundPositionY = `${this.direction.index * -52}px`
+    if (!this.direction.includes(direction)) {
+        this.direction.push(direction);
         this.div.style.backgroundPositionX = `0px`;
         this.spriteIndex = 0;
     }
-    else {
+}
+function drawSprites() {
+    if (this.direction.length !== 0) {
+        this.div.style.backgroundPositionY = `${this.direction[this.direction.length - 1].index * -52}px`
         this.spriteIndex = (this.spriteIndex + .3) % 4;
         this.div.style.backgroundPositionX = `${Math.trunc(this.spriteIndex) * -52}px`;
     }
@@ -151,9 +160,9 @@ function removeCompanion() {
     Companion.removeCompanion();
     document.getElementById("nav-pokemon").src = "../images/pikachu_silouhette.png"
 }
-function capturePokemon(pokemon){
-    pokemon.is_known = true;
-    pokemon.is_captured = true;
+function capturePokemon(pokemon) {
+    pokemon.isKnown = true;
+    pokemon.isCaptured = true;
     this.capturedPokemon.push(pokemon);
 }
 function releasePokemon(pokemon) {
@@ -165,8 +174,9 @@ function releasePokemon(pokemon) {
     }
     else {
         alert(`je hebt ${pokemon.name} losgelaten`);
-        const pokemonIdx = Player.capturedPokemon.indexOf(pokemon);
-        Player.capturedPokemon.splice(pokemonIdx, 1);
+        const pokemonIdx = this.capturedPokemon.indexOf(pokemon);
+        this.capturedPokemon.splice(pokemonIdx, 1);
+        pokemon.isCaptured = false;
     }
 }
 
@@ -175,15 +185,15 @@ function toggleDebug() {
     this.isDebugOn = !this.isDebugOn;
     if (this.isDebugOn) {
         this.div.getElementsByClassName("debug")[0].style.display = "block";
+    this.div.style.border = "2px solid black";
     }
     else {
-        this.div.style.backgroundColor = "none";
         this.div.getElementsByClassName("debug")[0].style.display = "none";
+        this.div.style.border = "none";
     }
     this.companion.toggleDebug();
 }
 function debug(map) {
-    this.div.style.backgroundColor = "red";
     this.div.getElementsByClassName("debug")[0].innerHTML =
         `(${this.x}, ${this.y})</br>${map.positionInGrid(this.x, this.y)}`;
 }
@@ -192,35 +202,40 @@ function debug(map) {
 
 
 //interact
-function interact() {
-    if (interactNpc()) {
+function interact(map) {
+    if (this.interactNpc(map)) {
         return;
     }
-    if (interactPokemon()) {
+    if (this.interactPokemon(map)) {
         return;
     }
 }
-function interactNpc() {
-    Npcs.npcsActive.forEach((npc) => {
-        const distX = (Player.x + Player.width / 2) - (npc.x + npc.width / 2);
-        const distY = (Player.y + Player.height / 2) - (npc.y + npc.height / 2);
-        const dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
-        if (dist <= Map.tileWidth * 1) {
-            battle(npc.pokemon);
-            return true;
+function interactNpc(map) {
+    map.npcs.forEach(npc => {
+        if (npc.isOnScreen) {
+            const distX = (this.x + this.width / 2) - (npc.x + npc.width / 2);
+            const distY = (this.y + this.height / 2) - (npc.y + npc.height / 2);
+            const dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+            if (dist <= map.tileWidth * 1.5) {
+                this.battle(npc.pokemon);
+                return true;
+            }
         }
     });
 }
-function interactPokemon() {
-    if (Pokemon.isActive) {
-        const distX = (Player.x + Player.width / 2) - (Pokemon.x + Pokemon.width / 2);
-        const distY = (Player.y + Player.height / 2) - (Pokemon.y + Pokemon.height / 2);
-        const dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
-        if (dist <= Map.tileWidth * 1) {
-            capture(Pokemon.pokemon);
-            return true;
+function interactPokemon(map) {
+    map.pokemon.forEach(pokemon => {
+        if (pokemon.isActive) {
+            const distX = (this.x + this.width / 2) - (pokemon.x + pokemon.width / 2);
+            const distY = (this.y + this.height / 2) - (pokemon.y + pokemon.height / 2);
+            const dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+            if (dist <= map.tileWidth * 1.5) {
+                pokemon.isActive = false;
+                this.capture(pokemon.pokemon);
+                return true;
+            }
         }
-    }
+    })
 }
 
 // ========================================== //
@@ -231,11 +246,10 @@ const battleButtons = document.getElementsByClassName("battle_button");
 let battleActions = -1;
 for (let i = 0; i < battleButtons.length; i++) {
     battleButtons[i].addEventListener("click", (e) => {
-        if (Player.isInBattle) {
             if (!isBattleTextOn) {
                 battleActions = i;
             }
-        }
+        
     })
 }
 let isBattleTextOn = false;
@@ -262,18 +276,18 @@ function setBattleMsg(text) {
     }, { once: true });
 }
 function battle(pokemon) {
-    if (!Player.hasCompanion) {
+    if (!this.hasCompanion) {
         alert("je hebt nog geen pokemon om mee te vechten")
         return;
     }
-    Player.isInBattle = true
+    this.isInBattle = true
     let isBattling = true;
     let battleText;
-    const stage = openBattleEvent();
+    const stage = backpack.openBattleEvent();
 
     let isMyTurn = true;
     const playerObject = stage[0];
-    const playerMaxHp = Player.companion.pokemon.stats[0]["base_stat"];
+    const playerMaxHp = this.companion.pokemon.stats[0]["base_stat"];
     let playerHp = playerMaxHp;
     let playerHpPercent;
 
@@ -282,9 +296,9 @@ function battle(pokemon) {
     let enemyHp = enemyMaxHp;
     let enemyHpPercent;
 
-    playerObject.name.innerHTML = Player.companion.pokemon.name;
+    playerObject.name.innerHTML = this.companion.pokemon.name;
     playerObject.hp.innerHTML = `${playerHp}HP`;
-    playerObject.img.src = Player.companion.pokemon.sprites["back_default"];
+    playerObject.img.src = this.companion.pokemon.sprites["back_default"];
     playerObject.hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`;
     enemyObject.name.innerHTML = pokemon.name;
     enemyObject.hp.innerHTML = `${enemyHp}HP`;
@@ -296,37 +310,37 @@ function battle(pokemon) {
         if (!isBattleTextOn) {
             if (!isBattling) {
                 clearInterval(intervalId);
-                closeBattleEvent();
-                Player.isInBattle = false;
-                Player.isInEvent = false;
-                if (enemyHp === 0 && !pokemon.is_captured) {
-                    capture(pokemon);
+                backpack.closeBattleEvent();
+                this.isInBattle = false;
+                this.isInEvent = false;
+                if (enemyHp === 0 && !pokemon.isCaptured) {
+                    this.capture(pokemon);
                 }
                 return;
             }
             if (enemyHp === 0) {
                 setBattleMsg("Je hebt gewonnen")
-                Player.companion.pokemon.stats[6].base_stat++;
+                this.companion.pokemon.stats[6].base_stat++;
                 isBattling = false;
                 return
             }
             if (playerHp === 0) {
                 setBattleMsg("Je hebt verloren")
-                Player.companion.pokemon.stats[7].base_stat++;
+                this.companion.pokemon.stats[7].base_stat++;
                 isBattling = false;
                 return;
             }
             if (isMyTurn) {
-                battleText = Player.companion.pokemon.name + " ";
+                battleText = this.companion.pokemon.name + " ";
                 if (battleActions === 0) {
-                    const dmg = Math.max(0, Player.companion.pokemon.stats[1]["base_stat"] - pokemon.stats[2]["base_stat"]);
+                    const dmg = Math.max(0, this.companion.pokemon.stats[1]["base_stat"] - pokemon.stats[2]["base_stat"]);
                     enemyHp = Math.max(0, enemyHp - dmg);
 
                     battleText += `valt aan met een normal attack en doet ${dmg} schade`;
                     isMyTurn = false;
                 }
                 if (battleActions === 1) {
-                    const dmg = Math.max(0, Player.companion.pokemon.stats[3]["base_stat"] - pokemon.stats[4]["base_stat"]);
+                    const dmg = Math.max(0, this.companion.pokemon.stats[3]["base_stat"] - pokemon.stats[4]["base_stat"]);
                     enemyHp = Math.max(0, enemyHp - dmg);
 
                     battleText += `valt aan met een special attack en doet ${dmg} schade`;
@@ -351,13 +365,13 @@ function battle(pokemon) {
                 battleText = pokemon.name + " ";
                 const rand = Math.round(Math.random())
                 if (rand === 0) {
-                    const dmg = Math.max(0, pokemon.stats[1]["base_stat"] - Player.companion.pokemon.stats[2]["base_stat"]);
+                    const dmg = Math.max(0, pokemon.stats[1]["base_stat"] - this.companion.pokemon.stats[2]["base_stat"]);
                     playerHp = Math.max(0, playerHp - dmg);
 
                     battleText += `valt aan met een normal attack en doet ${dmg} schade`;
                 }
                 if (rand === 1) {
-                    const dmg = Math.max(0, pokemon.stats[3]["base_stat"] - Player.companion.pokemon.stats[4]["base_stat"]);
+                    const dmg = Math.max(0, pokemon.stats[3]["base_stat"] - this.companion.pokemon.stats[4]["base_stat"]);
                     playerHp = Math.max(0, playerHp - dmg);
 
                     battleText += `valt aan met een special attack en doet ${dmg} schade`;
@@ -377,16 +391,16 @@ function battle(pokemon) {
 // ========================================== //
 
 function capture(pokemon) {
-    const stage = openCaptureEvent();
+    const stage = backpack.openCaptureEvent();
     stage.name.innerHTML = pokemon.name;
     stage.img.src = pokemon.sprites["front_default"];
     stage.nickNameDiv.style.display = "none";
-    let hasPokemon = Player.capturedPokemon.includes(pokemon);
+    let hasPokemon = this.capturedPokemon.includes(pokemon);
     let chances = 3;
     for (let i = 0; i < stage.chances.children.length; i++) {
         stage.chances.children[i].style.filter = "grayscale(0%)";
     }
-    const captureChance = (50 - pokemon.stats[2]["base_stat"] + (Player.hasCompanion ? Player.companion.pokemon.stats[1]["base_stat"] : 0)) / 100;
+    const captureChance = (50 - pokemon.stats[2]["base_stat"] + (this.hasCompanion ? this.companion.pokemon.stats[1]["base_stat"] : 0)) / 100;
     if (hasPokemon) {
         stage.button.style.border = "3px solid green";
     }
@@ -404,18 +418,19 @@ function capture(pokemon) {
         if (isCaptureBtnPressed) {
             isCaptureBtnPressed = false;
             if (hasPokemon) {
-                Player.releasePokemon(pokemon);
+                this.releasePokemon(pokemon);
                 clearInterval(intervalId);
-                closeCaptureEvent();
-                Player.isInEvent = false;
+                backpack.closeCaptureEvent();
+                this.isInEvent = false;
             }
             else {
                 chances--;
                 stage.chances.children[chances].style.filter = "grayscale(100%)";
                 const rand = Math.random();
                 if (rand <= captureChance) {
-                    Player.capturedPokemon.push(pokemon);
-                    pokemon.is_known = true;
+                    this.capturedPokemon.push(pokemon);
+                    pokemon.isKnown = true;
+                    pokemon.isCaptured = true;
                     hasPokemon = true;
                     chances = 0;
                 }
@@ -427,14 +442,14 @@ function capture(pokemon) {
                         stage.nickNameDiv.style.display = "block";
                         stage.nickNameDiv.getElementsByTagName("button")[0].addEventListener("click", () => {
                             pokemon.nickname = input.value;
-                            closeCaptureEvent();
-                            Player.isInEvent = false;
+                            backpack.closeCaptureEvent();
+                            this.isInEvent = false;
                         });
                     }
                     else {
                         alert(`${pokemon.name} is ontsnapt`);
-                        closeCaptureEvent();
-                        Player.isInEvent = false;
+                        backpack.closeCaptureEvent();
+                        this.isInEvent = false;
                     }
                     clearInterval(intervalId);
 

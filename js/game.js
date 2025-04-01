@@ -1,16 +1,18 @@
 import { createMap } from "./gameObjects/map.js";
 import { createPlayer } from "./gameObjects/player.js";
 import { createNpc } from "./gameObjects/npc's.js";
+import { createPokemon } from "./gameObjects/pokemon.js";
+import { createBackpack } from "./backpack.js";
 // import { Companion } from "./gameObjects/companion.js";
 // import { Pokemon } from "./gameObjects/pokemon.js";
 // import { getPokemon } from "../js/backpack.js";
 
 let pause = true;
 
-let allPokemon;
+export let allPokemon;
+export let backpack;
 let map;
 let player;
-let npcs = [];
 
 allPokemon = await GetPokemon();
 await gameInit();
@@ -76,11 +78,13 @@ async function getIntroSelection(optionsDiv) {
 function gameInit() {
   map = createMap();
   player = createPlayer();
-  npcs.push(createNpc(allPokemon, map, 200, 300));
-  npcs.push(createNpc(allPokemon, map, 700, 250));
-  npcs.push(createNpc(allPokemon, map, 300, 1050));
-  npcs.push(createNpc(allPokemon, map, 700, 750));
-  npcs.push(createNpc(allPokemon, map, 950, 550));
+  createNpc(map, 200, 300);
+  createNpc(map, 700, 250);
+  createNpc(map, 300, 1050);
+  createNpc(map, 700, 750);
+  createNpc(map, 950, 550);
+  createPokemon(map);
+  backpack = createBackpack(player);
 
   addEventListener("keydown", (e) => {
     //   alert(e.keyCode);
@@ -107,7 +111,7 @@ function gameInit() {
 
       }
       if (e.keyCode === 13 /*enter*/) {
-        player.interact();
+        player.interact(map);
       }
       if (e.keyCode === 32 /*space*/) {
       }
@@ -147,7 +151,7 @@ function gameLoop() {
 
 async function GetPokemon() {
   let pokemonList = [];
-  let pokemonFetch = await fetch("https://pokeapi.co/api/v2/pokemon?limit=51&offset=0")
+  let pokemonFetch = await fetch("https://pokeapi.co/api/v2/pokemon?limit=10&offset=0")
   let pokemonJson = await pokemonFetch.json();
   let pokemonData = pokemonJson["results"];
   pokemonFetch = await Promise.all(pokemonData.map((value) => fetch(value.url)));
@@ -202,8 +206,8 @@ async function GetPokemon() {
       //weight: pokemon.weight,
       nickname: "???",
       evolution_chain: [],
-      is_known: false,
-      is_captured: false,
+      isKnown: false,
+      isCaptured: false,
     });
   });
   console.log(pokemonList);
