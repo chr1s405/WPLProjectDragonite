@@ -312,7 +312,6 @@ function battle(pokemon) {
                 clearInterval(intervalId);
                 backpack.closeBattleEvent();
                 this.isInBattle = false;
-                this.isInEvent = false;
                 if (enemyHp === 0 && !pokemon.isCaptured) {
                     this.capture(pokemon);
                 }
@@ -421,7 +420,6 @@ function capture(pokemon) {
                 this.releasePokemon(pokemon);
                 clearInterval(intervalId);
                 backpack.closeCaptureEvent();
-                this.isInEvent = false;
             }
             else {
                 chances--;
@@ -443,13 +441,11 @@ function capture(pokemon) {
                         stage.nickNameDiv.getElementsByTagName("button")[0].addEventListener("click", () => {
                             pokemon.nickname = input.value;
                             backpack.closeCaptureEvent();
-                            this.isInEvent = false;
                         });
                     }
                     else {
                         alert(`${pokemon.name} is ontsnapt`);
                         backpack.closeCaptureEvent();
-                        this.isInEvent = false;
                     }
                     clearInterval(intervalId);
 

@@ -5,6 +5,7 @@ export function createBackpack(player) {
   const backpack = {
     player: player,
     backpackIcon: document.getElementById("backpackIcon"),
+    backpackBtns: document.getElementsByClassName("backpackMenuBtn"),
     backpackMenu: document.getElementById("backpackContents"),
     previousMenu: [],
     currentMenu: undefined,
@@ -53,8 +54,8 @@ export function createBackpack(player) {
       backpack.openMainMenu(backpack.menuEvents[backpack.menuEvents.length - 1].event);
     }
   })
-  for (let i = 0; i < backpackBtns.length - 1; i++) {
-    backpackBtns[i].addEventListener("click", (e) => {
+  for (let i = 0; i < backpack.backpackBtns.length - 1; i++) {
+    backpack.backpackBtns[i].addEventListener("click", (e) => {
       backpack.menuEvents[i].open(backpack.menuEvents[i].event);
     });
   }
@@ -66,52 +67,6 @@ export function createBackpack(player) {
   });
   return backpack;
 }
-
-// const backpackMenu = document.getElementById("backpackContents");
-// const backpackIcon = document.getElementById("backpackIcon");
-// const backpackMainMenu = document.getElementById("mainMenu");
-const backpackBtns = document.getElementsByClassName("backpackMenuBtn");
-// const pokedexMenuEvent = document.getElementById("menu_pokedex");
-// const pokedexDetailMenuEvent = document.getElementById("menu_pokemonDetail");
-const compareMenuEvent = document.getElementById("menu_compare");
-// const whosThatMenuEvent = document.getElementById("menu_whosThat");
-// const battleMenuEvent = document.getElementById("menu_battle");
-// const captureMenuEvent = document.getElementById("menu_capture");
-// //const menuEvents = document.getElementsByClassName("menuEvent");
-// const menuEvents = [
-//   { event: document.getElementById("menu_pokedex"), title: "pokedex", open: openPokedexEvent, close: closePokedexEvent },
-//   { event: document.getElementById("menu_pokemonDetail"), title: "pokedex", open: openDetailEvent, close: closeDetailsEvent },
-//   { event: document.getElementById("menu_compare"), title: "vergelijken", open: openCompareEvent, close: closeCompareEvent },
-//   { event: document.getElementById("menu_whosThat"), title: "who's that pokemon", open: openWhosThatEvent, close: closeWhosThatEvent },
-//   { event: document.getElementById("menu_battle"), title: "gevecht", open: openBattleEvent, close: closeBattleEvent },
-//   { event: document.getElementById("menu_capture"), title: "vangen", open: openCaptureEvent, close: closeCaptureEvent },
-//   { event: document.getElementById("mainMenu"), title: "rugzak", open: openMainMenu, close: closeMainMenu },
-// ]
-// let previousMenu = [];
-// let currentMenu;
-
-
-// backpackIcon.addEventListener("click", (e) => {
-//   if (!Player.isInEvent) {
-//     openMenu();
-//     openMainMenu();
-//   }
-// })
-
-// for (let i = 0; i < backpackBtns.length - 1; i++) {
-//   backpackBtns[i].addEventListener("click", (e) => {
-//     menuEvents[i].open(menuEvents[i].event);
-//   });
-// }
-// document.getElementById("backpack_closeBtn").addEventListener("click", (e) => {
-//   closeAllEvents();
-// });
-// document.getElementById("backpack_backBtn").addEventListener("click", (e) => {
-//   backbuttonPressed(currentMenu);
-// });
-
-
-
 
 
 function closeAllEvents() {
@@ -136,11 +91,13 @@ function backbuttonPressed() {
 
 
 function openMenu() {
+  this.player.isInEvent = true;
   this.backpackIcon.style.display = "none";
   this.backpackMenu.style.display = "block";
   document.getElementById("backpack_closeBtn").style.visibility = "visible";
 }
 function closeMenu() {
+  this.player.isInEvent = false;
   this.backpackIcon.style.display = "block";
   this.backpackMenu.style.display = "none";
   // backpackMainMenu.style.display = "none";
@@ -151,10 +108,8 @@ function closeMenu() {
 // ========= events ======== //
 // ========================= //
 function openEvent(event) {
-  this.player.isInEvent = true;
   this.openMenu();
   if (this.currentMenu) {
-    console.log(this.currentMenu)
     this.currentMenu.close(this.currentMenu.event);
     this.previousMenu.push(this.currentMenu);
   }
@@ -218,17 +173,15 @@ function getFilteredList(table) {
       const isType = filterType.value === "all" || pokemon.types.some(t => t.type.name === filterType.value);
       return matchesSearch && (!filterCaught.checked || isCaught) && (!filterKnown.checked || isKnown) && isType;
     });
-    filteredList.sort((a, b) => {
-      if (sortOption.value === "id") {
-        return a.id - b.id;
-      } else if (sortOption.value === "hp") {
+    filteredList.sort((a, b) => {if (sortOption.value === "hp") {
         return b.stats[0].base_stat - a.stats[0].base_stat; // HP
       } else if (sortOption.value === "attack") {
         return b.stats[1].base_stat - a.stats[1].base_stat; // Aanval
       } else if (sortOption.value === "speed") {
         return b.stats[5].base_stat - a.stats[5].base_stat; // Snelheid
-      }
-      return 0;
+      } else {
+        return a.id - b.id;
+      } 
     });
   }
   return filteredList;
@@ -253,7 +206,7 @@ function createPokemonList(table, pokemonList, rowClickFunction) {
     tableRow.appendChild(pokemonImg);
     tableRow.appendChild(pokemonInfo);
     tableRow.addEventListener("click", () => {
-      if (pokemon) {
+      if (pokemon.isKnown) {
         rowClickFunction(pokemon);
       }
       else {
@@ -342,9 +295,9 @@ function openCompareEvent(event) {
   this.openEvent(event);
   const tableLeft = event.getElementsByClassName("pokemon_list")[0];
   const tableRight = event.getElementsByClassName("pokemon_list")[1];
-  // resetFilters();
-  this.createPokemonList(tableLeft, allPokemon, compareLeftRowClick.bind(this));
-  this.createPokemonList(tableRight, allPokemon, compareRightRowClick.bind(this));
+  resetFilters();
+  this.createPokemonList(tableLeft, getFilteredList(event), compareLeftRowClick.bind(this));
+  this.createPokemonList(tableRight, getFilteredList(event), compareRightRowClick.bind(this));
 }
 function closeCompareEvent(event) {
   const compareSides = event.getElementsByClassName("compare_sides");
@@ -361,22 +314,23 @@ function openCompareSide(compareSide, pokemon) {
   const statsDiv = compareSide.getElementsByTagName("div")[0];
   const stats = statsDiv.getElementsByTagName("span");
   for (let i = 0; i < stats.length; i++) {
-    let text = `${pokemon.stats[i].base_stat}`;
-    stats[i].innerHTML = text;
-    stats[i].setAttribute("class", "");
-    stats[i].setAttribute("class", "");
+    stats[i].innerHTML = `${pokemon.stats[i].base_stat}`;
   }
+  const table = compareSide.parentElement.getElementsByClassName("pokemon_list")[0];
   const button = compareSide.getElementsByTagName("button")[0];
   button.addEventListener("click", () => {
-    const table = compareSide.parentElement.getElementsByClassName("pokemon_list")[0];
     table.style.display = "block";
     compareSide.style.display = "none";
   });
   compareSide.style.display = "block";
-  compareSide.parentElement.getElementsByClassName("pokemon_list")[0].style.display = "none";
+  table.style.display = "none";
 
+
+  updateCompareSides();
+}
+function updateCompareSides(){
   let isBothChosen = true;
-  const sides = compareMenuEvent.parentElement.parentElement.getElementsByClassName("compare_sides");
+  const sides = document.getElementById("menu_compare").getElementsByClassName("compare_sides");
   for (let i = 0; i < sides.length; i++) {
     if (sides[i].style.display !== "block") {
       isBothChosen = false;
