@@ -9,7 +9,7 @@ pokemonDiv.setAttribute("class", "pokemon");
 pokemonDiv.style.display = "none";
 
 export function createPokemon(map) {
-    const pokemon = {
+    const wildPokemon = {
         type: "pokemon",
         div: pokemonDiv,
         x: 0,
@@ -30,8 +30,8 @@ export function createPokemon(map) {
         move,
         spawn,
     }
-    map.addObject(pokemon);
-    return pokemon
+    map.addObject(wildPokemon);
+    return wildPokemon
 }
 function update(map, player) {
     if (this.isActive) {
