@@ -290,11 +290,13 @@ function battle(pokemon) {
     const playerMaxHp = this.companion.pokemon.stats[0]["base_stat"];
     let playerHp = playerMaxHp;
     let playerHpPercent;
+    let playerAudio = new Audio(this.companion.pokemon.cries["latest"]);
 
     const enemyObject = stage[1];
     let enemyMaxHp = pokemon.stats[0]["base_stat"];
     let enemyHp = enemyMaxHp;
     let enemyHpPercent;
+    let enemyAudio = new Audio(pokemon.cries["latest"]);
 
     playerObject.name.innerHTML = this.companion.pokemon.name;
     playerObject.hp.innerHTML = `${playerHp}HP`;
@@ -334,6 +336,7 @@ function battle(pokemon) {
                 if (battleActions === 0) {
                     const dmg = Math.max(0, this.companion.pokemon.stats[1]["base_stat"] - pokemon.stats[2]["base_stat"]);
                     enemyHp = Math.max(0, enemyHp - dmg);
+                    enemyAudio.play();
 
                     battleText += `valt aan met een normal attack en doet ${dmg} schade`;
                     isMyTurn = false;
@@ -341,6 +344,7 @@ function battle(pokemon) {
                 if (battleActions === 1) {
                     const dmg = Math.max(0, this.companion.pokemon.stats[3]["base_stat"] - pokemon.stats[4]["base_stat"]);
                     enemyHp = Math.max(0, enemyHp - dmg);
+                    enemyAudio.play();
 
                     battleText += `valt aan met een special attack en doet ${dmg} schade`;
                     isMyTurn = false;
@@ -375,6 +379,7 @@ function battle(pokemon) {
 
                     battleText += `valt aan met een special attack en doet ${dmg} schade`;
                 }
+                playerAudio.play();
                 playerHpPercent = playerHp / playerMaxHp * 100;
                 playerObject.hp.innerHTML = `${playerHp}HP`;
                 playerObject.hpBar.style.background = `linear-gradient(to right, #00ff00 ${playerHpPercent}%, #000000 ${playerHpPercent}%)`

@@ -160,7 +160,7 @@ async function GetPokemon() {
     pokemonList.push({
       abilities: pokemon.abilities,
       base_experience: pokemon.base_experience,
-      //cries: pokemon.cries,
+      cries: pokemon.cries,
       //forms: pokemon.forms,
       //game_indices: pokemon.game_indices,
       //height: pokemon.height,
