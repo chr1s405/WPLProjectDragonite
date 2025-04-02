@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/pokemon-solid">
+  <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/nexa">
+  <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/pokemon-hollow">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/stylesGame.css">
+
+  <script src="./js/game.js" type="module"></script>
+  <title>Pokemon</title>
+</head>
+
+<body id="gamePage">
+  <header id="landingpageheader">
+    <div id="nav-profile">
+      <img src="./images/pokeball.png">
+      <h1>username</h1>
+    </div>
+    <img id="nav-pokemon" src="./images/pikachu_silouhette.png">
+  </header>
+
+  <main>
+    <div id="overworldMap">
+      <div id="character">
+        <p class="debug"></p>
+      </div>
+
+      <div id="companion">
+        <p class="debug"></p>
+      </div>
+    </div>
+
+    <div id="gameIntro">
+      <div id="characterSelect" class="intro_selection">
+        <p>kies je personage</p>
+        <div id="intro_characterOptions" class="intro_selectOptions">
+        </div>
+      </div>
+      <div id="pokemonSelect" class="intro_selection">
+        <p>kies je eerste pokemon</p>
+        <div id="intro_pokemonOptions" class="intro_selectOptions">
+        </div>
+      </div>
+    </div>
+
+    <button id="backpackIcon"></button>
+
+    <div id="debug">
+      <p id="characterCoor"></p>
+      <p id="companionCoor"></p>
+      <p id="mapCoor"></p>
+    </div>
+  </main>
+
+  <aside id="backpackContents">
+    <div id="backpackHeader">
+      <button id="backpack_backBtn">←</button>
+      <p id="backpackTitle">rugzak</p>
+      <button id="backpack_closeBtn">X</button>
+    </div>
+
+    <div id="menu_pokedex" class="menuEvent">
+      <!-- pokedex -->
+
+      <div class="pokemon_list">
+        <div id="pokedex_controls">
+          <input type="text" id="pokedex_search" class="pokedex_filter" placeholder="" />
+
+          <div id="pokedex_filters">
+            <button id="pokedex_filterBtn"></button>
+            <div id="pokedex_filters_dropdown">
+              <p>filters</p>
+              <label for="pokedex_filter_caught">Gevangen Pokémon
+                <input type="checkbox" id="pokedex_filter_caught" class="pokedex_filter">
+              </label>
+              <label for="pokedex_filter_known">Gekende Pokémon
+                <input type="checkbox" id="pokedex_filter_known" class="pokedex_filter">
+              </label>
+
+              <label for="pokedex_filter_type">Type:<br>
+                <select id="pokedex_filter_type" class="pokedex_filter">
+                  <option value="all" selected>Alle Types</option>
+                  <option value="fire">Fire</option>
+                  <option value="water">Water</option>
+                  <option value="grass">Grass</option>
+                  <option value="electric">Electric</option>
+                  <option value="fairy">Fairy</option>
+                </select>
+              </label>
+              <label for="pokedex_sort">Sorteren op:<br>
+                <select id="pokedex_sort" class="pokedex_filter">
+                  <option value="id" selected>Pokedex Nummer</option>
+                  <option value="hp">HP</option>
+                  <option value="attack">Aanvalskracht</option>
+                  <option value="speed">Snelheid</option>
+                </select>
+              </label>
+            </div>
+          </div>
+        </div>
+        <table>
+        </table>
+      </div>
+    </div>
+
+    <div id="menu_pokemonDetail" class="menuEvent">
+      <!-- pokemon Detail -->
+
+      <div id="pokedex_detail">
+        <div id="pokedex_stats">
+          <p>gevechten gewonnen: 0</p>
+          <p>gevechten verloren: 0</p>
+          </br>
+          <p>hp: 0</p>
+          <p>atk: 0</p>
+          <p>def: 0</p>
+          <p>sp atk: 0</p>
+          <p>sp def: 0</p>
+          <p>speed: 0</p>
+        </div>
+
+        <div id="pokedex_pokemon">
+          <p c>pokemon</p>
+          <img src="./images/pikachu_silouhette.png">
+        </div>
+
+        <div id="pokedex_options">
+          <button>kies companion</button>
+          <button>laat los</button>
+          <button>vergelijken</button>
+        </div>
+
+        <div id="pokedex_evolution">
+          <div class="pokedex_evolutionStep">
+            <img src="./images/pikachu_silouhette.png">
+            <p>pokemon</p>
+          </div>
+
+          <div class="pokedex_evolutionArrow">></div>
+          <div class="pokedex_evolutionStep">
+            <img src="./images/pikachu_silouhette.png">
+            <p>pokemon</p>
+          </div>
+
+          <div class="pokedex_evolutionArrow">></div>
+          <div class="pokedex_evolutionStep">
+            <img src="./images/pikachu_silouhette.png">
+            <p>pokemon</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="menu_compare" class="menuEvent">
+      <!-- compare -->
+
+      <div id="compare_main">
+        <div id="compare_left">
+          <div id="compare_left_search" class="pokemon_list">
+            <table>
+            </table>
+          </div>
+
+          <div id="compare_left_pokemon" class="compare_sides">
+            <img src="./images/pikachu_silouhette.png">
+            <p>pokemon</p>
+            <div class="compare_stats">
+              <p>hp: <span>0 +0</span></p>
+              <p>atk: <span>0 +0</span></p>
+              <p>def: <span>0 +0</span></p>
+              <p>sp atk: <span>0 +0</span></p>
+              <p>sp def: <span>0 +0</span></p>
+              <p>speed: <span>0 +0</span></p>
+            </div>
+
+            <button class="compare_reselect">opnieuw selecteren</button>
+          </div>
+        </div>
+
+        <div id="compare_right">
+          <div id="compare_right_search" class="pokemon_list">
+            <table>
+            </table>
+          </div>
+
+          <div id="compare_right_pokemon" class="compare_sides">
+            <img src="./images/pikachu_silouhette.png">
+            <p>pokemon</p>
+            <div class="compare_stats">
+              <p>hp: <span>0 +0</span></p>
+              <p>atk: <span>0 +0</span></p>
+              <p>def: <span>0 +0</span></p>
+              <p>sp atk: <span>0 +0</span></p>
+              <p>sp def: <span>0 +0</span></p>
+              <p>speed: <span>0 +0</span></p>
+            </div>
+
+            <button class="compare_reselect">opnieuw selecteren</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- who's that -->
+    <div id="menu_whosThat" class="menuEvent">
+
+      <div id="whosThat_main">
+        <img src="./images/pikachu_silouhette.png">
+        <p>???</p>
+        <input id="whosThat_input" type="text">
+        <button id="whosThat_btn">bevestigen</button>
+      </div>
+    </div>
+
+    <div id="menu_battle" class="menuEvent">
+      <!-- battle -->
+
+      <div id="battle_main">
+        <div id="battle_left" class="battle_stage">
+          <div class="statusbar">
+            <p>pikachu</p>
+            <div class="hp-bar">
+              <p>50HP</p>
+            </div>
+          </div>
+          <img src="./images/pikachu_silouhette.png"></img>
+        </div>
+
+        <div id="battle_right" class="battle_stage">
+          <div class="statusbar">
+            <p>pikachu</p>
+            <div class="hp-bar">
+              <p>50HP</p>
+            </div>
+          </div>
+          <img src="./images/pikachu_silouhette.png"></img>
+        </div>
+
+        <div id="battle_text">
+          <p></p>
+          <p>klik om verder te gaan</p>
+        </div>
+
+        <div id="battle_buttons">
+          <button class="battle_button">normal attack</button>
+          <button class="battle_button">special attack</button>
+          <button class="battle_button">loop weg</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="menu_capture" class="menuEvent">
+      <!-- capture -->
+
+      <div id="capture_main">
+        <p>pikachu</p>
+        <img src="./images/pikachu_silouhette.png">
+        <button id="capture_button" src="./images/pokeball.png"></button>
+
+        <div id="capture_chances">
+          <img src="./images/pokeball.png">
+          <img src="./images/pokeball.png">
+          <img src="./images/pokeball.png">
+        </div>
+        <div id="capture_nickname">
+          <p>kies een bijnaam</p>
+          <input id="capture_nickname_input">
+          <button id="capture_nickname_button">bevestig</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- backpack -->
+    <div id="mainMenu" class="menuEvent">
+      <div id="mainMenu_main">
+        <button class="backpackMenuBtn">
+          <img src="./images/pokedex.webp">
+          <p>pokedex</p>
+        </button>
+
+        <button class="backpackMenuBtn" style="display:none">
+          <img src="./images/pokeball.png">
+          <p>pokemon Detail</p>
+        </button>
+
+        <button class="backpackMenuBtn">
+          <img src="./images/pokeball.png">
+          <p>pokemon vergelijken</p>
+        </button>
+
+        <button class="backpackMenuBtn" style="display:none">
+          <img src="./images/who's_that_icon.png">
+          <p>who's that pokemon</p>
+        </button>
+
+        <button class="backpackMenuBtn" style="display:none">
+          <img src="./images/pokeball.png">
+          <p>battle</p>
+        </button>
+
+        <button class="backpackMenuBtn" style="display:none">
+          <img src="./images/pokeball.png">
+          <p>capture</p>
+        </button>
+
+        <button class="backpackMenuBtn">
+          <a href="./login.html">
+            <img src="./images/icons/log_out_icon.png">
+          </a>
+          <p>log out</p>
+        </button>
+      </div>
+    </div>
+
+
+  </aside>
+</body>
+
+</html>

@@ -334,7 +334,138 @@
     }
 }
 
+/* project page2 */
+*::-webkit-scrollbar {
+    width: 5px;
+}
 
+*::-webkit-scrollbar-thumb {
+    background: white;
+    border-radius: 50px;
+    height: 10px;
+}
+
+#project_start {
+    width: 100vw;
+    height: 100vh;
+}
+
+#project_start main {
+    display: grid;
+    grid-template-areas:
+        "title"
+        "main"
+        "selection";
+    grid-template-rows: 20% auto max-content;
+    grid-template-columns: 100%;
+    background-image: url("./images/backgrounds/mtg_background.jpeg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+#project_start #project_title {
+    grid-area: title;
+    align-content: center;
+}
+
+#project_start #project_title p {
+    display: inline;
+    font-size: 50px;
+    font-weight: bold;
+    margin: auto;
+    padding: 20px;
+
+    background-color: #0000004a;
+    border-radius: 20px;
+}
+
+#project_start #project_main {
+    grid-area: main;
+    display: flex;
+    gap: 30px;
+    padding: 10px;
+    justify-content: center;
+    align-content: center;
+}
+
+#project_start #project_main .arrowBtn {
+    max-width: 100px;
+    width: 10%;
+    transition: transform 0.2s ease-in-out;
+}
+
+#project_start #project_main .arrowBtn:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+#project_start #project_main .arrowBtn:first-of-type {
+    transform: scale(-1);
+}
+
+#project_start #project_main .arrowBtn:first-of-type:hover {
+    transform: scale(-1.1);
+}
+
+#project_start #game_mainBtn {
+    width: 70%;
+    max-width: 600px;
+    height: 100%;
+    border: 5px solid black;
+    border-radius: 30px;
+}
+
+#project_start #game_mainBtn img {
+    width: 100%;
+    height: 100%;
+}
+
+#project_start #project_selection {
+    grid-area: selection;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3%;
+    margin: 20px;
+}
+
+#project_start .game_option {
+    display: block;
+    align-content: center;
+    width: 200px;
+    height: 140px;
+    padding: 10px;
+
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    ;
+    border: 3px solid black;
+    border-radius: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+}
+
+#project_start .game_option:hover:not(.active) {
+    cursor: pointer;
+    transform: translateY(-10px) scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+#project_start .active {
+    border: 4px solid black;
+    /* transform: translateY(-15px) scale(1.15); */
+}
+
+@media (max-width: 480px) {
+   
+}
 /*========================================*/
 /*========================================*/
 /*============== login Page ==============*/

@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { getGameRouter } from "./routers/gameRouter";
 import { GetAccountRouter } from "./routers/AccountRouter";
+import { getProjectRouter } from "./routers/ProjectRouter";
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ app.set("port", process.env.PORT ?? 3000);
 app.get("/", (req, res) => {
     res.render("index")
 });
-
+app.use("/", getProjectRouter());
 app.use("/account", GetAccountRouter());
 app.use("/game", getGameRouter());
 app.use(express.static("public"));

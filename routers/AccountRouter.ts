@@ -3,7 +3,7 @@ import express, { Express } from "express";
 export function GetAccountRouter(){
     const router = express.Router();
 
-    router.get("login", (req,res)=>{
+    router.get("/login", (req,res)=>{
         res.render("login");
     })
     router.get("signup", (req,res)=>{
