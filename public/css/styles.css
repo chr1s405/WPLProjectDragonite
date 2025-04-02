@@ -358,7 +358,7 @@
         "selection";
     grid-template-rows: 20% auto max-content;
     grid-template-columns: 100%;
-    background-image: url("./images/backgrounds/mtg_background.jpeg");
+    background-image: url("../assets/backgrounds/mtg_background.jpeg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -479,7 +479,7 @@
 }
 
 #LoginPage {
-    background-image: url("../images/pokemonBackground.jpeg");
+    background-image: url("../assets/pokemonBackground.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
     /* Zorgt ervoor dat de afbeelding de hele pagina bedekt */
@@ -638,7 +638,7 @@
 
 
 #reset-password {
-    background-image: url("../images/pokemonBackground.jpeg");
+    background-image: url("../assets/pokemonBackground.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
     /* Zorgt ervoor dat de afbeelding de hele pagina bedekt */
@@ -822,7 +822,7 @@
 
 
 #signup-page {
-    background-image: url("../images/pokemonBackground.jpeg");
+    background-image: url("../assets/pokemonBackground.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

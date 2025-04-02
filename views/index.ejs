@@ -1,98 +1,35 @@
-<<<<<<< HEAD
-<%-include ("partials/header.ejs")%>
-  <link rel="stylesheet" href="./css/styles.css">
-   <script src="./js/projectPage.js" defer></script>
-  <title>Project pagina</title>
-</head>
-
-<!-- Header met titel -->
-<body id="project-pagina">
-  <header  id = "headercontainer">
-      <h1 id = "projecttitle">Kies welke game je wil spelen</h1>
-  </header>
-
-  <!-- main -->
-  <main class="choice-game">
-    <!-- section voor het grote vierkant met de pijlen -->
-    <section id = "upperproject">
-      <!-- linkerpijl -->
-      <div class="arrow-left arrow">
-        <img src="./images/arrow4.jpeg" alt="arrow-left">
-      </div>
-
-      <!-- grote rechthoek in het midden en play button -->
-      <section class="game bigrectangle">
-        <a href= "#">
-          <img id = "bigrectanglecontainer" src="./images/pokempon-logo.jpeg" alt="pokemon-logo"></a>
-      </section>
-
-      <!-- rechterpijl -->
-      <div class="arrow-right arrow">
-        <img src="./images/arrow4.jpeg" class="arrow-right arrow" alt="arrow-right">
-      </div>
-    </section>
-
-    <!-- section voor kleine vierkantjes -->
-    <section class="choice-menu">
-        <div class="magic" id = "smallrectangle">
-          <img src="./images/magic.jpeg" alt="magic" id ="mtgpic">
-        </div>
-
-        <div class="lego" id = "smallrectangle">
-          <img src="./images/legoMasters.jpeg" alt="lego" id = "legopic">
-        </div>
-
-        <div class="lordOfTheRings" id = "smallrectangle">
-          <img src="./images/lordOfTheRings.jpeg" alt="lotr" id = "lotrpic">
-        </div>
-
-        <div class="fortnite"id = "smallrectangle">
-          <img src="./images/fortnite.jpeg" alt="fortnite" id = "fortnitepic">
-        </div>
-
-        <div class="fifa" id = "smallrectangle">
-          <img src="./images/fifa.jpeg" alt="fifa" id = "fifapic">
-        </div>
-
-        <div class="pokemon" id = "smallrectangle">
-          <img src="./images/pokempon-logo.jpeg" alt="pokemon" id = "pokepic">
-        </div>
-    </section>
-  </main>
-=======
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/pokemon-solid">
-    <link href="https://fonts.cdnfonts.com/css/bowzer" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/popular" rel="stylesheet">
-    <link rel="stylesheet" href="./WPLProjectDragonite/css/reset.css">
-    <title>Project pagina</title>
-    <link rel="stylesheet" href="./css/reset.css">
-    <link rel="stylesheet" href="./css/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/pokemon-solid">
+  <link href="https://fonts.cdnfonts.com/css/bowzer" rel="stylesheet">
+  <link rel="stylesheet" href="./css/reset.css">
+  <title>Project pagina</title>
+  <link rel="stylesheet" href="./css/styles.css">
+
 <body id="project_start">
   <main>
     <div id="project_title">
-        <p>kies je spel</p>
+      <p>kies je spel</p>
     </div>
     <div id="project_main">
-        <button class="arrowBtn"><img src="./assets/arrow4.jpeg"></button>
-        <a href="#" id="game_mainBtn"><img src="./assets/logos/mtg_logo.jpeg"></a>
-        <button class="arrowBtn"><img src="./assets/arrow4.jpeg"></button>
+      <button class="arrowBtn"><img src="./assets/arrow4.jpeg"></button>
+      <a href="#" id="game_mainBtn"><img src="./assets/logos/mtg_logo.jpeg"></a>
+      <button class="arrowBtn"><img src="./assets/arrow4.jpeg"></button>
     </div>
     <div id="project_selection">
-        <a id="game_mtg" class="game_option active"><img src="./assets/logos/mtg_logo.jpeg"></a>
-        <a id="game_lego" class="game_option"><img src="./assets/logos/lego_logo.jpeg"></a>
-        <a id="game_lotr" class="game_option"><img src="./assets/logos/lotr_logo.jpeg"></a>
-        <a id="game_fortnite" class="game_option"><img src="./assets/logos/fortnite_logo.jpeg"></a>
-        <a id="game_fifa" class="game_option"><img src="./assets/logos/fifa_logo.jpeg"></a>
-        <a id="game_pokemon" class="game_option"><img src="./assets/logos/pokemon_logo.jpeg"></a>
+      <a id="game_mtg" class="game_option active"><img src="./assets/logos/mtg_logo.jpeg"></a>
+      <a id="game_lego" class="game_option"><img src="./assets/logos/lego_logo.jpeg"></a>
+      <a id="game_lotr" class="game_option"><img src="./assets/logos/lotr_logo.jpeg"></a>
+      <a id="game_fortnite" class="game_option"><img src="./assets/logos/fortnite_logo.jpeg"></a>
+      <a id="game_fifa" class="game_option"><img src="./assets/logos/fifa_logo.jpeg"></a>
+      <a id="game_pokemon" class="game_option"><img src="./assets/logos/pokemon_logo.jpeg"></a>
     </div>
-</main>
-<script>
+  </main>
+  <script>
     const phoneLayout = window.matchMedia("(max-width: 450px)");
     let activeIndex = 0;
     const gameOptions = document.getElementsByClassName("game_option");
@@ -100,50 +37,49 @@
     const mainBtn = document.getElementById("game_mainBtn");
     const arrowBtns = document.getElementsByClassName("arrowBtn");
     const images = [
-        { background: "./assets/backgrounds/mtg_background.jpeg", logo: "./assets/logos/mtg_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
-        { background: "./assets/backgrounds/lego_background.jpeg", logo: "./assets/logos/lego_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
-        { background: "./assets/backgrounds/lotr_background.jpeg", logo: "./assets/logos/lotr_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
-        { background: "./assets/backgrounds/fortnite_background.jpeg", logo: "./assets/logos/fortnite_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
-        { background: "./assets/backgrounds/fifa_background.jpg", logo: "./assets/logos/fifa_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
-        { background: "./assets/backgrounds/pokemon_background.jpeg", logo: "./assets/logos/pokemon_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
+      { background: "./assets/backgrounds/mtg_background.jpeg", logo: "./assets/logos/mtg_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
+      { background: "./assets/backgrounds/lego_background.jpeg", logo: "./assets/logos/lego_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
+      { background: "./assets/backgrounds/lotr_background.jpeg", logo: "./assets/logos/lotr_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
+      { background: "./assets/backgrounds/fortnite_background.jpeg", logo: "./assets/logos/fortnite_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
+      { background: "./assets/backgrounds/fifa_background.jpg", logo: "./assets/logos/fifa_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
+      { background: "./assets/backgrounds/pokemon_background.jpeg", logo: "./assets/logos/pokemon_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
     ];
 
     arrowBtns[0].addEventListener("click", () => {
-        changeActive((activeIndex - 1 + gameOptions.length) % gameOptions.length)
+      changeActive((activeIndex - 1 + gameOptions.length) % gameOptions.length)
     });
     arrowBtns[1].addEventListener("click", () => {
-        changeActive((activeIndex + 1) % gameOptions.length)
+      changeActive((activeIndex + 1) % gameOptions.length)
     });
     mainBtn.style.backgroundColor = images[activeIndex].logoBgColor;
     mainBtn.getElementsByTagName("img")[0].src = images[activeIndex].logo;
     for (let i = 0; i < gameOptions.length; i++) {
-        gameOptions[i].style.backgroundColor = images[i].logoBgColor;
-        gameOptions[i].getElementsByTagName("img")[0].src = images[i].logo;
-        gameOptions[i].addEventListener("click", () => {
-            changeActive(i);
-        })
+      gameOptions[i].style.backgroundColor = images[i].logoBgColor;
+      gameOptions[i].getElementsByTagName("img")[0].src = images[i].logo;
+      gameOptions[i].addEventListener("click", () => {
+        changeActive(i);
+      })
     }
     mainBtn.addEventListener("click", () => {
-        if (activeIndex === 5) {
-            mainBtn.href = "./account/login";
-        }
-        else {
-            alert("dit project is nog onder constructie. kies iets anders ( pokemon :) )")
-        }
+      if (activeIndex === 5) {
+        mainBtn.href = "./account/login";
+      }
+      else {
+        alert("dit project is nog onder constructie. kies iets anders ( pokemon :) )")
+      }
     })
     // phoneLayout.addEventListener("change", function () {
     //     isPhoneLayout = phoneLayout.matches;
     // });
     function changeActive(index) {
-        gameOptions[activeIndex].classList.remove("active");
-        gameOptions[index].classList.add("active");
-        activeIndex = index;
-        background.style.backgroundImage = `url(${images[activeIndex].background}`;
-        mainBtn.getElementsByTagName("img")[0].src = images[activeIndex].logo;
-        mainBtn.style.backgroundColor = `${images[activeIndex].logoBgColor}`;
+      gameOptions[activeIndex].classList.remove("active");
+      gameOptions[index].classList.add("active");
+      activeIndex = index;
+      background.style.backgroundImage = `url(${images[activeIndex].background}`;
+      mainBtn.getElementsByTagName("img")[0].src = images[activeIndex].logo;
+      mainBtn.style.backgroundColor = `${images[activeIndex].logoBgColor}`;
     }
-</script>
->>>>>>> 923a945 (index en login ejs setup)
+  </script>
 </body>
 
-  <%-include ("partials/footer.ejs")%>
+</html>

@@ -5,7 +5,7 @@ export function getGameRouter(){
 
 
     router.get("", (req,res)=>{
-        res.send("game")
+        res.render("game")
     })
     return router;
 }
