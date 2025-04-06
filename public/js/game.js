@@ -40,6 +40,7 @@ async function intro() {
   player.setCompanion(allPokemon[pokemonIndex]);
   introPage.style.display = "none"
 
+  document.getElementById("backpackIcon").style.display = "block";
   pause = false;
 }
 
@@ -133,7 +134,6 @@ function gameInit() {
   })
 
   // document.getElementById("overworldMap").style.display = "block";
-  document.getElementById("backpackIcon").style.display = "block";
 }
 
 function gameLoop() {

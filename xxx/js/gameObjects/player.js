@@ -315,7 +315,7 @@ function battle(pokemon) {
                 backpack.closeBattleEvent();
                 this.isInBattle = false;
                 if (enemyHp === 0 && !pokemon.isCaptured) {
-                    this.capture(pokemon);
+                    this.capture(pokemon, true);
                 }
                 return;
             }
@@ -394,17 +394,23 @@ function battle(pokemon) {
 // ================ capture ================= //
 // ========================================== //
 
-function capture(pokemon) {
+function capture(pokemon, isguaranteedCapture = false) {
     const stage = backpack.openCaptureEvent();
     stage.name.innerHTML = pokemon.name;
     stage.img.src = pokemon.sprites["front_default"];
     stage.nickNameDiv.style.display = "none";
     let hasPokemon = this.capturedPokemon.includes(pokemon);
+    let captureChance;
     let chances = 3;
     for (let i = 0; i < stage.chances.children.length; i++) {
         stage.chances.children[i].style.filter = "grayscale(0%)";
     }
-    const captureChance = (50 - pokemon.stats[2]["base_stat"] + (this.hasCompanion ? this.companion.pokemon.stats[1]["base_stat"] : 0)) / 100;
+    if(isguaranteedCapture){
+        captureChance = 100;
+    }
+    else{
+        captureChance = (50 - pokemon.stats[2]["base_stat"] + (this.hasCompanion ? this.companion.pokemon.stats[1]["base_stat"] : 0)) / 100;
+    }
     if (hasPokemon) {
         stage.button.style.border = "3px solid green";
     }

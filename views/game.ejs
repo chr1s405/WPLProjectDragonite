@@ -7,20 +7,20 @@
   <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/pokemon-solid">
   <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/nexa">
   <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/pokemon-hollow">
-  <link rel="stylesheet" href="../css/reset.css">
-  <link rel="stylesheet" href="../css/stylesGame.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/stylesGame.css">
 
-  <script src="./js/game.js" type="module"></script>
+  <script src="/js/game.js" type="module" defer></script>
   <title>Pokemon</title>
 </head>
 
 <body id="gamePage">
   <header id="landingpageheader">
     <div id="nav-profile">
-      <img src="./assets/pokeball.png">
+      <img src="/assets/pokeball.png">
       <h1>username</h1>
     </div>
-    <img id="nav-pokemon" src="./assets/pikachu_silouhette.png">
+    <img id="nav-pokemon" src="/assets/pikachu_silouhette.png">
   </header>
 
   <main>
@@ -125,7 +125,7 @@
 
         <div id="pokedex_pokemon">
           <p c>pokemon</p>
-          <img src="./assets/pikachu_silouhette.png">
+          <img src="/assets/pikachu_silouhette.png">
         </div>
 
         <div id="pokedex_options">
@@ -136,19 +136,19 @@
 
         <div id="pokedex_evolution">
           <div class="pokedex_evolutionStep">
-            <img src="./assets/pikachu_silouhette.png">
+            <img src="/assets/pikachu_silouhette.png">
             <p>pokemon</p>
           </div>
 
           <div class="pokedex_evolutionArrow">></div>
           <div class="pokedex_evolutionStep">
-            <img src="./assets/pikachu_silouhette.png">
+            <img src="/assets/pikachu_silouhette.png">
             <p>pokemon</p>
           </div>
 
           <div class="pokedex_evolutionArrow">></div>
           <div class="pokedex_evolutionStep">
-            <img src="./assets/pikachu_silouhette.png">
+            <img src="/assets/pikachu_silouhette.png">
             <p>pokemon</p>
           </div>
         </div>
@@ -166,7 +166,7 @@
           </div>
 
           <div id="compare_left_pokemon" class="compare_sides">
-            <img src="./assets/pikachu_silouhette.png">
+            <img src="/assets/pikachu_silouhette.png">
             <p>pokemon</p>
             <div class="compare_stats">
               <p>hp: <span>0 +0</span></p>
@@ -188,7 +188,7 @@
           </div>
 
           <div id="compare_right_pokemon" class="compare_sides">
-            <img src="./assets/pikachu_silouhette.png">
+            <img src="/assets/pikachu_silouhette.png">
             <p>pokemon</p>
             <div class="compare_stats">
               <p>hp: <span>0 +0</span></p>
@@ -209,7 +209,7 @@
     <div id="menu_whosThat" class="menuEvent">
 
       <div id="whosThat_main">
-        <img src="./assets/pikachu_silouhette.png">
+        <img src="/assets/pikachu_silouhette.png">
         <p>???</p>
         <input id="whosThat_input" type="text">
         <button id="whosThat_btn">bevestigen</button>
@@ -227,7 +227,7 @@
               <p>50HP</p>
             </div>
           </div>
-          <img src="./assets/pikachu_silouhette.png"></img>
+          <img src="/assets/pikachu_silouhette.png"></img>
         </div>
 
         <div id="battle_right" class="battle_stage">
@@ -237,7 +237,7 @@
               <p>50HP</p>
             </div>
           </div>
-          <img src="./assets/pikachu_silouhette.png"></img>
+          <img src="/assets/pikachu_silouhette.png"></img>
         </div>
 
         <div id="battle_text">
@@ -258,13 +258,13 @@
 
       <div id="capture_main">
         <p>pikachu</p>
-        <img src="./assets/pikachu_silouhette.png">
-        <button id="capture_button" src="./assets/pokeball.png"></button>
+        <img src="/assets/pikachu_silouhette.png">
+        <button id="capture_button" src="/assets/pokeball.png"></button>
 
         <div id="capture_chances">
-          <img src="./assets/pokeball.png">
-          <img src="./assets/pokeball.png">
-          <img src="./assets/pokeball.png">
+          <img src="/assets/pokeball.png">
+          <img src="/assets/pokeball.png">
+          <img src="/assets/pokeball.png">
         </div>
         <div id="capture_nickname">
           <p>kies een bijnaam</p>
@@ -279,41 +279,41 @@
     <div id="mainMenu" class="menuEvent">
       <div id="mainMenu_main">
         <button class="backpackMenuBtn">
-          <img src="./assets/pokedex.webp">
+          <img src="/assets/pokedex.webp">
           <p>pokedex</p>
         </button>
 
         <button class="backpackMenuBtn" style="display:none">
-          <img src="./assets/pokeball.png">
+          <img src="/assets/pokeball.png">
           <p>pokemon Detail</p>
         </button>
 
         <button class="backpackMenuBtn">
-          <img src="./assets/pokeball.png">
+          <img src="/assets/pokeball.png">
           <p>pokemon vergelijken</p>
         </button>
 
         <button class="backpackMenuBtn" style="display:none">
-          <img src="./assets/who's_that_icon.png">
+          <img src="/assets/who's_that_icon.png">
           <p>who's that pokemon</p>
         </button>
 
         <button class="backpackMenuBtn" style="display:none">
-          <img src="./assets/pokeball.png">
+          <img src="/assets/pokeball.png">
           <p>battle</p>
         </button>
 
         <button class="backpackMenuBtn" style="display:none">
-          <img src="./assets/pokeball.png">
+          <img src="/assets/pokeball.png">
           <p>capture</p>
         </button>
 
+        <a href="/login">
         <button class="backpackMenuBtn">
-          <a href="./login.html">
-            <img src="./assets/icons/log_out_icon.png">
-          </a>
-          <p>log out</p>
-        </button>
+            <img src="/assets/icons/log_out_icon.png">
+            <p>log out</p>
+          </button>
+        </a>
       </div>
     </div>
 

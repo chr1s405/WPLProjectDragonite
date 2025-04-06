@@ -5,12 +5,12 @@ const background = document.getElementsByTagName("main")[0];
 const mainBtn = document.getElementById("game_mainBtn");
 const arrowBtns = document.getElementsByClassName("arrowBtn");
 const images = [
-    { background: "./images/backgrounds/mtg_background.jpeg", logo: "./images/logos/mtg_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
-    { background: "./images/backgrounds/lego_background.jpeg", logo: "./images/logos/lego_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
-    { background: "./images/backgrounds/lotr_background.jpeg", logo: "./images/logos/lotr_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
-    { background: "./images/backgrounds/fortnite_background.jpeg", logo: "./images/logos/fortnite_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
-    { background: "./images/backgrounds/fifa_background.jpg", logo: "./images/logos/fifa_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
-    { background: "./images/backgrounds/pokemon_background.jpeg", logo: "./images/logos/pokemon_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
+    { background: "/assets/backgrounds/mtg_background.jpeg", logo: "/assets/logos/mtg_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
+    { background: "/assets/backgrounds/lego_background.jpeg", logo: "/assets/logos/lego_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
+    { background: "/assets/backgrounds/lotr_background.jpeg", logo: "/assets/logos/lotr_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
+    { background: "/assets/backgrounds/fortnite_background.jpeg", logo: "/assets/logos/fortnite_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
+    { background: "/assets/backgrounds/fifa_background.jpg", logo: "/assets/logos/fifa_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
+    { background: "/assets/backgrounds/pokemon_background.jpeg", logo: "/assets/logos/pokemon_logo.jpeg", logoBgColor: "rgba(100, 100, 100, 0.8)" },
 ];
 
 arrowBtns[0].addEventListener("click", () => {
@@ -30,7 +30,7 @@ for (let i = 0; i < gameOptions.length; i++) {
 }
 mainBtn.addEventListener("click", () => {
     if (activeIndex === 5) {
-        mainBtn.href = "../login.html";
+        mainBtn.href = "/login";
     }
     else {
         alert("dit project is nog onder constructie. kies iets anders ( pokemon :) )")

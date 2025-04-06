@@ -1,4 +1,5 @@
 import express, { Express } from "express";
+import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 import path from "path";
 import { getGameRouter } from "./routers/gameRouter";
@@ -7,7 +8,12 @@ import { getProjectRouter } from "./routers/ProjectRouter";
 
 dotenv.config();
 
-const app : Express = express();
+const app: Express = express();
+
+const dbConnectionString = "mongodb+srv://DragoniteUser:Dragonite@cluster0.zhqlzpr.mongodb.net/";
+const database = 'DragoniteDB';
+const collection = 'Users';
+const db = new MongoClient(dbConnectionString);
 
 app.set("view engine", "ejs");
 app.use(express.json());
@@ -21,7 +27,7 @@ app.get("/", (req, res) => {
     res.render("index")
 });
 app.use("/", getProjectRouter());
-app.use("/account", GetAccountRouter());
+app.use("/login", GetAccountRouter(db, database));
 app.use("/game", getGameRouter());
 app.use(express.static("public"));
 app.listen(app.get("port"), () => {

@@ -16,22 +16,10 @@ export function createBackpack(player) {
     closeAllEvents,
     backbuttonPressed,
 
-    openMainMenu, //menu with init buttons
-    // closeMainMenu,
+    openMainMenu, //menu with initial buttons
 
-    // openPokedexEvent,
-    // closePokedexEvent,
-    // openDetailEvent,
-    // closeDetailsEvent,
-
-    // openCompareEvent,
-    // closeCompareEvent,
     openCompareSide,
-
     createPokemonList,
-
-    // closeWhosThatEvent,
-    // openWhosThatEvent,
 
     openBattleEvent,
     closeBattleEvent,

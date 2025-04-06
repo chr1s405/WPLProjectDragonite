@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>reset</title>
+</head>
+
+<body id="signup-page" class="accountPages">
+    <main>
+        <section class="blackbox">
+            <h1>Meld je aan</h1>
+            <form action="./signup" method="post">
+                <% if(!(formError.emptyField === undefined)) { %>
+                    <p class="errorMsg">vul alle velden in</p>
+                <% } %>
+                <label for="email">Voer een e-mailadres in:
+                <input id="email" name="email" type="email" value="<%= formError.email %>"></label>
+                <label for="username">
+                    <% if(!(formError.wrongUser === undefined)) { %>
+                        <span  class="errorMsg">Deze gebruiker bestaat al</span><br>
+                    <% } %>
+                    Kies en username:
+                <input id="username" name="username" type="text" value="<%= formError.username %>"></label>
+                <label for="password">Kies een wachtwoord:
+                <input id="password" name="password" type="password"></label>
+                <button type="submit">Verzenden</button>
+            </form>
+            <div>
+            <a href="/login">Terug naar login</a>
+            </br></br>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+    </footer>
+</body>
+
+</html>

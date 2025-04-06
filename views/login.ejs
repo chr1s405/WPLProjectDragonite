@@ -4,33 +4,37 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/pokemon-solid">
-    <link href="https://fonts.cdnfonts.com/css/bowzer" rel="stylesheet">
-    <link rel="stylesheet" href="./css/reset.css">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Login</title>
 </head>
 
-<body id="LoginPage">
-    <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
-    <style>
-        @import url('https://fonts.cdnfonts.com/css/pokemon-solid');
-    </style>
-    <header>
-    </header>
-
+<body id="loginPage" class="accountPages">
     <main>
-        <div class="username">
-            <form method="get">
+        <section class="blackbox">
                 <h1>Pokémon</h1>
-                <input class="input-place" type="username" placeholder="Gebruiksnaam"><br>
-                <input class="input-place" type="password" placeholder="Wachtwoord"><br>
-                <a href="../game"><input class="submit-btn" value="Inloggen"></a><br>
-
-                <a href="signup.html">Meld je hier aan!</a><br>
-                <a href="resetpassword.html">Wachtwoord vergeten?</a><br>
-            </form>
-        </div>
+                <form action="./login" method="post">
+                    <% if(!(formError.emptyField===undefined)) { %>
+                        <p class="errorMsg">vul alle velden in</p>
+                    <% } %>
+                    <label for="username">
+                    <% if(!(formError.wrongUser===undefined)) { %>
+                        <span  class="errorMsg">Deze gebruiker is niet gevonden</span>
+                    <% } %>
+                    <input id="username" name="username" type="username" value="<%= formError.username %>" placeholder="Gebruiksnaam"></label>
+                    <label for="password">
+                    <% if(!(formError.wrongPassword===undefined)) { %>
+                    <span class="errorMsg">Dit is niet het juiste Wachtwoord</span>
+                    <% } %>
+                    <input id="password" name="password" type="password" placeholder="Wachtwoord"></label>
+                    <button>inloggen</button>
+                </form>
+                <div>
+                    <a href="/login/signup">Meld je hier aan!</a></br>
+                    <a href="/login/reset">Wachtwoord vergeten?</a>
+                    </br></br>
+                </div>
+        </section>
     </main>
     <footer>
     </footer>

@@ -1,3 +1,43 @@
+@import url('https://fonts.cdnfonts.com/css/pokemon-solid');
+/* @font-face {
+    font-family: 'Pokemon Solid';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Pokemon Solid'), url('https://fonts.cdnfonts.com/s/17890/Pokemon Solid.woff') format('woff');
+}
+@font-face {
+    font-family: 'Bowzer';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Bowzer'), url('https://fonts.cdnfonts.com/s/105728/Bowzer.woff') format('woff');
+}
+@font-face {
+    font-family: 'Pokemon Hollow';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Pokemon Hollow'), url('https://fonts.cdnfonts.com/s/17911/Pokemon Hollow.woff') format('woff');
+}
+@font-face {
+    font-family: 'Pokemon Solid';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Pokemon Solid'), url('https://fonts.cdnfonts.com/s/17911/Pokemon Solid.woff') format('woff');
+}
+@font-face {
+    font-family: 'Nexa';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Nexa'), url('https://fonts.cdnfonts.com/s/19227/Fontfabric - Nexa-Light.woff') format('woff');
+}
+@font-face {
+    font-family: 'Nexa';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Nexa'), url('https://fonts.cdnfonts.com/s/19227/Fontfabric - Nexa-Bold.woff') format('woff');
+} */
+
+
+
 :root {
     /*pokémon font*/
     --pokemon-solid-font: 'Pokemon Solid', sans-serif;
@@ -13,328 +53,10 @@
 /*========================================*/
 /*========================================*/
 
-
-/*Indeling van grid projectpagina*/
-#project-pagina {
-    display: grid;
-    grid-template-areas:
-        "header"
-        "main";
+* {
+    font-family: var(--main-font);
 }
 
-/**************************
-**********Header***********
-**************************/
-
-
-
-/*desktop */ 
-#project-pagina header {
-    grid-area: header;
-    margin-top: 30px;
-    margin-bottom: 5px;
-}
-
-/* Hoofding van projectpagina */
-
-#headercontainer{
-    background-color: rgb(0, 0, 0, 0.6);
-    width: 60%;
-    margin: auto;
-    padding: 10px;
-    padding-bottom: 15px;
-    border-radius: 10px;
-}
-
-#project-pagina h1 {
-    z-index: 10;
-    font-size: clamp(2rem, 4vw, 5rem);
-    text-align: center;
-    margin: 0;
-    font-size: 70px;
-    padding-top: 20px;
-    color: rgb(252, 252, 252);
-    font-family: var(--project-title-font-new);
-}
-
-
-/**************************
-***********main************
-**************************/
-
-/* main pagina grid verdeling */
-#project-pagina .choice-game {
-    display: grid;
-    grid-template-areas:
-        "uproject"
-        "cm";
-}
-
-
-
-/*Grote vierkant en pijltjes*/
-/*indeling van grote vierkant met pijltjes*/
-#upperproject {
-    display: grid;
-    grid-template-areas: "al br ar";
-    grid-area: uproject;
-}
-
-/*styling pijlen*/
-#project-pagina .arrow {
-    display: flex;
-    align-items: center;
-    width: 100px;
-    height: 150px;
-    cursor: pointer;
-}
-
-#project-pagina .arrow img {
-    width: 100%;
-    height: auto;
-    transition: transform 0.2s ease-in-out;
-}
-
-/*voegt een subklasse toe die de arrow groter maakt als er over gehovert wordt met de muis*/
-#project-pagina .arrow:hover img {
-    transform: scale(1.1);
-}
-
-/*linkerpijl*/
-#project-pagina .arrow-left {
-    transform: scaleX(-1);
-    grid-area: al;
-    margin: auto;
-}
-
-/*vierkant in het midden*/
-#project-pagina .game {
-    border: 10px solid black;
-    border-radius: 30px;
-    width: 35vw;
-    margin: auto;
-    height: 40vh;
-    grid-area: br;
-    align-content: center;
-}
-
-#bigrectanglecontainer{
-    align-content: center;
-    margin: auto;
-    display: block;
-}
-
-
-/*rechterpijl*/
-.arrow-right {
-    grid-area: ar;
-    margin: auto;
-}
-
-/*kleine vierkantjes*/
-/*Styling kleine vierktantjes*/
-#smallrectangle {
-    height: 140px;
-    width: 200px;
-    border: 5px solid black;
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    
-    margin-top: 3%;
-}
-
-/*styling gehele section van kleine vierkantjes*/
-#project-pagina .choice-menu {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2vw;
-    width: 90vw;
-    max-width: 1500px;
-    margin: 50px auto;
-    grid-area: cm;
-}
-
-/*voegt een subklasse toe die de kleine rechthoeken groter maakt als je erover hovert met de muis*/
-#project-pagina .choice-menu .smallrectangle:hover {
-    transform: translateY(-10px) scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-}
-
-/* Actief-effect wanneer een game geselecteerd is */
-#project-pagina .choice-menu .smallrectangle.active {
-    transform: translateY(-15px) scale(1.15);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-    border-color: gold;
-}
-
-
-/*Dit zorgt ervoor dat de kleine vierkantjes een achtergrond kleur krijgden*/
-#project-pagina .magic {
-    background-color: white;
-    padding: 12px;
-}
-
-/* 
-#project-pagina .magic img{
-    background-color: white;
-    border-radius: 30px;
-    padding: 5px;
-} */
-
-#project-pagina .lego {
-    background-color: red;
-}
-
-#project-pagina .lego img {
-    height: 70px;
-
-}
-
-#project-pagina .lordOfTheRings {
-    background-color: black;
-}
-
-#project-pagina .fortnite {
-    background-color: rgb(36, 194, 241);
-
-}
-
-#project-pagina .fifa {
-    background-color: white;
-}
-
-#project-pagina .pokemon {
-    background-color: whitesmoke;
-}
-
-/* Mobiel (max 720px) */
-@media (max-width: 850px) {
-    #project-pagina header {
-        grid-area: header;
-        margin-top: 30px;
-        margin-bottom: 5px;
-    }
-    
-    /* Hoofding van projectpagina */
-    
-    #headercontainer{
-        padding-bottom: 5px;
-        width: 80%;
-    }
-    
-    #project-pagina h1 {
-        margin-left: 20px;
-        margin-right :20px;
-        font-size: 50px;
-        padding-top: 10px;
-        margin-bottom: 15px;
-    }
-    
-    
-    /**************************
-    ***********main************
-    **************************/
-    
-    /* main pagina grid verdeling */
-    
-    /*Grote vierkant en pijltjes*/
-    /*styling pijlen*/
-    #project-pagina .arrow {
-        width: 50px;
-        height: 75px;
-    }
-    
-    /*vierkant in het midden*/
-    #project-pagina .game {
-        width: 50vw;
-        height: 30vh;
-    }
-    
-    #bigrectanglecontainer{
-        height: 50%;
-        width: auto;
-    }
-    
-    /*kleine vierkantjes*/
-    /*Styling kleine vierktantjes*/
-    #smallrectangle {
-        height: 120px;
-        width: 200px;
-        border: 2px solid black;
-        border-radius: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        box-sizing: border-box;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
-        
-        margin-top: 3%;
-    }
-    
-    /*styling gehele section van kleine vierkantjes*/
-    #project-pagina .choice-menu {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 90vw;
-        grid-area: cm;
-    }
-    
-    /*voegt een subklasse toe die de kleine rechthoeken groter maakt als je erover hovert met de muis*/
-    #project-pagina .choice-menu .smallrectangle:hover {
-        transform: translateY(-10px) scale(1.05);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    }
-    
-    /* Actief-effect wanneer een game geselecteerd is */
-    #project-pagina .choice-menu .smallrectangle.active {
-        transform: translateY(-15px) scale(1.15);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-        border-color: gold;
-    }
-    
-    
-    /*Dit zorgt ervoor dat de kleine vierkantjes een achtergrond kleur krijgden*/
-    #project-pagina .magic {
-        background-color: white;
-    }
-    
-    #project-pagina .lego {
-        background-color: red;
-    }
-    
-    #project-pagina .lego img {
-        height: 30px;
-        width: auto;
-    
-    }
-    
-    #project-pagina .lordOfTheRings {
-        background-color: black;
-    }
-    
-    #project-pagina .fortnite {
-        background-color: rgb(36, 194, 241);
-    
-    }
-    
-    #project-pagina .fifa {
-        background-color: white;
-    }
-    
-    #project-pagina .pokemon {
-        background-color: whitesmoke;
-    }
-}
-
-/* project page2 */
 *::-webkit-scrollbar {
     width: 5px;
 }
@@ -463,540 +185,162 @@
     /* transform: translateY(-15px) scale(1.15); */
 }
 
-@media (max-width: 480px) {
-   
-}
-/*========================================*/
-/*========================================*/
-/*============== login Page ==============*/
-/*========================================*/
-/*========================================*/
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: var(--main-font);
-}
+@media (max-width: 480px) {}
 
-#LoginPage {
-    background-image: url("../assets/pokemonBackground.jpeg");
+
+
+/*========================================*/
+/*========================================*/
+/*============== account ==============*/
+/*========================================*/
+/*========================================*/
+
+.accountPages {
+    height: 100vh;
+    width: 100vw;
+
+    background-image: url("../assets/backgrounds/pokemon_background.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
-    /* Zorgt ervoor dat de afbeelding de hele pagina bedekt */
     background-position: center;
-    height: 100vh;
-    /* Volledige hoogte van het scherm */
-    width: 100vw;
-    /* Volledige breedte van het scherm */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
 }
 
-
-#LoginPage h1 {
-    font-size: 70px;
-    text-align: center;
-    font-family: var(--pokemon-solid-font);
-    margin-bottom: 50px;
+.accountPages main {
+    width: 100%;
+    height: 100%;
 }
 
-#LoginPage input {
-    width: 500px;
-    height: 50px;
-    background: white;
-    margin: 30px 0;
-    font-size: 20px;
-    color: gray;
-    font-family: var(--main-font);
-    outline: none;
-    border: none;
-    border-radius: 1rem;
-    padding: 0.5rem 1rem;
-    margin: 1rem;
-    text-align: center;
-}
-
-#LoginPage .username {
-    justify-content: center;
-    text-align: center;
-    padding-bottom: 3rem;
-}
-
-#LoginPage .submit-btn {
-    border: none;
-    outline: none;
-    border-radius: 1rem;
-    color: black;
-    font-family: var(--main-font);
-    width: 250px;
-    height: 50px;
-    background-color: rgb(255, 217, 0);
-    font-size: 20px;
-    margin-top: 80px;
-}
-
-#LoginPage a {
-    text-decoration: none;
-    cursor: pointer;
-    font-family: var(--main-font);
-    color: rgba(0, 0, 0, 0.747);
-    font-size: 20px;
-
-}
-
-/* Hover-effect voor invoervelden */
-#LoginPage .input-place:hover {
-    background-color: #f0f0f0;
-    transition: 0.3s;
-    border: 3px solid rgb(255, 217, 0);
-}
-
-#LoginPage .input-place:focus {
-    background-color: #f0f0f0;
-    border: 3px solid rgb(255, 217, 0);
-}
-
-/* Hover-effect voor de login-knop */
-#LoginPage .submit-btn:hover {
-    background-color: rgb(255, 200, 0);
-    cursor: pointer;
-    transition: 0.3s;
-    transform: scale(1.1);
-}
-
-/* Hover-effect voor de links */
-#LoginPage a:hover {
-    color: red;
-    text-decoration: underline;
-    transition: 0.3s;
-}
-
-/* Mobiel (max 480px) */
-@media (max-width: 480px) {
-
-
-    #LoginPage h1 {
-        font-size: 60px;
-        margin-bottom: 50px;
-    }
-
-    #LoginPage input {
-        width: 90%;
-        height: 50px;
-        font-size: 16px;
-    }
-
-
-
-    #LoginPage .submit-btn {
-        width: 70%;
-        height: 40px;
-        font-size: 20px;
-        margin-bottom: 40px;
-    }
-
-    #LoginPage a {
-        font-size: 20px;
-
-    }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-    #LoginPage h1 {
-        font-size: 60px;
-        margin-bottom: 50px;
-    }
-
-    #LoginPage input {
-        width: 90%;
-        height: 50px;
-        font-size: 18px;
-        margin-bottom: 40px;
-    }
-
-    #LoginPage .submit-btn {
-        width: 70%;
-        height: 45px;
-        font-size: 20px;
-    }
-
-    #LoginPage a {
-        font-size: 18px;
-    }
-}
-
-
-
-
-/*========================================*/
-/*========================================*/
-/*========== reset password Page =========*/
-/*========================================*/
-/*========================================*/
-
-
-#reset-password {
-    background-image: url("../assets/pokemonBackground.jpeg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    /* Zorgt ervoor dat de afbeelding de hele pagina bedekt */
-    background-position: center;
-    height: 100vh;
-    /* Volledige hoogte van het scherm */
-    width: 100vw;
-    /* Volledige breedte van het scherm */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-#reset-password .blackbox {
+.accountPages .blackbox {
     position: relative;
-    background-color: rgb(0, 0, 0, 0.5);
-    height: 600px;
-    width: 600px;
-    border-radius: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    top: 50%;
+    transform: translateY(-50%);
+    height: 80%;
+    width: 50%;
+    min-width: 480px;
     margin: auto;
+    padding: 10px;
+
+    text-align: center;
+
+    border-radius: 5%;
+    background-color: rgb(0, 0, 0, 0.5);
 }
 
-#reset-password h1 {
-    font-size: 50px;
-    color: white;
+.blackbox h1 {
     font-family: var(--pokemon-solid-font);
+    font-size: 50px;
+    text-align: center;
+    line-height: 1.5;
 }
 
-#reset-password .text {
+#loginPage h1 {
+    font-size: 70px;
+}
+
+.accountPages .blackbox form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.accountPages .blackbox label {
+    width: 90%;
+
     font-family: var(--main-font);
-    font-size: 25px;
+    font-size: 20px;
     text-align: center;
     color: white;
     display: block;
     margin-top: 10px;
 }
 
-#reset-password .input {
-    font-family: var(--main-font);
-    font-size: 20px;
-    color: gray;
-    text-align: center;
-    background-color: white;
-    margin-top: 100px;
-    width: 400px;
+.accountPages .blackbox form input {
+    width: 100%;
     height: 50px;
-    border-radius: 1rem;
-}
+    background: white;
+    padding: 0.5rem 1rem;
 
-
-#reset-password .submit-btn {
-    height: 50px;
-    margin: auto;
-    width: 250px;
-    margin-top: 30px;
-    background-color: rgb(255, 217, 0);
     color: black;
+    text-align: center;
+    font-size: 20px;
+    font-family: var(--main-font);
     border-radius: 1rem;
-    border-style: none;
+}
+.accountPages .blackbox form input::placeholder {
+    color: lightslategray;
+}
+
+.accountPages .blackbox form button {
+    color: black;
+    width: 250px;
+    height: 50px;
+
     font-family: var(--main-font);
     font-size: 20px;
-    margin-bottom: 10px;
+
+    border-radius: 1rem;
+    background-color: rgb(255, 217, 0);
 }
 
-
-#reset-password a {
-    cursor: pointer;
-    color: white;
+.accountPages .blackbox a {
+    font-family: var(--main-font);
+    color: rgba(0, 0, 0, 0.747);
     font-size: 20px;
-    display: block;
-    margin-top: 20px;;
+
+    cursor: pointer;
 }
 
-#reset-password a:hover {
-    text-decoration: underline;
-}
-
-#reset-password .input:hover {
+.accountPages .blackbox form input:hover {
     background-color: #f0f0f0;
     transition: 0.3s;
     border: 3px solid rgb(255, 217, 0);
 }
 
-#reset-password .input:focus {
+.accountPages .blackbox form input:focus {
     background-color: #f0f0f0;
     border: 3px solid rgb(255, 217, 0);
 }
 
-/* Hover-effect voor de login-knop */
-#reset-password .submit-btn:hover {
+.accountPages .blackbox form button:hover {
     background-color: rgb(255, 200, 0);
     cursor: pointer;
     transition: 0.3s;
     transform: scale(1.1);
 }
 
-/* Mobiel (max 480px) */
+.accountPages .blackbox a:hover {
+    color: red;
+    text-decoration: underline;
+    transition: 0.3s;
+}
+
+.errorMsg {
+    color: red;
+    font-size: 20px;
+    text-shadow: 0px 0px 3px black;
+}
+
 @media (max-width: 480px) {
-    #reset-password .blackbox {
-        width: 90%;
-        height: 600px;
-        padding: 20px;
-        border-radius: 10px;
+    .accountPages .blackbox {
+        justify-content: center;
+
+        width: 100%;
+        height: 100%;
+        min-width: 0px;
+        border-radius: 0px;
     }
 
-    #reset-password h1 {
+    .blackbox h1 {
         font-size: 35px;
-        margin-top: 20px;
-
     }
 
-    #reset-password .text {
-        font-size: 18px;
-        margin-top: 5px;
-    }
-
-    #reset-password .input {
-        width: 90%;
-        height: 45px;
-        font-size: 16px;
-        margin-top: 20px;
-    }
-
-    #reset-password .submit-btn {
-        width: 60%;
-        height: 45px;
-        font-size: 18px;
-        margin-top: 20px;
-        margin-bottom: 10px;
-    }
-
-    #reset-password a {
-        font-size: 16px;
-    }
-}
-
-/* Tablet (481px - 768px) */
-@media (min-width: 481px) and (max-width: 768px) {
-    #reset-password .blackbox {
-        width: 450px;
-        height: 600px;
-        padding: 30px;
-
-        border-radius: 15px;
-    }
-
-    #reset-password h1 {
-        font-size: 45px;
-    }
-
-    #reset-password .text {
-        font-size: 22px;
-        margin-top: 10px;
-    }
-
-    #reset-password .input {
-        width: 90%;
-        height: 50px;
-        font-size: 18px;
-        margin-top: 30px;
-    }
-
-    #reset-password .submit-btn {
-        width: 60%;
-        height: 50px;
-        font-size: 20px;
-        margin-top: 25px;
-    }
-
-    #reset-password a {
-        font-size: 18px;
-    }
-}
-
-/*========================================*/
-/*========================================*/
-/*========== Sing-Up Page =========*/
-/*========================================*/
-/*========================================*/
-
-
-#signup-page {
-    background-image: url("../assets/pokemonBackground.jpeg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    width: 100vw;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-}
-
-#signup-page .blackbox {
-    position: relative;
-    background-color: rgb(0, 0, 0, 0.5);
-    height: 600px;
-    width: 600px;
-    border-radius: 5%;
-    margin: auto;
-}
-
-#signup-page h1 {
-    font-size: 50px;
-    color: rgb(0, 0, 0);
-    color: white;
-    margin-bottom: 20px;
-    font-family: var(--pokemon-solid-font);
-}
-
-#signup-page .text {
-    font-family: var(--main-font);
-    font-size: 25px;
-    text-align: center;
-    color: white;
-    display: block;
-    margin-top: 25px;
-    margin-bottom: 10px;
-}
-
-
-#signup-page .submit-btn {
-    height: 50px;
-    margin: auto;
-    width: 250px;
-    margin-top: 30px;
-    background-color: rgb(255, 217, 0);
-    color: black;
-    border-radius: 1rem;
-    border-style: none;
-    font-family: var(--main-font);
-    font-size: 20px;
-    margin-bottom: 20px;
-}
-
-#signup-page .input {
-    font-family: var(--main-font);
-    font-size: 20px;
-    color: gray;
-    text-align: center;
-    background-color: white;
-    width: 400px;
-    height: 40px;
-    border-radius: 1cap;
-}
-
-#signup-page a {
-    cursor: pointer;
-    color: white;
-    font-size: 20px;
-    display: block;
-}
-
-#signup-page a:hover {
-    text-decoration: underline;
-}
-
-#signup-page .input:hover {
-    background-color: #f0f0f0;
-    transition: 0.3s;
-    border: 3px solid rgb(255, 217, 0);
-}
-
-#signup-page .input:focus {
-    background-color: #f0f0f0;
-    border: 3px solid rgb(255, 217, 0);
-}
-
-/* Hover-effect voor de login-knop */
-#signup-page .submit-btn:hover {
-    background-color: rgb(255, 200, 0);
-    cursor: pointer;
-    transition: 0.3s;
-    transform: scale(1.1);
-}
-
-@media (max-width: 480px) {
-    #signup-page {
-        padding: 15px;
-    }
-
-    #signup-page .blackbox {
-        width: 350px;
-        height: 600px;
-        border-radius: 5%;
-        padding: 15px;
-    }
-
-    #signup-page h1 {
-        font-size: 40px;
-        margin-bottom: 20px;
-    }
-
-    #signup-page .text {
-        font-size: 20px;
-        margin-bottom: 5px;
-    }
-
-    #signup-page .input {
-        width: 90%;
-        height: 35px;
-        font-size: 15px;
-        margin-bottom: 15px;
-    }
-
-    #signup-page .submit-btn {
+    .accountPages .blackbox form button {
         width: 80%;
-        height: 45px;
-        font-size: 18px;
-
-    }
-
-    #signup-page a {
-        font-size: 18px;
-    }
-}
-
-@media (min-width: 480px) and (max-width:769px) {
-    #signup-page {
-        padding: 15px;
-    }
-
-    #signup-page .blackbox {
-        width: 500px;
-        height: 600px;
-        border-radius: 5%;
-        padding: 15px;
-    }
-
-    #signup-page h1 {
-        font-size: 40px;
-        margin-bottom: 20px;
-    }
-
-    #signup-page .text {
-        font-size: 20px;
-        margin-bottom: 5px;
-    }
-
-    #signup-page .input {
-        width: 80%;
-        height: 40px;
-        font-size: 18px;
-        margin-bottom: 15px;
-    }
-
-    #signup-page .submit-btn {
-        width: 80%;
-        height: 45px;
-        font-size: 18px;
-
-    }
-
-    #signup-page a {
-        font-size: 18px;
+        max-width: 250px;
     }
 }
