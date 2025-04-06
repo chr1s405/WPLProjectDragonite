@@ -3,9 +3,6 @@ import { createPlayer } from "./gameObjects/player.js";
 import { createNpc } from "./gameObjects/npc's.js";
 import { createPokemon } from "./gameObjects/pokemon.js";
 import { createBackpack } from "./gameObjects/backpack.js";
-// import { Companion } from "./gameObjects/companion.js";
-// import { Pokemon } from "./gameObjects/pokemon.js";
-// import { getPokemon } from "../js/backpack.js";
 
 let pause = true;
 
@@ -16,67 +13,9 @@ let player;
 
 allPokemon = await GetPokemon();
 await gameInit();
-await intro();
 await gameLoop();
 
-async function intro() {
-  const introPage = document.getElementById("gameIntro");
-  let optionsDiv;
-  optionsDiv = introPage.getElementsByClassName("intro_selection")[0];
-  const starterCharacters = [
-    { name: "man", img: "../../assets/characters/player1Sprites.png" },
-    { name: "vrouw", img: "../../assets/characters/player2Sprites.png" }];
-  createIntroOptions(optionsDiv, starterCharacters)
-  let playerIndex = await getIntroSelection(optionsDiv);
-  player.div.style.backgroundImage = `url(${starterCharacters[playerIndex].img})`;
-
-  optionsDiv = introPage.getElementsByClassName("intro_selection")[1];
-  const starterPokemon = allPokemon.slice(0, 3).map((pokemon) => {
-    return { name: pokemon.name, img: pokemon.sprites["front_default"] };
-  });
-  createIntroOptions(optionsDiv, starterPokemon)
-  let pokemonIndex = await getIntroSelection(optionsDiv);
-  player.capturePokemon(allPokemon[pokemonIndex]);
-  player.setCompanion(allPokemon[pokemonIndex]);
-  introPage.style.display = "none"
-
-  document.getElementById("backpackIcon").style.display = "block";
-  pause = false;
-}
-
-function createIntroOptions(optionsDiv, optionsList = undefined) {
-  const options = optionsDiv.getElementsByClassName("intro_selectOptions")[0];
-  optionsList.forEach((option) => {
-    const div = document.createElement("div");
-    div.classList.add("intro_selectOption")
-    const img = document.createElement("img");
-    img.src = option.img;
-    const p = document.createElement("p");
-    p.innerHTML = option.name;
-
-    div.appendChild(img);
-    div.appendChild(p);
-    options.appendChild(div);
-  });
-}
-
-async function getIntroSelection(optionsDiv) {
-  optionsDiv.style.display = "block";
-  const options = optionsDiv.getElementsByClassName("intro_selectOption");
-  return new Promise((resolve, reject) => {
-
-    for (let i = 0; i < options.length; i++) {
-
-      options[i].addEventListener("click", () => {
-        resolve(i);
-        optionsDiv.style.display = "none";
-        optionsDiv.replaceWith(optionsDiv.cloneNode(true));
-      })
-    };
-  })
-}
-
-function gameInit() {
+async function gameInit() {
   map = createMap();
   player = createPlayer();
   createNpc(map, 200, 300);
@@ -86,6 +25,10 @@ function gameInit() {
   createNpc(map, 950, 550);
   createPokemon(map);
   backpack = createBackpack(player);
+
+  //await intro();
+  // document.getElementById("overworldMap").style.display = "block";
+  document.getElementById("backpackIcon").style.display = "block";
 
   addEventListener("keydown", (e) => {
     //   alert(e.keyCode);
@@ -132,8 +75,61 @@ function gameInit() {
       player.moveRight(false);
     }
   })
+}
+async function intro() {
+  const introPage = document.getElementById("gameIntro");
+  let optionsDiv;
+  optionsDiv = introPage.getElementsByClassName("intro_selection")[0];
+  const starterCharacters = [
+    { name: "man", img: "../../assets/characters/player1Sprites.png" },
+    { name: "vrouw", img: "../../assets/characters/player2Sprites.png" }];
+  createIntroOptions(optionsDiv, starterCharacters)
+  let playerIndex = await getIntroSelection(optionsDiv);
+  player.div.style.backgroundImage = `url(${starterCharacters[playerIndex].img})`;
 
-  // document.getElementById("overworldMap").style.display = "block";
+  optionsDiv = introPage.getElementsByClassName("intro_selection")[1];
+  const starterPokemon = allPokemon.slice(0, 3).map((pokemon) => {
+    return { name: pokemon.name, img: pokemon.sprites["front_default"] };
+  });
+  createIntroOptions(optionsDiv, starterPokemon)
+  let pokemonIndex = await getIntroSelection(optionsDiv);
+  player.capturePokemon(allPokemon[pokemonIndex]);
+  player.setCompanion(allPokemon[pokemonIndex]);
+  introPage.style.display = "none"
+
+  pause = false;
+}
+
+function createIntroOptions(optionsDiv, optionsList = undefined) {
+  const options = optionsDiv.getElementsByClassName("intro_selectOptions")[0];
+  optionsList.forEach((option) => {
+    const div = document.createElement("div");
+    div.classList.add("intro_selectOption")
+    const img = document.createElement("img");
+    img.src = option.img;
+    const p = document.createElement("p");
+    p.innerHTML = option.name;
+
+    div.appendChild(img);
+    div.appendChild(p);
+    options.appendChild(div);
+  });
+}
+
+async function getIntroSelection(optionsDiv) {
+  optionsDiv.style.display = "block";
+  const options = optionsDiv.getElementsByClassName("intro_selectOption");
+  return new Promise((resolve, reject) => {
+
+    for (let i = 0; i < options.length; i++) {
+
+      options[i].addEventListener("click", () => {
+        resolve(i);
+        optionsDiv.style.display = "none";
+        optionsDiv.replaceWith(optionsDiv.cloneNode(true));
+      })
+    };
+  })
 }
 
 function gameLoop() {
@@ -141,7 +137,6 @@ function gameLoop() {
     if (!pause && !player.isInEvent) {
       map.update(player);
       player.update(map);
-      // Npcs.update();
     };
     if (false) {
       clearInterval(intervalId);

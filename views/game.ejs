@@ -211,7 +211,10 @@
       <div id="whosThat_main">
         <img src="/assets/pikachu_silouhette.png">
         <p>???</p>
-        <input id="whosThat_input" type="text">
+        <div id="whosThat_autocomplete">
+          <input id="whosThat_input" type="text">
+          <div id="whosThat_autocompleteOptions"></div>
+        </div>
         <button id="whosThat_btn">bevestigen</button>
       </div>
     </div>
@@ -309,7 +312,7 @@
         </button>
 
         <a href="/login">
-        <button class="backpackMenuBtn">
+          <button class="backpackMenuBtn">
             <img src="/assets/icons/log_out_icon.png">
             <p>log out</p>
           </button>

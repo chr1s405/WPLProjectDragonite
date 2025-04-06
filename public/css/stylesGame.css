@@ -160,7 +160,6 @@
   top: 350px;
   width: 50px;
   height: 50px;
-  background-image: url("../assets/characters/player_front.png");
   background-size: 410%;
   background-position-x: 0px; /* 52px */
   background-position-y: 0px;
@@ -838,17 +837,41 @@
     filter: brightness(0%);
   }
 
-  #gamePage #whosThat_main #whosThat_input {
+  #gamePage #whosThat_main #whosThat_autocomplete {
+    position: relative;
     display: block;
+    color: black;
+    width: 40%;
+    min-width: 150px;
+    margin: 0px auto 0px auto;
+
+  }
+  #gamePage #whosThat_main #whosThat_input {
     text-align: center;
     color: black;
     padding: 5px;
-    margin: 0px auto 0px auto;
-    width: 40%;
+    width: 100%;
     min-width: 150px;
-    background-color: white;
     border: 2px solid var(--color_accent1);
     border-radius: 50px;
+    background-color: white;
+  }
+  #gamePage #whosThat_autocomplete #whosThat_autocompleteOptions {
+    position: absolute;
+    width: 90%;
+    max-height: 90px;
+    left: 5%;
+    right: 5%;
+    overflow-y: scroll;
+    background-color: #ffffffdd ;
+  }
+  
+  #gamePage #whosThat_autocompleteOptions p:hover{
+    cursor: pointer;
+    background-color: var(--color_secondary);
+  }
+  #gamePage #whosThat_autocompleteOptions span{
+    font-weight: bold;
   }
 
   #gamePage #whosThat_main #whosThat_btn {
@@ -879,60 +902,4 @@
 
   #gamePage button:hover {
     cursor: pointer;
-  }
-
-
-  /*who's that*/
-  /* #pkmsilhouette{
-  height: 200px;
-  grid-area: "p";
-  margin: auto;
-  display: block;
-}
-
-#menu_whosThat #eventheader{
-  grid-area: "t";
-}
-
-.whosthatguess{
-  grid-area: "w";
- text-align: center;
-}
-
-
-#menu_whosThat{
-  display: grid;
-  grid-template-areas:
-  "t"
-  "p"
-  "w";
-}
-
-.whosthatanswer{
-  display: block;
-  margin: auto;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  height: 30px;
-  width: 300px;
-  border-radius: 5px;
-  border-color: rgb(255, 255, 255, 0.5);
-  border-style: solid;
-  color:rgb(255, 255, 255, 0.5);
-} */
-
-  .whosthatbtn {
-    margin-top: 20px;
-    background-image: linear-gradient(45deg, rgb(130, 130, 130), rgb(226, 255, 207));
-    width: 150px;
-    height: 40px;
-    border-radius: 20px;
-    color: rgb(130, 130, 130);
-    font-size: 20qpx;
-  }
-
-  .whosthatbtn:hover {
-    border-style: solid;
-    border-color: rgb(226, 255, 207);
-    color: rgb(226, 255, 207);
   }

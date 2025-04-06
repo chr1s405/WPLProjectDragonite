@@ -160,7 +160,8 @@ function getFilteredList(table) {
       const isType = filterType.value === "all" || pokemon.types.some(t => t.type.name === filterType.value);
       return matchesSearch && (!filterCaught.checked || isCaught) && (!filterKnown.checked || isKnown) && isType;
     });
-    filteredList.sort((a, b) => {if (sortOption.value === "hp") {
+    filteredList.sort((a, b) => {
+      if (sortOption.value === "hp") {
         return b.stats[0].base_stat - a.stats[0].base_stat; // HP
       } else if (sortOption.value === "attack") {
         return b.stats[1].base_stat - a.stats[1].base_stat; // Aanval
@@ -168,7 +169,7 @@ function getFilteredList(table) {
         return b.stats[5].base_stat - a.stats[5].base_stat; // Snelheid
       } else {
         return a.id - b.id;
-      } 
+      }
     });
   }
   return filteredList;
@@ -315,7 +316,7 @@ function openCompareSide(compareSide, pokemon) {
 
   updateCompareSides();
 }
-function updateCompareSides(){
+function updateCompareSides() {
   let isBothChosen = true;
   const sides = document.getElementById("menu_compare").getElementsByClassName("compare_sides");
   for (let i = 0; i < sides.length; i++) {
@@ -353,18 +354,42 @@ function updateCompareSides(){
 // ========= who's that pokemon ======== //
 function openWhosThatEvent(event, pokemon) {
   this.openEvent(event);
-  const whosThatDiv = document.getElementById("whosThat_main");
-  const img = whosThatDiv.getElementsByTagName("img")[0];
-  const name = whosThatDiv.getElementsByTagName("p")[0];
-  const input = whosThatDiv.getElementsByTagName("input")[0];
-  const button = whosThatDiv.getElementsByTagName("button")[0];
+  const img = event.getElementsByTagName("img")[0];
   img.src = pokemon.sprites["front_default"];
   img.style.filter = "brightness(0%)";
+
+  const name = event.getElementsByTagName("p")[0];
   name.innerHTML = "???";
+
+  const input = event.getElementsByTagName("input")[0];
   input.value = "";
   input.style.display = "block";
+
+  const autoFilloptions = document.getElementById("whosThat_autocompleteOptions");
+
+  const button = event.getElementsByTagName("button")[0];
   button.style.display = "block";
   button.innerHTML = "bevestigen";
+
+  input.addEventListener("input", () => {
+    autoFilloptions.innerHTML = "";
+    if (input.value.length > 0) {
+      allPokemon.forEach(pokemon => {
+        if(pokemon.name.substring(0,input.value.length) === (input.value) && !(pokemon.name === input.value)){
+          const startIdx = pokemon.name.indexOf(input.value);
+          const option = document.createElement("p");
+          option.innerHTML += `${pokemon.name.substring(0, startIdx)}`;
+          option.innerHTML += `<span>${pokemon.name.substring(startIdx, startIdx + input.value.length)}</span>`;
+          option.innerHTML += `${pokemon.name.substring(startIdx + input.value.length)}`;
+          autoFilloptions.appendChild(option);
+          option.addEventListener("click",()=>{
+            input.value = pokemon.name;
+            autoFilloptions.innerHTML = "";
+          })
+        }
+      })
+    }
+  })
   button.addEventListener("click", () => {
     if (input.value === pokemon.name) {
       pokemon.isKnown = true;
@@ -372,7 +397,6 @@ function openWhosThatEvent(event, pokemon) {
       name.innerHTML = pokemon.name;
       input.style.display = "none";
       button.style.display = "none"
-      button.replaceWith(button.cloneNode(true));
     }
     else {
       alert("dat is niet de juiste pokemon");
@@ -381,6 +405,10 @@ function openWhosThatEvent(event, pokemon) {
 }
 function closeWhosThatEvent(event) {
   event.style.display = "none";
+  const input = event.getElementsByTagName("input")[0];
+  const button = event.getElementsByTagName("button")[0];
+  button.replaceWith(button.cloneNode(true));
+  input.replaceWith(input.cloneNode(true));
 }
 
 
