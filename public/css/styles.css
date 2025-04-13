@@ -101,7 +101,7 @@
     font-weight: bold;
     margin: auto;
     padding: 20px;
-
+    font-family: var(--project-title-font-new);
     background-color: #0000004a;
     border-radius: 20px;
 }
@@ -118,6 +118,7 @@
 #project_start #project_main .arrowBtn {
     max-width: 100px;
     width: 10%;
+    opacity: 70%;
     transition: transform 0.2s ease-in-out;
 }
 
@@ -143,8 +144,8 @@
 }
 
 #project_start #game_mainBtn img {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: auto;
 }
 
 #project_start #project_selection {
@@ -179,6 +180,7 @@
     transform: translateY(-10px) scale(1.1);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
+
 
 #project_start .active {
     border: 4px solid black;
