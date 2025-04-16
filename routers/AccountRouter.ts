@@ -1,7 +1,9 @@
 import express, { Express } from "express";
 import { MongoClient, ObjectId } from "mongodb";
+import { getUser, userCollection } from "../database";
+import { User } from "../interfaces";
 
-export function GetAccountRouter(db: MongoClient, database: string) {
+export function GetAccountRouter() {
     interface FormError {
         emptyField?: boolean,
         wrongUser?: boolean,
@@ -9,12 +11,6 @@ export function GetAccountRouter(db: MongoClient, database: string) {
         wrongPassword?: boolean,
         username?: string,
         email?: string,
-    }
-    interface User {
-        _id?: ObjectId
-        username: string,
-        email: string,
-        password: string,
     }
 
     const router = express.Router();
@@ -33,28 +29,19 @@ export function GetAccountRouter(db: MongoClient, database: string) {
             res.render("login", { formError })
         }
         else {
-            try {
-                await db.connect();
-                const user: User | null = await db.db(database).collection(collection).findOne<User>({ username: username });
-                if (user) {
-                    if (user.password === password) {
-                        res.redirect("/game"); //this doesnt crash the app but gives an error
-                    }
-                    else {
-                        formError.wrongPassword = true;
-                    }
+            const user = await getUser({ username: username });
+            if (user) {
+                if (user.password === password) {
+                    res.redirect("/game"); //this doesnt crash the app but still gives an error
                 }
                 else {
-                    formError.wrongUser = true;
+                    formError.wrongPassword = true;
                 }
-                res.render("login", { formError })
             }
-            catch (error) {
-                console.log(error)
+            else {
+                formError.wrongUser = true;
             }
-            finally {
-                await db.close();
-            }
+            res.render("login", { formError })
         }
 
     })
@@ -72,24 +59,14 @@ export function GetAccountRouter(db: MongoClient, database: string) {
             res.render("signup", { formError })
         }
         else {
-            try {
-                await db.connect();
-                let user: User | null = await db.db(database).collection(collection).findOne<User>({ username: username });
-                if (!user) {
-                    user = { username, email, password }
-                    db.db(database).collection(collection).insertOne(user);
-                    console.log(await db.db(database).collection(collection).find().toArray());
-                    res.redirect("/login")
-                }
-                else {
-                    formError.wrongUser = true;
-                }
+            let user = await getUser({ username: username });
+            if (!user) {
+                userCollection.insertOne({ username, email, password });
+                console.log(await userCollection.find().toArray());
+                res.redirect("/login")
             }
-            catch (error) {
-                console.log(error)
-            }
-            finally {
-                await db.close();
+            else {
+                formError.wrongUser = true;
             }
         }
         res.render("signup", { formError });
@@ -105,7 +82,7 @@ export function GetAccountRouter(db: MongoClient, database: string) {
             formError.wrongEmail = true;
             res.render("resetpassword", { formError })
         }
-        else{
+        else {
             res.redirect("/login")
         }
     })

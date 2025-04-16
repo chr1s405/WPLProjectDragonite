@@ -5,6 +5,7 @@ import path from "path";
 import { getGameRouter } from "./routers/gameRouter";
 import { GetAccountRouter } from "./routers/AccountRouter";
 import { getProjectRouter } from "./routers/ProjectRouter";
+import { connect } from "./database";
 
 dotenv.config();
 
@@ -27,9 +28,10 @@ app.get("/", (req, res) => {
     res.render("index")
 });
 app.use("/", getProjectRouter());
-app.use("/login", GetAccountRouter(db, database));
+app.use("/login", GetAccountRouter());
 app.use("/game", getGameRouter());
 app.use(express.static("public"));
-app.listen(app.get("port"), () => {
+app.listen(app.get("port"), async () => {
+    await connect();
     console.log("Server started on http://localhost:" + app.get("port"));
 });
