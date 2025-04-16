@@ -144,8 +144,13 @@
 }
 
 #project_start #game_mainBtn img {
+    position: relative;
+    display: block;
     width: 80%;
     height: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: auto;
 }
 
 #project_start #project_selection {
