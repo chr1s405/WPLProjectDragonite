@@ -96,20 +96,22 @@
 }
 
 
-#gamePage main{
+#gamePage main {
   border: 3px solid var(--color_accent1);
 }
+
 /*==============================*/
 /*=========== Intro ============*/
 /*==============================*/
-#gamePage main #gameIntro{
+#gamePage main #gameIntro {
   /* display: none; */
   width: 100%;
   height: 100%;
 
   background-color: #000;
 }
-#gamePage #gameIntro .intro_selection{
+
+#gamePage #gameIntro .intro_selection {
   display: none;
   text-align: center;
   width: 100%;
@@ -118,19 +120,22 @@
   border: 2px solid var(--color_accent1);
   background-color: gray;
 }
-#gamePage #gameIntro .intro_selectOptions{
+
+#gamePage #gameIntro .intro_selectOptions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
 }
-#gamePage #gameIntro .intro_selectOption{
+
+#gamePage #gameIntro .intro_selectOption {
   width: 100px;
 
   background-color: var(--color_secondary);
   cursor: pointer;
 }
-#gamePage #intro_characterOptions img{
+
+#gamePage #intro_characterOptions img {
   width: 64px;
   height: 64px;
   object-fit: none;
@@ -161,7 +166,8 @@
   width: 50px;
   height: 50px;
   background-size: 410%;
-  background-position-x: 0px; /* 52px */
+  background-position-x: 0px;
+  /* 52px */
   background-position-y: 0px;
   background-repeat: no-repeat;
   box-sizing: content-box;
@@ -234,672 +240,701 @@
     width: 100%;
     height: calc(100% - 100px);
 
-  border: 2px solid var(--color_accent1);
-  border-radius: 0px;
+    border: 2px solid var(--color_accent1);
+    border-radius: 0px;
   }
 }
 
-  #gamePage #backpackHeader {
-    display: flex;
-    color: white;
-    font-family: sans-serif;
-    font-weight: bold;
-    font-size: 2rem;
-    text-align: center;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    top: 0px;
-    width: 100%;
-    height: 10%;
-    margin-bottom: 10px;
-  }
-
-  #backpackTitle {
-    font-family: var(--pokemon-hollow-font);
-    font-size: 40px;
-    line-height: 3rem;
-    margin: -25px 0px 0px 0px;
-    padding: 0;
-  }
-
-  #gamePage #backpack_closeBtn {
-    top: 8px;
-    margin: 15px;
-    color: white;
-  }
-
-  #backpack_closeBtn:hover {
-    transition: 0, 3s;
-    transform: scale(1.1);
-  }
-
-  #gamePage #backpack_backBtn {
-    visibility: hidden;
-    margin: 15px;
-    color: white;
-  }
-
-  #gamePage #backpack_backBtn:hover {
-    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
-    transform: scale(1.1);
-  }
-
-  #gamePage #backpackContents .backpackMenuBtn {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    border: 4px solid var(--color_accent1);
-    border-radius: 10px;
-    background-color: red;
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  }
-
-  #gamePage #backpackContents .backpackMenuBtn img {
-    position: absolute;
-    width: 60%;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-
-  #gamePage #backpackContents .backpackMenuBtn p {
-    position: absolute;
-    line-height: .8;
-    width: 100%;
-    bottom: 5px;
-    text-align: center;
-    font-size: 20px;
-    color: white;
-  }
-
-  #gamePage #backpackContents .backpackMenuBtn:hover {
-    transform: scale(1.1);
-    box-shadow: 0px 5px 15px rgba(255, 0, 0, 0.6);
-  }
-
-  /*==============================*/
-  /*=========== events ===========*/
-  /*==============================*/
-  #gamePage aside .menuEvent {
-    display: none;
-    position: relative;
-    width: 100%;
-    height: calc(90% - 10px);/* 100% - header height en margin */
-    z-index: -1;
-
-    color: white;
-    border: 2px solid var(--color_accent1);
-    background-color: var(--color_tertiary);
-  }
-
-  #gamePage #backpackContents #mainMenu_main {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-    margin: 10px;
-  }
-
-  /* ========== pokemon list ==========*/
-  #gamePage .pokemon_list {
-    width: auto;
-    height: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-
-  #gamePage .pokemon_list table {
-    margin: auto;
-    width: 100%;
-  }
-
-  #gamePage .tableRow {
-    display: grid;
-    grid-template-areas:
-      "image info stats";
-    grid-template-columns: max-content max-content auto;
-
-    height: max-content;
-    width: 100%;
-    background-color: var(--color_secondary);
-    border: 2px solid var(--color_accent1);
-    border-radius: 50px;
-  }
-
-  #gamePage .tableRow:hover {
-    cursor: pointer;
-  }
-
-  #gamePage .tableImg {
-    grid-area: image;
-    padding: 5px;
-    margin: auto;
-    width: 80%;
-    border-right: 2px solid var(--color_accent1);
-    border-radius: 50px;
-  }
-
-  #gamePage .tableInfo {
-    grid-area: info;
-    margin: auto;
-    margin-left: 3%;
-  }
-
-  #gamePage .tableStats {
-    grid-area: stats;
-    margin: auto;
-    margin-left: 10%;
-  }
-
-  #pokedex_controls {
-    position: sticky;
-    display: flex;
-    justify-content: center;
-    top: 0px;
-    margin: auto;
-    width: 100%;
-    z-index: 1;
-    background-color: var(--color_tertiary);
-  }
-
-  #pokedex_controls #pokedex_search {
-    padding: 8px 40px 3px 15px;
-    margin: 5px;
-    margin-right: 0px;
-    width: 100%;
-    color: black;
-    border: 2px solid var(--color_accent1);
-    border-radius: 10px;
-    background-color: white;
-    background-image: url("../assets/icons/search_icon.png");
-    background-size: 25px;
-    background-position: right 5px center;
-    background-repeat: no-repeat;
-  }
-
-  #pokedex_controls #pokedex_filterBtn {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 4px 15px;
-    margin: 5px;
-    width: 50px;
-    height: calc(100% - 10px);
-
-    border: 2px solid var(--color_accent1);
-    border-radius: 5px;
-    background-color: var(--color_secondary);
-    background-image: url("../assets/icons/filter_icon.png");
-    background-size: 40px;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-
-  #pokedex_controls #pokedex_filters:hover #pokedex_filters_dropdown {
-    display: flex;
-  }
-
-  #pokedex_controls #pokedex_filters_dropdown {
-    display: none;
-    position: absolute;
-    flex-direction: column;
-    right: 0px;
-    padding: 20px;
-    width: 100%;
-    max-width: calc(100vw - 20px);
-    max-width: 500px;
-
-    background-color: var(--color_tertiary);
-    /* background-color: rgba(0, 0, 0, 0.5); */
-    border: 2px solid var(--color_accent1);
-  }
-
-  #pokedex_controls #pokedex_filters_dropdown p{
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  #pokedex_controls #pokedex_filters label {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-    font-size: 16px;
-    margin: 5px 5px 20px 5px;
-    cursor: pointer;
-    gap: 10px;
-  }
-
-  #pokedex_controls #pokedex_filters label:has(select){
-    flex-direction: column;
-    align-items: baseline;
-  }
-
-  #pokedex_controls input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    accent-color: green;
-    cursor: pointer;
-    appearance: auto;
-  }
-
-  #pokedex_controls select {
-    font-size: 16px;
-    color: #000000;
-    align-items: center;
-    padding-left: 10px;
-    width: 100%;
-    height: 35px;
-
-    background-color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: border 0.3s;
-  }
-
-  /* ========== pokedex ==========*/
-  #gamePage #menu_pokedex {}
-
-
-  #gamePage #menu_pokemonDetail {}
-
-  #gamePage #pokedex_detail {
-    display: grid;
-    grid-template-areas:
-      "stats image options"
-      "evolution evolution evolution";
-    grid-template-columns: 30% auto 30%;
-    grid-template-rows: 70% 30%;
-    gap: 0px;
-    padding: 20px;
-    height: 100%;
-    justify-content: center;
-  }
-
-  #gamePage #pokedex_detail #pokedex_stats {
-    grid-area: stats;
-    width: 100%;
-    align-content: center;
-  }
-
-  #gamePage #pokedex_detail #pokedex_stats p {
-    text-align: center;
-    max-width: 200px;
-    width: 90%;
-    margin: auto;
-  }
-
-  #gamePage #pokedex_detail #pokedex_pokemon {
-    grid-area: image;
-    text-align: center;
-    margin: auto;
-  }
-
-  #gamePage #pokedex_detail #pokedex_evolution {
-    grid-area: evolution;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
-  }
-
-  #gamePage #pokedex_detail #pokedex_evolution .pokedex_evolutionStep {
-    display: none;
-  }
-
-  #gamePage #pokedex_detail #pokedex_evolution .pokedex_evolutionArrow {
-    display: none;
-  }
-
-  #gamePage #pokedex_detail #pokedex_options {
-    grid-area: options;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-  }
-
-  #gamePage #pokedex_detail #pokedex_options button {
-    text-align: center;
-    padding: 10px;
-    max-width: 200px;
-    width: 90%;
-    background-color: var(--color_secondary);
-    border: 2px solid var(--color_accent1);
-    border-radius: 50px;
-  }
-
-
-
-  /* ========== compare ==========*/
-  #gamePage #menu_compare {}
-
-  #gamePage #menu_compare #compare_main {
-    display: grid;
-    grid-template-areas:
-      "left right";
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 100%;
-    width: 100%;
-    height: 100%
-  }
-
-  #gamePage #menu_compare #compare_main .pokemon_list {
-    height: 100%;
-  }
-
-  #gamePage #menu_compare #compare_main #compare_left {
-    grid-area: left;
-  }
-
-  #gamePage #menu_compare #compare_main #compare_right {
-    grid-area: right;
-  }
-
-  #gamePage #menu_compare #compare_main .compare_sides {
-    display: none;
-    margin: 10px;
-    text-align: center;
-  }
-
-  #gamePage #compare_main .compare_sides>p {
-    margin-bottom: 10px;
-  }
-
-  #gamePage .compare_sides .compare_stats {
-    padding: 20px;
-    border: 2px solid var(--color_accent1);
-    border-radius: 20px;
-  }
-
-  #gamePage .compare_sides .compare_reselect {
-    margin: 10px;
-    padding: 10px;
-    border: 2px solid var(--color_accent1);
-    border-radius: 20px;
-    background-color: var(--color_secondary);
-  }
-
-  .redText {
-    color: #ff0000;
-    text-shadow: 0px 0px 2px rgb(255, 31, 244);
-  }
-
-  .greenText {
-    color: #00ff00;
-    text-shadow: 0px 0px 3px rgb(0, 0, 0);
-  }
-
-
-  /* ========== battle ==========*/
-  #gamePage #menu_battle {
-    display: none;
-  }
-
-  #gamePage #menu_battle #battle_main {
-    display: grid;
-    grid-template-areas:
-      "battleLeft battleRight"
-      "battleText battleText"
-      "battleButtons battleButtons";
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 60% 20% 20%;
-    height: 100%;
-  }
-
-  #gamePage #menu_battle .battle_stage {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    max-width: 200px;
-    margin: auto;
-  }
-
-  #gamePage #menu_battle #battle_left {
-    grid-area: battleLeft;
-    padding-top: 20%;
-  }
-
-  #gamePage #menu_battle #battle_right {
-    grid-area: battleRight;
-    padding-bottom: 20%;
-  }
-
-  #gamePage #menu_battle .statusbar {
-    margin: 0px 10px 0px 10px;
-  }
-
-  #gamePage #menu_battle .statusbar .hp-bar {
-    height: 15px;
-    padding-left: 5px;
-    background: linear-gradient(to right, #00ff00 100%, #000000 100%);
-    border: 2px solid var(--color_accent1);
-    border-radius: 50px;
-  }
-
-  #gamePage #menu_battle .statusbar p {
-    display: inline;
-    color: white;
-    text-shadow: 0px 0px 2px black;
-  }
-
-  #gamePage .battle_stage img {
-    display: block;
-    position: relative;
-    width: 100%;
-    margin: auto;
-    padding: 20px;
-  }
-
-  #gamePage #battle_text {
-    grid-area: battleText;
-    height: 70px;
-    width: 80%;
-    margin: auto;
-    padding: 10px;
-    color: black;
-    background-color: white;
-    border-radius: 10px;
-  }
-
-  #gamePage #battle_text p:last-child {
-    display: none;
-    color: #00000074;
-    text-align: right;
-  }
-
-  #gamePage #battle_buttons {
-    grid-area: battleButtons;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    margin: 20px
-  }
-
-  #gamePage #battle_buttons button {
-    text-align: center;
-    width: 30%;
-    height: 50px;
-    background-color: var(--color_secondary);
-    border: 3px solid var(--color_accent1);
-    border-radius: 50px;
-  }
-
-  /* ========== capture ==========*/
-  #gamePage #menu_capture {}
-
-  #gamePage #menu_capture #capture_main {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-  }
-
-  #gamePage #menu_capture #capture_main>img {
-    max-width: 200px;
-    width: 100%;
-    aspect-ratio: 1 /1;
-  }
-
-  #gamePage #capture_main #capture_button {
-    background-image: url("../assets/pokeball.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    max-width: 100px;
-    width: 70px;
-    aspect-ratio: 1 /1;
-    border: 3px solid var(--color_accent1);
-    border-radius: 50%;
-  }
-
-  #gamePage #menu_capture #capture_chances {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    left: calc(50% - 100px);
-    transform: translateX(-100%);
-    width: 70px;
-    max-width: 100px;
-    padding: 10px;
-    border: 3px solid var(--color_accent1);
-    border-radius: 50px;
-  }
-
-  #gamePage #capture_chances img {
-    /* width: 30%;
+#gamePage #backpackHeader {
+  display: flex;
+  color: white;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 2rem;
+  text-align: center;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  top: 0px;
+  width: 100%;
+  height: 10%;
+  margin-bottom: 10px;
+}
+
+#backpackTitle {
+  font-family: var(--pokemon-hollow-font);
+  font-size: 40px;
+  line-height: 3rem;
+  margin: -25px 0px 0px 0px;
+  padding: 0;
+}
+
+#gamePage #backpack_closeBtn {
+  top: 8px;
+  margin: 15px;
+  color: white;
+}
+
+#backpack_closeBtn:hover {
+  transition: 0, 3s;
+  transform: scale(1.1);
+}
+
+#gamePage #backpack_backBtn {
+  visibility: hidden;
+  margin: 15px;
+  color: white;
+}
+
+#gamePage #backpack_backBtn:hover {
+  transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+  transform: scale(1.1);
+}
+
+#gamePage #backpackContents .backpackMenuBtn {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border: 4px solid var(--color_accent1);
+  border-radius: 10px;
+  background-color: red;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+#gamePage #backpackContents .backpackMenuBtn img {
+  position: absolute;
+  width: 60%;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+#gamePage #backpackContents .backpackMenuBtn p {
+  position: absolute;
+  line-height: .8;
+  width: 100%;
+  bottom: 5px;
+  text-align: center;
+  font-size: 20px;
+  color: white;
+}
+
+#gamePage #backpackContents .backpackMenuBtn:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 5px 15px rgba(255, 0, 0, 0.6);
+}
+
+/*==============================*/
+/*=========== events ===========*/
+/*==============================*/
+#gamePage aside .menuEvent {
+  display: none;
+  position: relative;
+  width: 100%;
+  height: calc(90% - 10px);
+  /* 100% - header height en margin */
+  z-index: -1;
+
+  color: white;
+  border: 2px solid var(--color_accent1);
+  background-color: var(--color_tertiary);
+}
+
+#gamePage #backpackContents #mainMenu_main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin: 10px;
+}
+
+/* ========== pokemon list ==========*/
+#gamePage .pokemon_list {
+  width: auto;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#gamePage .pokemon_list table {
+  margin: auto;
+  width: 100%;
+}
+
+#gamePage .tableRow {
+  display: grid;
+  grid-template-areas:
+    "image info stats";
+  grid-template-columns: max-content max-content auto;
+
+  height: max-content;
+  width: 100%;
+  background-color: var(--color_secondary);
+  border: 2px solid var(--color_accent1);
+  border-radius: 50px;
+}
+
+#gamePage .tableRow:hover {
+  cursor: pointer;
+}
+
+#gamePage .tableImg {
+  grid-area: image;
+  padding: 5px;
+  margin: auto;
+  width: 80%;
+  border-right: 2px solid var(--color_accent1);
+  border-radius: 50px;
+}
+
+#gamePage .tableInfo {
+  grid-area: info;
+  margin: auto;
+  margin-left: 3%;
+}
+
+#gamePage .tableStats {
+  grid-area: stats;
+  margin: auto;
+  margin-left: 10%;
+}
+
+#pokedex_controls {
+  position: sticky;
+  display: flex;
+  justify-content: center;
+  top: 0px;
+  margin: auto;
+  width: 100%;
+  z-index: 1;
+  background-color: var(--color_tertiary);
+}
+
+#pokedex_controls #pokedex_search {
+  padding: 8px 40px 3px 15px;
+  margin: 5px;
+  margin-right: 0px;
+  width: 100%;
+  color: black;
+  border: 2px solid var(--color_accent1);
+  border-radius: 10px;
+  background-color: white;
+  background-image: url("../assets/icons/search_icon.png");
+  background-size: 25px;
+  background-position: right 5px center;
+  background-repeat: no-repeat;
+}
+
+#pokedex_controls #pokedex_filterBtn {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 4px 15px;
+  margin: 5px;
+  width: 50px;
+  height: calc(100% - 10px);
+
+  border: 2px solid var(--color_accent1);
+  border-radius: 5px;
+  background-color: var(--color_secondary);
+  background-image: url("../assets/icons/filter_icon.png");
+  background-size: 40px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+#pokedex_controls #pokedex_filters:hover #pokedex_filters_dropdown {
+  display: flex;
+}
+
+#pokedex_controls #pokedex_filters_dropdown {
+  display: none;
+  position: absolute;
+  flex-direction: column;
+  right: 0px;
+  padding: 20px;
+  width: 100%;
+  max-width: calc(100vw - 20px);
+  max-width: 500px;
+
+  background-color: var(--color_tertiary);
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  border: 2px solid var(--color_accent1);
+}
+
+#pokedex_controls #pokedex_filters_dropdown p {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#pokedex_controls #pokedex_filters label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-size: 16px;
+  margin: 5px 5px 20px 5px;
+  cursor: pointer;
+  gap: 10px;
+}
+
+#pokedex_controls #pokedex_filters label:has(select) {
+  flex-direction: column;
+  align-items: baseline;
+}
+
+#pokedex_controls input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: green;
+  cursor: pointer;
+  appearance: auto;
+}
+
+#pokedex_controls select {
+  font-size: 16px;
+  color: #000000;
+  align-items: center;
+  padding-left: 10px;
+  width: 100%;
+  height: 35px;
+
+  background-color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: border 0.3s;
+}
+
+/* ========== pokedex ==========*/
+#gamePage #menu_pokedex {}
+
+
+#gamePage #menu_pokemonDetail {}
+
+#gamePage #pokedex_detail {
+  display: grid;
+  grid-template-areas:
+    "stats image options"
+    "evolution evolution evolution";
+  grid-template-columns: 30% auto 30%;
+  grid-template-rows: 70% 30%;
+  gap: 0px;
+  padding: 20px;
+  height: 100%;
+  justify-content: center;
+}
+
+#gamePage #pokedex_detail #pokedex_stats {
+  grid-area: stats;
+  width: 100%;
+  align-content: center;
+}
+
+#gamePage #pokedex_detail #pokedex_stats p {
+  text-align: center;
+  max-width: 200px;
+  width: 90%;
+  margin: auto;
+}
+
+#gamePage #pokedex_detail #pokedex_pokemon {
+  grid-area: image;
+  text-align: center;
+  margin: auto;
+}
+
+#gamePage #pokedex_detail #pokedex_evolution {
+  grid-area: evolution;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+#gamePage #pokedex_detail #pokedex_evolution .pokedex_evolutionStep {
+  display: none;
+}
+
+#gamePage #pokedex_detail #pokedex_evolution .pokedex_evolutionArrow {
+  display: none;
+}
+
+#gamePage #pokedex_detail #pokedex_options {
+  grid-area: options;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+#gamePage #pokedex_detail #pokedex_options button {
+  text-align: center;
+  padding: 10px;
+  max-width: 200px;
+  width: 90%;
+  background-color: var(--color_secondary);
+  border: 2px solid var(--color_accent1);
+  border-radius: 50px;
+}
+
+
+
+/* ========== compare ==========*/
+#gamePage #menu_compare {}
+
+#gamePage #menu_compare #compare_main {
+  display: grid;
+  grid-template-areas:
+    "left right";
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 100%;
+  width: 100%;
+  height: 100%
+}
+
+#gamePage #menu_compare #compare_main .pokemon_list {
+  height: 100%;
+}
+
+#gamePage #menu_compare #compare_main #compare_left {
+  grid-area: left;
+}
+
+#gamePage #menu_compare #compare_main #compare_right {
+  grid-area: right;
+}
+
+#gamePage #menu_compare #compare_main .compare_sides {
+  display: none;
+  margin: 10px;
+  text-align: center;
+}
+
+#gamePage #compare_main .compare_sides>p {
+  margin-bottom: 10px;
+}
+
+#gamePage .compare_sides .compare_stats {
+  padding: 20px;
+  border: 2px solid var(--color_accent1);
+  border-radius: 20px;
+}
+
+#gamePage .compare_sides .compare_reselect {
+  margin: 10px;
+  padding: 10px;
+  border: 2px solid var(--color_accent1);
+  border-radius: 20px;
+  background-color: var(--color_secondary);
+}
+
+.redText {
+  color: #ff0000;
+  text-shadow: 0px 0px 2px rgb(255, 31, 244);
+}
+
+.greenText {
+  color: #00ff00;
+  text-shadow: 0px 0px 3px rgb(0, 0, 0);
+}
+
+
+/* ========== battle ==========*/
+#gamePage #menu_battle {
+  display: none;
+}
+
+#gamePage #menu_battle #battle_main {
+  display: grid;
+  grid-template-areas:
+    "battleLeft battleRight"
+    "battleText battleText"
+    "battleButtons battleButtons";
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 60% 20% 20%;
+  height: 100%;
+}
+
+#gamePage #menu_battle .battle_stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 200px;
+  margin: auto;
+}
+
+#gamePage #menu_battle #battle_left {
+  grid-area: battleLeft;
+  padding-top: 20%;
+}
+
+#gamePage #menu_battle #battle_right {
+  grid-area: battleRight;
+  padding-bottom: 20%;
+}
+
+#gamePage #menu_battle .statusbar {
+  margin: 0px 10px 0px 10px;
+}
+
+#gamePage #menu_battle .statusbar .hp-bar {
+  height: 15px;
+  padding-left: 5px;
+  background: linear-gradient(to right, #00ff00 100%, #000000 100%);
+  border: 2px solid var(--color_accent1);
+  border-radius: 50px;
+}
+
+#gamePage #menu_battle .statusbar p {
+  display: inline;
+  color: white;
+  text-shadow: 0px 0px 2px black;
+}
+
+#gamePage .battle_stage img {
+  display: block;
+  position: relative;
+  width: 100%;
+  margin: auto;
+  padding: 20px;
+}
+
+#gamePage #battle_text {
+  grid-area: battleText;
+  height: 70px;
+  width: 80%;
+  margin: auto;
+  padding: 10px;
+  color: black;
+  background-color: white;
+  border-radius: 10px;
+}
+
+#gamePage #battle_text p:last-child {
+  display: none;
+  color: #00000074;
+  text-align: right;
+}
+
+#gamePage #battle_buttons {
+  grid-area: battleButtons;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin: 20px
+}
+
+#gamePage #battle_buttons button {
+  text-align: center;
+  width: 30%;
+  height: 50px;
+  background-color: var(--color_secondary);
+  border: 3px solid var(--color_accent1);
+  border-radius: 50px;
+}
+
+/* ========== capture ==========*/
+#gamePage #menu_capture {}
+
+#gamePage #menu_capture #capture_main {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+#gamePage #menu_capture #capture_main>img {
+  max-width: 200px;
+  width: 100%;
+  aspect-ratio: 1 /1;
+}
+
+#gamePage #capture_main #capture_button {
+  background-image: url("../assets/pokeball.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  max-width: 100px;
+  width: 70px;
+  aspect-ratio: 1 /1;
+  border: 3px solid var(--color_accent1);
+  border-radius: 50%;
+}
+
+#gamePage #menu_capture #capture_chances {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  left: calc(50% - 100px);
+  transform: translateX(-100%);
+  width: 70px;
+  max-width: 100px;
+  padding: 10px;
+  border: 3px solid var(--color_accent1);
+  border-radius: 50px;
+}
+
+#gamePage #capture_chances img {
+  /* width: 30%;
     aspect-ratio: 1/1; */
-  }
+}
 
-  #gamePage #capture_nickname {
-    display: none;
-    position: absolute;
-    padding: 10px;
-    width: 80%;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    border: 2px solid var(--color_accent1);
-    border-radius: 5px;
-  }
+#gamePage #capture_nickname {
+  display: none;
+  position: absolute;
+  padding: 10px;
+  width: 80%;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid var(--color_accent1);
+  border-radius: 5px;
+}
 
-  #gamePage #capture_nickname_input {
-    text-align: left;
-    padding: 2px;
-    width: 60%;
-    color: black;
-    background-color: white;
-    border: 2px solid var(--color_accent1);
-    border-radius: 5px;
-  }
+#gamePage #capture_nickname_input {
+  text-align: left;
+  padding: 2px;
+  width: 60%;
+  color: black;
+  background-color: white;
+  border: 2px solid var(--color_accent1);
+  border-radius: 5px;
+}
 
-  #gamePage #capture_nickname_button {
-    padding: 2px 10px;
-    background-color: var(--color_secondary);
-    border: 2px solid var(--color_accent1);
-    border-radius: 50px;
-  }
+#gamePage #capture_nickname_button {
+  padding: 2px 10px;
+  background-color: var(--color_secondary);
+  border: 2px solid var(--color_accent1);
+  border-radius: 50px;
+}
 
-  /* ========== who's that pokemon ==========*/
-  #gamePage #menu_whosThat {}
+/* ========== who's that pokemon ==========*/
+#gamePage #menu_whosThat {}
 
-  #gamePage #whosThat_main {
+#gamePage #whosThat_main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  height: 100%;
+}
+
+#gamePage #whosThat_main img {
+  display: block;
+  width: 20%;
+  min-width: 150px;
+  max-width: 300px;
+  filter: brightness(0%);
+}
+
+#gamePage #whosThat_main #whosThat_autocomplete {
+  position: relative;
+  display: block;
+  color: black;
+  width: 40%;
+  min-width: 150px;
+
+}
+
+#gamePage #whosThat_main #whosThat_input {
+  text-align: center;
+  color: black;
+  padding: 5px;
+  width: 100%;
+  min-width: 150px;
+  border: 2px solid var(--color_accent1);
+  border-radius: 50px;
+  background-color: white;
+}
+
+#gamePage #whosThat_autocomplete #whosThat_autocompleteOptions {
+  position: absolute;
+  width: 90%;
+  max-height: 90px;
+  left: 5%;
+  right: 5%;
+  overflow-y: scroll;
+  background-color: #ffffffdd;
+}
+
+#gamePage #whosThat_autocompleteOptions p:hover {
+  cursor: pointer;
+  background-color: var(--color_secondary);
+}
+
+#gamePage #whosThat_autocompleteOptions span {
+  font-weight: bold;
+}
+
+#gamePage #whosThat_main #whosThat_btn {
+  display: block;
+  text-align: center;
+  color: black;
+  padding: 5px;
+  width: 150px;
+  background-color: var(--color_secondary);
+  border: 2px solid var(--color_accent1);
+  border-radius: 50px;
+}
+
+/* ========== account ==========*/
+#gamePage #menu_account {
+  & #account_main {
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 10px;
     text-align: center;
-    align-content: center;
+    align-items: center;
     height: 100%;
-  }
 
-  #gamePage #whosThat_main img {
-    display: block;
-    margin: 0px auto 0px auto;
-    width: 20%;
-    min-width: 150px;
-    max-width: 300px;
-    filter: brightness(0%);
-  }
+    & img {
+      width: 50px;
+      aspect-ratio: 1/1;
+    }
 
-  #gamePage #whosThat_main #whosThat_autocomplete {
-    position: relative;
-    display: block;
-    color: black;
-    width: 40%;
-    min-width: 150px;
-    margin: 0px auto 0px auto;
+    & button {
+      text-align: center;
+      padding: 5px;
+      max-width: 100px;
+      width: 90%;
+      background-color: var(--color_secondary);
+      border: 2px solid var(--color_accent1);
+      border-radius: 50px;
+    }
+  }
+}
 
-  }
-  #gamePage #whosThat_main #whosThat_input {
-    text-align: center;
-    color: black;
-    padding: 5px;
-    width: 100%;
-    min-width: 150px;
-    border: 2px solid var(--color_accent1);
-    border-radius: 50px;
-    background-color: white;
-  }
-  #gamePage #whosThat_autocomplete #whosThat_autocompleteOptions {
-    position: absolute;
-    width: 90%;
-    max-height: 90px;
-    left: 5%;
-    right: 5%;
-    overflow-y: scroll;
-    background-color: #ffffffdd ;
-  }
-  
-  #gamePage #whosThat_autocompleteOptions p:hover{
-    cursor: pointer;
-    background-color: var(--color_secondary);
-  }
-  #gamePage #whosThat_autocompleteOptions span{
-    font-weight: bold;
-  }
+#gamePage .debug {
+  display: none;
+  width: 100px;
+}
 
-  #gamePage #whosThat_main #whosThat_btn {
-    display: block;
-    text-align: center;
-    color: black;
-    padding: 5px;
-    margin: 0px auto 0px auto;
-    width: 150px;
-    background-color: var(--color_secondary);
-    border: 2px solid var(--color_accent1);
-    border-radius: 50px;
-  }
+#gamePage main #debug {
+  display: none;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  text-align: right;
+  background-color: var(--color_secondary);
+}
 
-  #gamePage .debug {
-    display: none;
-    width: 100px;
-  }
-
-  #gamePage main #debug {
-    display: none;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    text-align: right;
-    background-color: var(--color_secondary);
-  }
-
-  #gamePage button:hover {
-    cursor: pointer;
-  }
+#gamePage button:hover {
+  cursor: pointer;
+}

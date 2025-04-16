@@ -34,6 +34,7 @@ export function createBackpack(player) {
     { event: document.getElementById("menu_whosThat"), title: "who's that pokemon", open: openWhosThatEvent.bind(backpack), close: closeWhosThatEvent.bind(backpack) },
     { event: document.getElementById("menu_battle"), title: "gevecht", open: openBattleEvent.bind(backpack), close: closeBattleEvent.bind(backpack) },
     { event: document.getElementById("menu_capture"), title: "vangen", open: openCaptureEvent.bind(backpack), close: closeCaptureEvent.bind(backpack) },
+    { event: document.getElementById("menu_account"), title: "account", open: openAccountEvent.bind(backpack), close: closeAccountEvent.bind(backpack) },
     { event: document.getElementById("mainMenu"), title: "rugzak", open: openMainMenu.bind(backpack), close: closeMainMenu.bind(backpack) },
   ];
   backpackIcon.addEventListener("click", (e) => {
@@ -459,4 +460,12 @@ export function closeCaptureEvent() {
   nickNameDiv.replaceWith(nickNameDiv.cloneNode(true));
   const captureBtn = document.getElementById("capture_button");
   captureBtn.replaceWith(captureBtn.cloneNode(true));
+}
+
+function openAccountEvent(event) {
+  this.openEvent(event);
+}
+
+function closeAccountEvent(event){
+  event.style.display = "none";
 }

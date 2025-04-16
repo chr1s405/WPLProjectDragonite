@@ -1,5 +1,4 @@
 import express, { Express } from "express";
-import { MongoClient, ObjectId } from "mongodb";
 import { getUser, userCollection } from "../database";
 import { User } from "../interfaces";
 
@@ -14,7 +13,6 @@ export function GetAccountRouter() {
     }
 
     const router = express.Router();
-    const collection = "Users";
 
     router.get("/", (req, res) => {
         const formError: FormError = {};
