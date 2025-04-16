@@ -26,7 +26,7 @@ async function gameInit() {
   createPokemon(map);
   backpack = createBackpack(player);
 
-  //await intro();
+  await intro();
   // document.getElementById("overworldMap").style.display = "block";
   document.getElementById("backpackIcon").style.display = "block";
 
