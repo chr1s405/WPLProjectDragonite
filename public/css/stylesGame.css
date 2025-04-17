@@ -709,6 +709,7 @@
 }
 
 #gamePage #battle_text {
+  position: relative;
   grid-area: battleText;
   height: 70px;
   width: 80%;
@@ -721,7 +722,11 @@
 
 #gamePage #battle_text p:last-child {
   display: none;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
   color: #00000074;
+  font-size: 0.8rem;
   text-align: right;
 }
 
@@ -926,7 +931,7 @@
   position: absolute;
   width: 100vw;
   height: 100vh;
-    z-index: 10;
+  z-index: 10;
   align-content: center;
 
   & div {
@@ -943,7 +948,8 @@
     background-color: var(--color_primary);
     opacity: 95%;
   }
-  & p:last-child{
+
+  & p:last-child {
     display: inline-block;
     position: absolute;
     bottom: 5px;

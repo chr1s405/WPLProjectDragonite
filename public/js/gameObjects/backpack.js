@@ -1,4 +1,4 @@
-import { allPokemon, customAlert } from "../game.js";
+import { allPokemon, setAlert } from "../game.js";
 
 export function createBackpack(player) {
   const backpack = {
@@ -400,7 +400,7 @@ function openWhosThatEvent(event, pokemon) {
       button.style.display = "none"
     }
     else {
-      customAlert("dat is niet de juiste pokemon");
+      setAlert("dat is niet de juiste pokemon");
     }
   });
 }
@@ -419,17 +419,17 @@ export function openBattleEvent() {
   const event = this.menuEvents[4]//this.menuEvents.find(event => event.title === "gevecht");
   this.openEvent(event.event);
   document.getElementById("backpack_closeBtn").style.visibility = "hidden";
-  const stages = document.getElementsByClassName("battle_stage");
-  const stage = [];
-  for (let i = 0; i < stages.length; i++) {
-    stage.push({
-      img: stages[i].children[1],
-      name: stages[i].getElementsByClassName("statusbar")[0].children[0],
-      hpBar: stages[i].getElementsByClassName("statusbar")[0].children[1],
-      hp: stages[i].getElementsByClassName("statusbar")[0].children[1].children[0],
-    })
-  }
-  return stage;
+  // const stages = document.getElementsByClassName("battle_stage");
+  // const stage = [];
+  // for (let i = 0; i < stages.length; i++) {
+  //   stage.push({
+  //     img: stages[i].children[1],
+  //     name: stages[i].getElementsByClassName("statusbar")[0].children[0],
+  //     hpBar: stages[i].getElementsByClassName("statusbar")[0].children[1],
+  //     hp: stages[i].getElementsByClassName("statusbar")[0].children[1].children[0],
+  //   })
+  // }
+  // return stage;
 }
 export function closeBattleEvent() {
   const event = this.menuEvents[4]//this.menuEvents.find(event => event.title === "gevecht");
