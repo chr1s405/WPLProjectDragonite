@@ -667,19 +667,18 @@
 #gamePage #menu_battle .battle_stage {
   position: relative;
   width: 100%;
-  height: 100%;
   max-width: 200px;
-  margin: auto;
+  padding: 10px;
 }
 
 #gamePage #menu_battle #battle_left {
   grid-area: battleLeft;
-  padding-top: 20%;
+  margin: auto auto 0 auto;
 }
 
 #gamePage #menu_battle #battle_right {
   grid-area: battleRight;
-  padding-bottom: 20%;
+  margin: 0 auto auto auto;
 }
 
 #gamePage #menu_battle .statusbar {
@@ -702,10 +701,9 @@
 
 #gamePage .battle_stage img {
   display: block;
-  position: relative;
-  width: 100%;
+  height: auto;
+  aspect-ratio: 1/1;
   margin: auto;
-  padding: 20px;
 }
 
 #gamePage #battle_text {
@@ -723,7 +721,7 @@
 #gamePage #battle_text p:last-child {
   display: none;
   position: absolute;
-  bottom: 5px;
+  bottom: 0px;
   right: 5px;
   color: #00000074;
   font-size: 0.8rem;
@@ -745,6 +743,45 @@
   background-color: var(--color_secondary);
   border: 3px solid var(--color_accent1);
   border-radius: 50px;
+}
+
+@media (max-width: 480px) {
+  #gamePage #menu_battle #battle_main {
+    display: grid;
+    grid-template-areas:
+      "battleRight"
+      "battleLeft"
+      "battleText"
+      "battleButtons";
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    height: 100%;
+  }
+
+  #gamePage #menu_battle #battle_left {
+    grid-area: battleLeft;
+    margin: auto auto auto 0;
+  }
+
+  #gamePage #menu_battle #battle_right {
+    grid-area: battleRight;
+    margin: auto 0 auto auto;
+  }
+
+  #gamePage #battle_text {
+    font-size: 0.8rem;
+  }
+
+  #gamePage #battle_buttons {
+    flex-direction: column;
+    margin: 5px
+  }
+
+  #gamePage #battle_buttons button {
+    width: 80%;
+    height: 30px;
+    margin: auto;
+  }
 }
 
 /* ========== capture ==========*/
@@ -781,9 +818,6 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
   left: calc(50% - 100px);
   transform: translateX(-100%);
   width: 70px;
@@ -791,11 +825,6 @@
   padding: 10px;
   border: 3px solid var(--color_accent1);
   border-radius: 50px;
-}
-
-#gamePage #capture_chances img {
-  /* width: 30%;
-    aspect-ratio: 1/1; */
 }
 
 #gamePage #capture_nickname {
@@ -827,151 +856,168 @@
   border-radius: 50px;
 }
 
-/* ========== who's that pokemon ==========*/
-#gamePage #menu_whosThat {}
+@media (max-width: 480px) {
+  #gamePage #menu_capture #capture_chances {
+    position: relative;
+    display: block;
+    height: auto;
+    max-height: 70px;
+    width: auto;
+    max-width: 80%;
+    left: 0;
+    transform: none;
+    margin-top: 20px;
 
-#gamePage #whosThat_main {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  text-align: center;
-  height: 100%;
+    & img{
+      width: 30%;
+    }
+  }
 }
+  /* ========== who's that pokemon ==========*/
+  #gamePage #menu_whosThat {}
 
-#gamePage #whosThat_main img {
-  display: block;
-  width: 20%;
-  min-width: 150px;
-  max-width: 300px;
-  filter: brightness(0%);
-}
-
-#gamePage #whosThat_main #whosThat_autocomplete {
-  position: relative;
-  display: block;
-  color: black;
-  width: 40%;
-  min-width: 150px;
-
-}
-
-#gamePage #whosThat_main #whosThat_input {
-  text-align: center;
-  color: black;
-  padding: 5px;
-  width: 100%;
-  min-width: 150px;
-  border: 2px solid var(--color_accent1);
-  border-radius: 50px;
-  background-color: white;
-}
-
-#gamePage #whosThat_autocomplete #whosThat_autocompleteOptions {
-  position: absolute;
-  width: 90%;
-  max-height: 90px;
-  left: 5%;
-  right: 5%;
-  overflow-y: scroll;
-  background-color: #ffffffdd;
-}
-
-#gamePage #whosThat_autocompleteOptions p:hover {
-  cursor: pointer;
-  background-color: var(--color_secondary);
-}
-
-#gamePage #whosThat_autocompleteOptions span {
-  font-weight: bold;
-}
-
-#gamePage #whosThat_main #whosThat_btn {
-  display: block;
-  text-align: center;
-  color: black;
-  padding: 5px;
-  width: 150px;
-  background-color: var(--color_secondary);
-  border: 2px solid var(--color_accent1);
-  border-radius: 50px;
-}
-
-/* ========== account ==========*/
-#gamePage #menu_account {
-  & #account_main {
+  #gamePage #whosThat_main {
     position: relative;
     display: flex;
     flex-direction: column;
-    text-align: center;
+    justify-content: center;
     align-items: center;
-    height: 100%;
-
-    & img {
-      width: 50px;
-      aspect-ratio: 1/1;
-    }
-
-    & button {
-      text-align: center;
-      padding: 5px;
-      max-width: 100px;
-      width: 90%;
-      background-color: var(--color_secondary);
-      border: 2px solid var(--color_accent1);
-      border-radius: 50px;
-    }
-  }
-}
-
-#gamePage #alert {
-  display: none;
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  z-index: 10;
-  align-content: center;
-
-  & div {
-    position: relative;
-    width: 70%;
-    height: 100px;
-    margin: auto;
-    align-content: center;
+    gap: 10px;
     text-align: center;
-    color: white;
-
-    border: 3px solid var(--color_accent1);
-    box-shadow: 0 0 20px black;
-    background-color: var(--color_primary);
-    opacity: 95%;
+    height: 100%;
   }
 
-  & p:last-child {
-    display: inline-block;
+  #gamePage #whosThat_main img {
+    display: block;
+    width: 20%;
+    min-width: 150px;
+    max-width: 300px;
+    filter: brightness(0%);
+  }
+
+  #gamePage #whosThat_main #whosThat_autocomplete {
+    position: relative;
+    display: block;
+    color: black;
+    width: 40%;
+    min-width: 150px;
+
+  }
+
+  #gamePage #whosThat_main #whosThat_input {
+    text-align: center;
+    color: black;
+    padding: 5px;
+    width: 100%;
+    min-width: 150px;
+    border: 2px solid var(--color_accent1);
+    border-radius: 50px;
+    background-color: white;
+  }
+
+  #gamePage #whosThat_autocomplete #whosThat_autocompleteOptions {
     position: absolute;
-    bottom: 5px;
-    right: 5px;
-    font-size: 0.8rem;
+    width: 90%;
+    max-height: 90px;
+    left: 5%;
+    right: 5%;
+    overflow-y: scroll;
+    background-color: #ffffffdd;
   }
-}
 
-#gamePage .debug {
-  display: none;
-  width: 100px;
-}
+  #gamePage #whosThat_autocompleteOptions p:hover {
+    cursor: pointer;
+    background-color: var(--color_secondary);
+  }
 
-#gamePage main #debug {
-  display: none;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  text-align: right;
-  background-color: var(--color_secondary);
-}
+  #gamePage #whosThat_autocompleteOptions span {
+    font-weight: bold;
+  }
 
-#gamePage button:hover {
-  cursor: pointer;
-}
+  #gamePage #whosThat_main #whosThat_btn {
+    display: block;
+    text-align: center;
+    color: black;
+    padding: 5px;
+    width: 150px;
+    background-color: var(--color_secondary);
+    border: 2px solid var(--color_accent1);
+    border-radius: 50px;
+  }
+
+  /* ========== account ==========*/
+  #gamePage #menu_account {
+    & #account_main {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+      height: 100%;
+
+      & img {
+        width: 50px;
+        aspect-ratio: 1/1;
+      }
+
+      & button {
+        text-align: center;
+        padding: 5px;
+        max-width: 100px;
+        width: 90%;
+        background-color: var(--color_secondary);
+        border: 2px solid var(--color_accent1);
+        border-radius: 50px;
+      }
+    }
+  }
+
+  #gamePage #alert {
+    display: none;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+    align-content: center;
+
+    & div {
+      position: relative;
+      width: 70%;
+      height: 100px;
+      margin: auto;
+      align-content: center;
+      text-align: center;
+      color: white;
+
+      border: 3px solid var(--color_accent1);
+      box-shadow: 0 0 20px black;
+      background-color: var(--color_primary);
+      opacity: 95%;
+    }
+
+    & p:last-child {
+      display: inline-block;
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 0.8rem;
+    }
+  }
+
+  #gamePage .debug {
+    display: none;
+    width: 100px;
+  }
+
+  #gamePage main #debug {
+    display: none;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    text-align: right;
+    background-color: var(--color_secondary);
+  }
+
+  #gamePage button:hover {
+    cursor: pointer;
+  }

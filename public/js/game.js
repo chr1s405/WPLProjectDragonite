@@ -149,7 +149,7 @@ export async function setTextBox(textbox, text) {
   const textBoxText = textbox.getElementsByTagName("p")[0];
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      textbox.addEventListener("click", () => { i = text.length }, { once: true });
+      document.addEventListener("click", () => { i = text.length }, { once: true });
     }, 10);
     const intervalId = setInterval(() => {
       if (i < text.length) {
@@ -160,7 +160,7 @@ export async function setTextBox(textbox, text) {
         textBoxText.innerHTML = text;
         clearInterval(intervalId);
         textbox.getElementsByTagName("p")[1].style.display = "block";
-        textbox.addEventListener("click", () => {
+        document.addEventListener("click", () => {
           textBoxText.innerHTML = "";
           textbox.getElementsByTagName("p")[1].style.display = "none";
           resolve(true);
