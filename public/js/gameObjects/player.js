@@ -1,5 +1,5 @@
 import { createCompanion } from "./companion.js";
-import { backpack } from "../game.js";
+import { backpack, customAlert } from "../game.js";
 let pokemonList;
 export const Direction = {
     down: { index: 0, direction: "front" },
@@ -152,7 +152,7 @@ function setCompanion(pokemon) {
         document.getElementById("nav-pokemon").src = this.companion.pokemon.sprites["front_default"]
     }
     else {
-        alert("je hebt deze pokemon nog niet gevangen")
+        customAlert("je hebt deze pokemon nog niet gevangen");
     }
 }
 function removeCompanion() {
@@ -167,13 +167,13 @@ function capturePokemon(pokemon) {
 }
 function releasePokemon(pokemon) {
     if (pokemon === this.companion.pokemon) {
-        alert("kies eerst een andere companion");
+        customAlert("kies eerst een andere companion");
     }
     else if (!this.capturedPokemon.includes(pokemon)) {
-        alert("je hebt deze pokemon niet gevangen");
+        customAlert("je hebt deze pokemon niet gevangen");
     }
     else {
-        alert(`je hebt ${pokemon.name} losgelaten`);
+        customAlert(`je hebt ${pokemon.name} losgelaten`);
         const pokemonIdx = this.capturedPokemon.indexOf(pokemon);
         this.capturedPokemon.splice(pokemonIdx, 1);
         pokemon.isCaptured = false;
@@ -277,7 +277,7 @@ function setBattleMsg(text) {
 }
 function battle(pokemon) {
     if (!this.hasCompanion) {
-        alert("je hebt nog geen pokemon om mee te vechten")
+        customAlert("je hebt nog geen pokemon om mee te vechten")
         return;
     }
     this.isInBattle = true
@@ -439,7 +439,7 @@ function capture(pokemon) {
                 }
                 if (chances === 0) {
                     if (hasPokemon) {
-                        alert(`je hebt ${pokemon.name} gevangen`);
+                        customAlert(`je hebt ${pokemon.name} gevangen`);
                         const input = stage.nickNameDiv.getElementsByTagName("input")[0];
                         input.value = "";
                         stage.nickNameDiv.style.display = "block";
@@ -449,7 +449,7 @@ function capture(pokemon) {
                         });
                     }
                     else {
-                        alert(`${pokemon.name} is ontsnapt`);
+                        customAlert(`${pokemon.name} is ontsnapt`);
                         backpack.closeCaptureEvent();
                     }
                     clearInterval(intervalId);

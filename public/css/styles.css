@@ -141,6 +141,7 @@
     height: 100%;
     border: 5px solid black;
     border-radius: 30px;
+    align-content: center;
 }
 
 #project_start #game_mainBtn img {
@@ -148,8 +149,6 @@
     display: block;
     width: 80%;
     height: auto;
-    top: 50%;
-    transform: translateY(-50%);
     margin: auto;
 }
 

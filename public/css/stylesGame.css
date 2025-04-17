@@ -921,6 +921,37 @@
   }
 }
 
+#gamePage #alert {
+  display: none;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+    z-index: 10;
+  align-content: center;
+
+  & div {
+    position: relative;
+    width: 70%;
+    height: 100px;
+    margin: auto;
+    align-content: center;
+    text-align: center;
+    color: white;
+
+    border: 3px solid var(--color_accent1);
+    box-shadow: 0 0 20px black;
+    background-color: var(--color_primary);
+    opacity: 95%;
+  }
+  & p:last-child{
+    display: inline-block;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 0.8rem;
+  }
+}
+
 #gamePage .debug {
   display: none;
   width: 100px;

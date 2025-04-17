@@ -144,6 +144,22 @@ function gameLoop() {
   }, 45);
 }
 
+export async function customAlert(message) {
+  const alert = document.getElementById("alert");
+  return new Promise(() => {
+    pause = true;
+    alert.style.display = "block";
+    alert.getElementsByTagName("p")[0].innerHTML = message;
+    setTimeout(() => {
+      alert.addEventListener("click", () => {
+        pause = false;
+        alert.style.display = "none";
+        return true;
+      }, { once: true });
+    }, 100);
+  })
+};
+
 async function GetPokemon() {
   let pokemonList = [];
   let pokemonFetch = await fetch("https://pokeapi.co/api/v2/pokemon?limit=10&offset=0")

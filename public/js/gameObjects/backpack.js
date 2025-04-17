@@ -1,4 +1,4 @@
-import { allPokemon } from "../game.js";
+import { allPokemon, customAlert } from "../game.js";
 
 export function createBackpack(player) {
   const backpack = {
@@ -400,7 +400,7 @@ function openWhosThatEvent(event, pokemon) {
       button.style.display = "none"
     }
     else {
-      alert("dat is niet de juiste pokemon");
+      customAlert("dat is niet de juiste pokemon");
     }
   });
 }
