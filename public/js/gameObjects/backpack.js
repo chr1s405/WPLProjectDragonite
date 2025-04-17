@@ -265,12 +265,14 @@ function openDetailEvent(event, pokemon) {
   }
   for (let i = 0; i < pokemon.evolution_chain.length; i++) {
     const evolutionPokemon = allPokemon.find(value => { return value.name === pokemon.evolution_chain[i].name });
-    evolutionSteps[i].children[1].innerHTML = evolutionPokemon.isKnown ? pokemon.evolution_chain[i].name : "???";
-    evolutionSteps[i].children[0].src = pokemon.evolution_chain[i].sprite;
-    evolutionSteps[i].children[0].style.filter = evolutionPokemon.isKnown ? "brightness(100%)" : "brightness(0%)";
-    evolutionSteps[i].style.display = "block";
-    if (i > 0) {
-      evolutionArrows[i - 1].style.display = "block";
+    if (evolutionPokemon) {
+      evolutionSteps[i].children[1].innerHTML = evolutionPokemon.isKnown ? pokemon.evolution_chain[i].name : "???";
+      evolutionSteps[i].children[0].src = pokemon.evolution_chain[i].sprite;
+      evolutionSteps[i].children[0].style.filter = evolutionPokemon.isKnown ? "brightness(100%)" : "brightness(0%)";
+      evolutionSteps[i].style.display = "block";
+      if (i > 0) {
+        evolutionArrows[i - 1].style.display = "block";
+      }
     }
   }
 }
@@ -375,14 +377,14 @@ function openWhosThatEvent(event, pokemon) {
     autoFilloptions.innerHTML = "";
     if (input.value.length > 0) {
       allPokemon.forEach(pokemon => {
-        if(pokemon.name.substring(0,input.value.length) === (input.value) && !(pokemon.name === input.value)){
+        if (pokemon.name.substring(0, input.value.length) === (input.value) && !(pokemon.name === input.value)) {
           const startIdx = pokemon.name.indexOf(input.value);
           const option = document.createElement("p");
           option.innerHTML += `${pokemon.name.substring(0, startIdx)}`;
           option.innerHTML += `<span>${pokemon.name.substring(startIdx, startIdx + input.value.length)}</span>`;
           option.innerHTML += `${pokemon.name.substring(startIdx + input.value.length)}`;
           autoFilloptions.appendChild(option);
-          option.addEventListener("click",()=>{
+          option.addEventListener("click", () => {
             input.value = pokemon.name;
             autoFilloptions.innerHTML = "";
           })
@@ -453,6 +455,6 @@ function openAccountEvent(event) {
   this.openEvent(event);
 }
 
-function closeAccountEvent(event){
+function closeAccountEvent(event) {
   event.style.display = "none";
 }
