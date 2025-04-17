@@ -264,11 +264,10 @@ function openDetailEvent(event, pokemon) {
     }
   }
   for (let i = 0; i < pokemon.evolution_chain.length; i++) {
-    const evolutionPokemon = allPokemon.find(value => { value.name === pokemon.evolution_chain[i].name });
-    const isKnown = evolutionPokemon ? (evolutionPokemon.isKnown) : false;
-    evolutionSteps[i].children[1].innerHTML = isKnown ? pokemon.evolution_chain[i].name : "???";
+    const evolutionPokemon = allPokemon.find(value => { return value.name === pokemon.evolution_chain[i].name });
+    evolutionSteps[i].children[1].innerHTML = evolutionPokemon.isKnown ? pokemon.evolution_chain[i].name : "???";
     evolutionSteps[i].children[0].src = pokemon.evolution_chain[i].sprite;
-    evolutionSteps[i].children[0].style.filter = isKnown ? "brightness(100%)" : "brightness(0%)";
+    evolutionSteps[i].children[0].style.filter = evolutionPokemon.isKnown ? "brightness(100%)" : "brightness(0%)";
     evolutionSteps[i].style.display = "block";
     if (i > 0) {
       evolutionArrows[i - 1].style.display = "block";
@@ -391,16 +390,17 @@ function openWhosThatEvent(event, pokemon) {
       })
     }
   })
-  button.addEventListener("click", () => {
+  button.addEventListener("click", async () => {
     if (input.value === pokemon.name) {
       pokemon.isKnown = true;
       img.style.filter = "brightness(100%)";
       name.innerHTML = pokemon.name;
       input.style.display = "none";
       button.style.display = "none"
+      new Audio(pokemon.cries["latest"]).play();
     }
     else {
-      setAlert("dat is niet de juiste pokemon");
+      await setAlert("dat is niet de juiste pokemon");
     }
   });
 }
@@ -441,25 +441,12 @@ export function closeBattleEvent() {
 export function openCaptureEvent(player, pokemon) {
   const event = this.menuEvents[5]//this.menuEvents.find(event => event.title === "vangen");
   this.openEvent(event.event);
-  const element = document.getElementById("capture_main");
-  const stage = {
-    name: element.children[0],
-    img: element.children[1],
-    button: element.children[2],
-    chances: document.getElementById("capture_chances"),
-    nickNameDiv: document.getElementById("capture_nickname"),
-  }
-  return stage;
 }
 
 export function closeCaptureEvent() {
   const event = this.menuEvents[5]//this.menuEvents.find(event => event.title === "vangen");
   event.event.style.display = "none";
   this.closeAllEvents();
-  const nickNameDiv = document.getElementById("capture_nickname");
-  nickNameDiv.replaceWith(nickNameDiv.cloneNode(true));
-  const captureBtn = document.getElementById("capture_button");
-  captureBtn.replaceWith(captureBtn.cloneNode(true));
 }
 
 function openAccountEvent(event) {
