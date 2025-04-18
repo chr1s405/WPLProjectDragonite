@@ -146,6 +146,8 @@
 #project_start #game_mainBtn img {
     width: 80%;
     height: auto;
+    top: 50%;
+    transform: translateX(-50%, -50%);
 }
 
 #project_start #project_selection {

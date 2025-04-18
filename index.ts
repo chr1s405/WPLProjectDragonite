@@ -15,6 +15,7 @@ const database = 'DragoniteDB';
 const collection = 'Users';
 const db = new MongoClient(dbConnectionString);
 
+
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -26,6 +27,7 @@ app.set("port", process.env.PORT ?? 3000);
 app.get("/", (req, res) => {
     res.render("index")
 });
+
 app.use("/", getProjectRouter());
 app.use("/login", GetAccountRouter(db, database));
 app.use("/game", getGameRouter());
