@@ -95,9 +95,8 @@ async function intro() {
   let pokemonIndex = await getIntroSelection(optionsDiv);
   player.capturePokemon(allPokemon[pokemonIndex]);
   player.setCompanion(allPokemon[pokemonIndex]);
+  setTimeout(()=>{document.getElementById("alert").click()},1);
   introPage.style.display = "none"
-
-  pause = false;
 }
 
 function createIntroOptions(optionsDiv, optionsList = undefined) {
@@ -182,7 +181,7 @@ export async function setAlert(message) {
         alert.style.display = "none";
         resolve(true);
       }, { once: true });
-    }, 10);
+    }, 1);
   })
 };
 

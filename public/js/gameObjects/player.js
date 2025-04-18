@@ -145,14 +145,14 @@ function drawSprites() {
 }
 
 //pokemon
-function setCompanion(pokemon) {
+async function setCompanion(pokemon) {
     if (this.capturedPokemon.includes(pokemon)) {
         this.hasCompanion = true;
         this.companion.setCompanion(pokemon);
         document.getElementById("nav-pokemon").src = this.companion.pokemon.sprites["front_default"]
     }
     else {
-        setAlert("je hebt deze pokemon nog niet gevangen");
+        await setAlert("je hebt deze pokemon nog niet gevangen");
     }
 }
 function removeCompanion() {
