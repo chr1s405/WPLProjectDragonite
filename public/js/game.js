@@ -81,8 +81,15 @@ async function intro() {
   let optionsDiv;
   optionsDiv = introPage.getElementsByClassName("intro_selection")[0];
   const starterCharacters = [
-    { name: "man", img: "../../assets/characters/player1Sprites.png" },
-    { name: "vrouw", img: "../../assets/characters/player2Sprites.png" }];
+    { name: "Red", img: "../../assets/characters/Red.png" },
+    { name: "Leaf", img: "../../assets/characters/leaf.png" },
+    // { name: "man", img: "../../assets/characters/player1Sprites.png" },
+    { name: "Lucas", img: "../../assets/characters/lucas.webp" },
+    { name: "Dawn", img: "../../assets/characters/player2Sprites.png" },
+    { name: "Calem", img: "../../assets/characters/calem.png" },
+    { name: "Serena", img: "../../assets/characters/serena.png" }
+  ]
+
   createIntroOptions(optionsDiv, starterCharacters)
   let playerIndex = await getIntroSelection(optionsDiv);
   player.div.style.backgroundImage = `url(${starterCharacters[playerIndex].img})`;

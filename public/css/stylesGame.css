@@ -117,17 +117,17 @@
   width: 100%;
   height: 100%;
   border: 2px solid var(--color_accent1);
-  background-color: rgb(229, 186, 246);
+  background-color: rgb(247, 112, 130);
 }
 
 #gamePage #gameIntro .intro_selection p{
-  color: white;
+  color: rgb(247, 112, 130);
   font-size: 20px;
 }
 
 #gamePage #gameIntro .intro_selection h1{
   font-family: var(--pokemon-solid-font);
-  color: white;
+  color: rgb(255, 152, 152);
   font-size: 50px;
 }
 
@@ -137,13 +137,15 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
+  margin-left: 30%;
+  margin-right: 30%;
 }
 
 #gamePage #gameIntro .intro_selectOption {
   width: 140px;
   height: 140px;
   border-radius: 20%;
-  background-color: var(--color_secondary);
+  background-color: rgb(255, 152, 152);
   
   align-content: center;
   cursor: pointer;
