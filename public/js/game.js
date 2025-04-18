@@ -127,6 +127,7 @@ async function getIntroSelection(optionsDiv) {
         resolve(i);
         optionsDiv.style.display = "none";
         optionsDiv.replaceWith(optionsDiv.cloneNode(true));
+        //om eventlistener te removen
       })
     };
   })
