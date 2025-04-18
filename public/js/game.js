@@ -93,11 +93,11 @@ async function intro() {
   createIntroOptions(optionsDiv, starterCharacters)
   let playerIndex = await getIntroSelection(optionsDiv);
   player.div.style.backgroundImage = `url(${starterCharacters[playerIndex].img})`;
-
   optionsDiv = introPage.getElementsByClassName("intro_selection")[1];
   const starterPokemon = allPokemon.slice(0, 3).map((pokemon) => {
     return { name: pokemon.name, img: pokemon.sprites["front_default"] };
   });
+  
   createIntroOptions(optionsDiv, starterPokemon)
   let pokemonIndex = await getIntroSelection(optionsDiv);
   player.capturePokemon(allPokemon[pokemonIndex]);

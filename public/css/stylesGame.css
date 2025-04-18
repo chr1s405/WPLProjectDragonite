@@ -123,11 +123,12 @@
 #gamePage #gameIntro .intro_selection p{
   color: rgb(247, 112, 130);
   font-size: 20px;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 #gamePage #gameIntro .intro_selection h1{
-  font-family: var(--pokemon-solid-font);
-  color: rgb(255, 152, 152);
+  font-family: var(--pokemon-hollow-font);
+  color: rgb(255, 255, 255);
   font-size: 50px;
 }
 
@@ -137,8 +138,8 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
-  margin-left: 30%;
-  margin-right: 30%;
+  margin-left: 35%;
+  margin-right: 35%;
 }
 
 #gamePage #gameIntro .intro_selectOption {
@@ -151,6 +152,10 @@
   cursor: pointer;
 }
 
+#gamePage #gameIntro .intro_selectOption:hover {
+ border: solid;
+ border-color: #fafafa;
+}
 #gamePage #intro_characterOptions img {
   width: 64px;
   height: 64px;
@@ -158,7 +163,6 @@
   object-position: 0px 0px;
 
 }
-
 
 /*==============================*/
 /*============ Map =============*/
