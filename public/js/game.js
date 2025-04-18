@@ -81,11 +81,11 @@ async function intro() {
   let optionsDiv;
   optionsDiv = introPage.getElementsByClassName("intro_selection")[0];
   const starterCharacters = [
+    // { name: "man", img: "../../assets/characters/player1Sprites.png" },
     { name: "Red", img: "../../assets/characters/Red.png" },
     { name: "Leaf", img: "../../assets/characters/leaf.png" },
-    // { name: "man", img: "../../assets/characters/player1Sprites.png" },
     { name: "Lucas", img: "../../assets/characters/lucas.webp" },
-    { name: "Dawn", img: "../../assets/characters/player2Sprites.png" },
+    { name: "Dawn", img: "../../assets/characters/dawn.png" },
     { name: "Calem", img: "../../assets/characters/calem.png" },
     { name: "Serena", img: "../../assets/characters/serena.png" }
   ]
@@ -99,7 +99,9 @@ async function intro() {
   });
   
   createIntroOptions(optionsDiv, starterPokemon)
+  optionsDiv.style.display = "block";
   let pokemonIndex = await getIntroSelection(optionsDiv);
+  optionsDiv.style.display = "none";
   player.capturePokemon(allPokemon[pokemonIndex]);
   player.setCompanion(allPokemon[pokemonIndex]);
   setTimeout(()=>{document.getElementById("alert").click()},1);
