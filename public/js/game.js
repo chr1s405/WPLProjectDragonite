@@ -26,7 +26,7 @@ async function gameInit() {
   createPokemon(map);
   backpack = createBackpack(player);
 
-  //await intro();
+  await intro();
   // document.getElementById("overworldMap").style.display = "block";
   document.getElementById("backpackIcon").style.display = "block";
 
@@ -144,6 +144,47 @@ function gameLoop() {
   }, 45);
 }
 
+export async function setTextBox(textbox, text) {
+  let i = 0;
+  const textBoxText = textbox.getElementsByTagName("p")[0];
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      document.addEventListener("click", () => { i = text.length }, { once: true });
+    }, 10);
+    const intervalId = setInterval(() => {
+      if (i < text.length) {
+        i++;
+        textBoxText.innerHTML = text.substring(0, i);
+      }
+      else {
+        textBoxText.innerHTML = text;
+        clearInterval(intervalId);
+        textbox.getElementsByTagName("p")[1].style.display = "block";
+        document.addEventListener("click", () => {
+          textBoxText.innerHTML = "";
+          textbox.getElementsByTagName("p")[1].style.display = "none";
+          resolve(true);
+        }, { once: true });
+      }
+    }, 30);
+  })
+}
+export async function setAlert(message) {
+  const alert = document.getElementById("alert");
+  return new Promise((resolve, reject) => {
+    pause = true;
+    alert.style.display = "block";
+    alert.getElementsByTagName("p")[0].innerHTML = message;
+    setTimeout(() => {
+      alert.addEventListener("click", () => {
+        pause = false;
+        alert.style.display = "none";
+        resolve(true);
+      }, { once: true });
+    }, 10);
+  })
+};
+
 async function GetPokemon() {
   let pokemonList = [];
   let pokemonFetch = await fetch("https://pokeapi.co/api/v2/pokemon?limit=10&offset=0")
@@ -173,13 +214,13 @@ async function GetPokemon() {
       //other: pokemon.other,
       //versions: pokemon.versions,
       stats: [
-        pokemon.stats[0],
-        pokemon.stats[1],
-        pokemon.stats[2],
-        pokemon.stats[3],
-        pokemon.stats[4],
-        pokemon.stats[5],
-        {
+        pokemon.stats[0], //hp
+        pokemon.stats[1], //atk
+        pokemon.stats[2], //def
+        pokemon.stats[3], //spAtk
+        pokemon.stats[4], //spDef
+        pokemon.stats[5], //speed
+        {          //[6]
           base_stat: 0,
           effort: 0,
           stat: {
@@ -187,7 +228,7 @@ async function GetPokemon() {
             url: "",
           }
         },
-        {
+        {          //[7]
           base_stat: 0,
           effort: 0,
           stat: {

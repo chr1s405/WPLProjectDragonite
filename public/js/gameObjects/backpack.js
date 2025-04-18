@@ -1,4 +1,4 @@
-import { allPokemon } from "../game.js";
+import { allPokemon, setAlert } from "../game.js";
 
 export function createBackpack(player) {
   const backpack = {
@@ -34,6 +34,7 @@ export function createBackpack(player) {
     { event: document.getElementById("menu_whosThat"), title: "who's that pokemon", open: openWhosThatEvent.bind(backpack), close: closeWhosThatEvent.bind(backpack) },
     { event: document.getElementById("menu_battle"), title: "gevecht", open: openBattleEvent.bind(backpack), close: closeBattleEvent.bind(backpack) },
     { event: document.getElementById("menu_capture"), title: "vangen", open: openCaptureEvent.bind(backpack), close: closeCaptureEvent.bind(backpack) },
+    { event: document.getElementById("menu_account"), title: "account", open: openAccountEvent.bind(backpack), close: closeAccountEvent.bind(backpack) },
     { event: document.getElementById("mainMenu"), title: "rugzak", open: openMainMenu.bind(backpack), close: closeMainMenu.bind(backpack) },
   ];
   backpackIcon.addEventListener("click", (e) => {
@@ -263,14 +264,15 @@ function openDetailEvent(event, pokemon) {
     }
   }
   for (let i = 0; i < pokemon.evolution_chain.length; i++) {
-    const evolutionPokemon = allPokemon.find(value => { value.name === pokemon.evolution_chain[i].name });
-    const isKnown = evolutionPokemon ? (evolutionPokemon.isKnown) : false;
-    evolutionSteps[i].children[1].innerHTML = isKnown ? pokemon.evolution_chain[i].name : "???";
-    evolutionSteps[i].children[0].src = pokemon.evolution_chain[i].sprite;
-    evolutionSteps[i].children[0].style.filter = isKnown ? "brightness(100%)" : "brightness(0%)";
-    evolutionSteps[i].style.display = "block";
-    if (i > 0) {
-      evolutionArrows[i - 1].style.display = "block";
+    const evolutionPokemon = allPokemon.find(value => { return value.name === pokemon.evolution_chain[i].name });
+    if (evolutionPokemon) {
+      evolutionSteps[i].children[1].innerHTML = evolutionPokemon.isKnown ? pokemon.evolution_chain[i].name : "???";
+      evolutionSteps[i].children[0].src = pokemon.evolution_chain[i].sprite;
+      evolutionSteps[i].children[0].style.filter = evolutionPokemon.isKnown ? "brightness(100%)" : "brightness(0%)";
+      evolutionSteps[i].style.display = "block";
+      if (i > 0) {
+        evolutionArrows[i - 1].style.display = "block";
+      }
     }
   }
 }
@@ -375,14 +377,14 @@ function openWhosThatEvent(event, pokemon) {
     autoFilloptions.innerHTML = "";
     if (input.value.length > 0) {
       allPokemon.forEach(pokemon => {
-        if(pokemon.name.substring(0,input.value.length) === (input.value) && !(pokemon.name === input.value)){
+        if (pokemon.name.substring(0, input.value.length) === (input.value) && !(pokemon.name === input.value)) {
           const startIdx = pokemon.name.indexOf(input.value);
           const option = document.createElement("p");
           option.innerHTML += `${pokemon.name.substring(0, startIdx)}`;
           option.innerHTML += `<span>${pokemon.name.substring(startIdx, startIdx + input.value.length)}</span>`;
           option.innerHTML += `${pokemon.name.substring(startIdx + input.value.length)}`;
           autoFilloptions.appendChild(option);
-          option.addEventListener("click",()=>{
+          option.addEventListener("click", () => {
             input.value = pokemon.name;
             autoFilloptions.innerHTML = "";
           })
@@ -390,16 +392,17 @@ function openWhosThatEvent(event, pokemon) {
       })
     }
   })
-  button.addEventListener("click", () => {
+  button.addEventListener("click", async () => {
     if (input.value === pokemon.name) {
       pokemon.isKnown = true;
       img.style.filter = "brightness(100%)";
       name.innerHTML = pokemon.name;
       input.style.display = "none";
       button.style.display = "none"
+      new Audio(pokemon.cries["latest"]).play();
     }
     else {
-      alert("dat is niet de juiste pokemon");
+      await setAlert("dat is niet de juiste pokemon");
     }
   });
 }
@@ -418,17 +421,17 @@ export function openBattleEvent() {
   const event = this.menuEvents[4]//this.menuEvents.find(event => event.title === "gevecht");
   this.openEvent(event.event);
   document.getElementById("backpack_closeBtn").style.visibility = "hidden";
-  const stages = document.getElementsByClassName("battle_stage");
-  const stage = [];
-  for (let i = 0; i < stages.length; i++) {
-    stage.push({
-      img: stages[i].children[1],
-      name: stages[i].getElementsByClassName("statusbar")[0].children[0],
-      hpBar: stages[i].getElementsByClassName("statusbar")[0].children[1],
-      hp: stages[i].getElementsByClassName("statusbar")[0].children[1].children[0],
-    })
-  }
-  return stage;
+  // const stages = document.getElementsByClassName("battle_stage");
+  // const stage = [];
+  // for (let i = 0; i < stages.length; i++) {
+  //   stage.push({
+  //     img: stages[i].children[1],
+  //     name: stages[i].getElementsByClassName("statusbar")[0].children[0],
+  //     hpBar: stages[i].getElementsByClassName("statusbar")[0].children[1],
+  //     hp: stages[i].getElementsByClassName("statusbar")[0].children[1].children[0],
+  //   })
+  // }
+  // return stage;
 }
 export function closeBattleEvent() {
   const event = this.menuEvents[4]//this.menuEvents.find(event => event.title === "gevecht");
@@ -440,23 +443,18 @@ export function closeBattleEvent() {
 export function openCaptureEvent(player, pokemon) {
   const event = this.menuEvents[5]//this.menuEvents.find(event => event.title === "vangen");
   this.openEvent(event.event);
-  const element = document.getElementById("capture_main");
-  const stage = {
-    name: element.children[0],
-    img: element.children[1],
-    button: element.children[2],
-    chances: document.getElementById("capture_chances"),
-    nickNameDiv: document.getElementById("capture_nickname"),
-  }
-  return stage;
 }
 
 export function closeCaptureEvent() {
   const event = this.menuEvents[5]//this.menuEvents.find(event => event.title === "vangen");
   event.event.style.display = "none";
   this.closeAllEvents();
-  const nickNameDiv = document.getElementById("capture_nickname");
-  nickNameDiv.replaceWith(nickNameDiv.cloneNode(true));
-  const captureBtn = document.getElementById("capture_button");
-  captureBtn.replaceWith(captureBtn.cloneNode(true));
+}
+
+function openAccountEvent(event) {
+  this.openEvent(event);
+}
+
+function closeAccountEvent(event) {
+  event.style.display = "none";
 }
