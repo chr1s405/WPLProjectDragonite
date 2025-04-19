@@ -967,7 +967,7 @@
     border-radius: 50px;
   }
 
-  /* ========== account ==========*/
+  /* ========== account ==========*/ 
   #gamePage #menu_account {
     & #account_main {
       position: relative;
@@ -976,6 +976,8 @@
       text-align: center;
       align-items: center;
       height: 100%;
+      gap: 200px;
+      margin-top: 20px;
 
       & img {
         width: 50px;
@@ -992,6 +994,12 @@
         border-radius: 50px;
       }
     }
+  }
+
+  #account_buttons{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
   }
 
   #gamePage #alert {
