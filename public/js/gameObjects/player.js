@@ -18,6 +18,8 @@ export function createPlayer() {
         width: character.clientWidth,
         height: character.clientHeight,
         speed: 20,//character.clientWidth,
+        velocityX: 0,
+        velocityY: 0,
         isMovingUp: false,
         isMovingDown: false,
         isMovingLeft: false,
@@ -72,76 +74,86 @@ function update(map) {
 // movement
 function moveUp(isMoving) {
     this.isMovingUp = isMoving;
-    if (!isMoving) {
-        this.handleNotMoving(Direction.up);
-    }
+    // if (!isMoving) {
+    //     this.handleNotMoving(Direction.up);
+    // }
 }
 function moveDown(isMoving) {
     this.isMovingDown = isMoving;
-    if (!isMoving) {
-        this.handleNotMoving(Direction.down);
-    }
+    // if (!isMoving) {
+    //     this.handleNotMoving(Direction.down);
+    // }
 }
 function moveLeft(isMoving) {
     this.isMovingLeft = isMoving;
-    if (!isMoving) {
-        this.handleNotMoving(Direction.left);
-    }
+    // if (!isMoving) {
+    //     this.handleNotMoving(Direction.left);
+    // }
 }
 function moveRight(isMoving) {
     this.isMovingRight = isMoving;
-    if (!isMoving) {
-        this.handleNotMoving(Direction.right);
-    }
+    // if (!isMoving) {
+    //     this.handleNotMoving(Direction.right);
+    // }
 }
 function handleNotMoving(direction) {
-    this.spriteIndex = 0
-    this.div.style.backgroundPositionX = `0px`;
-    const index = this.direction.indexOf(direction);
-    if (index !== -1) {
-        this.direction.splice(index);
-    }
+    // this.spriteIndex = 0
+    // this.div.style.backgroundPositionX = `0px`;
+    // const index = this.direction.indexOf(direction);
+    // if (index !== -1) {
+    //     this.direction.splice(index);
+    // }
 }
 function move(map) {
-    let newX = this.x;
-    let newY = this.y;
-    if (this.isMovingRight) {
-        newX += this.speed;
-        this.setDirection(Direction.right);
-    }
-    if (this.isMovingLeft) {
-        newX -= this.speed;
-        this.setDirection(Direction.left);
-    }
-    if (this.isMovingUp) {
-        newY -= this.speed;
-        this.setDirection(Direction.up);
-    }
-    if (this.isMovingDown) {
-        newY += this.speed;
-        this.setDirection(Direction.down);
-    }
-    this.x = newX;
-    this.y = newY;
+    if(this.isMovingUp){this.velocityY -= this.speed};
+    if(this.isMovingDown){this.velocityY += this.speed};
+    if(this.isMovingLeft){this.velocityX -= this.speed};
+    if(this.isMovingRight){this.velocityX += this.speed};
     map.handleCollision(this)
+    this.x += this.velocityX;
+    this.y += this.velocityY;
     map.centerMap(this);
-    this.drawSprites();
+    this.velocityX = 0;
+    this.velocityY = 0;
+    // let newX = this.x;
+    // let newY = this.y;
+    // if (this.isMovingRight) {
+    //     newX += this.speed;
+    //     this.setDirection(Direction.right);
     // }
+    // if (this.isMovingLeft) {
+    //     newX -= this.speed;
+    //     this.setDirection(Direction.left);
+    // }
+    // if (this.isMovingUp) {
+    //     newY -= this.speed;
+    //     this.setDirection(Direction.up);
+    // }
+    // if (this.isMovingDown) {
+    //     newY += this.speed;
+    //     this.setDirection(Direction.down);
+    // }
+    // this.x = newX;
+    // this.y = newY;
+    // map.handleCollision(this)
+    // map.centerMap(this);
+    // this.drawSprites();
+    // // }
 }
 
 function setDirection(direction) {
-    if (!this.direction.includes(direction)) {
-        this.direction.push(direction);
-        this.div.style.backgroundPositionX = `0px`;
-        this.spriteIndex = 0;
-    }
+    // if (!this.direction.includes(direction)) {
+    //     this.direction.push(direction);
+    //     this.div.style.backgroundPositionX = `0px`;
+    //     this.spriteIndex = 0;
+    // }
 }
 function drawSprites() {
-    if (this.direction.length !== 0) {
-        this.div.style.backgroundPositionY = `${this.direction[this.direction.length - 1].index * -52}px`
-        this.spriteIndex = (this.spriteIndex + .3) % 4;
-        this.div.style.backgroundPositionX = `${Math.trunc(this.spriteIndex) * -52}px`;
-    }
+    // if (this.direction.length !== 0) {
+    //     this.div.style.backgroundPositionY = `${this.direction[this.direction.length - 1].index * -52}px`
+    //     this.spriteIndex = (this.spriteIndex + .3) % 4;
+    //     this.div.style.backgroundPositionX = `${Math.trunc(this.spriteIndex) * -52}px`;
+    // }
 }
 
 //pokemon
