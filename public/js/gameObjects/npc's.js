@@ -20,6 +20,7 @@ export function createNpc(map, x, y) {
 
     update,
     assignPokemon,
+    move,
   };
   map.addObject(npc);
   npc.assignPokemon(allPokemon[Math.trunc(Math.random() * allPokemon.length)]);
@@ -36,17 +37,6 @@ function assignPokemon(pokemon) {
   this.pokemon = Object.assign({}, pokemon);
   this.pokemon.isCaptured = true;
 }
-// export const Npcs = {
-//   npcList: [],
-//   npcsActive: [],
-
-//   update() {
-//     this.npcList.forEach((npc) => {
-//       npc.update();
-//     });
-//   },
-//   getPokemon(allPokemon){
-//     pokemonList = allPokemon;
-//   },
-//   ,
-// };
+function move(){
+  
+}

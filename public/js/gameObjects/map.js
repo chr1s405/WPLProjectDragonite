@@ -27,11 +27,13 @@ export function createMap() {
         getPositionOnScreen,
         getPositionOffScreen,
         handleCollision,
+        findPath,
 
     }
     overworldMap.style.width = `${map.width}px`;
     overworldMap.style.height = `${map.height}px`;
-    overworldMap.style.backgroundSize = overworldMap.style.width
+    overworldMap.style.backgroundSize = overworldMap.style.width;
+    map.findPath();
     return map
 }
 
@@ -135,8 +137,8 @@ function handleCollision(player) {
     hitbox = {
         x: player.x + player.velocityX,
         y: player.y,
-        width: player.width -1,
-        height: player.height -1,
+        width: player.width - 1,
+        height: player.height - 1,
     }
     tileId = this.positionInGrid(hitbox.x, hitbox.y);
     tiles = [
@@ -162,8 +164,8 @@ function handleCollision(player) {
     hitbox = {
         x: player.x,
         y: player.y + player.velocityY,
-        width: player.width -1,
-        height: player.height -1,
+        width: player.width - 1,
+        height: player.height - 1,
     }
     tileId = this.positionInGrid(hitbox.x, hitbox.y);
     tiles = [
@@ -185,6 +187,52 @@ function handleCollision(player) {
             }
         }
     })
+}
+
+function findPath() {
+    const start = this.positionInGrid(200, 400);
+    const end = this.positionInGrid(1090, 1370);
+
+    let visited = [start];
+    let paths = [];
+    paths.push([start]);
+    let isfound = false;
+    let counter = 0
+    do {
+        counter++;
+        const path = paths[0];
+        let pathCopy;
+        const nextPos = [
+            path[path.length - 1] - 1,
+            path[path.length - 1] + 1,
+            path[path.length - 1] - mapData["width"],
+            path[path.length - 1] + mapData["width"]];
+
+        nextPos.forEach(next => {
+            if (!isfound) {
+                pathCopy = Object.assign([], path);
+                if (next === end) {
+                    visited.push(next);
+                    pathCopy.push(next);
+                    paths.push(pathCopy);
+                    isfound = true;
+                    return;
+                }
+                else if (this.collisionTiles.includes(this.layerData[next])) {
+                }
+                else if (!visited.includes(next)) {
+                    visited.push(next);
+                    pathCopy.push(next);
+                    paths.push(pathCopy);
+                }
+            }
+        })
+        paths.splice(0, 1);
+    } while (!visited.includes(end) && counter <= 9999999999);
+
+    paths[paths.length - 1]
+    console.log(paths[paths.length - 1])
+    return paths[paths.length - 1];
 }
 
 function isOverlapping(square1, square2) {
