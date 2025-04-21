@@ -1,6 +1,4 @@
 import mapData from "./map.json"  with { type: "json" };
-import { Direction } from "./player.js";
-// import { Pokemon } from "./pokemon.js";
 
 export function createMap() {
     const overworldMap = document.getElementById("overworldMap");

@@ -12,6 +12,8 @@ export interface User {
   email: string,
   password: string,
 }
+
+
 export interface Pokemon {
   abilities: {
     name: string,
@@ -156,16 +158,13 @@ export interface Player {
   width: number,
   height: number,
   speed: number,
+  velocityX: number,
+  velocityY: number,
   isMovingUp: boolean,
   isMovingDown: boolean,
   isMovingLeft: boolean,
   isMovingRight: boolean,
-  direction: {
-    down: { index: number, direction: string },
-    left: { index: number, direction: string },
-    right: { index: number, direction: string },
-    up: { index: number, direction: string },
-  }[],
+  direction: string,
   spriteIndex: number,
   hasCompanion: boolean,
   companion: Companion,
@@ -179,10 +178,8 @@ export interface Player {
   moveRight: Function,
   moveDown: Function,
   moveLeft: Function,
-  handleNotMoving: Function,
   move: Function,
   setDirection: Function,
-  drawSprites: Function,
   setCompanion: Function,
   capturePokemon: Function,
   removeCompanion: Function,
