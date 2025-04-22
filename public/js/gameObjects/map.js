@@ -24,6 +24,8 @@ export function createMap() {
         positionInGrid,
         positionInWorld,
         isOnScreen,
+        getPosition,
+        getRandomPosition,
         getPositionOnScreen,
         getPositionOffScreen,
         handleCollision,
@@ -95,38 +97,39 @@ function isOnScreen(x, y, width = 0, height = 0) {
     }
     return false;
 }
-function getPositionOnScreen() {
-    const leftBorder = -this.x + this.left;
-    const rightBorder = -this.x + window.innerWidth;
-    const upperborder = -this.y + this.top;
-    const lowerBorder = -this.y + window.innerHeight;
+function getPosition(left = this.left, top = this.top, right = this.width, bottom = this.height){
     let tileId;
-    let posInGrid;
     do {
-        const x = Math.trunc(leftBorder + Math.random() * (rightBorder - leftBorder));
-        const y = Math.trunc(upperborder + Math.random() * (lowerBorder - upperborder));
-        posInGrid = this.positionInGrid(x, y);
-        tileId = this.layerData[posInGrid];
-    } while (this.collisionTiles.includes(tileId));
-    return this.positionInWorld(posInGrid);
+        const x = Math.trunc(left + Math.random() * (right - left));
+        const y = Math.trunc(top + Math.random() * (bottom - top));
+        tileId = this.positionInGrid(x, y);
+    } while (this.collisionTiles.includes(this.layerData[tileId]));
+    return this.positionInWorld(tileId);
+}
+function getRandomPosition(x, y, radius){
+    const left = Math.max(this.left, x -radius);
+    const right = Math.min(this.width, x +radius);
+    const top = Math.max(this.top, y -radius);
+    const bottom = Math.min(this.height, y +radius);
+    return this.getPosition(left, top, right, bottom);
+}
+function getPositionOnScreen() {
+    const left = -this.x + this.left;
+    const right = -this.x + window.innerWidth;
+    const top = -this.y + this.top;
+    const bottom = -this.y + window.innerHeight;
+    return this.getPosition(left, top, right, bottom);
 }
 function getPositionOffScreen() {
-    const leftBorder = -this.x + this.left;
-    const rightBorder = -this.x + window.innerWidth;
-    const upperborder = -this.y + this.top;
-    const lowerBorder = -this.y + window.innerHeight;
-    let tileId;
-    let posInGrid;
-    let x;
-    let y;
+    const left = -this.x + this.left;
+    const right = -this.x + window.innerWidth;
+    const top = -this.y + this.top;
+    const bottom = -this.y + window.innerHeight;
+    let pos;
     do {
-        x = Math.trunc(this.left + Math.random() * (this.width - this.left));
-        y = Math.trunc(this.top + Math.random() * (this.height - this.top));
-        posInGrid = this.positionInGrid(x, y);
-        tileId = this.layerData[posInGrid];
-    } while (this.collisionTiles.includes(tileId) ||
-        ((leftBorder < x && x < rightBorder) && (upperborder < y && y < lowerBorder)));
-    return this.positionInWorld(posInGrid);
+        pos = this.getPosition();
+    } while ((left < pos.x && pos.x < right) && (top < pos.y && pos.y < bottom));
+    return pos;
 }
 function handleCollision(player) {
     let hitbox;
@@ -189,10 +192,7 @@ function handleCollision(player) {
     })
 }
 
-function findPath() {
-    const start = this.positionInGrid(200, 400);
-    const end = this.positionInGrid(1090, 1370);
-
+function findPath(start, end) {
     let visited = [start];
     let paths = [];
     paths.push([start]);
@@ -228,10 +228,8 @@ function findPath() {
             }
         })
         paths.splice(0, 1);
-    } while (!visited.includes(end) && counter <= 9999999999);
+    } while (!visited.includes(end) && counter <= 9999);
 
-    paths[paths.length - 1]
-    console.log(paths[paths.length - 1])
     return paths[paths.length - 1];
 }
 

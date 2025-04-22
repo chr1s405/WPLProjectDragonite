@@ -100,7 +100,8 @@ function setDirection(dir) {
         case "up": this.div.style.backgroundPositionY = `${3 * -52}px`; break;
         case "left": this.div.style.backgroundPositionY = `${1 * -52}px`; break;
         case "right": this.div.style.backgroundPositionY = `${2 * -52}px`; break;
-        default: this.div.style.backgroundPositionY = `${0 * -52}px`; break;
+        case "down": this.div.style.backgroundPositionY = `${0 * -52}px`; break;
+        default:; break;
     }
     if (dir !== "none") {
         if (dir = this.direction) {

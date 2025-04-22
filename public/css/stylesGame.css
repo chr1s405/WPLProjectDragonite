@@ -1037,6 +1037,7 @@
   #gamePage .debug {
     display: none;
     width: 100px;
+    color: white;
   }
 
   #gamePage main #debug {
