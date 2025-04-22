@@ -3,7 +3,6 @@ import { backpack, setAlert, setTextBox } from "../game.js";
 
 export function createPlayer() {
     const character = document.getElementById("character");
-    // character.style.backgroundImage = `url(${"../../assets/characters/player2Sprites.png"})`;
     const player = {
         div: character,
         x: character.offsetLeft,

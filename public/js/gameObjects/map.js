@@ -1,3 +1,4 @@
+import path from "path";
 import mapData from "./map.json"  with { type: "json" };
 
 export function createMap() {
@@ -229,7 +230,9 @@ function findPath(start, end) {
         })
         paths.splice(0, 1);
     } while (!visited.includes(end) && counter <= 9999);
-
+    if(counter > 9999){
+        paths.push([start]);
+    }
     return paths[paths.length - 1];
 }
 
