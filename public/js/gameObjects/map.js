@@ -1,12 +1,8 @@
+import path from "path";
 import mapData from "./map.json"  with { type: "json" };
-import { Direction } from "./player.js";
-// import { Pokemon } from "./pokemon.js";
 
 export function createMap() {
     const overworldMap = document.getElementById("overworldMap");
-    overworldMap.style.width = `${mapData["width"] * 50}px`;
-    overworldMap.style.height = `${mapData["height"] * 50}px`;
-    overworldMap.style.backgroundSize = overworldMap.style.width
 
     const map = {
         div: overworldMap,
@@ -29,11 +25,18 @@ export function createMap() {
         positionInGrid,
         positionInWorld,
         isOnScreen,
+        getPosition,
+        getRandomPosition,
         getPositionOnScreen,
         getPositionOffScreen,
         handleCollision,
+        findPath,
 
     }
+    overworldMap.style.width = `${map.width}px`;
+    overworldMap.style.height = `${map.height}px`;
+    overworldMap.style.backgroundSize = overworldMap.style.width;
+    map.findPath();
     return map
 }
 
@@ -95,106 +98,150 @@ function isOnScreen(x, y, width = 0, height = 0) {
     }
     return false;
 }
-function getPositionOnScreen() {
-    const leftBorder = -this.x + this.left;
-    const rightBorder = -this.x + window.innerWidth;
-    const upperborder = -this.y + this.top;
-    const lowerBorder = -this.y + window.innerHeight;
+function getPosition(left = this.left, top = this.top, right = this.width, bottom = this.height){
     let tileId;
-    let posInGrid;
     do {
-        const x = Math.trunc(leftBorder + Math.random() * (rightBorder - leftBorder));
-        const y = Math.trunc(upperborder + Math.random() * (lowerBorder - upperborder));
-        posInGrid = this.positionInGrid(x, y);
-        tileId = this.layerData[posInGrid];
-    } while (this.collisionTiles.includes(tileId));
-    return this.positionInWorld(posInGrid);
+        const x = Math.trunc(left + Math.random() * (right - left));
+        const y = Math.trunc(top + Math.random() * (bottom - top));
+        tileId = this.positionInGrid(x, y);
+    } while (this.collisionTiles.includes(this.layerData[tileId]));
+    return this.positionInWorld(tileId);
+}
+function getRandomPosition(x, y, radius){
+    const left = Math.max(this.left, x -radius);
+    const right = Math.min(this.width, x +radius);
+    const top = Math.max(this.top, y -radius);
+    const bottom = Math.min(this.height, y +radius);
+    return this.getPosition(left, top, right, bottom);
+}
+function getPositionOnScreen() {
+    const left = -this.x + this.left;
+    const right = -this.x + window.innerWidth;
+    const top = -this.y + this.top;
+    const bottom = -this.y + window.innerHeight;
+    return this.getPosition(left, top, right, bottom);
 }
 function getPositionOffScreen() {
-    const leftBorder = -this.x + this.left;
-    const rightBorder = -this.x + window.innerWidth;
-    const upperborder = -this.y + this.top;
-    const lowerBorder = -this.y + window.innerHeight;
-    let tileId;
-    let posInGrid;
-    let x;
-    let y;
+    const left = -this.x + this.left;
+    const right = -this.x + window.innerWidth;
+    const top = -this.y + this.top;
+    const bottom = -this.y + window.innerHeight;
+    let pos;
     do {
-        x = Math.trunc(this.left + Math.random() * (this.width - this.left));
-        y = Math.trunc(this.top + Math.random() * (this.height - this.top));
-        posInGrid = this.positionInGrid(x, y);
-        tileId = this.layerData[posInGrid];
-    } while (this.collisionTiles.includes(tileId) ||
-       (( leftBorder < x && x < rightBorder) && (upperborder < y && y < lowerBorder)));
-    return this.positionInWorld(posInGrid);
+        pos = this.getPosition();
+    } while ((left < pos.x && pos.x < right) && (top < pos.y && pos.y < bottom));
+    return pos;
 }
 function handleCollision(player) {
-    const hitbox = [
-        { x: player.x, y: player.y },
-        { x: player.x + player.width - 1, y: player.y },
-        { x: player.x, y: player.y + player.height - 1 },
-        { x: player.x + player.width - 1, y: player.y + player.height - 1 }];
-    let tileId = [];
-    hitbox.forEach((coor) => {
-        tileId.push(this.positionInGrid(coor.x, coor.y));
-    })
+    let hitbox;
+    let tiles = [];
+    let tileId;
     let tileBounderies;
-    if (player.direction.includes(Direction.up)) {
-        if (this.collisionTiles.includes(this.layerData[tileId[0]])) {
-            tileBounderies = this.positionInWorld(tileId[0]);
-            if (hitbox[0].y < tileBounderies.y + tileBounderies.height && hitbox[1].y < tileBounderies.y + tileBounderies.height) {
-                player.y = tileBounderies.y + tileBounderies.height;
-            }
-        }
-        if (this.collisionTiles.includes(this.layerData[tileId[1]])) {
-            tileBounderies = this.positionInWorld(tileId[1]);
-            if (hitbox[0].y < tileBounderies.y + tileBounderies.height && hitbox[1].y < tileBounderies.y + tileBounderies.height) {
-                player.y = tileBounderies.y + tileBounderies.height;
-            }
-        }
+
+    hitbox = {
+        x: player.x + player.velocityX,
+        y: player.y,
+        width: player.width - 1,
+        height: player.height - 1,
     }
-    if (player.direction.includes(Direction.down)) {
-        if (this.collisionTiles.includes(this.layerData[tileId[2]])) {
-            tileBounderies = this.positionInWorld(tileId[2]);
-            if (hitbox[2].y > tileBounderies.y && hitbox[3].y > tileBounderies.y) {
-                player.y = tileBounderies.y - player.height;
+    tileId = this.positionInGrid(hitbox.x, hitbox.y);
+    tiles = [
+        (tileId - mapData["width"] - 1), (tileId - mapData["width"]), (tileId - mapData["width"] + 1),
+        (tileId - 1), (tileId), (tileId + 1),
+        (tileId + mapData["width"] - 1), (tileId + mapData["width"]), (tileId + mapData["width"] + 1)]
+
+    tiles.forEach((tile) => {
+        if (this.collisionTiles.includes(this.layerData[tile])) {
+            tileBounderies = this.positionInWorld(tile);
+            if (isOverlapping(hitbox, tileBounderies)) {
+                if (player.velocityX < 0) {
+                    player.x = tileBounderies.x + tileBounderies.width;
+                }
+                if (player.velocityX > 0) {
+                    player.x = tileBounderies.x - player.width;
+                }
+                player.velocityX = 0;
             }
         }
-        if (this.collisionTiles.includes(this.layerData[tileId[3]])) {
-            tileBounderies = this.positionInWorld(tileId[3]);
-            if (hitbox[2].y > tileBounderies.y && hitbox[3].y > tileBounderies.y) {
-                player.y = tileBounderies.y - player.height;
-            }
-        }
+    })
+
+    hitbox = {
+        x: player.x,
+        y: player.y + player.velocityY,
+        width: player.width - 1,
+        height: player.height - 1,
     }
-    if (player.direction.includes(Direction.left)) {
-        if (this.collisionTiles.includes(this.layerData[tileId[0]])) {
-            tileBounderies = this.positionInWorld(tileId[0]);
-            if (hitbox[0].x < tileBounderies.x + tileBounderies.width && hitbox[2].x < tileBounderies.x + tileBounderies.width) {
-                player.x = tileBounderies.x + tileBounderies.width;
+    tileId = this.positionInGrid(hitbox.x, hitbox.y);
+    tiles = [
+        (tileId - mapData["width"] - 1), (tileId - mapData["width"]), (tileId - mapData["width"] + 1),
+        (tileId - 1), (tileId), (tileId + 1),
+        (tileId + mapData["width"] - 1), (tileId + mapData["width"]), (tileId + mapData["width"] + 1)]
+    tiles.forEach((tile) => {
+
+        if (this.collisionTiles.includes(this.layerData[tile])) {
+            tileBounderies = this.positionInWorld(tile);
+            if (isOverlapping(hitbox, tileBounderies)) {
+                if (player.velocityY < 0) {
+                    player.y = tileBounderies.y + tileBounderies.height;
+                }
+                if (player.velocityY > 0) {
+                    player.y = tileBounderies.y - player.height;
+                }
+                player.velocityY = 0;
             }
         }
-        if (this.collisionTiles.includes(this.layerData[tileId[2]])) {
-            tileBounderies = this.positionInWorld(tileId[2]);
-            if (hitbox[0].x < tileBounderies.x + tileBounderies.width && hitbox[2].x < tileBounderies.x + tileBounderies.width) {
-                player.x = tileBounderies.x + tileBounderies.width;
+    })
+}
+
+function findPath(start, end) {
+    let visited = [start];
+    let paths = [];
+    paths.push([start]);
+    let isfound = false;
+    let counter = 0
+    do {
+        counter++;
+        const path = paths[0];
+        let pathCopy;
+        const nextPos = [
+            path[path.length - 1] - 1,
+            path[path.length - 1] + 1,
+            path[path.length - 1] - mapData["width"],
+            path[path.length - 1] + mapData["width"]];
+
+        nextPos.forEach(next => {
+            if (!isfound) {
+                pathCopy = Object.assign([], path);
+                if (next === end) {
+                    visited.push(next);
+                    pathCopy.push(next);
+                    paths.push(pathCopy);
+                    isfound = true;
+                    return;
+                }
+                else if (this.collisionTiles.includes(this.layerData[next])) {
+                }
+                else if (!visited.includes(next)) {
+                    visited.push(next);
+                    pathCopy.push(next);
+                    paths.push(pathCopy);
+                }
             }
-        }
+        })
+        paths.splice(0, 1);
+    } while (!visited.includes(end) && counter <= 9999);
+    if(counter > 9999){
+        paths.push([start]);
     }
-    if (player.direction.includes(Direction.right)) {
-        if (this.collisionTiles.includes(this.layerData[tileId[1]])) {
-            tileBounderies = this.positionInWorld(tileId[1]);
-            if (hitbox[1].x > tileBounderies.x && hitbox[3].x > tileBounderies.x) {
-                player.x = tileBounderies.x - player.width;
-            }
-        }
-        if (this.collisionTiles.includes(this.layerData[tileId[3]])) {
-            tileBounderies = this.positionInWorld(tileId[3]);
-            if (hitbox[1].x > tileBounderies.x && hitbox[3].x > tileBounderies.x) {
-                player.x = tileBounderies.x - player.width;
-            }
-        }
-    }
+    return paths[paths.length - 1];
+}
+
+function isOverlapping(square1, square2) {
+    return (((square2.x <= square1.x && square1.x < (square2.x + square2.width)) ||
+        (square2.x <= (square1.x + square1.width) && (square1.x + square1.width) < (square2.x + square2.width))) &&
+        ((square2.y <= square1.y && square1.y < (square2.y + square2.height)) ||
+            (square2.y <= (square1.y + square1.height) && (square1.y + square1.height) < (square2.y + square2.height))));
+
 }
 // function Debug() {
 //     document.getElementById("mapCoor").innerHTML =

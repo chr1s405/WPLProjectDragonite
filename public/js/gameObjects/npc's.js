@@ -1,12 +1,20 @@
 import { allPokemon } from "../game.js";
 
-let pokemonList;
+const sprites = [
+  "../../assets/characters/Red.png",
+  "../../assets/characters/leaf.png",
+  "../../assets/characters/lucas.webp",
+  "../../assets/characters/dawn.png",
+  "../../assets/characters/calem.png",
+  "../../assets/characters/serena.png"
+]
+
 export function createNpc(map, x, y) {
   const npcDiv = document.createElement("div");
   npcDiv.setAttribute("class", "npc");
   npcDiv.style.left = `${x}px`;
   npcDiv.style.top = `${y}px`;
-  npcDiv.style.backgroundImage = `url(${`../../assets/characters/trainer_${Math.trunc(Math.random() * 5 + 1)}.png`})`;
+  npcDiv.style.backgroundImage = `url(${`${sprites[Math.trunc(Math.random() * sprites.length)]}`})`;
 
   const npc = {
     type: "npc",
@@ -15,17 +23,35 @@ export function createNpc(map, x, y) {
     y: y,
     width: 50, //gets calculated in map.addObject()
     height: 50,
+    speed: 10,
+    velocityX: 0,
+    velocityY: 0,
+    direction: "down",
+    spriteIndex: 0,
+    path: [],
+    isMoving: false,
     isOnScreen: false,
     pokemon: undefined,
 
     update,
     assignPokemon,
+    move,
+    goTo,
+    setDirection,
   };
   map.addObject(npc);
   npc.assignPokemon(allPokemon[Math.trunc(Math.random() * allPokemon.length)]);
   return npc;
 }
 function update(map) {
+  if (Math.trunc(Math.random() * 100) === 1) {
+    const dest = map.getRandomPosition(this.x, this.y, 500);
+    this.goTo(map, map.positionInGrid(dest.x, dest.y));
+  }
+  this.move(map);
+  this.div.style.left = `${this.x}px`;
+  this.div.style.top = `${this.y}px`;
+  this.div.style.backgroundPositionX = `${Math.trunc(this.spriteIndex) * -52}px`;
   if (this.isOnScreen !== map.isOnScreen(this.x, this.y, this.width, this.height)) {
     this.isOnScreen = !this.isOnScreen;
   }
@@ -36,17 +62,58 @@ function assignPokemon(pokemon) {
   this.pokemon = Object.assign({}, pokemon);
   this.pokemon.isCaptured = true;
 }
-// export const Npcs = {
-//   npcList: [],
-//   npcsActive: [],
+function goTo(map, dest) {
+  if (this.path.length === 0) {
+    this.path = map.findPath(map.positionInGrid(this.x, this.y), dest);
+  }
+}
+function move(map) {
+  if (this.path.length > 0) {
+    let pos = map.positionInWorld(this.path[0]);
+    if (this.y > pos.y) {
+      this.y -= Math.min(this.speed, Math.abs(pos.y - this.y));
+      this.setDirection("up")
+    };
+    if (this.y < pos.y) {
+      this.y += Math.min(this.speed, Math.abs(pos.y - this.y));
+      this.setDirection("down")
+    };
+    if (this.x > pos.x) {
+      this.x -= Math.min(this.speed, Math.abs(pos.x - this.x));
+      this.setDirection("left")
+    };
+    if (this.x < pos.x) {
+      this.x += Math.min(this.speed, Math.abs(pos.x - this.x));
+      this.setDirection("right")
+    };
 
-//   update() {
-//     this.npcList.forEach((npc) => {
-//       npc.update();
-//     });
-//   },
-//   getPokemon(allPokemon){
-//     pokemonList = allPokemon;
-//   },
-//   ,
-// };
+    if (pos.x === this.x && pos.y === this.y) {
+      this.path.splice(0, 1)
+    };
+  }
+  else{
+    this.spriteIndex = 0;
+  }
+}
+
+function setDirection(dir) {
+  switch (dir) {
+    case "up": this.div.style.backgroundPositionY = `${3 * -52}px`; break;
+    case "left": this.div.style.backgroundPositionY = `${1 * -52}px`; break;
+    case "right": this.div.style.backgroundPositionY = `${2 * -52}px`; break;
+    case "down": this.div.style.backgroundPositionY = `${0 * -52}px`; break;
+    default: ; break;
+  }
+  if (dir !== "none") {
+    if (dir = this.direction) {
+      this.spriteIndex = (this.spriteIndex + .3) % 4;
+    }
+    else {
+      this.spriteIndex = 0;
+    }
+  }
+  else {
+    this.spriteIndex = 0;
+  }
+  this.direction = dir;
+}

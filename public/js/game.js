@@ -97,14 +97,14 @@ async function intro() {
   const starterPokemon = allPokemon.slice(0, 3).map((pokemon) => {
     return { name: pokemon.name, img: pokemon.sprites["front_default"] };
   });
-  
+
   createIntroOptions(optionsDiv, starterPokemon)
   optionsDiv.style.display = "block";
   let pokemonIndex = await getIntroSelection(optionsDiv);
   optionsDiv.style.display = "none";
   player.capturePokemon(allPokemon[pokemonIndex]);
   player.setCompanion(allPokemon[pokemonIndex]);
-  setTimeout(()=>{document.getElementById("alert").click()},1);
+  setTimeout(() => { document.getElementById("alert").click() }, 1);
   introPage.style.display = "none"
 }
 

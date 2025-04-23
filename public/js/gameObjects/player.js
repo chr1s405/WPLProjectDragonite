@@ -1,16 +1,8 @@
 import { createCompanion } from "./companion.js";
 import { backpack, setAlert, setTextBox } from "../game.js";
-let pokemonList;
-export const Direction = {
-    down: { index: 0, direction: "front" },
-    left: { index: 1, direction: "left" },
-    right: { index: 2, direction: "right" },
-    up: { index: 3, direction: "back" },
-};
 
 export function createPlayer() {
     const character = document.getElementById("character");
-    // character.style.backgroundImage = `url(${"../../assets/characters/player2Sprites.png"})`;
     const player = {
         div: character,
         x: character.offsetLeft,
@@ -18,16 +10,17 @@ export function createPlayer() {
         width: character.clientWidth,
         height: character.clientHeight,
         speed: 20,//character.clientWidth,
+        velocityX: 0,
+        velocityY: 0,
         isMovingUp: false,
         isMovingDown: false,
         isMovingLeft: false,
         isMovingRight: false,
-        direction: [],
+        direction: "down",
         spriteIndex: 0,
         hasCompanion: false,
         companion: undefined,
         capturedPokemon: [],
-        isInBattle: false,
         isInEvent: false,
         isDebugOn: false,
 
@@ -36,10 +29,8 @@ export function createPlayer() {
         moveRight,
         moveDown,
         moveLeft,
-        handleNotMoving,
         move,
         setDirection,
-        drawSprites,
         setCompanion,
         capturePokemon,
         removeCompanion,
@@ -72,76 +63,58 @@ function update(map) {
 // movement
 function moveUp(isMoving) {
     this.isMovingUp = isMoving;
-    if (!isMoving) {
-        this.handleNotMoving(Direction.up);
-    }
 }
 function moveDown(isMoving) {
     this.isMovingDown = isMoving;
-    if (!isMoving) {
-        this.handleNotMoving(Direction.down);
-    }
 }
 function moveLeft(isMoving) {
     this.isMovingLeft = isMoving;
-    if (!isMoving) {
-        this.handleNotMoving(Direction.left);
-    }
 }
 function moveRight(isMoving) {
     this.isMovingRight = isMoving;
-    if (!isMoving) {
-        this.handleNotMoving(Direction.right);
-    }
-}
-function handleNotMoving(direction) {
-    this.spriteIndex = 0
-    this.div.style.backgroundPositionX = `0px`;
-    const index = this.direction.indexOf(direction);
-    if (index !== -1) {
-        this.direction.splice(index);
-    }
 }
 function move(map) {
-    let newX = this.x;
-    let newY = this.y;
-    if (this.isMovingRight) {
-        newX += this.speed;
-        this.setDirection(Direction.right);
+    if (this.isMovingUp) { this.velocityY -= this.speed };
+    if (this.isMovingDown) { this.velocityY += this.speed };
+    if (this.isMovingLeft) { this.velocityX -= this.speed };
+    if (this.isMovingRight) { this.velocityX += this.speed };
+
+    if (this.velocityX < 0) { this.setDirection("left") }
+    else if (this.velocityX > 0) { this.setDirection("right") }
+    else if (this.velocityY < 0) { this.setDirection("up") }
+    else if (this.velocityY > 0) { this.setDirection("down") }
+    else {
+        this.setDirection("none");
     }
-    if (this.isMovingLeft) {
-        newX -= this.speed;
-        this.setDirection(Direction.left);
-    }
-    if (this.isMovingUp) {
-        newY -= this.speed;
-        this.setDirection(Direction.up);
-    }
-    if (this.isMovingDown) {
-        newY += this.speed;
-        this.setDirection(Direction.down);
-    }
-    this.x = newX;
-    this.y = newY;
     map.handleCollision(this)
+    this.x += this.velocityX;
+    this.y += this.velocityY;
+    this.velocityX = 0;
+    this.velocityY = 0;
     map.centerMap(this);
-    this.drawSprites();
-    // }
 }
 
-function setDirection(direction) {
-    if (!this.direction.includes(direction)) {
-        this.direction.push(direction);
-        this.div.style.backgroundPositionX = `0px`;
+function setDirection(dir) {
+    switch (dir) {
+        case "up": this.div.style.backgroundPositionY = `${3 * -52}px`; break;
+        case "left": this.div.style.backgroundPositionY = `${1 * -52}px`; break;
+        case "right": this.div.style.backgroundPositionY = `${2 * -52}px`; break;
+        case "down": this.div.style.backgroundPositionY = `${0 * -52}px`; break;
+        default:; break;
+    }
+    if (dir !== "none") {
+        if (dir = this.direction) {
+            this.spriteIndex = (this.spriteIndex + .3) % 4;
+        }
+        else {
+            this.spriteIndex = 0;
+        }
+    }
+    else {
         this.spriteIndex = 0;
     }
-}
-function drawSprites() {
-    if (this.direction.length !== 0) {
-        this.div.style.backgroundPositionY = `${this.direction[this.direction.length - 1].index * -52}px`
-        this.spriteIndex = (this.spriteIndex + .3) % 4;
-        this.div.style.backgroundPositionX = `${Math.trunc(this.spriteIndex) * -52}px`;
-    }
+    this.direction = dir;
+    this.div.style.backgroundPositionX = `${Math.trunc(this.spriteIndex) * -52}px`;
 }
 
 //pokemon
