@@ -1,4 +1,4 @@
-import { Backpack, Player, Pokemon } from "../../interfaces.js";
+import { Backpack, Player, Pokemon } from "../../../interfaces.js";
 import { allPokemon, setAlert } from "../game.js";
 
 export function createBackpack(player: Player) {

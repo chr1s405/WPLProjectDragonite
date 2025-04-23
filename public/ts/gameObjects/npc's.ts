@@ -1,4 +1,4 @@
-import { Map, Npc, Pokemon } from "../../interfaces.js";
+import { Map, Npc, Pokemon } from "../../../interfaces.js";
 import { allPokemon } from "../game.js";
 
 const sprites = [

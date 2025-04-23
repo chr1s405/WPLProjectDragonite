@@ -1,4 +1,4 @@
-import { Map, Player, Pokemon, WildPokemon } from "../../interfaces";
+import { Map, Player, Pokemon, WildPokemon } from "../../../interfaces";
 import mapData from "./map.json"  with { type: "json" };
 
 export function createMap() {

@@ -1,4 +1,4 @@
-import { Companion, Map, Player, Pokemon } from "../../interfaces";
+import { Companion, Map, Player, Pokemon } from "../../../interfaces";
 
 export function createCompanion(owner: Player) {
     const companionDiv: any = document.getElementById("companion");

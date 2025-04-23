@@ -1,6 +1,6 @@
 import { createCompanion } from "./companion.js";
 import { backpack, setAlert, setTextBox } from "../game.js";
-import { Map, Player, Pokemon, WildPokemon } from "../../interfaces.js";
+import { Map, Player, Pokemon, WildPokemon } from "../../../interfaces.js";
 
 export function createPlayer() {
     const character: any = document.getElementById("character");

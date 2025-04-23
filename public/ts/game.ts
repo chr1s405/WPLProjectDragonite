@@ -3,7 +3,7 @@ import { createPlayer } from "./gameObjects/player.ts";
 import { createNpc } from "./gameObjects/npc's.ts";
 import { createPokemon } from "./gameObjects/pokemon.ts";
 import { createBackpack } from "./gameObjects/backpack.ts";
-import { Backpack, Map, Player, Pokemon } from "../interfaces.ts";
+import { Backpack, Map, Player, Pokemon } from "../../interfaces.ts";
 
 let pause = true;
 
