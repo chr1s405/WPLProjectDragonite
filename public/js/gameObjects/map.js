@@ -1,4 +1,3 @@
-import path from "path";
 import mapData from "./map.json"  with { type: "json" };
 
 export function createMap() {
