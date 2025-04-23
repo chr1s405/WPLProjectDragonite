@@ -191,7 +191,7 @@ function interactNpc(map) {
             const distY = (this.y + this.height / 2) - (npc.y + npc.height / 2);
             const dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
             if (dist <= map.tileWidth * 1.5) {
-                this.battle(this.companion.pokemon, npc.pokemon);
+                this.battle(this, npc);
                 return true;
             }
         }
@@ -216,7 +216,7 @@ function interactPokemon(map) {
 // ================ battle ================== //
 // ========================================== //
 
-async function battle(pokemon1, pokemon2) {
+async function battle(player, enemy) {
     if (!this.hasCompanion) {
         setAlert("je hebt nog geen pokemon om mee te vechten")
         return;
@@ -235,17 +235,17 @@ async function battle(pokemon1, pokemon2) {
         img: stage[1].getElementsByTagName("img")[0], name: stage[1].getElementsByClassName("statusbar")[0].children[0],
         hpBar: stage[1].getElementsByClassName("statusbar")[0].children[1], hp: stage[1].getElementsByClassName("statusbar")[0].children[1].children[0],
     }];
-    stages[0].img.src = pokemon1.sprites["front_default"];
-    stages[0].name.innerHTML = pokemon1.name;
-    stages[0].hp.innerHTML = pokemon1.stats[0]["base_stat"];
+    stages[0].img.src = player.companion.pokemon.sprites["front_default"];
+    stages[0].name.innerHTML = player.companion.pokemon.name;
+    stages[0].hp.innerHTML = player.companion.pokemon.stats[0]["base_stat"];
     stages[0].hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`
-    stages[1].img.src = pokemon2.sprites["front_default"];
-    stages[1].name.innerHTML = pokemon2.name;
-    stages[1].hp.innerHTML = pokemon2.stats[0]["base_stat"];
+    stages[1].img.src = enemy.pokemon.sprites["front_default"];
+    stages[1].name.innerHTML = enemy.pokemon.name;
+    stages[1].hp.innerHTML = enemy.pokemon.stats[0]["base_stat"];
     stages[1].hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`
 
-    const fighters = [{ nr: 1, type: "player", pokemon: pokemon1, hp: pokemon1.stats[0]["base_stat"], stage: stages[0], audio: new Audio(pokemon1.cries["latest"]) },
-    { nr: 2, type: "npc", pokemon: pokemon2, hp: pokemon2.stats[0]["base_stat"], stage: stages[1], audio: new Audio(pokemon2.cries["latest"]) }];
+    const fighters = [{ nr: 1, owner: player, pokemon: player.companion.pokemon, hp: player.companion.pokemon.stats[0]["base_stat"], stage: stages[0], audio: new Audio(player.companion.pokemon.cries["latest"]) },
+    { nr: 2, owner: enemy, pokemon: enemy.pokemon, hp: enemy.pokemon.stats[0]["base_stat"], stage: stages[1], audio: new Audio(enemy.pokemon.cries["latest"]) }];
 
 
     performAction(fighters[0], fighters[1]);
@@ -265,7 +265,7 @@ async function battle(pokemon1, pokemon2) {
     async function performAction(atk, def) {
         battleText = atk.pokemon.name;
         let action;
-        if (atk.type === "player") {
+        if (atk.nr === 1) {
             action = await pressButton();
         }
         else {
@@ -305,7 +305,7 @@ async function battle(pokemon1, pokemon2) {
             else {
                 atk.pokemon.stats[6]["base_stat"]++;
                 if (!def.pokemon.isCaptured) {
-                    this.capturePokemon(def.pokemon);
+                    atk.owner.capturePokemon(def.pokemon);
                 }
                 battleText = "je hebt gewonnen";
             }
