@@ -996,11 +996,7 @@
     }
   }
 
-  #account_buttons{
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-  }
+
 
   #gamePage #alert {
     display: none;
