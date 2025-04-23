@@ -139,8 +139,8 @@
 }
 
 #gamePage #gameIntro .intro_selectOption {
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
   border-radius: 20%;
   background-color: rgb(255, 152, 152);
   
@@ -153,9 +153,8 @@
  border-color: #fafafa;
 }
 #gamePage #intro_characterOptions img {
-  width: 64px;
-  height: 64px;
-  object-fit: none;
+  width:auto;
+  height: 100px;
   object-position: 0px 0px;
 }
 #gamePage #intro_pokemonOptions img {

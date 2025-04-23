@@ -82,17 +82,17 @@ async function intro() {
   optionsDiv = introPage.getElementsByClassName("intro_selection")[0];
   const starterCharacters = [
     // { name: "man", img: "../../assets/characters/player1Sprites.png" },
-    { name: "Red", img: "../../assets/characters/Red.png" },
-    { name: "Leaf", img: "../../assets/characters/leaf.png" },
-    { name: "Lucas", img: "../../assets/characters/lucas.webp" },
-    { name: "Dawn", img: "../../assets/characters/dawn.png" },
-    { name: "Calem", img: "../../assets/characters/calem.png" },
-    { name: "Serena", img: "../../assets/characters/serena.png" }
+    { name: "Red", smallImg: "../../assets/characters/Red.png", img: "../../assets/characters/RedBig.webp"},
+    { name: "Leaf", smallImg: "../../assets/characters/leaf.png" , img: "../../assets/characters/LeafBig.png"},
+    { name: "Lucas", smallImg: "../../assets/characters/lucas.webp", img: "../../assets/characters/LucasBig.webp" },
+    { name: "Dawn", smallImg: "../../assets/characters/dawn.png", img: "../../assets/characters/DawnBig.webp" },
+    { name: "Calem", smallImg: "../../assets/characters/calem.png", img: "../../assets/characters/CalemBig.webp" },
+    { name: "Serena", smallImg: "../../assets/characters/serena.png", img: "../../assets/characters/SerenaBig.png" }
   ]
 
   createIntroOptions(optionsDiv, starterCharacters)
   let playerIndex = await getIntroSelection(optionsDiv);
-  player.div.style.backgroundImage = `url(${starterCharacters[playerIndex].img})`;
+  player.div.style.backgroundImage = `url(${starterCharacters[playerIndex].smallImg})`;
   optionsDiv = introPage.getElementsByClassName("intro_selection")[1];
   const starterPokemon = allPokemon.slice(0, 3).map((pokemon) => {
     return { name: pokemon.name, img: pokemon.sprites["front_default"] };

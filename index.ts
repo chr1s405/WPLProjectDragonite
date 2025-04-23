@@ -29,6 +29,8 @@ app.get("/", (req, res) => {
     res.render("index")
 });
 
+
+
 app.use("/", getProjectRouter());
 app.use("/login", GetAccountRouter());
 app.use("/game", getGameRouter());
