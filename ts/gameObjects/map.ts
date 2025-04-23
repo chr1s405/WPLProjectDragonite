@@ -1,0 +1,250 @@
+import { Map, Player, Pokemon, WildPokemon } from "../../interfaces";
+import mapData from "./map.json"  with { type: "json" };
+
+export function createMap() {
+    const overworldMap: any = document.getElementById("overworldMap");
+
+    const map: Map = {
+        div: overworldMap,
+        x: 0,
+        y: 0,
+        left: overworldMap.offsetLeft,
+        top: overworldMap.offsetTop,
+        width: mapData["width"] * mapData["tilewidth"],
+        height: mapData["height"] * mapData["tileheight"],
+        tileWidth: mapData["tilewidth"],
+        tileHeight: mapData["tileheight"],
+        layerData: mapData["layers"][1]["data"],
+        collisionTiles: [1, 2, 3, 11, 13, 21, 22, 23, 5, 6, 7, 15, 16, 17, 25, 26, 27, 31, 51, 52, 53, 61, 62, 63, 71, 72, 73],
+        npcs: [],
+        pokemon: [],
+
+        update,
+        addObject,
+        centerMap,
+        positionInGrid,
+        positionInWorld,
+        isOnScreen,
+        getPosition,
+        getRandomPosition,
+        getPositionOnScreen,
+        getPositionOffScreen,
+        handleCollision,
+        findPath,
+
+    }
+    overworldMap.style.width = `${map.width}px`;
+    overworldMap.style.height = `${map.height}px`;
+    overworldMap.style.backgroundSize = overworldMap.style.width;
+    map.findPath();
+    return map
+}
+
+function update(this: Map, player: Player) {
+    this.div.style.left = `${this.x}px`;
+    this.div.style.top = `${this.y}px`;
+    this.npcs.forEach(npc => {
+        npc.update(this);
+    });
+    this.pokemon.forEach((pokemon: WildPokemon) => {
+        pokemon.update(this, player);
+    });
+}
+function addObject(this: Map, object: any) {
+    this.div.appendChild(object.div);
+    object.width = object.div.clientWidth;
+    object.height = object.div.clientHeight;
+    if (object.type === "npc") {
+        this.npcs.push(object);
+    }
+    else if (object.type === "pokemon") {
+        this.pokemon.push(object);
+    }
+}
+function centerMap(this: Map, target: Player) {
+    let playerCenterXLeft = -((target.x + target.width / 2) - (this.left + window.innerWidth) / 2) - (window.innerWidth / 2) * 0.3;
+    let playerCenterXRight = -((target.x + target.width / 2) - (this.left + window.innerWidth) / 2) + (window.innerWidth / 2) * 0.3;
+    let playerCenterYLeft = -((target.y + target.height / 2) - (this.top + window.innerHeight) / 2) - (window.innerHeight / 2) * 0.3;
+    let playerCenterYRight = -((target.y + target.height / 2) - (this.top + window.innerHeight) / 2) + (window.innerHeight / 2) * 0.3;
+    let maxScrollwidth = -(this.width - window.innerWidth);
+    let maxScrollHeihgt = -(this.height - window.innerHeight);
+    if (this.x < playerCenterXLeft) {
+        this.x = Math.min(this.left, Math.max(playerCenterXLeft, maxScrollwidth));
+    }
+    if (this.x > playerCenterXRight) {
+        this.x = Math.min(this.left, Math.max(playerCenterXRight, maxScrollwidth));
+    }
+    if (this.y < playerCenterYLeft) {
+        this.y = Math.min(this.top, Math.max(playerCenterYLeft, maxScrollHeihgt));
+    }
+    if (this.y > playerCenterYRight) {
+        this.y = Math.min(this.top, Math.max(playerCenterYRight, maxScrollHeihgt));
+    }
+}
+function positionInGrid(this: Map, x: number, y: number) {
+    return Math.trunc(x / this.tileWidth) + Math.trunc(y / this.tileHeight) * mapData["width"];
+}
+function positionInWorld(this: Map, index: number) {
+    let x = (index % (mapData["width"])) * this.tileWidth;
+    let y = (Math.trunc(index / mapData["width"])) * this.tileHeight;
+    let width = this.tileWidth;
+    let height = this.tileHeight;
+    return { x, y, width, height };
+}
+function isOnScreen(this: Map, x: number, y: number, width = 0, height = 0) {
+    if (-this.x + this.left < x + width && x < -this.x + window.innerWidth &&
+        -this.y + this.top < y + height && y < -this.y + window.innerHeight) {
+        return true;
+    }
+    return false;
+}
+function getPosition(this: Map, left = this.left, top = this.top, right = this.width, bottom = this.height) {
+    let tileId;
+    do {
+        const x = Math.trunc(left + Math.random() * (right - left));
+        const y = Math.trunc(top + Math.random() * (bottom - top));
+        tileId = this.positionInGrid(x, y);
+    } while (this.collisionTiles.includes(this.layerData[tileId]));
+    return this.positionInWorld(tileId);
+}
+function getRandomPosition(this: Map, x: number, y: number, radius: number) {
+    const left = Math.max(this.left, x - radius);
+    const right = Math.min(this.width, x + radius);
+    const top = Math.max(this.top, y - radius);
+    const bottom = Math.min(this.height, y + radius);
+    return this.getPosition(left, top, right, bottom);
+}
+function getPositionOnScreen(this: Map, ) {
+    const left = -this.x + this.left;
+    const right = -this.x + window.innerWidth;
+    const top = -this.y + this.top;
+    const bottom = -this.y + window.innerHeight;
+    return this.getPosition(left, top, right, bottom);
+}
+function getPositionOffScreen(this: Map, ) {
+    const left = -this.x + this.left;
+    const right = -this.x + window.innerWidth;
+    const top = -this.y + this.top;
+    const bottom = -this.y + window.innerHeight;
+    let pos;
+    do {
+        pos = this.getPosition();
+    } while ((left < pos.x && pos.x < right) && (top < pos.y && pos.y < bottom));
+    return pos;
+}
+function handleCollision(this: Map, player:Player) {
+    let hitbox: {x: number, y: number, width: number, height: number};
+    let tiles = [];
+    let tileId;
+    let tileBounderies;
+
+    hitbox = {
+        x: player.x + player.velocityX,
+        y: player.y,
+        width: player.width - 1,
+        height: player.height - 1,
+    }
+    tileId = this.positionInGrid(hitbox.x, hitbox.y);
+    tiles = [
+        (tileId - mapData["width"] - 1), (tileId - mapData["width"]), (tileId - mapData["width"] + 1),
+        (tileId - 1), (tileId), (tileId + 1),
+        (tileId + mapData["width"] - 1), (tileId + mapData["width"]), (tileId + mapData["width"] + 1)]
+
+    tiles.forEach((tile) => {
+        if (this.collisionTiles.includes(this.layerData[tile])) {
+            tileBounderies = this.positionInWorld(tile);
+            if (isOverlapping(hitbox, tileBounderies)) {
+                if (player.velocityX < 0) {
+                    player.x = tileBounderies.x + tileBounderies.width;
+                }
+                if (player.velocityX > 0) {
+                    player.x = tileBounderies.x - player.width;
+                }
+                player.velocityX = 0;
+            }
+        }
+    })
+
+    hitbox = {
+        x: player.x,
+        y: player.y + player.velocityY,
+        width: player.width - 1,
+        height: player.height - 1,
+    }
+    tileId = this.positionInGrid(hitbox.x, hitbox.y);
+    tiles = [
+        (tileId - mapData["width"] - 1), (tileId - mapData["width"]), (tileId - mapData["width"] + 1),
+        (tileId - 1), (tileId), (tileId + 1),
+        (tileId + mapData["width"] - 1), (tileId + mapData["width"]), (tileId + mapData["width"] + 1)]
+    tiles.forEach((tile) => {
+
+        if (this.collisionTiles.includes(this.layerData[tile])) {
+            tileBounderies = this.positionInWorld(tile);
+            if (isOverlapping(hitbox, tileBounderies)) {
+                if (player.velocityY < 0) {
+                    player.y = tileBounderies.y + tileBounderies.height;
+                }
+                if (player.velocityY > 0) {
+                    player.y = tileBounderies.y - player.height;
+                }
+                player.velocityY = 0;
+            }
+        }
+    })
+}
+
+function findPath(this: Map, start: number, end: number) {
+    let visited = [start];
+    let paths = [];
+    paths.push([start]);
+    let isfound = false;
+    let counter = 0
+    do {
+        counter++;
+        const path = paths[0];
+        let pathCopy;
+        const nextPos = [
+            path[path.length - 1] - 1,
+            path[path.length - 1] + 1,
+            path[path.length - 1] - mapData["width"],
+            path[path.length - 1] + mapData["width"]];
+
+        nextPos.forEach(next => {
+            if (!isfound) {
+                pathCopy = Object.assign([], path);
+                if (next === end) {
+                    visited.push(next);
+                    pathCopy.push(next);
+                    paths.push(pathCopy);
+                    isfound = true;
+                    return;
+                }
+                else if (this.collisionTiles.includes(this.layerData[next])) {
+                }
+                else if (!visited.includes(next)) {
+                    visited.push(next);
+                    pathCopy.push(next);
+                    paths.push(pathCopy);
+                }
+            }
+        })
+        paths.splice(0, 1);
+    } while (!visited.includes(end) && counter <= 9999);
+    if (counter > 9999) {
+        paths.push([start]);
+    }
+    return paths[paths.length - 1];
+}
+
+function isOverlapping(square1: any, square2: any) {
+    return (((square2.x <= square1.x && square1.x < (square2.x + square2.width)) ||
+        (square2.x <= (square1.x + square1.width) && (square1.x + square1.width) < (square2.x + square2.width))) &&
+        ((square2.y <= square1.y && square1.y < (square2.y + square2.height)) ||
+            (square2.y <= (square1.y + square1.height) && (square1.y + square1.height) < (square2.y + square2.height))));
+
+}
+// function Debug() {
+//     document.getElementById("mapCoor").innerHTML =
+//         `overworld map: (${overworldMap.style.left} function ${overworldMap.style.top})`;
+// }
+// Map.div?.appendChild(Pokemon.div);

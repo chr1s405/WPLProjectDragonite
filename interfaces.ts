@@ -1,8 +1,6 @@
 //map, player, companion, npc, pokemon, backpack
 
-import { FunctionExpression } from "@babel/types";
 import { ObjectId } from "mongodb";
-import { Url } from "url";
 
 
 
@@ -14,6 +12,119 @@ export interface User {
 }
 
 
+export interface Map {
+  div: any,
+  x: number,
+  y: number,
+  left: number,
+  top: number,
+  width: number,
+  height: number,
+  tileWidth: number,
+  tileHeight: number,
+  layerData: number[],
+  collisionTiles: number[],
+  npcs: Npc[],
+  pokemon: WildPokemon[],
+
+  update: Function,
+  addObject: Function,
+  centerMap: Function,
+  positionInGrid: Function,
+  positionInWorld: Function,
+  isOnScreen: Function,
+  getPosition: Function,
+  getRandomPosition: Function,
+  getPositionOnScreen: Function,
+  getPositionOffScreen: Function,
+  handleCollision: Function,
+  findPath: Function,
+}
+
+export interface Player {
+  div: HTMLElement,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  speed: number,
+  velocityX: number,
+  velocityY: number,
+  isMovingUp: boolean,
+  isMovingDown: boolean,
+  isMovingLeft: boolean,
+  isMovingRight: boolean,
+  direction: string,
+  spriteIndex: number,
+  companion: any,
+  capturedPokemon: Pokemon[],
+  isInEvent: Boolean,
+  isDebugOn: Boolean,
+
+  update: Function,
+  moveUp: Function,
+  moveRight: Function,
+  moveDown: Function,
+  moveLeft: Function,
+  move: Function,
+  setDirection: Function,
+  setCompanion: Function,
+  capturePokemon: Function,
+  removeCompanion: Function,
+  releasePokemon: Function,
+  interact: Function,
+  interactNpc: Function,
+  interactPokemon: Function,
+  battle: Function,
+  capture: Function,
+  toggleDebug: Function,
+  debug: Function,
+}
+
+export interface Npc {
+  type: string,
+  div: HTMLElement,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  speed: number,
+  velocityX: number,
+  velocityY: number,
+  direction: string,
+  spriteIndex: number,
+  path: number[],
+  isOnScreen: boolean,
+  pokemon?: Pokemon,
+
+  update: Function,
+  assignPokemon: Function,
+  move: Function,
+  goTo: Function,
+  setDirection: Function,
+};
+
+export interface Companion {
+
+  div: HTMLElement,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  speed: number,
+  pokemon?: Pokemon,
+  owner: Player,
+
+  isDebugOn: Boolean,
+
+  update: Function,
+  move: Function,
+  setCompanion: Function,
+  removeCompanion: Function,
+  toggleDebug: Function,
+  debug: Function,
+}
+
 export interface Pokemon {
   abilities: {
     name: string,
@@ -21,7 +132,7 @@ export interface Pokemon {
   },
   base_experience: number,
   cries: {
-    lattest: string,
+    latest: string,
     legacy: string,
   },
   id: number,
@@ -65,22 +176,6 @@ export interface Pokemon {
   isCaptured: boolean,
 };
 
-
-export interface Npc {
-  type: string,
-  div: HTMLElement,
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  isOnScreen: false,
-  pokemon: undefined,
-  update: Function,
-  assignPokemon: Function,
-};
-
-
-
 export interface WildPokemon {
   type: string,
   div: HTMLElement,
@@ -91,7 +186,7 @@ export interface WildPokemon {
   speed: number,
   isScared: boolean,
   isActive: boolean,
-  pokemon: Pokemon,
+  pokemon?: Pokemon,
   spawnTimer: number,
   spawnTime: number,
   scareTimer: number,
@@ -102,110 +197,21 @@ export interface WildPokemon {
   spawn: Function,
 }
 
-
-export interface Map {
-  div: HTMLElement,
-  x: number,
-  y: number,
-  left: number,
-  top: number,
-  width: number,
-  height: number,
-  tileWidth: number,
-  tileHeight: number,
-  layerData: number[],
-  collisionTiles: number[],
-  npcs: Npc[],
-  pokemon: [],
-
-  update: Function,
-  addObject: Function,
-  centerMap: Function,
-  positionInGrid: Function,
-  positionInWorld: Function,
-  isOnScreen: Function,
-  getPositionOnScreen: Function,
-  getPositionOffScreen: Function,
-  handleCollision: Function,
-
-}
-
-export interface Companion {
-
-  div: HTMLElement,
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  speed: number,
-  pokemon: Pokemon,
-  owner: Player,
-
-  isDebugOn: Boolean,
-
-  update: Function,
-  move: Function,
-  setCompanion: Function,
-  removeCompanion: Function,
-  toggleDebug: Function,
-  debug: Function,
-}
-
-export interface Player {
-  div: HTMLElement,
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  speed: number,
-  velocityX: number,
-  velocityY: number,
-  isMovingUp: boolean,
-  isMovingDown: boolean,
-  isMovingLeft: boolean,
-  isMovingRight: boolean,
-  direction: string,
-  spriteIndex: number,
-  hasCompanion: boolean,
-  companion: Companion,
-  capturedPokemon: Pokemon[],
-  isInBattle: Boolean,
-  isInEvent: Boolean,
-  isDebugOn: Boolean,
-
-  update: Function,
-  moveUp: Function,
-  moveRight: Function,
-  moveDown: Function,
-  moveLeft: Function,
-  move: Function,
-  setDirection: Function,
-  setCompanion: Function,
-  capturePokemon: Function,
-  removeCompanion: Function,
-  releasePokemon: Function,
-  interact: Function,
-  interactNpc: Function,
-  interactPokemon: Function,
-  battle: Function,
-  capture: Function,
-  toggleDebug: Function,
-  debug: Function,
-}
-
 export interface Backpack {
   player: Player,
-  backpackIcon: HTMLElement,
+  backpackIcon: any,
   backpackBtns: HTMLCollection,
-  backpackMenu: HTMLElement,
-  previousMenu: HTMLElement[],
-  currentMenu: HTMLElement,
+  closeBtn: any,
+  backBtn: any,
+  backpackMenu: any,
+  previousMenu: any[],
+  currentMenu?: any,
   menuEvents: {
-    event: HTMLElement,
+    event: any,
     title: string,
     open: Function,
     close: Function
-  }
+  }[]
   openMenu: Function,
   closeMenu: Function,
   openEvent: Function,

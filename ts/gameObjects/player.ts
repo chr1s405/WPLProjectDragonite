@@ -1,9 +1,10 @@
 import { createCompanion } from "./companion.js";
 import { backpack, setAlert, setTextBox } from "../game.js";
+import { Map, Player, Pokemon, WildPokemon } from "../../interfaces.js";
 
 export function createPlayer() {
-    const character = document.getElementById("character");
-    const player = {
+    const character: any = document.getElementById("character");
+    const player: Player = {
         div: character,
         x: character.offsetLeft,
         y: character.offsetTop,
@@ -18,7 +19,6 @@ export function createPlayer() {
         isMovingRight: false,
         direction: "down",
         spriteIndex: 0,
-        hasCompanion: false,
         companion: undefined,
         capturedPokemon: [],
         isInEvent: false,
@@ -48,11 +48,11 @@ export function createPlayer() {
     return player;
 }
 
-function update(map) {
+function update(this: Player, map: Map) {
     this.move(map);
     this.div.style.left = `${this.x}px`;
     this.div.style.top = `${this.y}px`;
-    if (this.hasCompanion) {
+    if (this.companion) {
         this.companion.update(map);
     }
     if (this.isDebugOn) {
@@ -61,19 +61,19 @@ function update(map) {
 }
 
 // movement
-function moveUp(isMoving) {
+function moveUp(this: Player, isMoving: boolean) {
     this.isMovingUp = isMoving;
 }
-function moveDown(isMoving) {
+function moveDown(this: Player, isMoving: boolean) {
     this.isMovingDown = isMoving;
 }
-function moveLeft(isMoving) {
+function moveLeft(this: Player, isMoving: boolean) {
     this.isMovingLeft = isMoving;
 }
-function moveRight(isMoving) {
+function moveRight(this: Player, isMoving: boolean) {
     this.isMovingRight = isMoving;
 }
-function move(map) {
+function move(this: Player, map: Map) {
     if (this.isMovingUp) { this.velocityY -= this.speed };
     if (this.isMovingDown) { this.velocityY += this.speed };
     if (this.isMovingLeft) { this.velocityX -= this.speed };
@@ -94,7 +94,7 @@ function move(map) {
     map.centerMap(this);
 }
 
-function setDirection(dir) {
+function setDirection(this: Player, dir: string) {
     switch (dir) {
         case "up": this.div.style.backgroundPositionY = `${3 * -52}px`; break;
         case "left": this.div.style.backgroundPositionY = `${1 * -52}px`; break;
@@ -118,28 +118,29 @@ function setDirection(dir) {
 }
 
 //pokemon
-async function setCompanion(pokemon) {
+async function setCompanion(this: Player, pokemon: Pokemon) {
     if (this.capturedPokemon.includes(pokemon)) {
-        this.hasCompanion = true;
+        this.companion = 
         this.companion.setCompanion(pokemon);
-        document.getElementById("nav-pokemon").src = this.companion.pokemon.sprites["front_default"]
+        const nav: any = document.getElementById("nav-pokemon")
+        if (nav != null) { nav.src = this.companion.pokemon.sprites["front_default"] };
     }
     else {
         await setAlert("je hebt deze pokemon nog niet gevangen");
     }
 }
-function removeCompanion() {
-    this.hasCompanion = false;
-    Companion.removeCompanion();
-    document.getElementById("nav-pokemon").src = "../assets/pikachu_silouhette.png"
+function removeCompanion(this: Player, ) {
+    this.companion.removeCompanion();
+    const nav: any = document.getElementById("nav-pokemon")
+    if (nav != null) { nav.src = "../assets/pikachu_silouhette.png" };
 }
-async function capturePokemon(pokemon) {
+async function capturePokemon(this: Player, pokemon: Pokemon) {
     pokemon.isKnown = true;
     pokemon.isCaptured = true;
     this.capturedPokemon.push(pokemon);
     await setAlert(`je hebt ${pokemon.name} gevangen`);
 }
-async function releasePokemon(pokemon) {
+async function releasePokemon(this: Player, pokemon: Pokemon) {
     if (pokemon === this.companion.pokemon) {
         await setAlert("kies eerst een andere companion");
     }
@@ -155,19 +156,20 @@ async function releasePokemon(pokemon) {
 }
 
 //debug
-function toggleDebug() {
+function toggleDebug(this: Player, ) {
     this.isDebugOn = !this.isDebugOn;
+    const debug: any = this.div.getElementsByClassName("debug")[0]; 
     if (this.isDebugOn) {
-        this.div.getElementsByClassName("debug")[0].style.display = "block";
+        debug.style.display = "block";
         this.div.style.border = "2px solid black";
     }
     else {
-        this.div.getElementsByClassName("debug")[0].style.display = "none";
+        debug.style.display = "none";
         this.div.style.border = "none";
     }
     this.companion.toggleDebug();
 }
-function debug(map) {
+function debug(this: Player, map: Map) {
     this.div.getElementsByClassName("debug")[0].innerHTML =
         `(${this.x}, ${this.y})</br>${map.positionInGrid(this.x, this.y)}`;
 }
@@ -176,7 +178,7 @@ function debug(map) {
 
 
 //interact
-function interact(map) {
+function interact(this: Player, map: Map) {
     if (this.interactNpc(map)) {
         return;
     }
@@ -184,7 +186,7 @@ function interact(map) {
         return;
     }
 }
-function interactNpc(map) {
+function interactNpc(this: Player, map: Map) {
     map.npcs.forEach(npc => {
         if (npc.isOnScreen) {
             const distX = (this.x + this.width / 2) - (npc.x + npc.width / 2);
@@ -197,8 +199,8 @@ function interactNpc(map) {
         }
     });
 }
-function interactPokemon(map) {
-    map.pokemon.forEach(pokemon => {
+function interactPokemon(this: Player, map: Map) {
+    map.pokemon.forEach((pokemon: WildPokemon) => {
         if (pokemon.isActive) {
             const distX = (this.x + this.width / 2) - (pokemon.x + pokemon.width / 2);
             const distY = (this.y + this.height / 2) - (pokemon.y + pokemon.height / 2);
@@ -216,18 +218,19 @@ function interactPokemon(map) {
 // ================ battle ================== //
 // ========================================== //
 
-async function battle(pokemon1, pokemon2) {
-    if (!this.hasCompanion) {
+async function battle(this: Player, player: Player, pokemon2: Pokemon) {
+    if (!this.companion) {
         setAlert("je hebt nog geen pokemon om mee te vechten")
         return;
     }
     backpack.openBattleEvent();
     let battleText;
+    const pokemon1 = player.companion.pokemon;
     const battleTextBox = document.getElementById("battle_text");
     const battleButtons = document.getElementsByClassName("battle_button");
 
     const stage = document.getElementsByClassName("battle_stage")
-    const stages = [{
+    const stages: any = [{
         img: stage[0].getElementsByTagName("img")[0], name: stage[0].getElementsByClassName("statusbar")[0].children[0],
         hpBar: stage[0].getElementsByClassName("statusbar")[0].children[1], hp: stage[0].getElementsByClassName("statusbar")[0].children[1].children[0],
     },
@@ -262,7 +265,7 @@ async function battle(pokemon1, pokemon2) {
             }
         })
     }
-    async function performAction(atk, def) {
+    async function performAction(atk: any, def: any) {
         battleText = atk.pokemon.name;
         let action;
         if (atk.type === "player") {
@@ -295,18 +298,20 @@ async function battle(pokemon1, pokemon2) {
         await setTextBox(battleTextBox, battleText);
         if (def.hp > 0) {
             fighters.reverse();
-            setTimeout(await performAction(fighters[0], fighters[1]), 0);
+            setTimeout(async () => { await performAction(fighters[0], fighters[1]) }, 0);
         }
         else {
+            if(atk.type === "player"){
+                if (!def.pokemon.isCaptured) {
+                    atk.capturePokemon(def.pokemon);
+                }
+            }
             if (def.nr === 1) {
                 def.pokemon.stats[7]["base_stat"]++
                 battleText = "je hebt verloren";
             }
             else {
                 atk.pokemon.stats[6]["base_stat"]++;
-                if (!def.pokemon.isCaptured) {
-                    this.capturePokemon(def.pokemon);
-                }
                 battleText = "je hebt gewonnen";
             }
             await setTextBox(battleTextBox, battleText);
@@ -320,12 +325,12 @@ async function battle(pokemon1, pokemon2) {
 // ================ capture ================= //
 // ========================================== //
 
-function capture(pokemon) {
+function capture(this: Player, pokemon: Pokemon) {
 
     backpack.openCaptureEvent();
 
-    const element = document.getElementById("capture_main");
-    const stage = {
+    const element: any = document.getElementById("capture_main");
+    const stage: any = {
         name: element.children[0], img: element.children[1], button: element.children[2],
         chances: document.getElementById("capture_chances"), nickNameDiv: document.getElementById("capture_nickname"),
     }
@@ -335,13 +340,13 @@ function capture(pokemon) {
     stage.nickNameDiv.style.display = "none";
     stage.button.style.border = this.capturedPokemon.includes(pokemon) ? "3px solid green" : "3px solid red";
     let chances = 3;
-    const captureChance = (50 - pokemon.stats[2]["base_stat"] + (this.hasCompanion ? this.companion.pokemon.stats[1]["base_stat"] : 0)) / 100;
+    const captureChance = (50 - pokemon.stats[2]["base_stat"] + (this.companion ? this.companion.pokemon.stats[1]["base_stat"] : 0)) / 100;
     for (let i = 0; i < stage.chances.children.length; i++) {
         stage.chances.children[i].style.filter = "grayscale(0%)";
     }
 
     let captured = false;
-    const captureBtn = document.getElementById("capture_button");
+    const captureBtn: any = document.getElementById("capture_button");
     if (pokemon.isCaptured) {
         captureBtn.addEventListener("click", async () => {
             this.releasePokemon(pokemon);
@@ -352,7 +357,7 @@ function capture(pokemon) {
         tryCapture(this);
     }
 
-    function tryCapture(player) {
+    function tryCapture(player: Player) {
         captureBtn.addEventListener("click", async () => {
             chances--;
             stage.chances.children[chances].style.filter = "grayscale(100%)";

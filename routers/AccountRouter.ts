@@ -1,6 +1,5 @@
 import express, { Express } from "express";
 import { getUser, userCollection } from "../database";
-import { User } from "../interfaces";
 
 export function GetAccountRouter() {
     interface FormError {

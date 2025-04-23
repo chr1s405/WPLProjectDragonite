@@ -1,5 +1,4 @@
 import express, { Express } from "express";
-import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 import path from "path";
 import { getGameRouter } from "./routers/gameRouter";
@@ -10,12 +9,6 @@ import { connect } from "./database";
 dotenv.config();
 
 const app: Express = express();
-
-const dbConnectionString = "mongodb+srv://DragoniteUser:Dragonite@cluster0.zhqlzpr.mongodb.net/";
-const database = 'DragoniteDB';
-const collection = 'Users';
-const db = new MongoClient(dbConnectionString);
-
 
 app.set("view engine", "ejs");
 app.use(express.json());
