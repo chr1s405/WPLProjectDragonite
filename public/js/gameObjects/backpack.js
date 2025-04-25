@@ -1,5 +1,5 @@
 import { allPokemon, setAlert } from "../game.js";
-
+// let accountPage = document.getElementById(account_main);
 export function createBackpack(player) {
   const backpack = {
     player: player,
@@ -455,6 +455,13 @@ function openAccountEvent(event) {
   this.openEvent(event);
 }
 
+
+
 function closeAccountEvent(event) {
   event.style.display = "none";
 }
+
+
+// if(characterChoice != null){
+// accountPage.appendChild(characterChoice)
+// }

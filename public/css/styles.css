@@ -81,7 +81,7 @@
         "selection";
     grid-template-rows: 20% auto max-content;
     grid-template-columns: 100%;
-    background-image: url("../assets/backgrounds/mtg_background.jpeg");
+    /* background-image: url("../assets/backgrounds/mtg_background.jpeg"); */
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -146,6 +146,34 @@
     border: 5px solid black;
     border-radius: 30px;
     align-content: center;
+}
+
+.projectBtnMtg{
+ background-image: url("../assets/backgrounds/mtg_background.jpeg");
+}
+
+.projectBtnLego{
+background-image: url("../assets/backgrounds/lego_background.jpeg");
+}
+
+.projectBtnLotr{
+background-image: url("../assets/backgrounds/lotr_background.jpeg");
+}
+
+.projectBtnfortnite{
+    background-image: url("../assets/backgrounds/fortnite_background.jpeg");
+}
+
+.projectBtnFifa{
+    background-image: url("../assets/backgrounds/fifa_background.jpg");
+}
+
+.projectBtnPokemon{
+    background-image: url("../assets/backgrounds/pokemon_background.jpeg");
+}
+
+.backgroundColor{
+background-color: rgba(100, 100, 100, 0.8);
 }
 
 #project_start #game_mainBtn img {

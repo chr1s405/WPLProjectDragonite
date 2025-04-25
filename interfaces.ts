@@ -225,3 +225,10 @@ export interface Backpack {
   openCaptureEvent: Function,
   closeCaptureEvent: Function,
 }
+
+export interface projectPicture{
+  background: string;
+  logo: string;
+  logoBgColor: string;
+}
+

@@ -5,9 +5,9 @@ import { createPokemon } from "./gameObjects/pokemon.js";
 import { createBackpack } from "./gameObjects/backpack.js";
 
 let pause = true;
-
 export let allPokemon;
 export let backpack;
+
 let map;
 let player;
 
