@@ -97,7 +97,7 @@ function isOnScreen(x, y, width = 0, height = 0) {
     }
     return false;
 }
-function getPosition(left = this.left, top = this.top, right = this.width, bottom = this.height){
+function getPosition(left = this.left, top = this.top, right = this.width, bottom = this.height) {
     let tileId;
     do {
         const x = Math.trunc(left + Math.random() * (right - left));
@@ -106,11 +106,11 @@ function getPosition(left = this.left, top = this.top, right = this.width, botto
     } while (this.collisionTiles.includes(this.layerData[tileId]));
     return this.positionInWorld(tileId);
 }
-function getRandomPosition(x, y, radius){
-    const left = Math.max(this.left, x -radius);
-    const right = Math.min(this.width, x +radius);
-    const top = Math.max(this.top, y -radius);
-    const bottom = Math.min(this.height, y +radius);
+function getRandomPosition(x, y, radius) {
+    const left = Math.max(this.left, x - radius);
+    const right = Math.min(this.width, x + radius);
+    const top = Math.max(this.top, y - radius);
+    const bottom = Math.min(this.height, y + radius);
     return this.getPosition(left, top, right, bottom);
 }
 function getPositionOnScreen() {
@@ -136,6 +136,7 @@ function handleCollision(player) {
     let tiles = [];
     let tileId;
     let tileBounderies;
+    let npcHitbox;
 
     hitbox = {
         x: player.x + player.velocityX,
@@ -163,6 +164,18 @@ function handleCollision(player) {
             }
         }
     })
+    this.npcs.forEach((npc) => {
+        npcHitbox = { x: npc.x, y: npc.y, width: npc.width, height: npc.height };
+        if (isOverlapping(hitbox, npcHitbox)) {
+            if (player.velocityX < 0) {
+                player.x = npcHitbox.x + npcHitbox.width;
+            }
+            if (player.velocityX > 0) {
+                player.x = npcHitbox.x - player.width;
+            }
+            player.velocityX = 0;
+        }
+    })
 
     hitbox = {
         x: player.x,
@@ -175,8 +188,8 @@ function handleCollision(player) {
         (tileId - mapData["width"] - 1), (tileId - mapData["width"]), (tileId - mapData["width"] + 1),
         (tileId - 1), (tileId), (tileId + 1),
         (tileId + mapData["width"] - 1), (tileId + mapData["width"]), (tileId + mapData["width"] + 1)]
-    tiles.forEach((tile) => {
 
+    tiles.forEach((tile) => {
         if (this.collisionTiles.includes(this.layerData[tile])) {
             tileBounderies = this.positionInWorld(tile);
             if (isOverlapping(hitbox, tileBounderies)) {
@@ -188,6 +201,18 @@ function handleCollision(player) {
                 }
                 player.velocityY = 0;
             }
+        }
+    })
+    this.npcs.forEach((npc) => {
+        npcHitbox = { x: npc.x, y: npc.y, width: npc.width, height: npc.height };
+        if (isOverlapping(hitbox, npcHitbox)) {
+            if (player.velocityY < 0) {
+                player.y = npcHitbox.y + npcHitbox.height;
+            }
+            if (player.velocityY > 0) {
+                player.y = npcHitbox.y - player.height;
+            }
+            player.velocityY = 0;
         }
     })
 }
@@ -229,7 +254,7 @@ function findPath(start, end) {
         })
         paths.splice(0, 1);
     } while (!visited.includes(end) && counter <= 9999);
-    if(counter > 9999){
+    if (counter > 9999) {
         paths.push([start]);
     }
     return paths[paths.length - 1];
