@@ -20,6 +20,7 @@ export function createBackpack(player) {
 
     openCompareSide,
     createPokemonList,
+    getFilteredList,
 
     openBattleEvent,
     closeBattleEvent,
@@ -121,10 +122,10 @@ function openPokedexEvent(event) {
   const table = event.getElementsByClassName("pokemon_list")[0].getElementsByTagName("table")[0];
   const filters = event.getElementsByClassName("pokedex_filter");
   for (let i = 0; i < filters.length; i++) {
-    filters[i].addEventListener("input", () => { this.createPokemonList(table, getFilteredList(table), pokedexRowClick.bind(this)) });
+    filters[i].addEventListener("input", () => { this.createPokemonList(table, this.getFilteredList(table), pokedexRowClick.bind(this)) });
   }
   resetFilters();
-  this.createPokemonList(table, getFilteredList(table), pokedexRowClick.bind(this));
+  this.createPokemonList(table, this.getFilteredList(table), pokedexRowClick.bind(this));
 }
 function closePokedexEvent(event) {
   event.style.display = "none";
@@ -156,7 +157,7 @@ function getFilteredList(table) {
 
     filteredList = filteredList.filter((pokemon) => {
       const matchesSearch = pokemon.name.toLowerCase().includes(filterText.value.toLowerCase());
-      const isCaught = pokemon.isCaptured//Player.capturedPokemon.includes(pokemon);
+      const isCaught = this.player.capturedPokemon.find((search) => { return search.id === pokemon.id });
       const isKnown = pokemon.isKnown;
       const isType = filterType.value === "all" || pokemon.types.some(t => t.type.name === filterType.value);
       return matchesSearch && (!filterCaught.checked || isCaught) && (!filterKnown.checked || isKnown) && isType;
@@ -286,8 +287,8 @@ function openCompareEvent(event) {
   const tableLeft = event.getElementsByClassName("pokemon_list")[0];
   const tableRight = event.getElementsByClassName("pokemon_list")[1];
   resetFilters();
-  this.createPokemonList(tableLeft, getFilteredList(event), compareLeftRowClick.bind(this));
-  this.createPokemonList(tableRight, getFilteredList(event), compareRightRowClick.bind(this));
+  this.createPokemonList(tableLeft, this.getFilteredList(event), compareLeftRowClick.bind(this));
+  this.createPokemonList(tableRight, this.getFilteredList(event), compareRightRowClick.bind(this));
 }
 function closeCompareEvent(event) {
   const compareSides = event.getElementsByClassName("compare_sides");

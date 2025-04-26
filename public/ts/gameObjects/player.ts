@@ -1,5 +1,5 @@
 import { createCompanion } from "./companion.ts";
-import { backpack, setAlert, setTextBox } from "../game.ts";
+import { allPokemon, backpack, setAlert, setTextBox } from "../game.ts";
 import { Map, Player, Pokemon, WildPokemon } from "../../../interfaces.ts";
 
 export function createPlayer(x: number, y: number) {
@@ -54,7 +54,7 @@ function update(this: Player, map: Map) {
     this.move(map);
     this.div.style.left = `${this.x}px`;
     this.div.style.top = `${this.y}px`;
-    if (this.companion) {
+    if (this.companion.pokemon) {
         this.companion.update(map);
     }
     if (this.isDebugOn) {
@@ -121,11 +121,11 @@ function setDirection(this: Player, dir: string) {
 
 //pokemon
 async function setCompanion(this: Player, pokemon: Pokemon) {
-    if (this.capturedPokemon.includes(pokemon)) {
-        this.companion =
-            this.companion.setCompanion(pokemon);
-        const nav: any = document.getElementById("nav-pokemon")
-        if (nav != null) { nav.src = this.companion.pokemon.sprites["front_default"] };
+    const ownedPokemon = this.capturedPokemon.find((search) => { return search.id === pokemon.id });
+    if (ownedPokemon) {
+        this.companion.setCompanion(ownedPokemon);
+        const nav: any = document.getElementById("nav-pokemon")!;
+        nav.src = this.companion.pokemon.sprites["front_default"];
     }
     else {
         await setAlert("je hebt deze pokemon nog niet gevangen");
@@ -133,27 +133,32 @@ async function setCompanion(this: Player, pokemon: Pokemon) {
 }
 function removeCompanion(this: Player,) {
     this.companion.removeCompanion();
-    const nav: any = document.getElementById("nav-pokemon")
-    if (nav != null) { nav.src = "../assets/pikachu_silouhette.png" };
+    const nav: any = document.getElementById("nav-pokemon")!;
+    nav.src = "../assets/pikachu_silouhette.png";
 }
 async function capturePokemon(this: Player, pokemon: Pokemon) {
-    pokemon.isKnown = true;
-    pokemon.isCaptured = true;
-    this.capturedPokemon.push(pokemon);
+    allPokemon.find((search: Pokemon) => { return search.id === pokemon.id }).isKnown = true;
+    const pokemonCopy = Object.assign({}, pokemon)
+    this.capturedPokemon.push(pokemonCopy);
     await setAlert(`je hebt ${pokemon.name} gevangen`);
 }
 async function releasePokemon(this: Player, pokemon: Pokemon) {
-    if (pokemon === this.companion.pokemon) {
-        await setAlert("kies eerst een andere companion");
-    }
-    else if (!this.capturedPokemon.includes(pokemon)) {
+    let pokemonIdx = -1;
+    const ownedPokemon = this.capturedPokemon.find((search, index) => {
+        if (search.id === pokemon.id) {
+            pokemonIdx = index;
+            return search;
+        }
+    });
+    if (!ownedPokemon) {
         await setAlert("je hebt deze pokemon niet gevangen");
+    }
+    else if (ownedPokemon === this.companion.pokemon) {
+        await setAlert("kies eerst een andere companion");
     }
     else {
         await setAlert(`je hebt ${pokemon.name} losgelaten`);
-        const pokemonIdx = this.capturedPokemon.indexOf(pokemon);
         this.capturedPokemon.splice(pokemonIdx, 1);
-        pokemon.isCaptured = false;
     }
 }
 
@@ -189,12 +194,13 @@ function interact(this: Player, map: Map) {
     }
 }
 function interactNpc(this: Player, map: Map) {
-    map.npcs.forEach(npc => {
+    map.npcs.forEach(async (npc) => {
         if (npc.isOnScreen) {
             const distX = (this.x + this.width / 2) - (npc.x + npc.width / 2);
             const distY = (this.y + this.height / 2) - (npc.y + npc.height / 2);
             const dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
             if (dist <= map.tileWidth * 1.5) {
+                await npc.interact();
                 this.battle(this.companion.pokemon, npc.pokemon);
                 return true;
             }
@@ -221,7 +227,7 @@ function interactPokemon(this: Player, map: Map) {
 // ========================================== //
 
 async function battle(this: Player, player: Player, enemy: any) {
-    if (!this.companion) {
+    if (!this.companion.pokemon) {
         setAlert("je hebt nog geen pokemon om mee te vechten")
         return;
     }
@@ -245,7 +251,7 @@ async function battle(this: Player, player: Player, enemy: any) {
     stages[0].hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`
     stages[1].img.src = enemy.pokemon.sprites["front_default"];
     stages[1].name.innerHTML = enemy.pokemon.name;
-    stages[1].hp.innerHTML = enemy.pokemon.stats[0]["base_stat"];
+    stages[1].hp.innerHTML = enemy.pokemon.stats[0]["base_stat"] + "HP";
     stages[1].hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`
 
     const fighters = [{ nr: 1, owner: player, pokemon: player.companion.pokemon, hp: player.companion.pokemon.stats[0]["base_stat"], stage: stages[0], audio: new Audio(player.companion.pokemon.cries["latest"]) },
@@ -308,7 +314,7 @@ async function battle(this: Player, player: Player, enemy: any) {
             }
             else {
                 atk.pokemon.stats[6]["base_stat"]++;
-                if (!def.pokemon.isCaptured) {
+                if (!(def.owner.type === "npc")) {
                     atk.owner.capturePokemon(def.pokemon);
                 }
                 battleText = "je hebt gewonnen";
@@ -362,16 +368,16 @@ function capture(this: Player, pokemon: Pokemon) {
     stage.name.innerHTML = pokemon.name;
     stage.img.src = pokemon.sprites["front_default"];
     stage.nickNameDiv.style.display = "none";
-    stage.button.style.border = this.capturedPokemon.includes(pokemon) ? "3px solid green" : "3px solid red";
+    stage.button.style.border = this.capturedPokemon.find((search: Pokemon) => { return search.id === pokemon.id }) ? "3px solid green" : "3px solid red";
     let chances = 3;
-    const captureChance = (50 - pokemon.stats[2]["base_stat"] + (this.companion ? this.companion.pokemon.stats[1]["base_stat"] : 0)) / 100;
+    const captureChance = (50 - pokemon.stats[2]["base_stat"] + (this.companion.pokemon ? this.companion.pokemon.stats[1]["base_stat"] : 0)) / 100;
     for (let i = 0; i < stage.chances.children.length; i++) {
         stage.chances.children[i].style.filter = "grayscale(0%)";
     }
 
     let captured = false;
     const captureBtn: any = document.getElementById("capture_button");
-    if (pokemon.isCaptured) {
+    if (this.capturedPokemon.find((search: Pokemon) => { return search.id === pokemon.id })) {
         captureBtn.addEventListener("click", async () => {
             this.releasePokemon(pokemon);
             backpack.closeCaptureEvent();

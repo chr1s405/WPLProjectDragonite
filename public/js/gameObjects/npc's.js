@@ -63,7 +63,6 @@ function update(map) {
 }
 function assignPokemon(pokemon) {
   this.pokemon = Object.assign({}, pokemon);
-  this.pokemon.isCaptured = true;
 }
 function goTo(map, dest) {
   if (this.path.length === 0) {

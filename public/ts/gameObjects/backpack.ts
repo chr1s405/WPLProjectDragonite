@@ -24,6 +24,7 @@ export function createBackpack(player: Player) {
 
     openCompareSide,
     createPokemonList,
+    getFilteredList,
 
     openBattleEvent,
     closeBattleEvent,
@@ -126,10 +127,10 @@ function openPokedexEvent(this: Backpack, event: any) {
   const table = event.getElementsByClassName("pokemon_list")[0].getElementsByTagName("table")[0];
   const filters = event.getElementsByClassName("pokedex_filter");
   for (let i = 0; i < filters.length; i++) {
-    filters[i].addEventListener("input", () => { this.createPokemonList(table, getFilteredList(table), pokedexRowClick.bind(this)) });
+    filters[i].addEventListener("input", () => { this.createPokemonList(table, this.getFilteredList(table), pokedexRowClick.bind(this)) });
   }
   resetFilters();
-  this.createPokemonList(table, getFilteredList(table), pokedexRowClick.bind(this));
+  this.createPokemonList(table, this.getFilteredList(table), pokedexRowClick.bind(this));
 }
 function closePokedexEvent(event: any) {
   event.style.display = "none";
@@ -141,7 +142,7 @@ function closePokedexEvent(event: any) {
 }
 
 function resetFilters() {
-  const filters:any = document.getElementsByClassName("pokedex_filter");
+  const filters: any = document.getElementsByClassName("pokedex_filter");
   filters[0].value = "";
   filters[1].checked = false;
   filters[2].checked = false;
@@ -149,7 +150,7 @@ function resetFilters() {
   filters[4].value = "id";
 }
 
-function getFilteredList(table: any) {
+function getFilteredList(this: Backpack, table: any) {
   let filteredList = allPokemon;
   const filters = table.parentElement.getElementsByClassName("pokedex_filter");
   if (filters.length > 0) {
@@ -161,7 +162,7 @@ function getFilteredList(table: any) {
 
     filteredList = filteredList.filter((pokemon) => {
       const matchesSearch = pokemon.name.toLowerCase().includes(filterText.value.toLowerCase());
-      const isCaught = pokemon.isCaptured//Player.capturedPokemon.includes(pokemon);
+      const isCaught = this.player.capturedPokemon.find((search) => { return search.id === pokemon.id })
       const isKnown = pokemon.isKnown;
       const isType = filterType.value === "all" || pokemon.types.some((t: any) => t.type.name === filterType.value);
       return matchesSearch && (!filterCaught.checked || isCaught) && (!filterKnown.checked || isKnown) && isType;
@@ -291,8 +292,8 @@ function openCompareEvent(this: Backpack, event: any) {
   const tableLeft = event.getElementsByClassName("pokemon_list")[0];
   const tableRight = event.getElementsByClassName("pokemon_list")[1];
   resetFilters();
-  this.createPokemonList(tableLeft, getFilteredList(event), compareLeftRowClick.bind(this));
-  this.createPokemonList(tableRight, getFilteredList(event), compareRightRowClick.bind(this));
+  this.createPokemonList(tableLeft, this.getFilteredList(event), compareLeftRowClick.bind(this));
+  this.createPokemonList(tableRight, this.getFilteredList(event), compareRightRowClick.bind(this));
 }
 function closeCompareEvent(event: any) {
   const compareSides = event.getElementsByClassName("compare_sides");

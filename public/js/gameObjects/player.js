@@ -1,5 +1,5 @@
 import { createCompanion } from "./companion.js";
-import { backpack, setAlert } from "../game.js";
+import { allPokemon, backpack, setAlert } from "../game.js";
 
 export function createPlayer(x, y) {
     const character = document.getElementById("character");
@@ -20,7 +20,6 @@ export function createPlayer(x, y) {
         isMovingRight: false,
         direction: "down",
         spriteIndex: 0,
-        hasCompanion: false,
         companion: undefined,
         capturedPokemon: [],
         isInEvent: false,
@@ -54,7 +53,7 @@ function update(map) {
     this.move(map);
     this.div.style.left = `${this.x}px`;
     this.div.style.top = `${this.y}px`;
-    if (this.hasCompanion) {
+    if (this.companion.pokemon) {
         this.companion.update(map);
     }
     if (this.isDebugOn) {
@@ -121,9 +120,9 @@ function setDirection(dir) {
 
 //pokemon
 async function setCompanion(pokemon) {
-    if (this.capturedPokemon.includes(pokemon)) {
-        this.hasCompanion = true;
-        this.companion.setCompanion(pokemon);
+    const ownedPokemon = this.capturedPokemon.find((search) => { return search.id === pokemon.id });
+    if (ownedPokemon) {
+        this.companion.setCompanion(ownedPokemon);
         document.getElementById("nav-pokemon").src = this.companion.pokemon.sprites["front_default"]
     }
     else {
@@ -131,28 +130,32 @@ async function setCompanion(pokemon) {
     }
 }
 function removeCompanion() {
-    this.hasCompanion = false;
-    Companion.removeCompanion();
+    this.companion.removeCompanion();
     document.getElementById("nav-pokemon").src = "../assets/pikachu_silouhette.png"
 }
 async function capturePokemon(pokemon) {
-    pokemon.isKnown = true;
-    pokemon.isCaptured = true;
-    this.capturedPokemon.push(pokemon);
+    allPokemon.find(search => { return search.id === pokemon.id }).isKnown = true;
+    const pokemonCopy = Object.assign({}, pokemon)
+    this.capturedPokemon.push(pokemonCopy);
     await setAlert(`je hebt ${pokemon.name} gevangen`);
 }
 async function releasePokemon(pokemon) {
-    if (pokemon === this.companion.pokemon) {
-        await setAlert("kies eerst een andere companion");
-    }
-    else if (!this.capturedPokemon.includes(pokemon)) {
+    let pokemonIdx = -1;
+    const ownedPokemon = this.capturedPokemon.find((search, index) => {
+        if (search.id === pokemon.id) {
+            pokemonIdx = index;
+            return search;
+        }
+    });
+    if (!ownedPokemon) {
         await setAlert("je hebt deze pokemon niet gevangen");
+    }
+    else if (ownedPokemon === this.companion.pokemon) {
+        await setAlert("kies eerst een andere companion");
     }
     else {
         await setAlert(`je hebt ${pokemon.name} losgelaten`);
-        const pokemonIdx = this.capturedPokemon.indexOf(pokemon);
         this.capturedPokemon.splice(pokemonIdx, 1);
-        pokemon.isCaptured = false;
     }
 }
 
@@ -220,7 +223,7 @@ function interactPokemon(map) {
 // ========================================== //
 
 async function battle(player, enemy) {
-    if (!this.hasCompanion) {
+    if (!this.companion.pokemon) {
         setAlert("je hebt nog geen pokemon om mee te vechten")
         return;
     }
@@ -244,7 +247,7 @@ async function battle(player, enemy) {
     stages[0].hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`
     stages[1].img.src = enemy.pokemon.sprites["front_default"];
     stages[1].name.innerHTML = enemy.pokemon.name;
-    stages[1].hp.innerHTML = enemy.pokemon.stats[0]["base_stat"];
+    stages[1].hp.innerHTML = enemy.pokemon.stats[0]["base_stat"] + "HP";
     stages[1].hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`
 
     const fighters = [{ nr: 1, owner: player, pokemon: player.companion.pokemon, hp: player.companion.pokemon.stats[0]["base_stat"], stage: stages[0], audio: new Audio(player.companion.pokemon.cries["latest"]) },
@@ -307,7 +310,7 @@ async function battle(player, enemy) {
             }
             else {
                 atk.pokemon.stats[6]["base_stat"]++;
-                if (!def.pokemon.isCaptured) {
+                if (!(def.owner.type === "npc")) {
                     atk.owner.capturePokemon(def.pokemon);
                 }
                 battleText = "je hebt gewonnen";
@@ -317,29 +320,29 @@ async function battle(player, enemy) {
         }
     }
     async function setBattleText(text) {
-      let i = 0;
-      const textBoxText = battleTextBox.getElementsByTagName("p")[0];
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          document.addEventListener("click", () => { i = text.length }, { once: true });
-        }, 10);
-        const intervalId = setInterval(() => {
-          if (i < text.length) {
-            i++;
-            textBoxText.innerHTML = text.substring(0, i);
-          }
-          else {
-            textBoxText.innerHTML = text;
-            clearInterval(intervalId);
-            battleTextBox.getElementsByTagName("p")[1].style.display = "block";
-            document.addEventListener("click", () => {
-              textBoxText.innerHTML = "";
-              battleTextBox.getElementsByTagName("p")[1].style.display = "none";
-              resolve(true);
-            }, { once: true });
-          }
-        }, 30);
-      })
+        let i = 0;
+        const textBoxText = battleTextBox.getElementsByTagName("p")[0];
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                document.addEventListener("click", () => { i = text.length }, { once: true });
+            }, 10);
+            const intervalId = setInterval(() => {
+                if (i < text.length) {
+                    i++;
+                    textBoxText.innerHTML = text.substring(0, i);
+                }
+                else {
+                    textBoxText.innerHTML = text;
+                    clearInterval(intervalId);
+                    battleTextBox.getElementsByTagName("p")[1].style.display = "block";
+                    document.addEventListener("click", () => {
+                        textBoxText.innerHTML = "";
+                        battleTextBox.getElementsByTagName("p")[1].style.display = "none";
+                        resolve(true);
+                    }, { once: true });
+                }
+            }, 30);
+        })
     }
 }
 
@@ -361,16 +364,16 @@ function capture(pokemon) {
     stage.name.innerHTML = pokemon.name;
     stage.img.src = pokemon.sprites["front_default"];
     stage.nickNameDiv.style.display = "none";
-    stage.button.style.border = this.capturedPokemon.includes(pokemon) ? "3px solid green" : "3px solid red";
+    stage.button.style.border = this.capturedPokemon.find(search => { return search.id === pokemon.id }) ? "3px solid green" : "3px solid red";
     let chances = 3;
-    const captureChance = (50 - pokemon.stats[2]["base_stat"] + (this.hasCompanion ? this.companion.pokemon.stats[1]["base_stat"] : 0)) / 100;
+    const captureChance = (50 - pokemon.stats[2]["base_stat"] + (this.companion.pokemon ? this.companion.pokemon.stats[1]["base_stat"] : 0)) / 100;
     for (let i = 0; i < stage.chances.children.length; i++) {
         stage.chances.children[i].style.filter = "grayscale(0%)";
     }
 
     let captured = false;
     const captureBtn = document.getElementById("capture_button");
-    if (pokemon.isCaptured) {
+    if (this.capturedPokemon.find((search) => { return search.id === pokemon.id })) {
         captureBtn.addEventListener("click", async () => {
             this.releasePokemon(pokemon);
             backpack.closeCaptureEvent();

@@ -175,7 +175,6 @@ export interface Pokemon {
     sprite: string
   }[],
   isKnown: boolean,
-  isCaptured: boolean,
 };
 
 export interface WildPokemon {
@@ -222,6 +221,7 @@ export interface Backpack {
   openMainMenu: Function,
   openCompareSide: Function,
   createPokemonList: Function,
+  getFilteredList: Function,
   openBattleEvent: Function,
   closeBattleEvent: Function,
   openCaptureEvent: Function,

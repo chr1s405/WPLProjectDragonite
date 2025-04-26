@@ -269,7 +269,6 @@ async function GetPokemon() {
       nickname: "???",
       evolution_chain: [],
       isKnown: false,
-      isCaptured: false,
     });
   });
   console.log(pokemonList);
