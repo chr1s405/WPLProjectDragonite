@@ -83,6 +83,7 @@ export interface Player {
 
 export interface Npc {
   type: string,
+  name: string,
   div: HTMLElement,
   x: number,
   y: number,
@@ -102,6 +103,7 @@ export interface Npc {
   move: Function,
   goTo: Function,
   setDirection: Function,
+  interact: Function,
 };
 
 export interface Companion {

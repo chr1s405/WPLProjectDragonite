@@ -1032,6 +1032,33 @@
       font-size: 0.8rem;
     }
   }
+  #gamePage #textBox{
+    display: none;
+    position: absolute;
+    bottom: 20px;
+    left: 0px;
+    width: 100%;
+    max-width: 800px;
+    min-height: 130px;
+    padding: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    background-color: white;
+    border: 4px solid black;
+    border-radius: 20px;
+
+    & #textBoxName{
+      font-weight: bold;
+    }
+    & p:last-child {
+      display: inline-block;
+      position: absolute;
+      bottom: 5px;
+      right: 15px;
+      font-size: 0.8rem;
+    }
+  }
 
   #gamePage .debug {
     display: none;

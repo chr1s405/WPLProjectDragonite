@@ -82,8 +82,8 @@ async function intro() {
   optionsDiv = introPage.getElementsByClassName("intro_selection")[0];
   const starterCharacters = [
     // { name: "man", img: "../../assets/characters/player1Sprites.png" },
-    { name: "Red", smallImg: "../../assets/characters/Red.png", img: "../../assets/characters/RedBig.webp"},
-    { name: "Leaf", smallImg: "../../assets/characters/leaf.png" , img: "../../assets/characters/LeafBig.png"},
+    { name: "Red", smallImg: "../../assets/characters/Red.png", img: "../../assets/characters/RedBig.webp" },
+    { name: "Leaf", smallImg: "../../assets/characters/leaf.png", img: "../../assets/characters/LeafBig.png" },
     { name: "Lucas", smallImg: "../../assets/characters/lucas.webp", img: "../../assets/characters/LucasBig.webp" },
     { name: "Dawn", smallImg: "../../assets/characters/dawn.png", img: "../../assets/characters/DawnBig.webp" },
     { name: "Calem", smallImg: "../../assets/characters/calem.png", img: "../../assets/characters/CalemBig.webp" },
@@ -153,9 +153,15 @@ function gameLoop() {
   }, 45);
 }
 
-export async function setTextBox(textbox, text) {
+export async function setTextBox(text, name = "") {
+  const textbox = document.getElementById("textBox");
+  const textboxName = document.getElementById("textBoxName");
+  const textBoxText = document.getElementById("textBoxMsg");
+  const continueText = textbox.getElementsByTagName("p")[textbox.getElementsByTagName("p").length-1];
+  textbox.style.display = "block";
+  textboxName.innerHTML = name;
+  pause = true;
   let i = 0;
-  const textBoxText = textbox.getElementsByTagName("p")[0];
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       document.addEventListener("click", () => { i = text.length }, { once: true });
@@ -168,10 +174,12 @@ export async function setTextBox(textbox, text) {
       else {
         textBoxText.innerHTML = text;
         clearInterval(intervalId);
-        textbox.getElementsByTagName("p")[1].style.display = "block";
+        continueText.style.display = "block";
         document.addEventListener("click", () => {
           textBoxText.innerHTML = "";
-          textbox.getElementsByTagName("p")[1].style.display = "none";
+          continueText.style.display = "none";
+          textbox.style.display = "none";
+          pause = false;
           resolve(true);
         }, { once: true });
       }

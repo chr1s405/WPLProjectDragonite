@@ -1,5 +1,5 @@
 import { createCompanion } from "./companion.js";
-import { backpack, setAlert, setTextBox } from "../game.js";
+import { backpack, setAlert } from "../game.js";
 
 export function createPlayer() {
     const character = document.getElementById("character");
@@ -185,12 +185,13 @@ function interact(map) {
     }
 }
 function interactNpc(map) {
-    map.npcs.forEach(npc => {
+    map.npcs.forEach(async (npc) => {
         if (npc.isOnScreen) {
             const distX = (this.x + this.width / 2) - (npc.x + npc.width / 2);
             const distY = (this.y + this.height / 2) - (npc.y + npc.height / 2);
             const dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
             if (dist <= map.tileWidth * 1.5) {
+                await npc.interact();
                 this.battle(this, npc);
                 return true;
             }
@@ -285,14 +286,14 @@ async function battle(player, enemy) {
         }
         if (action === 2) {
             battleText += ` loopt weg`;
-            await setTextBox(battleTextBox, battleText);
+            await setBattleText(battleText);
             backpack.closeBattleEvent();
             return;
         }
         const hpPercent = def.hp / def.pokemon.stats[0]["base_stat"] * 100;
         def.stage.hp.innerHTML = `${def.hp}HP`;
         def.stage.hpBar.style.background = `linear-gradient(to right, #00ff00 ${hpPercent}%, #000000 ${hpPercent}%)`;
-        await setTextBox(battleTextBox, battleText);
+        await setBattleText(battleText);
         if (def.hp > 0) {
             fighters.reverse();
             setTimeout(await performAction(fighters[0], fighters[1]), 0);
@@ -309,9 +310,34 @@ async function battle(player, enemy) {
                 }
                 battleText = "je hebt gewonnen";
             }
-            await setTextBox(battleTextBox, battleText);
+            await setBattleText(battleText);
             backpack.closeBattleEvent();
         }
+    }
+    async function setBattleText(text) {
+      let i = 0;
+      const textBoxText = battleTextBox.getElementsByTagName("p")[0];
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          document.addEventListener("click", () => { i = text.length }, { once: true });
+        }, 10);
+        const intervalId = setInterval(() => {
+          if (i < text.length) {
+            i++;
+            textBoxText.innerHTML = text.substring(0, i);
+          }
+          else {
+            textBoxText.innerHTML = text;
+            clearInterval(intervalId);
+            battleTextBox.getElementsByTagName("p")[1].style.display = "block";
+            document.addEventListener("click", () => {
+              textBoxText.innerHTML = "";
+              battleTextBox.getElementsByTagName("p")[1].style.display = "none";
+              resolve(true);
+            }, { once: true });
+          }
+        }, 30);
+      })
     }
 }
 
