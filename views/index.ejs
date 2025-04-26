@@ -17,18 +17,20 @@
       <p>Kies je spel</p>
     </div>
     
+    <form action = "Arrowbtns"  method = "post">
     <div id="project_main">
-      
-      <button class="arrowBtn"><img src="/assets/icons/arrow_icon.png"></button>
+     
+      <button type = "submit" class="arrowBtn" value = "arrowLeft" name = "arrowbton"><img src="/assets/icons/arrow_icon.png"></button>
       <a href="<%= linktTologin%>" id="game_mainBtn" class = "backgroundColor"><img src="<%= projectBtn%>"></a>
-      <button class="arrowBtn"><img src="/assets/icons/arrow_icon.png"></button>
-      
+      <button class="arrowBtn" value = "arrowRight" name= "arrowbton"><img src="/assets/icons/arrow_icon.png"></button>
+    
    
-    </div>
-  
+      </div>
+    </form>
+
     <form action="Projectchoice" method="post">
     <div id="project_selection">
-      <button type = "submit" name = "smallbton" value ="mtg"><a id="game_mtg" class="game_option active"><img src="/assets/logos/mtg_logo.jpeg"></a></button>
+      <button type = "submit" name = "smallbton" value ="mtg"><a id="game_mtg" class="game_option "><img src="/assets/logos/mtg_logo.jpeg"></a></button>
       <button type = "submit" name = "smallbton" value ="lego"><a id="game_lego" class="game_option"><img src="/assets/logos/lego_logo.jpeg"></a></button>
       <button type = "submit" name = "smallbton" value ="lotr"><a id="game_lotr" class="game_option"><img src="/assets/logos/lotr_logo.jpeg"></a></button>
       <button type = "submit" name = "smallbton" value ="fortnite"><a id="game_fortnite" class="game_option"><img src="/assets/logos/fortnite_logo.jpeg"></a></button>

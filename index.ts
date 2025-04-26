@@ -61,10 +61,10 @@ const projectBackgrounds: string[]= [
 function changeCurrent(projectNr: number): any{
 currentProjectSelected = projectNr;
 }
-
+let link: string = "#";
 
 app.post("/Projectchoice",async(req,res)=>{
-    let link: string = "#";
+    link = "#";
     if(req.body.smallbton === "mtg"){
         changeCurrent(0)
         link = "#"
@@ -108,6 +108,7 @@ app.get("login", (req, res) =>{
     res.render("login", {})
 }
 )
+
 app.get("/", (req, res) => {
   
 res.render("index", 
@@ -118,8 +119,42 @@ res.render("index",
     })
 });
 
+app.post("/Arrowbtns",async(req,res)=>{
+    
+if(req.body.arrowbton === "arrowLeft")
+    {
+        if (currentProjectSelected != 0){
+        currentProjectSelected--
+        }
+        if(currentProjectSelected === 0){
+            currentProjectSelected = 5
+        }
+        if (currentProjectSelected === 5){
+            link = "login"
+        }
+    }
 
-
+    if(req.body.arrowbton === "arrowRight")
+        {
+            if (currentProjectSelected != 5){
+            currentProjectSelected++
+            }
+            if(currentProjectSelected === 5){
+                currentProjectSelected = 0
+            }
+            if (currentProjectSelected === 5){
+                link = "login"
+            }
+        }
+        
+    
+            res.render("index", 
+                {
+                    projectBtn: projectImages[currentProjectSelected].logo,
+                    currentBackground: projectBackgrounds[currentProjectSelected],
+                    linktTologin: link
+            })
+        })
 
 app.use("/", getProjectRouter());
 app.use("/login", GetAccountRouter());
