@@ -17,7 +17,7 @@ await gameLoop();
 
 async function gameInit() {
   map = createMap();
-  player = createPlayer();
+  player = createPlayer(450,450);
   createNpc(map, 200, 300);
   createNpc(map, 700, 250);
   createNpc(map, 300, 1050);

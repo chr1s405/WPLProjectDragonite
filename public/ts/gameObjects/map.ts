@@ -1,5 +1,5 @@
-import { Map, Player, Pokemon, WildPokemon } from "../../../interfaces";
-import mapData from "./map.json"  with { type: "json" };
+import { Map, Player, Pokemon, WildPokemon } from "../../../interfaces.ts";
+import mapData from "./map.json";
 
 export function createMap() {
     const overworldMap: any = document.getElementById("overworldMap");

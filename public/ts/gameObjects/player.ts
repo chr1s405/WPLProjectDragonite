@@ -1,13 +1,15 @@
-import { createCompanion } from "./companion.js";
-import { backpack, setAlert, setTextBox } from "../game.js";
-import { Map, Player, Pokemon, WildPokemon } from "../../../interfaces.js";
+import { createCompanion } from "./companion.ts";
+import { backpack, setAlert, setTextBox } from "../game.ts";
+import { Map, Player, Pokemon, WildPokemon } from "../../../interfaces.ts";
 
-export function createPlayer() {
+export function createPlayer(x: number, y: number) {
     const character: any = document.getElementById("character");
+    character.style.left = `${x}px`;
+    character.style.top = `${y}px`;
     const player: Player = {
         div: character,
-        x: character.offsetLeft,
-        y: character.offsetTop,
+        x: x,
+        y: y,
         width: character.clientWidth,
         height: character.clientHeight,
         speed: 20,//character.clientWidth,
@@ -120,8 +122,8 @@ function setDirection(this: Player, dir: string) {
 //pokemon
 async function setCompanion(this: Player, pokemon: Pokemon) {
     if (this.capturedPokemon.includes(pokemon)) {
-        this.companion = 
-        this.companion.setCompanion(pokemon);
+        this.companion =
+            this.companion.setCompanion(pokemon);
         const nav: any = document.getElementById("nav-pokemon")
         if (nav != null) { nav.src = this.companion.pokemon.sprites["front_default"] };
     }
@@ -129,7 +131,7 @@ async function setCompanion(this: Player, pokemon: Pokemon) {
         await setAlert("je hebt deze pokemon nog niet gevangen");
     }
 }
-function removeCompanion(this: Player, ) {
+function removeCompanion(this: Player,) {
     this.companion.removeCompanion();
     const nav: any = document.getElementById("nav-pokemon")
     if (nav != null) { nav.src = "../assets/pikachu_silouhette.png" };
@@ -156,9 +158,9 @@ async function releasePokemon(this: Player, pokemon: Pokemon) {
 }
 
 //debug
-function toggleDebug(this: Player, ) {
+function toggleDebug(this: Player,) {
     this.isDebugOn = !this.isDebugOn;
-    const debug: any = this.div.getElementsByClassName("debug")[0]; 
+    const debug: any = this.div.getElementsByClassName("debug")[0];
     if (this.isDebugOn) {
         debug.style.display = "block";
         this.div.style.border = "2px solid black";
@@ -218,18 +220,17 @@ function interactPokemon(this: Player, map: Map) {
 // ================ battle ================== //
 // ========================================== //
 
-async function battle(this: Player, player: Player, pokemon2: Pokemon) {
+async function battle(this: Player, player: Player, enemy: any) {
     if (!this.companion) {
         setAlert("je hebt nog geen pokemon om mee te vechten")
         return;
     }
     backpack.openBattleEvent();
     let battleText;
-    const pokemon1 = player.companion.pokemon;
-    const battleTextBox = document.getElementById("battle_text");
-    const battleButtons = document.getElementsByClassName("battle_button");
+    const battleTextBox = document.getElementById("battle_text")!;
+    const battleButtons = document.getElementsByClassName("battle_button")!;
 
-    const stage = document.getElementsByClassName("battle_stage")
+    const stage: any = document.getElementsByClassName("battle_stage")!;
     const stages: any = [{
         img: stage[0].getElementsByTagName("img")[0], name: stage[0].getElementsByClassName("statusbar")[0].children[0],
         hpBar: stage[0].getElementsByClassName("statusbar")[0].children[1], hp: stage[0].getElementsByClassName("statusbar")[0].children[1].children[0],
@@ -238,17 +239,17 @@ async function battle(this: Player, player: Player, pokemon2: Pokemon) {
         img: stage[1].getElementsByTagName("img")[0], name: stage[1].getElementsByClassName("statusbar")[0].children[0],
         hpBar: stage[1].getElementsByClassName("statusbar")[0].children[1], hp: stage[1].getElementsByClassName("statusbar")[0].children[1].children[0],
     }];
-    stages[0].img.src = pokemon1.sprites["front_default"];
-    stages[0].name.innerHTML = pokemon1.name;
-    stages[0].hp.innerHTML = pokemon1.stats[0]["base_stat"];
+    stages[0].img.src = player.companion.pokemon.sprites["front_default"];
+    stages[0].name.innerHTML = player.companion.pokemon.name;
+    stages[0].hp.innerHTML = player.companion.pokemon.stats[0]["base_stat"];
     stages[0].hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`
-    stages[1].img.src = pokemon2.sprites["front_default"];
-    stages[1].name.innerHTML = pokemon2.name;
-    stages[1].hp.innerHTML = pokemon2.stats[0]["base_stat"];
+    stages[1].img.src = enemy.pokemon.sprites["front_default"];
+    stages[1].name.innerHTML = enemy.pokemon.name;
+    stages[1].hp.innerHTML = enemy.pokemon.stats[0]["base_stat"];
     stages[1].hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`
 
-    const fighters = [{ nr: 1, type: "player", pokemon: pokemon1, hp: pokemon1.stats[0]["base_stat"], stage: stages[0], audio: new Audio(pokemon1.cries["latest"]) },
-    { nr: 2, type: "npc", pokemon: pokemon2, hp: pokemon2.stats[0]["base_stat"], stage: stages[1], audio: new Audio(pokemon2.cries["latest"]) }];
+    const fighters = [{ nr: 1, owner: player, pokemon: player.companion.pokemon, hp: player.companion.pokemon.stats[0]["base_stat"], stage: stages[0], audio: new Audio(player.companion.pokemon.cries["latest"]) },
+    { nr: 2, owner: enemy, pokemon: enemy.pokemon, hp: enemy.pokemon.stats[0]["base_stat"], stage: stages[1], audio: new Audio(enemy.pokemon.cries["latest"]) }];
 
 
     performAction(fighters[0], fighters[1]);
@@ -268,7 +269,7 @@ async function battle(this: Player, player: Player, pokemon2: Pokemon) {
     async function performAction(atk: any, def: any) {
         battleText = atk.pokemon.name;
         let action;
-        if (atk.type === "player") {
+        if (atk.nr === 1) {
             action = await pressButton();
         }
         else {
@@ -288,35 +289,58 @@ async function battle(this: Player, player: Player, pokemon2: Pokemon) {
         }
         if (action === 2) {
             battleText += ` loopt weg`;
-            await setTextBox(battleTextBox, battleText);
+            await setBattleText(battleText);
             backpack.closeBattleEvent();
             return;
         }
         const hpPercent = def.hp / def.pokemon.stats[0]["base_stat"] * 100;
         def.stage.hp.innerHTML = `${def.hp}HP`;
         def.stage.hpBar.style.background = `linear-gradient(to right, #00ff00 ${hpPercent}%, #000000 ${hpPercent}%)`;
-        await setTextBox(battleTextBox, battleText);
+        await setBattleText(battleText);
         if (def.hp > 0) {
             fighters.reverse();
             setTimeout(async () => { await performAction(fighters[0], fighters[1]) }, 0);
         }
         else {
-            if(atk.type === "player"){
-                if (!def.pokemon.isCaptured) {
-                    atk.capturePokemon(def.pokemon);
-                }
-            }
             if (def.nr === 1) {
                 def.pokemon.stats[7]["base_stat"]++
                 battleText = "je hebt verloren";
             }
             else {
                 atk.pokemon.stats[6]["base_stat"]++;
+                if (!def.pokemon.isCaptured) {
+                    atk.owner.capturePokemon(def.pokemon);
+                }
                 battleText = "je hebt gewonnen";
             }
-            await setTextBox(battleTextBox, battleText);
+            await setBattleText(battleText);
             backpack.closeBattleEvent();
         }
+    }
+    async function setBattleText(text: string) {
+        let i = 0;
+        const textBoxText = battleTextBox.getElementsByTagName("p")[0];
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                document.addEventListener("click", () => { i = text.length }, { once: true });
+            }, 10);
+            const intervalId = setInterval(() => {
+                if (i < text.length) {
+                    i++;
+                    textBoxText.innerHTML = text.substring(0, i);
+                }
+                else {
+                    textBoxText.innerHTML = text;
+                    clearInterval(intervalId);
+                    battleTextBox.getElementsByTagName("p")[1].style.display = "block";
+                    document.addEventListener("click", () => {
+                        textBoxText.innerHTML = "";
+                        battleTextBox.getElementsByTagName("p")[1].style.display = "none";
+                        resolve(true);
+                    }, { once: true });
+                }
+            }, 30);
+        })
     }
 }
 

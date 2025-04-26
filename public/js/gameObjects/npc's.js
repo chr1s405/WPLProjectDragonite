@@ -122,7 +122,7 @@ function setDirection(dir) {
 }
 async function interact() {
   const battleMsg = [
-    "laten we vechten", "ik zal je verslaan", "ben je klaar om te verliezen", "als ik klaar met je ben, blijft er niets meer van je over", "ik maak gejakt van je"
+    "laten we vechten", "ik zal je verslaan", "ben je klaar om te verliezen", "als ik klaar met je ben, blijft er niets meer van je over", "ik maak gehakt van je"
   ];
   await setTextBox(battleMsg[Math.trunc(Math.random() * battleMsg.length)], this.name);
 }

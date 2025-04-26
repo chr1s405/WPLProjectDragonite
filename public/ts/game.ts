@@ -22,7 +22,7 @@ async function play() {
 
 async function gameInit() {
   map = createMap();
-  player = createPlayer();
+  player = createPlayer(450,450);
   createNpc(map, 200, 300);
   createNpc(map, 700, 250);
   createNpc(map, 300, 1050);
@@ -162,9 +162,15 @@ function gameLoop() {
   }, 45);
 }
 
-export async function setTextBox(textbox: any, text: string) {
+export async function setTextBox(text: string, name:string = "") {
+  const textbox = document.getElementById("textBox")!;
+  const textboxName = document.getElementById("textBoxName")!;
+  const textBoxText = document.getElementById("textBoxMsg")!;
+  const continueText = textbox.getElementsByTagName("p")[textbox.getElementsByTagName("p").length-1];
+  textbox.style.display = "block";
+  textboxName.innerHTML = name;
+  pause = true;
   let i = 0;
-  const textBoxText = textbox.getElementsByTagName("p")[0];
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       document.addEventListener("click", () => { i = text.length }, { once: true });
@@ -177,10 +183,12 @@ export async function setTextBox(textbox: any, text: string) {
       else {
         textBoxText.innerHTML = text;
         clearInterval(intervalId);
-        textbox.getElementsByTagName("p")[1].style.display = "block";
+        continueText.style.display = "block";
         document.addEventListener("click", () => {
           textBoxText.innerHTML = "";
-          textbox.getElementsByTagName("p")[1].style.display = "none";
+          continueText.style.display = "none";
+          textbox.style.display = "none";
+          pause = false;
           resolve(true);
         }, { once: true });
       }

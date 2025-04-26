@@ -1,5 +1,5 @@
-import { Backpack, Player, Pokemon } from "../../../interfaces.js";
-import { allPokemon, setAlert } from "../game.js";
+import { Backpack, Player, Pokemon } from "../../../interfaces.ts";
+import { allPokemon, setAlert } from "../game.ts";
 
 export function createBackpack(player: Player) {
   const backpack: Backpack = {

@@ -1,5 +1,5 @@
-import { Map, Npc, Pokemon } from "../../../interfaces.js";
-import { allPokemon } from "../game.js";
+import { Map, Npc, Pokemon } from "../../../interfaces.ts";
+import { allPokemon, setTextBox } from "../game.ts";
 
 const sprites = [
   "../../assets/characters/Red.png",
@@ -17,8 +17,10 @@ export function createNpc(map: Map, x: number, y: number) {
   npcDiv.style.top = `${y}px`;
   npcDiv.style.backgroundImage = `url(${`${sprites[Math.trunc(Math.random() * sprites.length)]}`})`;
 
+  const names = ["name1", "name2", "name3", "name4", "name5", "name6", "name7", "name8", "name9", "name0"]
   const npc: Npc = {
     type: "npc",
+    name: names[Math.trunc(Math.random() * names.length)],
     div: npcDiv,
     x: x,
     y: y,
@@ -38,6 +40,7 @@ export function createNpc(map: Map, x: number, y: number) {
     move,
     goTo,
     setDirection,
+    interact,
   };
   map.addObject(npc);
   npc.assignPokemon(allPokemon[Math.trunc(Math.random() * allPokemon.length)]);
@@ -116,4 +119,10 @@ function setDirection(this: Npc, dir: string) {
     this.spriteIndex = 0;
   }
   this.direction = dir;
+}
+async function interact(this: Npc) {
+  const battleMsg = [
+    "laten we vechten", "ik zal je verslaan", "ben je klaar om te verliezen", "als ik klaar met je ben, blijft er niets meer van je over", "ik maak gejakt van je"
+  ];
+  await setTextBox(battleMsg[Math.trunc(Math.random() * battleMsg.length)], this.name);
 }

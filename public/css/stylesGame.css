@@ -181,8 +181,6 @@
 
 #gamePage main #overworldMap #character {
   position: absolute;
-  /* left: 450px;
-    top: 450px; */
   left: 200px;
   top: 350px;
   width: 50px;

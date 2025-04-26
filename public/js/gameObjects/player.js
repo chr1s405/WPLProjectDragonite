@@ -1,12 +1,14 @@
 import { createCompanion } from "./companion.js";
 import { backpack, setAlert } from "../game.js";
 
-export function createPlayer() {
+export function createPlayer(x, y) {
     const character = document.getElementById("character");
+    character.style.left = `${x}px`;
+    character.style.top = `${y}px`;
     const player = {
         div: character,
-        x: character.offsetLeft,
-        y: character.offsetTop,
+        x: x,
+        y: y,
         width: character.clientWidth,
         height: character.clientHeight,
         speed: 20,//character.clientWidth,

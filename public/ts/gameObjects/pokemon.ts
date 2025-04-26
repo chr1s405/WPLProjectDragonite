@@ -1,8 +1,8 @@
 // import { Map } from "./map.js";
 // import { Player } from "./player.js";
 
-import { Map, Player, WildPokemon } from "../../../interfaces.js";
-import { allPokemon } from "../game.js";
+import { Map, Player, WildPokemon } from "../../../interfaces.ts";
+import { allPokemon } from "../game.ts";
 
 const pokemonDiv = document.createElement("div");
 pokemonDiv.setAttribute("class", "pokemon");
