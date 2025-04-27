@@ -977,18 +977,28 @@
       text-align: center;
       align-items: center;
       height: 100%;
-      gap: 200px;
+      gap: 20px;
       margin-top: 20px;
 
+      & .usergeg{
+        background-color: rgb(252, 138, 138);
+        border-radius: 50px;
+        padding: 10px;
+        padding-left: 50px;
+        padding-right: 50px;
+        margin-top: 10px;
+        color: var(--color_primary)
+      }
       & img {
-        width: 50px;
-        aspect-ratio: 1/1;
+        width: 4%;
+        height: auto;
       }
 
       & button {
         text-align: center;
         padding: 5px;
-        max-width: 100px;
+        margin-top: 5px;
+        max-width: 150px;
         width: 90%;
         background-color: var(--color_secondary);
         border: 2px solid var(--color_accent1);

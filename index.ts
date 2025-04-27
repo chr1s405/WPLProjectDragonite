@@ -8,9 +8,6 @@ import { connect } from "./database";
 import { projectPicture } from "./interfaces";
 import { cursorTo } from "readline";
 import { UnorderedBulkOperation } from "mongodb";
-import { currentProjectSelected } from "./routers/ProjectRouter";
-import { link } from "./routers/ProjectRouter";
-
 
 dotenv.config();
 
@@ -60,10 +57,84 @@ export const projectBackgrounds: string[]= [
 "projectBtnPokemon"
 ]
 
+let currentProjectSelected: number = 0;
 
-   
+function changeCurrentProject(project: number){
+currentProjectSelected = project
+}
+
+let link = "#"
+  
+app.post("/Arrowbtns", (req,res)=>{
+    if(req.body.arrowbton === "arrowLeft")
+        {
+            if (currentProjectSelected != 0){
+            currentProjectSelected--
+            }
+            if(currentProjectSelected === 0){
+                currentProjectSelected = 5
+            }
+            if (currentProjectSelected === 5){
+                link = "login"
+            }
+        }
+    
+        if(req.body.arrowbton === "arrowRight")
+            {
+                if (currentProjectSelected != 5){
+                currentProjectSelected++
+                }
+                if (currentProjectSelected === 5){
+                    link = "login"
+                    currentProjectSelected = 0
+                }
+            }
+     res.render("index" ,    {
+        linktTologin: "#",
+        projectBtn: projectImages[currentProjectSelected].logo,
+        currentBackground: projectBackgrounds[currentProjectSelected]
+    })
+})
+
+
+app.post("/Projectchoice", (req, res) =>{
+if(req.body.smallbton === "mtg"){
+    changeCurrentProject(0)
+    link = "#"
+ }
+if(req.body.smallbton === "lego"){
+changeCurrentProject(1)
+link = "#"
+}
+if (req.body.smallbton === "lotr"){
+changeCurrentProject(2)
+link = "#"
+}
+
+if (req.body.smallbton === "fortnite"){
+changeCurrentProject(3)
+link = "#"
+}
+
+if (req.body.smallbton === "fifa"){
+changeCurrentProject(4)
+link = "#"
+}
+
+if (req.body.smallbton === "pokemon"){
+changeCurrentProject(5)
+link = "login"
+}
+res.render("index" ,    {
+linktTologin: link,
+projectBtn: projectImages[currentProjectSelected].logo,
+currentBackground: projectBackgrounds[currentProjectSelected]
+})
+})
+
+
 app.get("login", (req, res) =>{
-    res.render("login", {})
+res.render("login", {})
 }
 )
 

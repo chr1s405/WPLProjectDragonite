@@ -7,7 +7,6 @@
   <link href="https://fonts.cdnfonts.com/css/pixelify-sans" rel="stylesheet">
   <link rel="stylesheet" href="/css/reset.css">
   <link rel="stylesheet" href="/css/styles.css">
-  <%import { changeCurrentProject } from ".."%>
   <!-- <script src="/js/projectPage.js" type="module" defer></script> -->
   <title>Project pagina</title>
 
@@ -28,9 +27,9 @@
       </div>
     </form>
 
-    <!-- <form action="Projectchoice" method="post"> -->
+    <form action="Projectchoice" method="post">
     <div id="project_selection">
-      <button type = "submit" onclick: <%changeCurrentProject%> name = "smallbton" value ="mtg"><a id="game_mtg" class="game_option "><img src="/assets/logos/mtg_logo.jpeg"></a></button>
+      <button type = "submit" name = "smallbton" value ="mtg"><a id="game_mtg" class="game_option "><img src="/assets/logos/mtg_logo.jpeg"></a></button>
       <button type = "submit" name = "smallbton" value ="lego"><a id="game_lego" class="game_option"><img src="/assets/logos/lego_logo.jpeg"></a></button>
       <button type = "submit" name = "smallbton" value ="lotr"><a id="game_lotr" class="game_option"><img src="/assets/logos/lotr_logo.jpeg"></a></button>
       <button type = "submit" name = "smallbton" value ="fortnite"><a id="game_fortnite" class="game_option"><img src="/assets/logos/fortnite_logo.jpeg"></a></button>
@@ -38,7 +37,7 @@
       <button type = "submit" name = "smallbton" value ="pokemon"><a id="game_pokemon" class="game_option"><img src="/assets/logos/pokemon_logo.jpeg"></a>
       
     </div>
-  <!-- </form> -->
+  </form>
   </main>
 </body>
 
