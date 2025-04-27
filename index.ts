@@ -8,6 +8,8 @@ import { connect } from "./database";
 import { projectPicture } from "./interfaces";
 import { cursorTo } from "readline";
 import { UnorderedBulkOperation } from "mongodb";
+import { currentProjectSelected } from "./routers/ProjectRouter";
+import { link } from "./routers/ProjectRouter";
 
 
 dotenv.config();
@@ -21,8 +23,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
 
 app.set("port", process.env.PORT ?? 3000);
-let currentProjectSelected: number = 0;
-const projectImages: projectPicture[] = [{
+
+export const projectImages: projectPicture[] = [{
      background:"/assets/backgrounds/mtg_background.jpeg",
      logo: "/assets/logos/mtg_logo.jpeg",
      logoBgColor: "rgba(7, 5, 5, 0.8)"},
@@ -49,7 +51,7 @@ const projectImages: projectPicture[] = [{
         logoBgColor: "rgba(100, 100, 100, 0.8)" }
     ]
 
-const projectBackgrounds: string[]= [
+export const projectBackgrounds: string[]= [
 "projectBtnMtg",
 "projectBtnLego",
 "projectBtnLotr",
@@ -58,51 +60,7 @@ const projectBackgrounds: string[]= [
 "projectBtnPokemon"
 ]
 
-function changeCurrent(projectNr: number): any{
-currentProjectSelected = projectNr;
-}
-let link: string = "#";
 
-app.post("/Projectchoice",async(req,res)=>{
-    link = "#";
-    if(req.body.smallbton === "mtg"){
-        changeCurrent(0)
-        link = "#"
-     }
-if(req.body.smallbton === "lego"){
-    changeCurrent(1)
-    link = "#"
- }
- if (req.body.smallbton === "lotr"){
- changeCurrent(2)
- link = "#"
- }
-
- if (req.body.smallbton === "fortnite"){
-    changeCurrent(3)
-    link = "#"
-    }
-
-if (req.body.smallbton === "fifa"){
-    changeCurrent(4)
-    link = "#"
- }
-
- if (req.body.smallbton === "pokemon"){
-    changeCurrent(5)
-    link = "login"
- }
-
-
-res.render("index", 
-    {
-        projectBtn: projectImages[currentProjectSelected].logo,
-        currentBackground: projectBackgrounds[currentProjectSelected],
-        linktTologin: link
-})
-
-
-   })
    
 app.get("login", (req, res) =>{
     res.render("login", {})
@@ -119,42 +77,6 @@ res.render("index",
     })
 });
 
-app.post("/Arrowbtns",async(req,res)=>{
-    
-if(req.body.arrowbton === "arrowLeft")
-    {
-        if (currentProjectSelected != 0){
-        currentProjectSelected--
-        }
-        if(currentProjectSelected === 0){
-            currentProjectSelected = 5
-        }
-        if (currentProjectSelected === 5){
-            link = "login"
-        }
-    }
-
-    if(req.body.arrowbton === "arrowRight")
-        {
-            if (currentProjectSelected != 5){
-            currentProjectSelected++
-            }
-            if(currentProjectSelected === 5){
-                currentProjectSelected = 0
-            }
-            if (currentProjectSelected === 5){
-                link = "login"
-            }
-        }
-        
-    
-            res.render("index", 
-                {
-                    projectBtn: projectImages[currentProjectSelected].logo,
-                    currentBackground: projectBackgrounds[currentProjectSelected],
-                    linktTologin: link
-            })
-        })
 
 app.use("/", getProjectRouter());
 app.use("/login", GetAccountRouter());
