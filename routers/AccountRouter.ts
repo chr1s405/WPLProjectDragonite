@@ -13,11 +13,15 @@ export function GetAccountRouter() {
 
     const router = express.Router();
 
-    router.get("/", (req, res) => {
+    router.get("", (req, res) => {
+        const formError: FormError = {};
+        res.redirect("./login");
+    })
+    router.get("/login", (req, res) => {
         const formError: FormError = {};
         res.render("login", { formError })
     })
-    router.post("/", async (req, res) => {
+    router.post("/login", async (req, res) => {
         let username = req.body.username;
         let password = req.body.password;
         let formError: FormError = { username: username };
@@ -29,7 +33,7 @@ export function GetAccountRouter() {
             const user = await getUser({ username: username });
             if (user) {
                 if (user.password === password) {
-                    res.redirect("/game"); //this doesnt crash the app but still gives an error
+                    res.redirect("/pokemon/game"); //this doesnt crash the app but still gives an error
                 }
                 else {
                     formError.wrongPassword = true;

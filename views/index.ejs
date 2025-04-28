@@ -11,33 +11,21 @@
   <title>Project pagina</title>
 
 <body id="project_start" >
-  <main class ="<%= currentBackground%>">
+  <main style="background-image: url(<%= projects[idx].background %>)">
     <div id="project_title">
-      <p>Kies je spel</p>
+      <p>kies je spel</p>
     </div>
-    
-    <form action = "Arrowbtns"  method = "post">
     <div id="project_main">
-     
-      <button type = "submit" class="arrowBtn" value = "arrowLeft" name = "arrowbton"><img src="/assets/icons/arrow_icon.png"></button>
-      <a href="<%= linktTologin%>" id="game_mainBtn" class = "backgroundColor"><img src="<%= projectBtn%>"></a>
-      <button class="arrowBtn" value = "arrowRight" name= "arrowbton"><img src="/assets/icons/arrow_icon.png"></button>
-    
-   
-      </div>
-    </form>
-
-    <form action="Projectchoice" method="post">
-    <div id="project_selection">
-      <button type = "submit" name = "smallbton" value ="mtg"><a id="game_mtg" class="game_option "><img src="/assets/logos/mtg_logo.jpeg"></a></button>
-      <button type = "submit" name = "smallbton" value ="lego"><a id="game_lego" class="game_option"><img src="/assets/logos/lego_logo.jpeg"></a></button>
-      <button type = "submit" name = "smallbton" value ="lotr"><a id="game_lotr" class="game_option"><img src="/assets/logos/lotr_logo.jpeg"></a></button>
-      <button type = "submit" name = "smallbton" value ="fortnite"><a id="game_fortnite" class="game_option"><img src="/assets/logos/fortnite_logo.jpeg"></a></button>
-      <button type = "submit" name = "smallbton" value ="fifa"><a id="game_fifa" class="game_option"><img src="/assets/logos/fifa_logo.jpeg"></a></button>
-      <button type = "submit" name = "smallbton" value ="pokemon"><a id="game_pokemon" class="game_option"><img src="/assets/logos/pokemon_logo.jpeg"></a>
-      
+      <button class="arrowBtn"><a href="/?projectIdx=<%= (idx + projects.length -1) % projects.length %>"><img src="./assets/icons/arrow_icon.png"></a></button>
+      <a href=<%= projects[idx].link %> id="game_mainBtn" style="background-color: <%= projects[idx].logoBgColor %>"><img src=<%= projects[idx].logo %>></a>
+      <button class="arrowBtn"><a href="/?projectIdx=<%= (idx +1) % projects.length %>"><img src="./assets//icons/arrow_icon.png"></a></button>
     </div>
-  </form>
+    <div id="project_selection">
+      <% for(let i = 0; i < projects.length; i++){ %>
+        <a class="game_option <% if(i === idx){ %> active <% } %>" href="/?projectIdx=<%= i %>"><img src=<%= projects[i].logo %>></a>
+
+      <% } %>
+    </div>
   </main>
 </body>
 
