@@ -57,6 +57,7 @@ export const projectBackgrounds: string[]= [
 "projectBtnPokemon"
 ]
 
+
 let currentProjectSelected: number = 0;
 
 function changeCurrentProject(project: number){
@@ -148,7 +149,12 @@ res.render("index",
     })
 });
 
-
+app.get("/game", (req, res) => {
+    res.render("game", 
+        {
+            
+    })
+})
 app.use("/", getProjectRouter());
 app.use("/login", GetAccountRouter());
 app.use("/game", getGameRouter());
@@ -157,4 +163,5 @@ app.listen(app.get("port"), async () => {
     await connect();
     console.log("Server started on http://localhost:" + app.get("port"));
 });
+
 
