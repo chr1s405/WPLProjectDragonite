@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import { MongoClient } from "mongodb";
 
 dotenv.config();
+
 const dbConnectionString: string = process.env.MONGO_URI || "";
 const database = 'DragoniteDB';
 export const client = new MongoClient(dbConnectionString);
