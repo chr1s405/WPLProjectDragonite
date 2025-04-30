@@ -257,7 +257,7 @@ async function GetPokemon() {
       ],
       types: pokemon.types,
       //weight: pokemon.weight,
-      nickname: "???",
+      nickname: "",
       evolution_chain: [],
       isKnown: false,
     });
