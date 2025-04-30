@@ -410,6 +410,21 @@ function capture(pokemon) {
                 if (!captured) {
                     await setAlert(`${pokemon.name} is ontsnapt`);
                 }
+                else {
+                    await new Promise((resolve, reject) => {
+                        const nickNameDiv = document.getElementById("capture_nickname");
+                        const input = nickNameDiv.getElementsByTagName("input")[0];
+                        input.value = "";
+                        nickNameDiv.style.display = "block";
+                        nickNameDiv.getElementsByTagName("button")[0].addEventListener("click", () => {
+                            pokemon.nickname = input.value;
+                            closeCaptureEvent();
+                            nickNameDiv.style.display = "none";
+                            Player.isInEvent = false;
+                            resolve();
+                        }, { once: true });
+                    })
+                }
                 backpack.closeCaptureEvent();
             }
         }, { once: true })

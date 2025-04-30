@@ -1,10 +1,8 @@
+import dotenv from "dotenv";
 import { MongoClient } from "mongodb";
-import { Map, Npc, Player } from "./interfaces";
-import { createPlayer } from "./public/ts/gameObjects/player";
-import { createMap } from "./public/ts/gameObjects/map";
-import { createNpc } from "./public/ts/gameObjects/npc's";
 
-const dbConnectionString = "mongodb+srv://DragoniteUser:Dragonite@cluster0.zhqlzpr.mongodb.net/";
+dotenv.config();
+const dbConnectionString: string = process.env.MONGO_URI || "";
 const database = 'DragoniteDB';
 export const client = new MongoClient(dbConnectionString);
 export const userCollection = client.db(database).collection('Users');
