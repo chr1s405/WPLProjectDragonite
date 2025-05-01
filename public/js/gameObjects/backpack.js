@@ -235,7 +235,7 @@ function openDetailEvent(event, pokemon) {
     stats[i].innerHTML = text.substring(0, text.indexOf(':') + 1) + ` ${pokemon.stats[(stats.length - 2 + i) % stats.length].base_stat}`
   }
   const pokemonDiv = pokedexDetails.children[1];
-  pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.isKnown ? pokemon.name : "???";
+  pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.nickname !== "" ? pokemon.nickname:  pokemon.name;
   pokemonDiv.getElementsByTagName("img")[0].src = pokemon.sprites["front_default"];
   pokemonDiv.getElementsByTagName("img")[0].style.filter = pokemon.isKnown ? "brightness(100%)" : "brightness(0%)";
   const buttonsDiv = pokedexDetails.children[2];
@@ -422,17 +422,6 @@ export function openBattleEvent() {
   const event = this.menuEvents[4]//this.menuEvents.find(event => event.title === "gevecht");
   this.openEvent(event.event);
   document.getElementById("backpack_closeBtn").style.visibility = "hidden";
-  // const stages = document.getElementsByClassName("battle_stage");
-  // const stage = [];
-  // for (let i = 0; i < stages.length; i++) {
-  //   stage.push({
-  //     img: stages[i].children[1],
-  //     name: stages[i].getElementsByClassName("statusbar")[0].children[0],
-  //     hpBar: stages[i].getElementsByClassName("statusbar")[0].children[1],
-  //     hp: stages[i].getElementsByClassName("statusbar")[0].children[1].children[0],
-  //   })
-  // }
-  // return stage;
 }
 export function closeBattleEvent() {
   const event = this.menuEvents[4]//this.menuEvents.find(event => event.title === "gevecht");

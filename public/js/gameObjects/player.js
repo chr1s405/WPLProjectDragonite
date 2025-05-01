@@ -133,9 +133,10 @@ function removeCompanion() {
     this.companion.removeCompanion();
     document.getElementById("nav-pokemon").src = "../assets/pikachu_silouhette.png"
 }
-async function capturePokemon(pokemon) {
+async function capturePokemon(pokemon, nickname) {
     allPokemon.find(search => { return search.id === pokemon.id }).isKnown = true;
-    const pokemonCopy = Object.assign({}, pokemon)
+    const pokemonCopy = Object.assign({}, pokemon);
+    if (nickname !== "") { pokemonCopy.nickname = nickname; }
     this.capturedPokemon.push(pokemonCopy);
     await setAlert(`je hebt ${pokemon.name} gevangen`);
 }
@@ -185,7 +186,7 @@ function interact(map) {
     if (this.interactNpc(map)) {
         return;
     }
-    if (this.interactPokemon(map)) {
+    else if (this.interactPokemon(map)) {
         return;
     }
 }
@@ -392,14 +393,17 @@ function capture(pokemon) {
                 captured = true;
             }
             if (captured) {
-                await player.capturePokemon(pokemon);
-
-                const input = stage.nickNameDiv.getElementsByTagName("input")[0];
-                input.value = "";
-                stage.nickNameDiv.style.display = "block";
-                stage.nickNameDiv.getElementsByTagName("button")[0].addEventListener("click", () => {
-                    pokemon.nickname = input.value;
-                }, { once: true });
+                await new Promise(async (resolve, reject) => {
+                    let nickname = "";
+                    const input = stage.nickNameDiv.getElementsByTagName("input")[0];
+                    input.value = "";
+                    stage.nickNameDiv.style.display = "block";
+                    stage.nickNameDiv.querySelector("button").addEventListener("click", async () => {
+                        nickname = input.value;
+                        await player.capturePokemon(pokemon, nickname);
+                        resolve();
+                    }, { once: true });
+                })
 
                 chances = 0;
             }
@@ -410,6 +414,19 @@ function capture(pokemon) {
                 if (!captured) {
                     await setAlert(`${pokemon.name} is ontsnapt`);
                 }
+                // else {
+                //     await new Promise((resolve, reject) => {
+                //         const nickNameDiv = document.getElementById("capture_nickname");
+                //         const input = nickNameDiv.getElementsByTagName("input")[0];
+                //         input.value = "";
+                //         nickNameDiv.style.display = "block";
+                //         nickNameDiv.querySelector("button").addEventListener("click", () => {
+                //             pokemon.nickname = input.value;
+                //             nickNameDiv.style.display = "none";
+                //             resolve();
+                //         }, { once: true });
+                //     })
+                // }
                 backpack.closeCaptureEvent();
             }
         }, { once: true })
