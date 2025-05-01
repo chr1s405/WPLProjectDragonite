@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm
+FROM mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm
 
 # Install MongoDB command line tools - though mongo-database-tools not available on arm64
 ARG MONGO_TOOLS_VERSION=6.0
@@ -20,6 +20,3 @@ RUN . /etc/os-release \
 
 # [Optional] Uncomment if you want to install more global node modules
 # RUN su node -c "npm install -g <your-package-list-here>"
-
-
-
