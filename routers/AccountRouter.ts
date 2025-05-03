@@ -1,5 +1,5 @@
 import express, { Express } from "express";
-import { getUser, userCollection } from "../database";
+import { createGame, getUser, loadGame, userCollection } from "../database";
 
 export function GetAccountRouter() {
     interface FormError {
@@ -30,9 +30,10 @@ export function GetAccountRouter() {
             res.render("login", { formError })
         }
         else {
-            const user = await getUser({ username: username });
+            const user = await getUser(username);
             if (user) {
                 if (user.password === password) {
+                    await loadGame(username);
                     res.redirect("/pokemon/game"); //this doesnt crash the app but still gives an error
                 }
                 else {
@@ -60,11 +61,11 @@ export function GetAccountRouter() {
             res.render("signup", { formError })
         }
         else {
-            let user = await getUser({ username: username });
+            let user = await getUser(username);
             if (!user) {
                 userCollection.insertOne({ username, email, password });
-                console.log(await userCollection.find().toArray());
-                res.redirect("/login")
+                createGame(username);
+                res.redirect("./login")
             }
             else {
                 formError.wrongUser = true;
@@ -84,7 +85,7 @@ export function GetAccountRouter() {
             res.render("resetpassword", { formError })
         }
         else {
-            res.redirect("/login")
+            res.redirect("./login")
         }
     })
     return router;

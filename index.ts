@@ -5,8 +5,6 @@ import { getGameRouter } from "./routers/gameRouter";
 import { GetAccountRouter } from "./routers/AccountRouter";
 import { getProjectRouter } from "./routers/ProjectRouter";
 import { connect } from "./database";
-import { cursorTo } from "readline";
-import { UnorderedBulkOperation } from "mongodb";
 
 dotenv.config();
 

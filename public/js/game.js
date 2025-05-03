@@ -1,8 +1,10 @@
+import gameData from "./gameData.json"  with { type: "json" };
 import { createMap } from "./gameObjects/map.js";
 import { createPlayer } from "./gameObjects/player.js";
 import { createNpc } from "./gameObjects/npc's.js";
 import { createPokemon } from "./gameObjects/pokemon.js";
 import { createBackpack } from "./gameObjects/backpack.js";
+
 
 let pause = true;
 export let allPokemon;
@@ -11,18 +13,19 @@ export let backpack;
 let map;
 let player;
 
+
 allPokemon = await GetPokemon();
 await gameInit();
 await gameLoop();
 
 async function gameInit() {
   map = createMap();
-  player = createPlayer(450,450);
-  createNpc(map, 200, 300);
-  createNpc(map, 700, 250);
-  createNpc(map, 300, 1050);
-  createNpc(map, 700, 750);
-  createNpc(map, 950, 550);
+  player = createPlayer(gameData.player.x, gameData.player.y, gameData.player.direction, gameData.player.capturedPokemon, undefined);
+  for (const key in gameData.npcs) {
+    const npc = gameData.npcs[key]
+    createNpc(map, npc.x, npc.y, npc.pokemon)
+
+  }
   createPokemon(map);
   backpack = createBackpack(player);
 
@@ -74,6 +77,9 @@ async function gameInit() {
     if (e.keyCode === 68 || e.keyCode === 39 /*d*/) {
       player.moveRight(false);
     }
+  })
+  document.getElementById("saveBtn").addEventListener("click", () => {
+    saveGame();
   })
 }
 async function intro() {
@@ -153,11 +159,30 @@ function gameLoop() {
   }, 45);
 }
 
+function saveGame() {
+  const playerObj = { x: player.x, y: player.y, direction: player.direction };
+  const npcsObj = {};
+  for (let i = 0; i < map.npcs.length; i++) {
+    const npc =  map.npcs[i];
+    npcsObj[i+1] = { X: npc.x, y: npc.y }
+  }
+  let saveData = {
+    player: playerObj,
+    npcs: npcsObj,
+  }
+  fetch("./game/save", {
+    method: "POST",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(saveData)
+  });
+}
+
+
 export async function setTextBox(text, name = "") {
   const textbox = document.getElementById("textBox");
   const textboxName = document.getElementById("textBoxName");
   const textBoxText = document.getElementById("textBoxMsg");
-  const continueText = textbox.getElementsByTagName("p")[textbox.getElementsByTagName("p").length-1];
+  const continueText = textbox.getElementsByTagName("p")[textbox.getElementsByTagName("p").length - 1];
   textbox.style.display = "block";
   textboxName.innerHTML = name;
   pause = true;
@@ -264,12 +289,6 @@ async function GetPokemon() {
   });
   console.log(pokemonList);
   console.log(pokemonList.sort((a, b) => a.base_experience - b.base_experience))
-  //als je ergens de pokemon nodig hebt stuur da hier als parameter door
-  // Player.getPokemon(pokemonList);
-  // Npcs.getPokemon(pokemonList);
-  // Pokemon.getPokemon(pokemonList);
-  // Pokemon.spawnPokemon();
-  // getPokemon(pokemonList); // backpack.js
   getPokemonEvolutions(pokemonList);
   return pokemonList;
 

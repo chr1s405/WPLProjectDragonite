@@ -9,7 +9,7 @@ const sprites = [
   "../../assets/characters/serena.png"
 ]
 
-export function createNpc(map, x, y) {
+export function createNpc(map, x, y, pokemon) {
   const npcDiv = document.createElement("div");
   npcDiv.setAttribute("class", "npc");
   npcDiv.style.left = `${x}px`;
@@ -43,7 +43,9 @@ export function createNpc(map, x, y) {
     interact,
   };
   map.addObject(npc);
-  npc.assignPokemon(allPokemon[Math.trunc(Math.random() * allPokemon.length)]);
+  if (!npc.pokemon) {
+    npc.assignPokemon(allPokemon[Math.trunc(Math.random() * allPokemon.length)]);
+  }
   return npc;
 }
 function update(map) {
