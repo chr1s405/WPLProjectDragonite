@@ -127,6 +127,27 @@ export interface Companion {
   debug: Function,
 }
 
+export interface SimplifiedPokemon {
+  id: number,
+  name: string,
+  stats: {
+    base_stat: number,
+    effort: number,
+    stat: {
+      name: string,
+      url: string,
+    },
+    // hp: number,
+    // atk: number,
+    // def: number,
+    // spAtk: number,
+    // spDef: number,
+    // speed: number,
+    // wins: number,
+    // losses: number,
+  }[]
+  nickname: string,
+};
 export interface Pokemon {
   abilities: {
     name: string,
@@ -161,6 +182,14 @@ export interface Pokemon {
       name: string,
       url: string,
     },
+    // hp: number,
+    // atk: number,
+    // def: number,
+    // spAtk: number,
+    // spDef: number,
+    // speed: number,
+    // wins: number,
+    // losses: number,
   }[]
   types: {
     slot: number,

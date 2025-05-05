@@ -15,11 +15,11 @@ export function GetAccountRouter() {
 
     router.get("", (req, res) => {
         const formError: FormError = {};
-        res.redirect("./login");
+        return res.redirect("./login");
     })
     router.get("/login", (req, res) => {
         const formError: FormError = {};
-        res.render("login", { formError })
+        return res.render("login", { formError })
     })
     router.post("/login", async (req, res) => {
         let username = req.body.username;
@@ -27,14 +27,14 @@ export function GetAccountRouter() {
         let formError: FormError = { username: username };
         if (username === "" || password === "") {
             formError.emptyField = true;
-            res.render("login", { formError })
+            return res.render("login", { formError })
         }
         else {
             const user = await getUser(username);
             if (user) {
                 if (user.password === password) {
                     await loadGame(username);
-                    res.redirect("/pokemon/game"); //this doesnt crash the app but still gives an error
+                    return res.redirect("/pokemon/game");
                 }
                 else {
                     formError.wrongPassword = true;
@@ -43,13 +43,13 @@ export function GetAccountRouter() {
             else {
                 formError.wrongUser = true;
             }
-            res.render("login", { formError })
+            return res.render("login", { formError })
         }
 
     })
     router.get("/signup", (req, res) => {
         const formError: FormError = {};
-        res.render("signup", { formError });
+        return res.render("signup", { formError });
     })
     router.post("/signup", async (req, res) => {
         let email = req.body.email;
@@ -58,34 +58,34 @@ export function GetAccountRouter() {
         let formError: FormError = { username: username, email: email };
         if (username === "" || email === "" || password === "") {
             formError.emptyField = true;
-            res.render("signup", { formError })
+            return res.render("signup", { formError })
         }
         else {
             let user = await getUser(username);
             if (!user) {
                 userCollection.insertOne({ username, email, password });
                 createGame(username);
-                res.redirect("./login")
+                return res.redirect("./login")
             }
             else {
                 formError.wrongUser = true;
             }
         }
-        res.render("signup", { formError });
+        return res.render("signup", { formError });
     })
     router.get("/reset", (req, res) => {
         const formError: FormError = {};
-        res.render("resetpassword", { formError });
+        return res.render("resetpassword", { formError });
     })
     router.post("/reset", (req, res) => {
         let email = req.body.email;
         let formError: FormError = { email: email };
         if (email === "") {
             formError.wrongEmail = true;
-            res.render("resetpassword", { formError })
+            return res.render("resetpassword", { formError })
         }
         else {
-            res.redirect("./login")
+            return res.redirect("./login")
         }
     })
     return router;

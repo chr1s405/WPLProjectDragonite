@@ -20,7 +20,7 @@ app.set("port", process.env.PORT ?? 3000);
 
 app.use("/", getProjectRouter());
 app.use("/pokemon/account/", GetAccountRouter());
-app.use("/pokemon/game", getGameRouter());
+app.use("/pokemon/game/", getGameRouter());
 
 app.use(express.static("public"));
 app.listen(app.get("port"), async () => {

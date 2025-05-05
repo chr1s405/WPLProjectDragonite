@@ -29,9 +29,7 @@ async function gameInit() {
   createPokemon(map);
   backpack = createBackpack(player);
 
-  await intro();
-  // document.getElementById("overworldMap").style.display = "block";
-  document.getElementById("backpackIcon").style.display = "block";
+  // await intro();
 
   addEventListener("keydown", (e) => {
     //   alert(e.keyCode);
@@ -163,8 +161,8 @@ function saveGame() {
   const playerObj = { x: player.x, y: player.y, direction: player.direction };
   const npcsObj = {};
   for (let i = 0; i < map.npcs.length; i++) {
-    const npc =  map.npcs[i];
-    npcsObj[i+1] = { X: npc.x, y: npc.y }
+    const npc = map.npcs[i];
+    npcsObj[i + 1] = { x: npc.x, y: npc.y }
   }
   let saveData = {
     player: playerObj,
@@ -174,7 +172,9 @@ function saveGame() {
     method: "POST",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(saveData)
-  });
+  })
+    .then((res) => res.json())
+    .then((data) => { if (data.succes) { setAlert("saved") } })
 }
 
 
@@ -263,22 +263,19 @@ async function GetPokemon() {
         pokemon.stats[4], //spDef
         pokemon.stats[5], //speed
         {          //[6]
-          base_stat: 0,
-          effort: 0,
-          stat: {
-            name: "wins",
-            url: "",
-          }
+          base_stat: 0, effort: 0, stat: { name: "wins", url: "", }
         },
         {          //[7]
-          base_stat: 0,
-          effort: 0,
-          stat: {
-            name: "losses",
-            url: "",
-          }
+          base_stat: 0, effort: 0, stat: { name: "losses", url: "", }
         },
-
+        // { hp: pokemon.stats[0].base_stat },
+        // { atk: pokemon.stats[1].base_stat },
+        // { def: pokemon.stats[2].base_stat },
+        // { spAtk: pokemon.stats[3].base_stat },
+        // { spDef: pokemon.stats[4].base_stat },
+        // { speed: pokemon.stats[5].base_stat },
+        // { wins: 0 },
+        // { losses: 0 },
       ],
       types: pokemon.types,
       //weight: pokemon.weight,
@@ -287,8 +284,8 @@ async function GetPokemon() {
       isKnown: false,
     });
   });
-  console.log(pokemonList);
-  console.log(pokemonList.sort((a, b) => a.base_experience - b.base_experience))
+  // console.log(pokemonList);
+  // console.log(pokemonList.sort((a, b) => a.base_experience - b.base_experience))
   getPokemonEvolutions(pokemonList);
   return pokemonList;
 

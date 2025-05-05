@@ -165,12 +165,79 @@
 @media (max-width: 480px){
 
 }
+#gameIntro {
+  width: 100vw;
+  height: 100vh;
+}
+#gameIntro main{
+  width: 100%;
+  height: 100%;
+}
+
+#gameIntro .intro_selection {
+  display: none;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(247, 112, 130);
+}
+
+#gameIntro .intro_selectOption {
+  width: 150px;
+  height: 150px;
+  border-radius: 20%;
+  background-color: rgb(255, 152, 152);
+  
+  align-content: center;
+  cursor: pointer;
+}
+
+#gameIntro .intro_selectOption:hover {
+ border: solid;
+ border-color: #fafafa;
+}
+
+#gameIntro .intro_selection p{
+  color: rgb(247, 112, 130);
+  font-size: 20px;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#gameIntro .intro_selection h1{
+  font-family: var(--pokemon-hollow-font);
+  color: rgb(255, 255, 255);
+  font-size: 50px;
+  line-height: 3.5rem;
+  padding: 30px 10px 40px 10px;
+}
+
+
+#gameIntro .intro_selectOptions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
+}
+#gameIntro #intro_characterOptions img {
+  width:auto;
+  height: 100px;
+  object-position: 0px 0px;
+}
+#gameIntro #intro_pokemonOptions img {
+  margin: -16px;
+}
+
+@media (max-width: 480px){
+
+}
 
 /*==============================*/
 /*============ Map =============*/
 /*==============================*/
 #gamePage main #overworldMap {
-  /* display: none; */
   position: absolute;
   overflow: hidden;
   z-index: -1;
@@ -224,7 +291,6 @@
 }
 
 #gamePage main #backpackIcon {
-  display: none;
   position: absolute;
   right: 20px;
   bottom: 20px;
