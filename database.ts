@@ -15,7 +15,7 @@ export const pokemonCollection = client.db(database).collection("Pokemon");
 
 export async function connect() {
     try {
-        await fetchPokemon();
+        // await fetchPokemon();
         await client.connect();
         process.on("SIGINT", exit);
     }
@@ -45,17 +45,17 @@ export async function getUser(username: string) {
 }
 
 export async function getGame(username: string) {
-    return await gameCollection.findOne({ username: username });
+    return await gameCollection.findOne({ username: "a" });
 }
 export async function createGame(username: string) {
     console.log("create");
     const game = {
         username,
-        firstLogin: true,
         player: {
             x: 450,
             y: 450,
             direction: "down",
+            sprite: "",
             capturedPokemon: [],
         },
         npcs: {
@@ -67,19 +67,13 @@ export async function createGame(username: string) {
         }
     }
     await gameCollection.insertOne(game)
-
-    try {
-        await fs.promises.writeFile(path.join(__dirname, "public", "js", "gameData.json"), JSON.stringify(game, null, 2));
-        console.log("succesfuly wrote file")
-    }
-    catch (err) {
-        if (err) { console.log("error writing file: ", err) }
-    }
+    setGameData(game);
 };
 export async function saveGame(username: string, gameSave: any) {
     console.log("save");
     const updateData = simplifyData(gameSave);
     await gameCollection.updateOne({ username: username }, { $set: updateData })
+
 
     function simplifyData(obj: any, prefix = "", result: any = {}) {
         for (const key in obj) {
@@ -99,17 +93,12 @@ export async function saveGame(username: string, gameSave: any) {
 export async function loadGame(username: string) {
     console.log("load");
     const game = await gameCollection.findOne({ username: username });
-    try {
-        await fs.promises.writeFile(path.join(__dirname, "public", "js", "gameData.json"), JSON.stringify(game, null, 2));
-        console.log("succesfuly wrote file")
-    }
-    catch (err) {
-        if (err) { console.log("error writing file: ", err) }
-    }
+    await setGameData(game);
 }
-export async function resetGame(username: string) {
+export async function deleteGame(username: string) {
     console.log("reset");
-    await gameCollection.deleteMany({ username: username });
+    await gameCollection.deleteOne({ username: username });
+    await setGameData({username: username})
 }
 
 export async function loadPokemon() {
@@ -125,7 +114,7 @@ async function fetchPokemon() {
     const pokeData = pokeJson1["results"];
     const PokeFetch2 = await Promise.all(pokeData.map((value: any) => fetch(value.url)));
     const pokeJson2 = await Promise.all(PokeFetch2.map((value: any) => value.json()));
-    for(let i = 0; i < pokeJson2.length; i++){
+    for (let i = 0; i < pokeJson2.length; i++) {
         const pokemon = pokeJson2[i];
         await pokemonList.push({
             abilities: pokemon.abilities,
@@ -194,4 +183,37 @@ async function fetchPokemon() {
     })
 
     return pokemonList;
+}
+
+export async function getGameData() {
+    try {
+        const data = await fs.promises.readFile(path.join(__dirname, "public", "js", "gameData.json"), "utf8");
+        return JSON.parse(data);
+    }
+    catch (err) {
+        if (err) { console.log("error reading file: ", err) }
+    }
+}
+export async function setGameData(data: any) {
+    try {
+        const filePath = path.join(__dirname, "public", "js", "gameData.json")
+        // await fs.promises.rm(filePath);
+        await fs.promises.writeFile(filePath, JSON.stringify(data, null, 2));
+        console.log("succesfuly wrote file")
+    }
+    catch (err) {
+        if (err) { console.log("error writing file: ", err) }
+    }
+}
+export async function updateGameData(obj: any) {
+    try {
+        let gameData = await getGameData();
+        for(const key in obj){
+            gameData[key]= obj[key];
+        }
+        await setGameData(gameData);
+    }
+    catch (err) {
+        console.log(err);
+    }
 }

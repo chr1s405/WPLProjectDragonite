@@ -20,7 +20,8 @@ await gameLoop();
 
 async function gameInit() {
   map = createMap();
-  player = createPlayer(gameData.player.x, gameData.player.y, gameData.player.direction, gameData.player.capturedPokemon, undefined);
+  const playerData = gameData.player;
+  player = createPlayer(playerData.x, playerData.y, playerData.direction, playerData.sprite, playerData.capturedPokemon, undefined);
   for (const key in gameData.npcs) {
     const npc = gameData.npcs[key]
     createNpc(map, npc.x, npc.y, npc.pokemon)
@@ -79,71 +80,74 @@ async function gameInit() {
   document.getElementById("saveBtn").addEventListener("click", () => {
     saveGame();
   })
-}
-async function intro() {
-  const introPage = document.getElementById("gameIntro");
-  let optionsDiv;
-  optionsDiv = introPage.getElementsByClassName("intro_selection")[0];
-  const starterCharacters = [
-    // { name: "man", img: "../../assets/characters/player1Sprites.png" },
-    { name: "Red", smallImg: "../../assets/characters/Red.png", img: "../../assets/characters/RedBig.webp" },
-    { name: "Leaf", smallImg: "../../assets/characters/leaf.png", img: "../../assets/characters/LeafBig.png" },
-    { name: "Lucas", smallImg: "../../assets/characters/lucas.webp", img: "../../assets/characters/LucasBig.webp" },
-    { name: "Dawn", smallImg: "../../assets/characters/dawn.png", img: "../../assets/characters/DawnBig.webp" },
-    { name: "Calem", smallImg: "../../assets/characters/calem.png", img: "../../assets/characters/CalemBig.webp" },
-    { name: "Serena", smallImg: "../../assets/characters/serena.png", img: "../../assets/characters/SerenaBig.png" }
-  ]
-
-  createIntroOptions(optionsDiv, starterCharacters)
-  let playerIndex = await getIntroSelection(optionsDiv);
-  player.div.style.backgroundImage = `url(${starterCharacters[playerIndex].smallImg})`;
-  optionsDiv = introPage.getElementsByClassName("intro_selection")[1];
-  const starterPokemon = allPokemon.slice(0, 3).map((pokemon) => {
-    return { name: pokemon.name, img: pokemon.sprites["front_default"] };
-  });
-
-  createIntroOptions(optionsDiv, starterPokemon)
-  optionsDiv.style.display = "block";
-  let pokemonIndex = await getIntroSelection(optionsDiv);
-  optionsDiv.style.display = "none";
-  player.capturePokemon(allPokemon[pokemonIndex]);
-  player.setCompanion(allPokemon[pokemonIndex]);
-  setTimeout(() => { document.getElementById("alert").click() }, 1);
-  introPage.style.display = "none"
-}
-
-function createIntroOptions(optionsDiv, optionsList = undefined) {
-  const options = optionsDiv.getElementsByClassName("intro_selectOptions")[0];
-  optionsList.forEach((option) => {
-    const div = document.createElement("div");
-    div.classList.add("intro_selectOption")
-    const img = document.createElement("img");
-    img.src = option.img;
-    const p = document.createElement("p");
-    p.innerHTML = option.name;
-
-    div.appendChild(img);
-    div.appendChild(p);
-    options.appendChild(div);
-  });
-}
-
-async function getIntroSelection(optionsDiv) {
-  optionsDiv.style.display = "block";
-  const options = optionsDiv.getElementsByClassName("intro_selectOption");
-  return new Promise((resolve, reject) => {
-
-    for (let i = 0; i < options.length; i++) {
-
-      options[i].addEventListener("click", () => {
-        resolve(i);
-        optionsDiv.style.display = "none";
-        optionsDiv.replaceWith(optionsDiv.cloneNode(true));
-        //om eventlistener te removen
-      })
-    };
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    deleteGame();
   })
 }
+// async function intro() {
+//   const introPage = document.getElementById("gameIntro");
+//   let optionsDiv;
+//   optionsDiv = introPage.getElementsByClassName("intro_selection")[0];
+//   const starterCharacters = [
+//     // { name: "man", img: "../../assets/characters/player1Sprites.png" },
+//     { name: "Red", smallImg: "../../assets/characters/Red.png", img: "../../assets/characters/RedBig.webp" },
+//     { name: "Leaf", smallImg: "../../assets/characters/leaf.png", img: "../../assets/characters/LeafBig.png" },
+//     { name: "Lucas", smallImg: "../../assets/characters/lucas.webp", img: "../../assets/characters/LucasBig.webp" },
+//     { name: "Dawn", smallImg: "../../assets/characters/dawn.png", img: "../../assets/characters/DawnBig.webp" },
+//     { name: "Calem", smallImg: "../../assets/characters/calem.png", img: "../../assets/characters/CalemBig.webp" },
+//     { name: "Serena", smallImg: "../../assets/characters/serena.png", img: "../../assets/characters/SerenaBig.png" }
+//   ]
+
+//   createIntroOptions(optionsDiv, starterCharacters)
+//   let playerIndex = await getIntroSelection(optionsDiv);
+//   player.div.style.backgroundImage = `url(${starterCharacters[playerIndex].smallImg})`;
+//   optionsDiv = introPage.getElementsByClassName("intro_selection")[1];
+//   const starterPokemon = allPokemon.slice(0, 3).map((pokemon) => {
+//     return { name: pokemon.name, img: pokemon.sprites["front_default"] };
+//   });
+
+//   createIntroOptions(optionsDiv, starterPokemon)
+//   optionsDiv.style.display = "block";
+//   let pokemonIndex = await getIntroSelection(optionsDiv);
+//   optionsDiv.style.display = "none";
+//   player.capturePokemon(allPokemon[pokemonIndex]);
+//   player.setCompanion(allPokemon[pokemonIndex]);
+//   setTimeout(() => { document.getElementById("alert").click() }, 1);
+//   introPage.style.display = "none"
+// }
+
+// function createIntroOptions(optionsDiv, optionsList = undefined) {
+//   const options = optionsDiv.getElementsByClassName("intro_selectOptions")[0];
+//   optionsList.forEach((option) => {
+//     const div = document.createElement("div");
+//     div.classList.add("intro_selectOption")
+//     const img = document.createElement("img");
+//     img.src = option.img;
+//     const p = document.createElement("p");
+//     p.innerHTML = option.name;
+
+//     div.appendChild(img);
+//     div.appendChild(p);
+//     options.appendChild(div);
+//   });
+// }
+
+// async function getIntroSelection(optionsDiv) {
+//   optionsDiv.style.display = "block";
+//   const options = optionsDiv.getElementsByClassName("intro_selectOption");
+//   return new Promise((resolve, reject) => {
+
+//     for (let i = 0; i < options.length; i++) {
+
+//       options[i].addEventListener("click", () => {
+//         resolve(i);
+//         optionsDiv.style.display = "none";
+//         optionsDiv.replaceWith(optionsDiv.cloneNode(true));
+//         //om eventlistener te removen
+//       })
+//     };
+//   })
+// }
 
 function gameLoop() {
   const intervalId = setInterval(() => {
@@ -168,13 +172,31 @@ function saveGame() {
     player: playerObj,
     npcs: npcsObj,
   }
-  fetch("./game/save", {
+  fetch("save", {
     method: "POST",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(saveData)
   })
     .then((res) => res.json())
-    .then((data) => { if (data.succes) { setAlert("saved") } })
+    .then(async (data) => { if (data.succes) { await setAlert("voortgang opgeslagen") } })
+}
+function deleteGame() {
+  console.log(" js delete")
+  fetch("reset", {
+    method: "POST"
+  })
+    .then((res) => res.json())
+    .then(async (data) => {
+      if (data.succes) {
+      console.log(" js delete in progress")
+        await setAlert("voortgang verwijderd");
+        window.location.href = data.redirect;
+      }
+    })
+    .then(()=>{
+      console.log(" js delete done")
+    })
+
 }
 
 

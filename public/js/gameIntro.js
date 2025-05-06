@@ -15,7 +15,7 @@ async function intro() {
         { name: "Serena", img: "/assets/characters/SerenaBig.png", smallImg: "/assets/characters/serena.png", },
     ]
     createIntroOptions(optionsDiv, starterCharacters);
-    gameData.player.sprite = starterCharacters[await getIntroSelection(optionsDiv)].smallImg;
+    gameData.playerSprite = starterCharacters[await getIntroSelection(optionsDiv)].smallImg;
 
     optionsDiv = introPage.getElementsByClassName("intro_selection")[1];
     optionsDiv.style.display = "block";
@@ -27,7 +27,6 @@ async function intro() {
     createIntroOptions(optionsDiv, starterPokemon)
     gameData.starterPokemon = starterPokemon[await getIntroSelection(optionsDiv)].name;
     optionsDiv.style.display = "none";
-    introPage.style.display = "none"
     fetch("", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },

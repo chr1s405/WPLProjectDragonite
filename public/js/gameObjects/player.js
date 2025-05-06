@@ -1,10 +1,11 @@
 import { createCompanion } from "./companion.js";
 import { allPokemon, backpack, setAlert } from "../game.js";
 
-export function createPlayer(x, y, direction, capturedPokemon, companion) {
+export function createPlayer(x, y, direction, sprite, capturedPokemon, companion) {
     const character = document.getElementById("character");
     character.style.left = `${x}px`;
     character.style.top = `${y}px`;
+    character.style.backgroundImage = `url(${sprite})`
     const player = {
         div: character,
         x: x,
