@@ -22,6 +22,9 @@ async function gameInit() {
   map = createMap();
   const playerData = gameData.player;
   player = createPlayer(playerData.x, playerData.y, playerData.direction, playerData.sprite, playerData.capturedPokemon, undefined);
+  player.capturePokemon(allPokemon.find((pokemon)=>{return pokemon.name = playerData.starterPokemon}));
+  player.setCompanion(player.capturedPokemon[0]);
+  setTimeout(() => { document.getElementById("alert").click() }, 1);
   for (const key in gameData.npcs) {
     const npc = gameData.npcs[key]
     createNpc(map, npc.x, npc.y, npc.pokemon)
