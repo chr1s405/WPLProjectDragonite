@@ -353,4 +353,33 @@
         width: 80%;
         max-width: 250px;
     }
+
+    @media (max-width: 480px) {
+        .accountPages .blackbox {
+            justify-content: center;
+            
+            width: 100%;
+            height: 100%;
+            min-width: 0px;
+            border-radius: 0px;
+        }
+    
+        #project_start #game_mainBtn{
+            height: 40%;
+            margin-top: 60%;
+        }
+    
+        .blackbox h1 {
+            font-size: 35px;
+        }
+    
+        .accountPages .blackbox form button {
+            width: 80%;
+            max-width: 250px;
+        }
+    
+        #project_start .game_option{
+            display: none;
+        }
+    }
 }
