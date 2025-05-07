@@ -445,7 +445,7 @@ function openAccountEvent(event) {
   this.openEvent(event);
   const pPercentage= document.getElementById("accountPokemonPercentage")
   pPercentage.innerHTML = `${(this.player.capturedPokemon.length/allPokemon.length)*100}% van de pokémon gevangen`
-  event.src = player.characterImg;
+  document.getElementById("accountimgbig").src = this.player.characterImg;
 }
 
 
