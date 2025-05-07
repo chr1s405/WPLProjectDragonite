@@ -443,6 +443,8 @@ export function closeCaptureEvent() {
 
 function openAccountEvent(event) {
   this.openEvent(event);
+  const pPercentage= document.getElementById("accountPokemonPercentage")
+  pPercentage.innerHTML = `${(this.player.capturedPokemon.length/allPokemon.length)*100}% van de pokémon gevangen`
   event.src = player.characterImg;
 }
 
@@ -451,6 +453,9 @@ function openAccountEvent(event) {
 function closeAccountEvent(event) {
   event.style.display = "none";
 }
+
+
+
 
 
 // if(characterChoice != null){
