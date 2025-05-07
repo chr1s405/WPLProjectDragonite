@@ -17,7 +17,8 @@
     </div>
     <div id="project_main">
       <button class="arrowBtn"><a href="/?projectIdx=<%= (idx + projects.length -1) % projects.length %>"><img src="./assets/icons/arrow_icon.png"></a></button>
-      <a href=<%= projects[idx].link %> id="game_mainBtn" style="background-color: <%= projects[idx].logoBgColor %>"><img src=<%= projects[idx].logo %>></a>
+      <a href=<%= projects[idx].link %> id="game_mainBtn" style="background-color: <%= projects[idx].logoBgColor %>"><img src=<%= projects[idx].logo %>
+        <% if(idx != 5){ %> onclick="alert('Dit project is nog onder constructie')" <% } %></a>
       <button class="arrowBtn"><a href="/?projectIdx=<%= (idx +1) % projects.length %>" target="_top"><img src="./assets//icons/arrow_icon.png"></a></button>
     </div>
     <div id="project_selection">
