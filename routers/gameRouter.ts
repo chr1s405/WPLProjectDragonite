@@ -27,6 +27,7 @@ export function getGameRouter() {
         try {
             await createGame(gameData.username);
             gameData["player.sprite"] = req.body.playerSprite;
+            gameData["player.characterImg"] = req.body.characterImg;
             gameData["player.starterPokemon"] = req.body.starterPokemon;
             console.log(req.body);
             await saveGame(gameData.username, gameData)

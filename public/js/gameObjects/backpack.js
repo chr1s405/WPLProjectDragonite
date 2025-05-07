@@ -443,6 +443,7 @@ export function closeCaptureEvent() {
 
 function openAccountEvent(event) {
   this.openEvent(event);
+  event.src = player.characterImg;
 }
 
 
