@@ -45,7 +45,7 @@ export async function getUser(username: string) {
 }
 
 export async function getGame(username: string) {
-    return await gameCollection.findOne({ username: "a" });
+    return await gameCollection.findOne({ username: username });
 }
 export async function createGame(username: string) {
     console.log("create");

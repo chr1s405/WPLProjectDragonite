@@ -16,8 +16,8 @@ async function intro() {
     ]
     createIntroOptions(optionsDiv, starterCharacters);
     const characterIndex = await getIntroSelection(optionsDiv)
-    gameData.playerSprite = starterCharacters[index].smallImg;
-    gameData.characterImg = starterCharacters[index].img;
+    gameData.playerSprite = starterCharacters[characterIndex].smallImg;
+    gameData.characterImg = starterCharacters[characterIndex].img;
     optionsDiv = introPage.getElementsByClassName("intro_selection")[1];
     optionsDiv.style.display = "block";
     const starterPokemon = [
