@@ -100,7 +100,9 @@ function openEvent(event) {
   this.openMenu();
   if (this.currentMenu) {
     this.currentMenu.close(this.currentMenu.event);
-    this.previousMenu.push(this.currentMenu);
+    if (this.currentMenu !== this.menuEvents.find(menuEvent => menuEvent.event === event)) {
+      this.previousMenu.push(this.currentMenu);
+    }
   }
   this.currentMenu = this.menuEvents.find(menuEvent => menuEvent.event === event);
   this.currentMenu.event.style.display = "block";
@@ -122,7 +124,9 @@ function openPokedexEvent(event) {
   const table = event.getElementsByClassName("pokemon_list")[0].getElementsByTagName("table")[0];
   const filters = event.getElementsByClassName("pokedex_filter");
   for (let i = 0; i < filters.length; i++) {
-    filters[i].addEventListener("input", () => { this.createPokemonList(table, this.getFilteredList(table), pokedexRowClick.bind(this)) });
+    filters[i].addEventListener("input", () => {
+      this.createPokemonList(table, this.getFilteredList(table), pokedexRowClick.bind(this))
+    });
   }
   resetFilters();
   this.createPokemonList(table, this.getFilteredList(table), pokedexRowClick.bind(this));
@@ -228,6 +232,7 @@ function openDetailEvent(event, pokemon) {
     return;
   }
   const pokedexDetails = document.getElementById("pokedex_detail");
+  pokedexDetails.scrollTop = 0;
   const statsDiv = pokedexDetails.children[0];
   const stats = statsDiv.getElementsByTagName("p");
   for (let i = 0; i < stats.length; i++) {
@@ -235,7 +240,7 @@ function openDetailEvent(event, pokemon) {
     stats[i].innerHTML = text.substring(0, text.indexOf(':') + 1) + ` ${pokemon.stats[(stats.length - 2 + i) % stats.length].base_stat}`
   }
   const pokemonDiv = pokedexDetails.children[1];
-  pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.nickname !== "" ? pokemon.nickname:  pokemon.name;
+  pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.nickname !== "" ? pokemon.nickname : pokemon.name;
   pokemonDiv.getElementsByTagName("img")[0].src = pokemon.sprites["front_default"];
   pokemonDiv.getElementsByTagName("img")[0].style.filter = pokemon.isKnown ? "brightness(100%)" : "brightness(0%)";
   const buttonsDiv = pokedexDetails.children[2];
@@ -267,18 +272,31 @@ function openDetailEvent(event, pokemon) {
   for (let i = 0; i < pokemon.evolution_chain.length; i++) {
     const evolutionPokemon = allPokemon.find(value => { return value.name === pokemon.evolution_chain[i].name });
     if (evolutionPokemon) {
-      evolutionSteps[i].children[1].innerHTML = evolutionPokemon.isKnown ? pokemon.evolution_chain[i].name : "???";
       evolutionSteps[i].children[0].src = pokemon.evolution_chain[i].sprite;
+      evolutionSteps[i].children[1].innerHTML = evolutionPokemon.isKnown ? pokemon.evolution_chain[i].name : "???";
       evolutionSteps[i].children[0].style.filter = evolutionPokemon.isKnown ? "brightness(100%)" : "brightness(0%)";
       evolutionSteps[i].style.display = "block";
       if (i > 0) {
         evolutionArrows[i - 1].style.display = "block";
       }
+      evolutionSteps[i].addEventListener("click", async () => {
+        if (evolutionPokemon.isKnown) {
+          const menuEvent = this.menuEvents[1];//this.menuEvents.find(event=> event.title === "stats"
+          menuEvent.open(menuEvent.event, evolutionPokemon);
+        }
+        else {
+          await setAlert("Je kent deze pokemon nog niet");
+        }
+      })
     }
   }
 }
 function closeDetailsEvent(event) {
   event.style.display = "none"
+  const evolutionSteps = document.getElementsByClassName("pokedex_evolutionStep");
+  for (let i = 0; i < evolutionSteps.length; i++) {
+    evolutionSteps[i].replaceWith(evolutionSteps[1].cloneNode(true));
+  }
 }
 
 // ========= compare ======== //
@@ -443,8 +461,8 @@ export function closeCaptureEvent() {
 
 function openAccountEvent(event) {
   this.openEvent(event);
-  const pPercentage= document.getElementById("accountPokemonPercentage")
-  pPercentage.innerHTML = `${(this.player.capturedPokemon.length/allPokemon.length)*100}% van de pokémon gevangen`
+  const pPercentage = document.getElementById("accountPokemonPercentage")
+  pPercentage.innerHTML = `${(this.player.capturedPokemon.length / allPokemon.length) * 100}% van de pokémon gevangen`
   document.getElementById("accountimgbig").src = this.player.characterImg;
 }
 

@@ -680,6 +680,7 @@
 
 #gamePage #pokedex_detail #pokedex_evolution .pokedex_evolutionStep {
   display: none;
+  cursor: pointer;
 }
 
 #gamePage #pokedex_detail #pokedex_evolution .pokedex_evolutionArrow {
@@ -725,6 +726,12 @@
   
   #gamePage #pokedex_detail #pokedex_evolution {
     display: block;
+  }
+  #gamePage #pokedex_detail .pokedex_evolutionArrow {
+    transform: rotate(90deg);
+    width: 0px;
+    margin: auto;
+    background-color: green;
   }
 
   #gamePage #pokedex_detail #pokedex_options button {
