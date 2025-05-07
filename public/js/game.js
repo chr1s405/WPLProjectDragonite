@@ -21,7 +21,6 @@ await gameLoop();
 async function gameInit() {
   map = createMap();
   const playerData = gameData.player;
-  console.log(playerData.characterImg)
   player = createPlayer(playerData.x, playerData.y, playerData.direction, playerData.sprite, playerData.characterImg, playerData.capturedPokemon, undefined);
   player.capturePokemon(allPokemon.find((pokemon)=>{return pokemon.name = playerData.starterPokemon}));
   player.setCompanion(player.capturedPokemon[0]);
@@ -176,7 +175,7 @@ function saveGame() {
     player: playerObj,
     npcs: npcsObj,
   }
-  fetch("save", {
+  fetch("/pokemon/game/save", {
     method: "POST",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(saveData)
@@ -186,7 +185,7 @@ function saveGame() {
 }
 function deleteGame() {
   console.log(" js delete")
-  fetch("reset", {
+  fetch("/pokemon/game/reset", {
     method: "POST"
   })
     .then((res) => res.json())

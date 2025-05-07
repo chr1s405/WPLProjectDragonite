@@ -126,6 +126,7 @@ async function setCompanion(pokemon) {
     if (ownedPokemon) {
         this.companion.setCompanion(ownedPokemon);
         document.getElementById("nav-pokemon").src = this.companion.pokemon.sprites["front_default"]
+        await setAlert(`Je companion is nu ${ownedPokemon.name}`);
     }
     else {
         await setAlert("je hebt deze pokemon nog niet gevangen");
