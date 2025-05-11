@@ -9,11 +9,11 @@ const sprites = [
   "../../assets/characters/serena.png"
 ]
 
-export function createNpc(map, x, y, pokemon) {
+export function createNpc(map, npcData) {
   const npcDiv = document.createElement("div");
   npcDiv.setAttribute("class", "npc");
-  npcDiv.style.left = `${x}px`;
-  npcDiv.style.top = `${y}px`;
+  npcDiv.style.left = `${npcData.x}px`;
+  npcDiv.style.top = `${npcData.y}px`;
   npcDiv.style.backgroundImage = `url(${`${sprites[Math.trunc(Math.random() * sprites.length)]}`})`;
 
   const names = ["name1", "name2", "name3", "name4", "name5", "name6", "name7", "name8", "name9", "name0"]
@@ -21,8 +21,8 @@ export function createNpc(map, x, y, pokemon) {
     type: "npc",
     name: names[Math.trunc(Math.random() * names.length)],
     div: npcDiv,
-    x: x,
-    y: y,
+    x: npcData.x,
+    y: npcData.y,
     width: 50, //gets calculated in map.addObject()
     height: 50,
     speed: 10,
@@ -33,7 +33,7 @@ export function createNpc(map, x, y, pokemon) {
     path: [],
     isMoving: false,
     isOnScreen: false,
-    companion: pokemon,
+    companion: npcData.companion,
 
     update,
     move,
@@ -42,7 +42,9 @@ export function createNpc(map, x, y, pokemon) {
     interact,
   };
   map.addObject(npc);
-  npc.companion = createSimplePokemon(allPokemon[Math.trunc(Math.random() * allPokemon.length)].id)
+  if (Object.keys(npc.companion).length === 0) {
+    npc.companion = createSimplePokemon(allPokemon[Math.trunc(Math.random() * allPokemon.length)].id)
+  }
   return npc;
 }
 function update(map) {

@@ -7,26 +7,22 @@ import { createBackpack } from "./gameObjects/backpack.js";
 const userId = document.getElementById("userId").value;
 let map;
 let player;
-let pause = true;
+let pause = false;
 export let allPokemon;
 export let backpack;
 
 
 allPokemon = await GetPokemon();
-gameInit();
+await gameInit();
 gameLoop();
 
 async function gameInit() {
   let gameData = await loadGame();
   map = createMap();
-  const playerData = gameData.player;
-  player = createPlayer(playerData.x, playerData.y, playerData.direction, playerData.sprite, playerData.character, playerData.capturedPokemon, undefined);
-  player.capturePokemon(allPokemon.find((pokemon) => { return pokemon.name === playerData.starterPokemon }).id);
-  player.setCompanion(player.capturedPokemon[0].id);
-  setTimeout(() => { document.getElementById("alert").click() }, 1);
+  player = createPlayer(gameData.player);
   for (const key in gameData.npcs) {
     const npc = gameData.npcs[key]
-    createNpc(map, npc.x, npc.y, npc.pokemon)
+    createNpc(map, npc)
 
   }
   createPokemon(map);
@@ -110,11 +106,11 @@ function loadGame() {
     })
 }
 function saveGame() {
-  const playerData = { x: player.x, y: player.y, direction: player.direction };
+  const playerData = { x: player.x, y: player.y, direction: player.direction, companion: player.companion, capturedPokemon: player.capturedPokemon, knownPokemon: player.knownPokemon };
   const npcsData = [];
   for (let i = 0; i < map.npcs.length; i++) {
     const npc = map.npcs[i]
-    npcsData.push({ x: npc.x, y: npc.y });
+    npcsData.push({ x: npc.x, y: npc.y, companion: npc.companion });
   }
   let saveData = { player: playerData, npcs: npcsData }
   fetch(`/pokemon/game/save?user=${userId}`, {
@@ -137,7 +133,8 @@ function deleteGame() {
       console.log(" js delete done")
     })
 }
-function logout() {
+async function logout() {
+  await saveGame();
   fetch("/pokemon/game/logout", {
     method: "POST"
   })

@@ -54,7 +54,6 @@ export async function setNpcs(userId: number, npcsData: any) {
     npcsCollection.updateOne({ userId }, { $set: getDotNotation(npcsData, "npcs")});
 }
 export function getpokemon() {
-    // return await pokemonCollection.find({}).toArray();
     return allPokemon;
 }
 function getDotNotation(obj: any, prefix = "", result: any = {}) {
@@ -71,16 +70,16 @@ function getDotNotation(obj: any, prefix = "", result: any = {}) {
     return result;
 }
 export async function createGame(userId: number) {
-    const player = { userId, x: 450, y: 450, direction: "down", sprite: "Red.png", character: "/assets/characters/RedBig.webp", capturedPokemon: [] };
+    const player = { userId, x: 450, y: 450, direction: "down", sprite: "Red.png", portrait: "/assets/characters/RedBig.webp", companion: {}, capturedPokemon: [], knownPokemon: [] };
     await playerCollection.insertOne(player);
     const npcs = [
-        { id: 0, x: 200, y: 300, sprite: "Red.png", pokemon: undefined },
-        { id: 0, x: 500, y: 250, sprite: "Red.png", pokemon: undefined },
-        { id: 0, x: 700, y: 250, sprite: "Red.png", pokemon: undefined },
-        { id: 0, x: 200, y: 750, sprite: "Red.png", pokemon: undefined },
-        { id: 0, x: 600, y: 750, sprite: "Red.png", pokemon: undefined },
-        { id: 0, x: 600, y: 1000, sprite: "Red.png", pokemon: undefined },
-        { id: 0, x: 1050, y: 600, sprite: "Red.png", pokemon: undefined },]
+        { id: 0, x: 200, y: 300, sprite: "Red.png",  companion: {} },
+        { id: 0, x: 500, y: 250, sprite: "Red.png",  companion: {} },
+        { id: 0, x: 700, y: 250, sprite: "Red.png",  companion: {} },
+        { id: 0, x: 200, y: 750, sprite: "Red.png",  companion: {} },
+        { id: 0, x: 600, y: 750, sprite: "Red.png",  companion: {} },
+        { id: 0, x: 600, y: 1000, sprite: "Red.png", companion: {} },
+        { id: 0, x: 1050, y: 600, sprite: "Red.png", companion: {} },]
     npcs.forEach((npc, index) => { npc.id = index })
     await npcsCollection.insertOne({ userId, npcs })
     // pokemonCollection.insertMany(pokemon);

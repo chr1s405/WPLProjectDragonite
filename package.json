@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "jest",
-    "start": "npx nodemon index.ts --ignore 'gameData.json'"
+    "start": "npx nodemon index.ts"
   },
   "author": "",
   "license": "ISC",

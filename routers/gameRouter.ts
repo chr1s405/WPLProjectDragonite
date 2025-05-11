@@ -38,7 +38,7 @@ export function getGameRouter() {
         const player = req.body.player;
         const npcs = req.body.npcs;
         await setPlayer(userId, player);
-        await setNpcs(userId, req.body.npcs)
+        await setNpcs(userId, npcs)
         
         res.json({ succes: true });
     })

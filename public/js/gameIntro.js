@@ -17,7 +17,7 @@ async function intro() {
     createIntroOptions(optionsDiv, starterCharacters);
     const characterIndex = await getIntroSelection(optionsDiv)
     gameData.sprite = starterCharacters[characterIndex].smallImg;
-    gameData.character = starterCharacters[characterIndex].img;
+    gameData.portrait = starterCharacters[characterIndex].img;
     
     optionsDiv = introPage.getElementsByClassName("intro_selection")[1];
     optionsDiv.style.display = "block";

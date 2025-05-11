@@ -1,15 +1,15 @@
 import { allPokemon, backpack, createSimplePokemon, findPokemon, setAlert } from "../game.js";
 import { closeBattleEvent } from "./backpack.js";
 
-export function createPlayer(x, y, direction, sprite, characterImg, capturedPokemon, companion) {
+export function createPlayer(playerData) {
     const character = document.getElementById("character");
-    character.style.left = `${x}px`;
-    character.style.top = `${y}px`;
-    character.style.backgroundImage = `url(${sprite})`
+    character.style.left = `${playerData.x}px`;
+    character.style.top = `${playerData.y}px`;
+    character.style.backgroundImage = `url(${playerData.sprite})`
     const player = {
         div: character,
-        x: x,
-        y: y,
+        x: playerData.x,
+        y: playerData.y,
         width: character.clientWidth,
         height: character.clientHeight,
         speed: 20,//character.clientWidth,
@@ -19,12 +19,12 @@ export function createPlayer(x, y, direction, sprite, characterImg, capturedPoke
         isMovingDown: false,
         isMovingLeft: false,
         isMovingRight: false,
-        direction: direction,
-        characterImg: characterImg,
+        direction: playerData.direction,
+        portrait: playerData.portrait,
         spriteIndex: 0,
-        companion: companion,
-        capturedPokemon: capturedPokemon,
-        knownPokemon: [],
+        companion: playerData.companion,
+        capturedPokemon: playerData.capturedPokemon,
+        knownPokemon: playerData.knownPokemon,
         isInEvent: false,
         isDebugOn: false,
 
@@ -47,6 +47,15 @@ export function createPlayer(x, y, direction, sprite, characterImg, capturedPoke
 
         toggleDebug,
         debug,
+    }
+    if (Object.keys(player.companion).length === 0) {
+        player.capturePokemon(allPokemon.find((pokemon) => { return pokemon.name === playerData.starterPokemon }).id);
+        player.setCompanion(player.capturedPokemon[0].id);
+        setTimeout(() => { document.getElementById("alert").click() }, 1);
+    }
+    else{
+        player.setCompanion(player.companion.id);
+        setTimeout(() => { document.getElementById("alert").click() }, 1);
     }
     return player;
 }
