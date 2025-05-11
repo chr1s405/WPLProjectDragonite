@@ -13,16 +13,16 @@ export let backpack;
 
 
 allPokemon = await GetPokemon();
-await gameInit();
-await gameLoop();
+gameInit();
+gameLoop();
 
 async function gameInit() {
   let gameData = await loadGame();
   map = createMap();
   const playerData = gameData.player;
   player = createPlayer(playerData.x, playerData.y, playerData.direction, playerData.sprite, playerData.character, playerData.capturedPokemon, undefined);
-  player.capturePokemon(allPokemon.find((pokemon) => { return pokemon.name === playerData.starterPokemon }));
-  player.setCompanion(player.capturedPokemon[0]);
+  player.capturePokemon(allPokemon.find((pokemon) => { return pokemon.name === playerData.starterPokemon }).id);
+  player.setCompanion(player.capturedPokemon[0].id);
   setTimeout(() => { document.getElementById("alert").click() }, 1);
   for (const key in gameData.npcs) {
     const npc = gameData.npcs[key]
@@ -32,7 +32,6 @@ async function gameInit() {
   createPokemon(map);
   backpack = createBackpack(player);
 
-  // await intro();
 
   addEventListener("keydown", (e) => {
     //   alert(e.keyCode);
@@ -117,46 +116,61 @@ function saveGame() {
     const npc = map.npcs[i]
     npcsData.push({ x: npc.x, y: npc.y });
   }
-  let saveData = { player: playerData, npcs: npcsData}
+  let saveData = { player: playerData, npcs: npcsData }
   fetch(`/pokemon/game/save?user=${userId}`, {
     method: "POST",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(saveData)
   })
     .then((res) => res.json())
-    .then(async (data) => { if (data.succes) { await setAlert("voortgang opgeslagen") } })
+    .then(async (data) => { await setAlert("voortgang opgeslagen") })
 }
 function deleteGame() {
   fetch(`/pokemon/game/reset?user=${userId}`, {
     method: "POST"
   })
-    .then((res) => res.json())
+    .then((res) => { res.json() })
     .then(async (data) => {
-      if (data.succes) {
-        console.log(" js delete in progress")
-        await setAlert("voortgang verwijderd");
-        window.location.href = data.path;
-      }
-    })
-    .then(() => {
+      console.log(" js delete in progress")
+      await setAlert("voortgang verwijderd");
+      window.location.href = data.path;
       console.log(" js delete done")
     })
-
 }
-async function logout(){
+function logout() {
   fetch("/pokemon/game/logout", {
     method: "POST"
   })
-  .then((res)=>{ return res.json() })
-  .then((data)=>{ window.location.href = data.path });
+    .then((res) => { return res.json() })
+    .then((data) => { window.location.href = data.path });
 }
-async function GetPokemon() {
-  return fetch("/pokemon/game/getPokemon",{
+function GetPokemon() {
+  return fetch("/pokemon/game/getPokemon", {
     method: "POST"
   })
-  .then(async (res)=>{
-    return await res.json();
-  })
+    .then((res) => { return res.json(); })
+}
+export function findPokemon(pokemonId) {
+  return allPokemon.find((pokemon) => { return pokemon.id === pokemonId });
+}
+export function createSimplePokemon(pokemonId, nickname = ""){
+  const pokemon = findPokemon(pokemonId);
+  return {
+  id: pokemon.id,
+  name: pokemon.name,
+  stats: {
+    hp: pokemon.stats[0].base_stat,
+    maxHp: pokemon.stats[0].base_stat,
+    atk: pokemon.stats[1].base_stat,
+    def: pokemon.stats[2].base_stat,
+    spAtk: pokemon.stats[3].base_stat,
+    spDef: pokemon.stats[4].base_stat,
+    speed: pokemon.stats[5].base_stat,
+    wins: 0,
+    losses: 0,
+  },
+  nickname: nickname,
+};
 }
 
 

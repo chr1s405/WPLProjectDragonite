@@ -58,6 +58,7 @@ export interface Player {
   spriteIndex: number,
   companion: any,
   capturedPokemon: Pokemon[],
+  knownPokemon: number[],
   isInEvent: Boolean,
   isDebugOn: Boolean,
 
@@ -70,7 +71,6 @@ export interface Player {
   setDirection: Function,
   setCompanion: Function,
   capturePokemon: Function,
-  removeCompanion: Function,
   releasePokemon: Function,
   interact: Function,
   interactNpc: Function,
@@ -99,7 +99,6 @@ export interface Npc {
   pokemon?: Pokemon,
 
   update: Function,
-  assignPokemon: Function,
   move: Function,
   goTo: Function,
   setDirection: Function,
@@ -131,21 +130,16 @@ export interface SimplifiedPokemon {
   id: number,
   name: string,
   stats: {
-    base_stat: number,
-    effort: number,
-    stat: {
-      name: string,
-      url: string,
-    },
-    // hp: number,
-    // atk: number,
-    // def: number,
-    // spAtk: number,
-    // spDef: number,
-    // speed: number,
-    // wins: number,
-    // losses: number,
-  }[]
+    hp: number,
+    maxHp: number,
+    atk: number,
+    def: number,
+    spAtk: number,
+    spDef: number,
+    speed: number,
+    wins: number,
+    losses: number,
+  }
   nickname: string,
 };
 export interface Pokemon {
@@ -182,14 +176,6 @@ export interface Pokemon {
       name: string,
       url: string,
     },
-    // hp: number,
-    // atk: number,
-    // def: number,
-    // spAtk: number,
-    // spDef: number,
-    // speed: number,
-    // wins: number,
-    // losses: number,
   }[]
   types: {
     slot: number,

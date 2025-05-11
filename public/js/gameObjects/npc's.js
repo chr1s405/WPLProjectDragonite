@@ -1,4 +1,4 @@
-import { allPokemon, setTextBox } from "../game.js";
+import { allPokemon, createSimplePokemon, setTextBox } from "../game.js";
 
 const sprites = [
   "../../assets/characters/Red.png",
@@ -33,19 +33,16 @@ export function createNpc(map, x, y, pokemon) {
     path: [],
     isMoving: false,
     isOnScreen: false,
-    pokemon: undefined,
+    companion: pokemon,
 
     update,
-    assignPokemon,
     move,
     goTo,
     setDirection,
     interact,
   };
   map.addObject(npc);
-  if (!npc.pokemon) {
-    npc.assignPokemon(allPokemon[Math.trunc(Math.random() * allPokemon.length)]);
-  }
+  npc.companion = createSimplePokemon(allPokemon[Math.trunc(Math.random() * allPokemon.length)].id)
   return npc;
 }
 function update(map) {
@@ -62,9 +59,6 @@ function update(map) {
   }
   if (this.isOnScreen) {
   }
-}
-function assignPokemon(pokemon) {
-  this.pokemon = Object.assign({}, pokemon);
 }
 function goTo(map, dest) {
   if (this.path.length === 0) {

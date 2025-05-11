@@ -1,9 +1,8 @@
 // import { Map } from "./map.js";
 // import { Player } from "./player.js";
 
-import { allPokemon } from "../game.js";
+import { allPokemon, createSimplePokemon, findPokemon } from "../game.js";
 
-let pokemonList;
 const pokemonDiv = document.createElement("div");
 pokemonDiv.setAttribute("class", "pokemon");
 pokemonDiv.style.display = "none";
@@ -85,8 +84,8 @@ function spawn(map) {
         const spawnPos = map.getPositionOffScreen();
         this.x = spawnPos.x;
         this.y = spawnPos.y;
-        this.pokemon = allPokemon[Math.trunc(Math.random() * allPokemon.length)];
-        this.div.style.backgroundImage = `url("${this.pokemon.sprites["front_default"]}")`;
+        this.pokemon = createSimplePokemon(allPokemon[Math.trunc(Math.random() * allPokemon.length)].id);
+        this.div.style.backgroundImage = `url("${findPokemon(this.pokemon.id).sprites["front_default"]}")`;
         this.isActive = true;
     }
 }

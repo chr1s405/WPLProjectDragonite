@@ -1,5 +1,5 @@
-import { createCompanion } from "./companion.js";
-import { allPokemon, backpack, setAlert } from "../game.js";
+import { allPokemon, backpack, createSimplePokemon, findPokemon, setAlert } from "../game.js";
+import { closeBattleEvent } from "./backpack.js";
 
 export function createPlayer(x, y, direction, sprite, characterImg, capturedPokemon, companion) {
     const character = document.getElementById("character");
@@ -24,6 +24,7 @@ export function createPlayer(x, y, direction, sprite, characterImg, capturedPoke
         spriteIndex: 0,
         companion: companion,
         capturedPokemon: capturedPokemon,
+        knownPokemon: [],
         isInEvent: false,
         isDebugOn: false,
 
@@ -35,8 +36,8 @@ export function createPlayer(x, y, direction, sprite, characterImg, capturedPoke
         move,
         setDirection,
         setCompanion,
+        discoverPokemon,
         capturePokemon,
-        removeCompanion,
         releasePokemon,
         interact,
         interactNpc,
@@ -47,7 +48,6 @@ export function createPlayer(x, y, direction, sprite, characterImg, capturedPoke
         toggleDebug,
         debug,
     }
-    player.companion = createCompanion(player);
     return player;
 }
 
@@ -55,9 +55,6 @@ function update(map) {
     this.move(map);
     this.div.style.left = `${this.x}px`;
     this.div.style.top = `${this.y}px`;
-    if (this.companion.pokemon) {
-        this.companion.update(map);
-    }
     if (this.isDebugOn) {
         this.debug(map);
     }
@@ -121,44 +118,44 @@ function setDirection(dir) {
 }
 
 //pokemon
-async function setCompanion(pokemon) {
-    const ownedPokemon = this.capturedPokemon.find((search) => { return search.id === pokemon.id });
-    if (ownedPokemon) {
-        this.companion.setCompanion(ownedPokemon);
-        document.getElementById("nav-pokemon").src = this.companion.pokemon.sprites["front_default"]
-        await setAlert(`Je companion is nu ${ownedPokemon.name}`);
+async function setCompanion(pokemonId) {
+    const pokemon = this.capturedPokemon.find((search) => { return search.id === pokemonId });
+    if (pokemon) {
+        this.companion = pokemon;
+        document.getElementById("nav-pokemon").src = findPokemon(pokemonId).sprites["front_default"]
+        await setAlert(`Je companion is nu ${pokemon.name}`);
     }
     else {
         await setAlert("je hebt deze pokemon nog niet gevangen");
     }
 }
-function removeCompanion() {
-    this.companion.removeCompanion();
-    document.getElementById("nav-pokemon").src = "../assets/pikachu_silouhette.png"
+function discoverPokemon(pokemonId) {
+    if (!this.knownPokemon.includes(pokemonId)) {
+        this.knownPokemon.push(pokemonId);
+    }
 }
-async function capturePokemon(pokemon, nickname) {
-    allPokemon.find(search => { return search.id === pokemon.id }).isKnown = true;
-    const pokemonCopy = Object.assign({}, pokemon);
-    if (nickname !== "") { pokemonCopy.nickname = nickname; }
-    this.capturedPokemon.push(pokemonCopy);
+async function capturePokemon(pokemonId, nickname = "") {
+    this.discoverPokemon(pokemonId);
+    const pokemon = createSimplePokemon(pokemonId, nickname);
+    this.capturedPokemon.push(pokemon);
     await setAlert(`je hebt ${pokemon.name} gevangen`);
 }
-async function releasePokemon(pokemon) {
+async function releasePokemon(pokemonId) {
     let pokemonIdx = -1;
-    const ownedPokemon = this.capturedPokemon.find((search, index) => {
-        if (search.id === pokemon.id) {
-            pokemonIdx = index;
-            return search;
+    for (let i = 0; i < this.capturedPokemon.length; i++) {
+        if (this.capturedPokemon[i].id === pokemonId) {
+            pokemonIdx = i;
+            break;
         }
-    });
-    if (!ownedPokemon) {
+    }
+    if (pokemonIdx < 0) {
         await setAlert("je hebt deze pokemon niet gevangen");
     }
-    else if (ownedPokemon === this.companion.pokemon) {
+    else if (this.companion.id === this.capturedPokemon[pokemonIdx]) {
         await setAlert("kies eerst een andere companion");
     }
     else {
-        await setAlert(`je hebt ${pokemon.name} losgelaten`);
+        await setAlert(`je hebt ${this.capturedPokemon[pokemonIdx].name} losgelaten`);
         this.capturedPokemon.splice(pokemonIdx, 1);
     }
 }
@@ -174,41 +171,39 @@ function toggleDebug() {
         this.div.getElementsByClassName("debug")[0].style.display = "none";
         this.div.style.border = "none";
     }
-    this.companion.toggleDebug();
 }
 function debug(map) {
     this.div.getElementsByClassName("debug")[0].innerHTML =
         `(${this.x}, ${this.y})</br>${map.positionInGrid(this.x, this.y)}`;
 }
 
-
-
-
 //interact
-function interact(map) {
-    if (this.interactNpc(map)) {
+async function interact(map) {
+    if (await this.interactNpc(map)) {
         return;
     }
-    else if (this.interactPokemon(map)) {
+    else if (await this.interactPokemon(map)) {
         return;
     }
 }
-function interactNpc(map) {
-    map.npcs.forEach(async (npc) => {
+async function interactNpc(map) {
+    for (let i = 0; i < map.npcs.length; i++) {
+        const npc = map.npcs[i];
         if (npc.isOnScreen) {
             const distX = (this.x + this.width / 2) - (npc.x + npc.width / 2);
             const distY = (this.y + this.height / 2) - (npc.y + npc.height / 2);
             const dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
             if (dist <= map.tileWidth * 1.5) {
                 await npc.interact();
-                this.battle(this, npc);
+                this.battle(this.companion, npc.companion);
                 return true;
             }
         }
-    });
+    }
 }
 function interactPokemon(map) {
-    map.pokemon.forEach(pokemon => {
+    for (let i = 0; i < map.pokemon.length; i++) {
+        const pokemon = map.pokemon[i];
         if (pokemon.isActive) {
             const distX = (this.x + this.width / 2) - (pokemon.x + pokemon.width / 2);
             const distY = (this.y + this.height / 2) - (pokemon.y + pokemon.height / 2);
@@ -219,7 +214,7 @@ function interactPokemon(map) {
                 return true;
             }
         }
-    })
+    }
 }
 
 // ========================================== //
@@ -227,10 +222,6 @@ function interactPokemon(map) {
 // ========================================== //
 
 async function battle(player, enemy) {
-    if (!this.companion.pokemon) {
-        setAlert("je hebt nog geen pokemon om mee te vechten")
-        return;
-    }
     backpack.openBattleEvent();
     let battleText;
     const battleTextBox = document.getElementById("battle_text");
@@ -245,21 +236,69 @@ async function battle(player, enemy) {
         img: stage[1].getElementsByTagName("img")[0], name: stage[1].getElementsByClassName("statusbar")[0].children[0],
         hpBar: stage[1].getElementsByClassName("statusbar")[0].children[1], hp: stage[1].getElementsByClassName("statusbar")[0].children[1].children[0],
     }];
-    stages[0].img.src = player.companion.pokemon.sprites["front_default"];
-    stages[0].name.innerHTML = player.companion.pokemon.name;
-    stages[0].hp.innerHTML = player.companion.pokemon.stats[0]["base_stat"];
+    stages[0].img.src = findPokemon(player.id).sprites["front_default"];
+    stages[0].name.innerHTML = findPokemon(player.id).name;
+    stages[0].hp.innerHTML = player.stats.maxHp + " HP";
     stages[0].hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`
-    stages[1].img.src = enemy.pokemon.sprites["front_default"];
-    stages[1].name.innerHTML = enemy.pokemon.name;
-    stages[1].hp.innerHTML = enemy.pokemon.stats[0]["base_stat"] + "HP";
+    stages[1].img.src = findPokemon(enemy.id).sprites["front_default"];
+    stages[1].name.innerHTML = findPokemon(enemy.id).name;
+    stages[1].hp.innerHTML = enemy.stats.maxHp + " HP";
     stages[1].hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`
 
-    const fighters = [{ nr: 1, owner: player, pokemon: player.companion.pokemon, hp: player.companion.pokemon.stats[0]["base_stat"], stage: stages[0], audio: new Audio(player.companion.pokemon.cries["latest"]) },
-    { nr: 2, owner: enemy, pokemon: enemy.pokemon, hp: enemy.pokemon.stats[0]["base_stat"], stage: stages[1], audio: new Audio(enemy.pokemon.cries["latest"]) }];
+    return await battleRound();
 
-
-    performAction(fighters[0], fighters[1]);
-
+    async function battleRound() {
+        let action = await pressButton();
+        if (await battleAction(action, player, enemy, stages[1])) {
+            if (enemy.stats.hp === 0) {
+                player.stats.wins++;
+                battleText = "je hebt gewonnen";
+            }
+            else {
+                player.stats.losses++;
+                battleText = "je bent weggelopen"
+            }
+            await battleCleanup();
+            return enemy.stats.hp === 0 ? enemy.id : -1;
+        }
+        action = Math.round(Math.random());
+        if (await battleAction(action, enemy, player, stages[0])) {
+            player.stats.losses++;
+            battleText = "je hebt verloren";
+            await battleCleanup();
+            return -1;
+        }
+        return await battleRound();
+    }
+    async function battleCleanup() {
+        player.stats.hp = player.stats.maxHp;
+        enemy.stats.hp = enemy.stats.maxHp;
+        await setBattleText(battleText);
+        backpack.closeBattleEvent();
+    }
+    async function battleAction(action, attacker, defender, defStage) {
+        battleText = attacker.name;
+        if (action === 0) {
+            const dmg = Math.max(0, attacker.stats.atk - defender.stats.def);
+            defender.stats.hp = Math.max(0, defender.stats.hp - dmg);
+            battleText += ` valt aan met een normal attack en doet ${dmg} schade`;
+            new Audio(findPokemon(defender.id).cries["latest"]).play();
+        }
+        if (action === 1) {
+            const dmg = Math.max(0, attacker.stats.spAtk - defender.stats.spDef);
+            defender.stats.hp = Math.max(0, defender.stats.hp - dmg);
+            battleText += ` valt aan met een special attack en doet ${dmg} schade`;
+            new Audio(findPokemon(defender.id).cries["latest"]).play(0)
+        }
+        if (action === 2) {
+            return true;
+        }
+        const hpPercent = defender.stats.hp / defender.stats.maxHp * 100;
+        defStage.hp.innerHTML = `${defender.stats.hp}HP`;
+        defStage.hpBar.style.background = `linear-gradient(to right, #00ff00 ${hpPercent}%, #000000 ${hpPercent}%)`;
+        await setBattleText(battleText);
+        return defender.stats.hp === 0;
+    }
     async function pressButton() {
         return new Promise((resolve, reject) => {
             for (let i = 0; i < battleButtons.length; i++) {
@@ -271,57 +310,6 @@ async function battle(player, enemy) {
                 })
             }
         })
-    }
-    async function performAction(atk, def) {
-        battleText = atk.pokemon.name;
-        let action;
-        if (atk.nr === 1) {
-            action = await pressButton();
-        }
-        else {
-            action = Math.round(Math.random());
-        }
-        if (action === 0) {
-            const dmg = Math.max(0, atk.pokemon.stats[1]["base_stat"] - def.pokemon.stats[2]["base_stat"]);
-            def.hp = Math.max(0, def.hp - dmg);
-            battleText += ` valt aan met een normal attack en doet ${dmg} schade`;
-            if (def.audio) { def.audio.play(); }
-        }
-        if (action === 1) {
-            const dmg = Math.max(0, atk.pokemon.stats[3]["base_stat"] - def.pokemon.stats[4]["base_stat"]);
-            def.hp = Math.max(0, def.hp - dmg);
-            battleText += ` valt aan met een special attack en doet ${dmg} schade`;
-            if (def.audio) { def.audio.play(); }
-        }
-        if (action === 2) {
-            battleText += ` loopt weg`;
-            await setBattleText(battleText);
-            backpack.closeBattleEvent();
-            return;
-        }
-        const hpPercent = def.hp / def.pokemon.stats[0]["base_stat"] * 100;
-        def.stage.hp.innerHTML = `${def.hp}HP`;
-        def.stage.hpBar.style.background = `linear-gradient(to right, #00ff00 ${hpPercent}%, #000000 ${hpPercent}%)`;
-        await setBattleText(battleText);
-        if (def.hp > 0) {
-            fighters.reverse();
-            setTimeout(await performAction(fighters[0], fighters[1]), 0);
-        }
-        else {
-            if (def.nr === 1) {
-                def.pokemon.stats[7]["base_stat"]++
-                battleText = "je hebt verloren";
-            }
-            else {
-                atk.pokemon.stats[6]["base_stat"]++;
-                if (!(def.owner.type === "npc")) {
-                    atk.owner.capturePokemon(def.pokemon);
-                }
-                battleText = "je hebt gewonnen";
-            }
-            await setBattleText(battleText);
-            backpack.closeBattleEvent();
-        }
     }
     async function setBattleText(text) {
         let i = 0;
@@ -366,11 +354,11 @@ function capture(pokemon) {
     }
 
     stage.name.innerHTML = pokemon.name;
-    stage.img.src = pokemon.sprites["front_default"];
+    stage.img.src = findPokemon(pokemon.id).sprites["front_default"];
     stage.nickNameDiv.style.display = "none";
-    stage.button.style.border = this.capturedPokemon.find(search => { return search.id === pokemon.id }) ? "3px solid green" : "3px solid red";
+    stage.button.style.border = this.knownPokemon.includes(pokemon.id) ? "3px solid green" : "3px solid red";
     let chances = 3;
-    const captureChance = (50 - pokemon.stats[2]["base_stat"] + (this.companion.pokemon ? this.companion.pokemon.stats[1]["base_stat"] : 0)) / 100;
+    const captureChance = (50 - findPokemon(pokemon.id).stats[2].base_stat + (this.companion ? this.companion.stats.atk : 0)) / 100;
     for (let i = 0; i < stage.chances.children.length; i++) {
         stage.chances.children[i].style.filter = "grayscale(0%)";
     }
@@ -379,7 +367,7 @@ function capture(pokemon) {
     const captureBtn = document.getElementById("capture_button");
     if (this.capturedPokemon.find((search) => { return search.id === pokemon.id })) {
         captureBtn.addEventListener("click", async () => {
-            this.releasePokemon(pokemon);
+            this.releasePokemon(pokemon.id);
             backpack.closeCaptureEvent();
         }, { once: true });
     }
@@ -397,13 +385,13 @@ function capture(pokemon) {
             }
             if (captured) {
                 await new Promise(async (resolve, reject) => {
-                    let nickname = "";
                     const input = stage.nickNameDiv.getElementsByTagName("input")[0];
                     input.value = "";
                     stage.nickNameDiv.style.display = "block";
                     stage.nickNameDiv.querySelector("button").addEventListener("click", async () => {
+                        let nickname = "";
                         nickname = input.value;
-                        await player.capturePokemon(pokemon, nickname);
+                        await player.capturePokemon(pokemon.id, nickname);
                         resolve();
                     }, { once: true });
                 })
@@ -417,19 +405,6 @@ function capture(pokemon) {
                 if (!captured) {
                     await setAlert(`${pokemon.name} is ontsnapt`);
                 }
-                // else {
-                //     await new Promise((resolve, reject) => {
-                //         const nickNameDiv = document.getElementById("capture_nickname");
-                //         const input = nickNameDiv.getElementsByTagName("input")[0];
-                //         input.value = "";
-                //         nickNameDiv.style.display = "block";
-                //         nickNameDiv.querySelector("button").addEventListener("click", () => {
-                //             pokemon.nickname = input.value;
-                //             nickNameDiv.style.display = "none";
-                //             resolve();
-                //         }, { once: true });
-                //     })
-                // }
                 backpack.closeCaptureEvent();
             }
         }, { once: true })

@@ -162,7 +162,7 @@ function getFilteredList(table) {
     filteredList = filteredList.filter((pokemon) => {
       const matchesSearch = pokemon.name.toLowerCase().includes(filterText.value.toLowerCase());
       const isCaught = this.player.capturedPokemon.find((search) => { return search.id === pokemon.id });
-      const isKnown = pokemon.isKnown;
+      const isKnown = this.player.knownPokemon.includes(pokemon.id);
       const isType = filterType.value === "all" || pokemon.types.some(t => t.type.name === filterType.value);
       return matchesSearch && (!filterCaught.checked || isCaught) && (!filterKnown.checked || isKnown) && isType;
     });
@@ -190,17 +190,17 @@ function createPokemonList(table, pokemonList, rowClickFunction) {
     const pokemonImg = document.createElement("img");
     pokemonImg.setAttribute("class", "tableImg");
     pokemonImg.src = pokemon.sprites["front_default"];
-    pokemonImg.style.filter = pokemon.isKnown ? "brightness(100%)" : "brightness(0%)";
+    pokemonImg.style.filter = this.player.knownPokemon.includes(pokemon.id) ? "brightness(100%)" : "brightness(0%)";
 
     const pokemonInfo = document.createElement("p");
     pokemonInfo.setAttribute("class", "tableInfo");
-    pokemonInfo.innerHTML = `#${pokemon.id}</br>${pokemon.isKnown ? pokemon.name : "???"}`;
+    pokemonInfo.innerHTML = `#${pokemon.id}</br>${this.player.knownPokemon.includes(pokemon.id) ? pokemon.name : "???"}`;
 
     table.appendChild(tableRow);
     tableRow.appendChild(pokemonImg);
     tableRow.appendChild(pokemonInfo);
     tableRow.addEventListener("click", () => {
-      if (pokemon.isKnown) {
+      if (this.player.knownPokemon.includes(pokemon.id)) {
         rowClickFunction(pokemon);
       }
       else {
@@ -235,23 +235,35 @@ function openDetailEvent(event, pokemon) {
   pokedexDetails.scrollTop = 0;
   const statsDiv = pokedexDetails.children[0];
   const stats = statsDiv.getElementsByTagName("p");
+  const playerPokemon = this.player.capturedPokemon.find((search) => { return search.id === pokemon.id });
+  let pokemonStats = [];
+  if (playerPokemon) {
+    for (const key in playerPokemon.stats) {
+      pokemonStats.push(playerPokemon.stats[key])
+    }
+    pokemonStats.splice(0,1);
+  }
   for (let i = 0; i < stats.length; i++) {
     const text = stats[i].innerHTML;
-    stats[i].innerHTML = text.substring(0, text.indexOf(':') + 1) + ` ${pokemon.stats[(stats.length - 2 + i) % stats.length].base_stat}`
+    if (pokemonStats.length === 0) {
+      pokemonStats = pokemon.stats.map((value)=>{return value.base_stat});
+    }
+    stats[i].innerHTML = text.substring(0, text.indexOf(':') + 1) + ` ${pokemonStats[(stats.length - 2 + i) % stats.length]}`
   }
+
   const pokemonDiv = pokedexDetails.children[1];
   pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.nickname !== "" ? pokemon.nickname : pokemon.name;
   pokemonDiv.getElementsByTagName("img")[0].src = pokemon.sprites["front_default"];
-  pokemonDiv.getElementsByTagName("img")[0].style.filter = pokemon.isKnown ? "brightness(100%)" : "brightness(0%)";
+  pokemonDiv.getElementsByTagName("img")[0].style.filter = this.player.knownPokemon.includes(pokemon.id) ? "brightness(100%)" : "brightness(0%)";
   const buttonsDiv = pokedexDetails.children[2];
   const buttons = buttonsDiv.getElementsByTagName("button");
   buttons[0].replaceWith(buttons[0].cloneNode(true));
   buttons[0].addEventListener("click", () => {
-    this.player.setCompanion(pokemon);
+    this.player.setCompanion(pokemon.id);
   })
   buttons[1].replaceWith(buttons[1].cloneNode(true));
   buttons[1].addEventListener("click", () => {
-    this.player.releasePokemon(pokemon);
+    this.player.releasePokemon(pokemon.id);
   })
   buttons[2].replaceWith(buttons[2].cloneNode(true));
   buttons[2].addEventListener("click", () => {
@@ -413,7 +425,7 @@ function openWhosThatEvent(event, pokemon) {
   })
   button.addEventListener("click", async () => {
     if (input.value === pokemon.name) {
-      pokemon.isKnown = true;
+      this.player.discoverPokemon(pokemon.id);
       img.style.filter = "brightness(100%)";
       name.innerHTML = pokemon.name;
       input.style.display = "none";
