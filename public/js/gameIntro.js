@@ -5,7 +5,7 @@ async function intro() {
     const introPage = document.getElementById("gameIntro");
     let optionsDiv;
     optionsDiv = introPage.getElementsByClassName("intro_selection")[0];
-    let gameData = {firstLogin: false, player: {}};
+    let gameData = {};
     const starterCharacters = [
         { name: "Red", img: "/assets/characters/RedBig.webp", smallImg: "/assets/characters/Red.png", },
         { name: "Leaf", img: "/assets/characters/LeafBig.png", smallImg: "/assets/characters/leaf.png", },
@@ -16,14 +16,15 @@ async function intro() {
     ]
     createIntroOptions(optionsDiv, starterCharacters);
     const characterIndex = await getIntroSelection(optionsDiv)
-    gameData.playerSprite = starterCharacters[characterIndex].smallImg;
-    gameData.characterImg = starterCharacters[characterIndex].img;
+    gameData.sprite = starterCharacters[characterIndex].smallImg;
+    gameData.character = starterCharacters[characterIndex].img;
+    
     optionsDiv = introPage.getElementsByClassName("intro_selection")[1];
     optionsDiv.style.display = "block";
     const starterPokemon = [
-        { name: "caterPie", img: "", },
+        { name: "caterpie", img: "", },
         { name: "squirtle", img: "", },
-        { name: "charizard", img: "", },
+        { name: "charmander", img: "", },
     ]
     createIntroOptions(optionsDiv, starterPokemon)
     gameData.starterPokemon = starterPokemon[await getIntroSelection(optionsDiv)].name;

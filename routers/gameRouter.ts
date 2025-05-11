@@ -1,6 +1,5 @@
 import express from "express";
-import { createGame, deleteGame, gameCollection, getGame, getGameData, loadGame, saveGame, setGameData, updateGameData } from "../database";
-import fs from "fs";
+import { createGame, getNpcs, getPlayer, getpokemon, resetGame, setNpcs, setPlayer } from "../database";
 import path from "path";
 
 export function getGameRouter() {
@@ -8,13 +7,13 @@ export function getGameRouter() {
 
 
     router.get("", async (req, res) => {
-        let gameData = await getGameData();
-        if (await getGame(gameData.username)) {
-            await loadGame(gameData.username);
-            return res.render("game");
+        const userId = typeof req.query.user === "string" ? parseInt(req.query.user) : -1;
+        const player = await getPlayer(userId);
+        if (player) {
+            return res.render("game", { userId });
         }
         else {
-            return res.redirect("./game/intro")
+            return res.redirect(`/pokemon/game/intro?user=${userId}`);
         }
     })
 
@@ -22,35 +21,37 @@ export function getGameRouter() {
         return res.render("gameIntro");
     })
     router.post("/intro", async (req, res) => {
-
-        let gameData = await getGameData();
-        try {
-            await createGame(gameData.username);
-            gameData["player.sprite"] = req.body.playerSprite;
-            gameData["player.characterImg"] = req.body.characterImg;
-            gameData["player.starterPokemon"] = req.body.starterPokemon;
-            console.log(req.body);
-            await saveGame(gameData.username, gameData)
-            return res.json({ redirect: "./" });
-        }
-        catch (err) {
-            console.log(err)
-            setGameData({ username: gameData.username })
-            return res.json({ redirect: "./intro" });
-        }
+        const userId = typeof req.query.user === "string" ? parseInt(req.query.user) : -1;
+        await createGame(userId);
+        await setPlayer(userId, req.body);
+        return res.json({ redirect: `./?user=${userId}` });
     })
-
+    router.post("/load", async (req, res) => {
+        const userId = typeof req.query.user === "string" ? parseInt(req.query.user) : -1;
+        const gameData: any = {};
+        gameData.player = await getPlayer(userId);
+        gameData.npcs = await getNpcs(userId);
+        return res.json(gameData);
+    })
     router.post("/save", async (req, res) => {
-        console.log("save data")
-        const saveData = req.body;
-        await saveGame((await getGameData()).username, saveData);
+        const userId = typeof req.query.user === "string" ? parseInt(req.query.user) : -1;
+        const player = req.body.player;
+        const npcs = req.body.npcs;
+        await setPlayer(userId, player);
+        await setNpcs(userId, req.body.npcs)
+        
         res.json({ succes: true });
     })
     router.post("/reset", async (req, res) => {
-        console.log("delete data");
-        const gameData = await getGameData();
-        await deleteGame(gameData.username);
-        res.json({succes: true, redirect: "/pokemon/game"});
+        const userId = typeof req.query.user === "string" ? parseInt(req.query.user) : -1;
+        await resetGame(userId);
+        res.json({ succes: true, path: `/pokemon/game?user=${userId}` });
+    })
+    router.post("/logout", (req, res)=>{
+        res.json({path: "/pokemon/account"})
+    })
+    router.post("/getPokemon", async (req, res)=>{
+        res.json(await getpokemon());
     })
 
     return router;

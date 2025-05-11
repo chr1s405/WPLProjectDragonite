@@ -1,5 +1,5 @@
-import express, { Express } from "express";
-import { createGame, getUser, loadGame, setGameData, userCollection } from "../database";
+import express from "express";
+import { createUser, getUser } from "../database";
 
 export function GetAccountRouter() {
     interface FormError {
@@ -15,7 +15,7 @@ export function GetAccountRouter() {
 
     router.get("", (req, res) => {
         const formError: FormError = {};
-        return res.redirect("./login");
+        return res.redirect("/pokemon/account/login");
     })
     router.get("/login", (req, res) => {
         const formError: FormError = {};
@@ -33,8 +33,7 @@ export function GetAccountRouter() {
             const user = await getUser(username);
             if (user) {
                 if (user.password === password) {
-                    await setGameData({username: username});
-                    return res.redirect("/pokemon/game");
+                    return res.redirect(`/pokemon/game?user=${user.id}`);
                 }
                 else {
                     formError.wrongPassword = true;
@@ -63,7 +62,7 @@ export function GetAccountRouter() {
         else {
             let user = await getUser(username);
             if (!user) {
-                userCollection.insertOne({ username, email, password });
+                await createUser({ username, email, password })
                 return res.redirect("./login")
             }
             else {
