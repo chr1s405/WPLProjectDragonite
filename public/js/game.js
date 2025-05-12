@@ -1,7 +1,5 @@
 import { createMap } from "./gameObjects/map.js";
 import { createPlayer } from "./gameObjects/player.js";
-import { createNpc } from "./gameObjects/npc's.js";
-import { createPokemon } from "./gameObjects/pokemon.js";
 import { createBackpack } from "./gameObjects/backpack.js";
 
 const userId = document.getElementById("userId").value;
@@ -18,14 +16,8 @@ gameLoop();
 
 async function gameInit() {
   let gameData = await loadGame();
-  map = createMap();
+  map = createMap(gameData.npcs);
   player = createPlayer(gameData.player);
-  for (const key in gameData.npcs) {
-    const npc = gameData.npcs[key]
-    createNpc(map, npc)
-
-  }
-  createPokemon(map);
   backpack = createBackpack(player);
 
 

@@ -1,5 +1,4 @@
 import { allPokemon, backpack, createSimplePokemon, findPokemon, setAlert } from "../game.js";
-import { closeBattleEvent } from "./backpack.js";
 
 export function createPlayer(playerData) {
     const character = document.getElementById("character");
@@ -213,13 +212,14 @@ async function interactNpc(map) {
 function interactPokemon(map) {
     for (let i = 0; i < map.pokemon.length; i++) {
         const pokemon = map.pokemon[i];
-        if (pokemon.isActive) {
+        if (pokemon.isOnScreen) {
             const distX = (this.x + this.width / 2) - (pokemon.x + pokemon.width / 2);
             const distY = (this.y + this.height / 2) - (pokemon.y + pokemon.height / 2);
             const dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
             if (dist <= map.tileWidth * 1.5) {
                 pokemon.isActive = false;
                 this.capture(pokemon.pokemon);
+                pokemon.isDead = true;
                 return true;
             }
         }

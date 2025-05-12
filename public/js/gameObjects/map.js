@@ -1,6 +1,8 @@
 import mapData from "./map.json"  with { type: "json" };
+import { createNpc } from "./npc's.js";
+import { createPokemon } from "./pokemon.js";
 
-export function createMap() {
+export function createMap(npcs) {
     const overworldMap = document.getElementById("overworldMap");
 
     const map = {
@@ -17,6 +19,8 @@ export function createMap() {
         collisionTiles: [1, 2, 3, 11, 13, 21, 22, 23, 5, 6, 7, 15, 16, 17, 25, 26, 27, 31, 51, 52, 53, 61, 62, 63, 71, 72, 73],
         npcs: [],
         pokemon: [],
+        pokemonSpawnTime: 500,
+        pokemonSpawnTimer: 0,
 
         update,
         addObject,
@@ -35,7 +39,12 @@ export function createMap() {
     overworldMap.style.width = `${map.width}px`;
     overworldMap.style.height = `${map.height}px`;
     overworldMap.style.backgroundSize = overworldMap.style.width;
-    map.findPath();
+
+    npcs.forEach((npc) => {
+        const npcObj = createNpc(this, npc)
+        map.npcs.push(npcObj);
+        map.addObject(npcObj);
+    })
     return map
 }
 
@@ -45,20 +54,26 @@ function update(player) {
     this.npcs.forEach(npc => {
         npc.update(this);
     });
-    this.pokemon.forEach((pokemon) => {
+    this.pokemon.forEach((pokemon, index) => {
         pokemon.update(this, player);
+        if (pokemon.isDead) {
+            this.pokemon.splice(index, 1);
+        }
     });
+    this.pokemonSpawnTimer++;
+    if (this.pokemonSpawnTimer > this.pokemonSpawnTime) {
+        this.pokemonSpawnTimer = 0;
+        const posOnScreen = this.getPositionOnScreen();
+        const spawnPos = this.getRandomPosition(posOnScreen.x, posOnScreen.y, 10000)
+        const pokemonObj = createPokemon(this, spawnPos.x, spawnPos.y);
+        this.pokemon.push(pokemonObj);
+        this.addObject(pokemonObj);
+    }
 }
 function addObject(object) {
     this.div.appendChild(object.div);
     object.width = object.div.clientWidth;
     object.height = object.div.clientHeight;
-    if (object.type === "npc") {
-        this.npcs.push(object);
-    }
-    else if (object.type === "pokemon") {
-        this.pokemon.push(object);
-    }
 }
 function centerMap(target) {
     let playerCenterXLeft = -((target.x + target.width / 2) - (this.left + window.innerWidth) / 2) - (window.innerWidth / 2) * 0.3;
@@ -220,6 +235,7 @@ function handleCollision(player) {
 function findPath(start, end) {
     let visited = [start];
     let paths = [];
+    console.log(start)
     paths.push([start]);
     let isfound = false;
     let counter = 0
@@ -256,6 +272,7 @@ function findPath(start, end) {
     } while (!visited.includes(end) && counter <= 9999);
     if (counter > 9999) {
         paths.push([start]);
+        console.log("path not found")
     }
     return paths[paths.length - 1];
 }

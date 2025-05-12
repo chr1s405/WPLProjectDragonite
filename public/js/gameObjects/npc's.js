@@ -41,9 +41,8 @@ export function createNpc(map, npcData) {
     setDirection,
     interact,
   };
-  map.addObject(npc);
   if (Object.keys(npc.companion).length === 0) {
-    npc.companion = createSimplePokemon(allPokemon[Math.trunc(Math.random() * allPokemon.length)].id)
+    npc.companion = createSimplePokemon(allPokemon[Math.trunc(Math.random() * allPokemon.length)].id);
   }
   return npc;
 }
