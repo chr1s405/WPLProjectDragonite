@@ -1,4 +1,5 @@
 
+
 intro();
 
 async function intro() {
@@ -29,6 +30,14 @@ async function intro() {
     createIntroOptions(optionsDiv, starterPokemon)
     gameData.starterPokemon = starterPokemon[await getIntroSelection(optionsDiv)].name;
     optionsDiv.style.display = "none";
+    console.log( document.getElementById("tutorialOverlay"))
+    document.getElementById("tutorialOverlay").style.display = "flex";
+    await new Promise((resolve,rejet)=>{
+        document.getElementById("closeTutorial").addEventListener("click",()=>{
+        document.getElementById("tutorialOverlay").style.display = "none";
+            resolve(true)
+    })})
+
     fetch("", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },

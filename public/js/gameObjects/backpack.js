@@ -36,6 +36,8 @@ export function createBackpack(player) {
     { event: document.getElementById("menu_battle"), title: "gevecht", open: openBattleEvent.bind(backpack), close: closeBattleEvent.bind(backpack) },
     { event: document.getElementById("menu_capture"), title: "vangen", open: openCaptureEvent.bind(backpack), close: closeCaptureEvent.bind(backpack) },
     { event: document.getElementById("menu_account"), title: "account", open: openAccountEvent.bind(backpack), close: closeAccountEvent.bind(backpack) },
+    { event: document.getElementById("menu_tutorial"), title: "tutorial", open: openTutorialEvent.bind(backpack), close: closeTutorialEvent.bind(backpack) },
+
     { event: document.getElementById("mainMenu"), title: "rugzak", open: openMainMenu.bind(backpack), close: closeMainMenu.bind(backpack) },
   ];
   backpackIcon.addEventListener("click", (e) => {
@@ -491,3 +493,10 @@ function closeAccountEvent(event) {
 // if(characterChoice != null){
 // accountPage.appendChild(characterChoice)
 // }
+
+function openTutorialEvent(event) {
+  this.openEvent(event);
+}
+function closeTutorialEvent(event) {
+  event.style.display = "none";
+}
