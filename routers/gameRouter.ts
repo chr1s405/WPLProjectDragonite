@@ -1,6 +1,5 @@
 import express from "express";
-import { createGame, getNpcs, getPlayer, getpokemon, resetGame, setNpcs, setPlayer } from "../database";
-import path from "path";
+import { allPokemon, createGame, getNpcs, getPlayer, getpokemon, resetGame, setNpcs, setPlayer } from "../database";
 
 export function getGameRouter() {
     const router = express.Router();
@@ -18,7 +17,11 @@ export function getGameRouter() {
     })
 
     router.get("/intro", (req, res) => {
-        return res.render("gameIntro");
+        let starterPokemon = allPokemon.slice(0,3).map((pokemon)=>{
+            return {name: pokemon.name, img: pokemon.sprites.front_default}
+        });
+        let starterCharacters =  ["Red","Leaf","Lucas","Dawn","Calem","Serena",]
+        return res.render("gameIntro", {starterPokemon, starterCharacters});
     })
     router.post("/intro", async (req, res) => {
         const userId = typeof req.query.user === "string" ? parseInt(req.query.user) : -1;

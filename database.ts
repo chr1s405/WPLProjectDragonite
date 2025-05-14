@@ -41,7 +41,7 @@ export async function createUser(user: any) {
     await userCollection.insertOne(user);
 }
 export async function getPlayer(userId: number) {
-    return await playerCollection.findOne({ userId: 0 });
+    return await playerCollection.findOne({ userId });
 }
 export async function setPlayer(userId: number, playerData: any) {
     playerCollection.updateOne({ userId }, { $set: playerData });
@@ -70,7 +70,7 @@ function getDotNotation(obj: any, prefix = "", result: any = {}) {
     return result;
 }
 export async function createGame(userId: number) {
-    const player = { userId, x: 450, y: 450, direction: "down", sprite: "Red.png", portrait: "/assets/characters/RedBig.webp", companion: {}, capturedPokemon: [], knownPokemon: [] };
+    const player = { userId, x: 450, y: 450, direction: "down", sprite: "Red.png", portrait: "/assets/characters/RedBig.png", companion: {}, capturedPokemon: [], knownPokemon: [] };
     await playerCollection.insertOne(player);
     const npcs = [
         { id: 0, x: 200, y: 300, sprite: "Red.png",  companion: {} },

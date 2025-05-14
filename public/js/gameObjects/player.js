@@ -130,7 +130,7 @@ async function setCompanion(pokemonId) {
     const pokemon = this.capturedPokemon.find((search) => { return search.id === pokemonId });
     if (pokemon) {
         this.companion = pokemon;
-        document.getElementById("nav-pokemon").src = findPokemon(pokemonId).sprites["front_default"]
+        document.getElementById("companionIcon").src = findPokemon(pokemonId).sprites["front_default"]
         await setAlert(`Je companion is nu ${pokemon.name}`);
     }
     else {

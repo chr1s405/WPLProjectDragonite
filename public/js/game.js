@@ -110,14 +110,14 @@ function saveGame() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(saveData)
   })
-    .then((res) => res.json())
+    .then((res) => { return res.json()})
     .then(async (data) => { await setAlert("voortgang opgeslagen") })
 }
 function deleteGame() {
   fetch(`/pokemon/game/reset?user=${userId}`, {
     method: "POST"
   })
-    .then((res) => { res.json() })
+    .then((res) => { return res.json() })
     .then(async (data) => {
       console.log(" js delete in progress")
       await setAlert("voortgang verwijderd");

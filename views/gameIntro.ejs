@@ -17,13 +17,23 @@
     <div id="characterSelect" class="intro_selection">
         <h1>Kies je personage</h1>
         <div id="intro_characterOptions" class="intro_selectOptions">
-        </div>
-        <div id="bigImages">
+            <% starterCharacters.forEach((character) => { %>
+                <button class="intro_selectOption" value="<%= character%>">
+                    <img src="/assets/characters/<%= character %>Big.png">
+                    <p><%= character %></p>
+                </button>
+            <% }) %>
         </div>
     </div>
     <div id="pokemonSelect" class="intro_selection">
         <h1>Kies je eerste pokemon</h1>
         <div id="intro_pokemonOptions" class="intro_selectOptions">
+            <% starterPokemon.forEach(pokemon => { %>
+                <button class="intro_selectOption" value="<%= pokemon.name %>">
+                    <img src="<%= pokemon.img %>">
+                    <p><%= pokemon.name %></p>
+                </button>
+            <% }) %>
         </div>
     </div>
     <div id="tutorialOverlay" class="tutorial-overlay" style="display: none">

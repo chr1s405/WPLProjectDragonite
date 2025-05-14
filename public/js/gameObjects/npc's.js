@@ -2,11 +2,11 @@ import { allPokemon, createSimplePokemon, setTextBox } from "../game.js";
 
 const sprites = [
   "../../assets/characters/Red.png",
-  "../../assets/characters/leaf.png",
-  "../../assets/characters/lucas.webp",
-  "../../assets/characters/dawn.png",
-  "../../assets/characters/calem.png",
-  "../../assets/characters/serena.png"
+  "../../assets/characters/Leaf.png",
+  "../../assets/characters/Lucas.png",
+  "../../assets/characters/Dawn.png",
+  "../../assets/characters/Calem.png",
+  "../../assets/characters/Serena.png"
 ]
 
 export function createNpc(map, npcData) {

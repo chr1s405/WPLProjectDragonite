@@ -233,9 +233,11 @@ function handleCollision(player) {
 }
 
 function findPath(start, end) {
+    if(!start){
+        return null;
+    }
     let visited = [start];
     let paths = [];
-    console.log(start)
     paths.push([start]);
     let isfound = false;
     let counter = 0

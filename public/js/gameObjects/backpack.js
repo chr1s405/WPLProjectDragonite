@@ -1,8 +1,9 @@
-import { allPokemon, setAlert } from "../game.js";
+import { allPokemon, findPokemon, setAlert } from "../game.js";
 // let accountPage = document.getElementById(account_main);
 export function createBackpack(player) {
   const backpack = {
     player: player,
+    companionIcon: document.getElementById("companionIcon"),
     backpackIcon: document.getElementById("backpackIcon"),
     backpackBtns: document.getElementsByClassName("backpackMenuBtn"),
     backpackMenu: document.getElementById("backpackContents"),
@@ -40,6 +41,10 @@ export function createBackpack(player) {
 
     { event: document.getElementById("mainMenu"), title: "rugzak", open: openMainMenu.bind(backpack), close: closeMainMenu.bind(backpack) },
   ];
+  companionIcon.addEventListener("click", ()=>{
+    const menuEvent = backpack.menuEvents[1];//this.menuEvents.find(event=> event.title === "stats");
+    menuEvent.open(menuEvent.event, backpack.player.companion);
+  })
   backpackIcon.addEventListener("click", (e) => {
     if (!player.isInEvent) {
       backpack.openMainMenu(backpack.menuEvents[backpack.menuEvents.length - 1].event);
@@ -83,12 +88,14 @@ function backbuttonPressed() {
 
 function openMenu() {
   this.player.isInEvent = true;
+  this.companionIcon.style.display = "none";
   this.backpackIcon.style.display = "none";
   this.backpackMenu.style.display = "block";
   document.getElementById("backpack_closeBtn").style.visibility = "visible";
 }
 function closeMenu() {
   this.player.isInEvent = false;
+  this.companionIcon.style.display = "block";
   this.backpackIcon.style.display = "block";
   this.backpackMenu.style.display = "none";
   // backpackMainMenu.style.display = "none";
@@ -252,7 +259,7 @@ function openDetailEvent(event, pokemon) {
     }
     stats[i].innerHTML = text.substring(0, text.indexOf(':') + 1) + ` ${pokemonStats[(stats.length - 2 + i) % stats.length]}`
   }
-
+  pokemon = findPokemon(pokemon.id);
   const pokemonDiv = pokedexDetails.children[1];
   pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.nickname !== "" ? pokemon.nickname : pokemon.name;
   pokemonDiv.getElementsByTagName("img")[0].src = pokemon.sprites["front_default"];
@@ -287,8 +294,8 @@ function openDetailEvent(event, pokemon) {
     const evolutionPokemon = allPokemon.find(value => { return value.name === pokemon.evolution_chain[i].name });
     if (evolutionPokemon) {
       evolutionSteps[i].children[0].src = pokemon.evolution_chain[i].sprite;
-      evolutionSteps[i].children[1].innerHTML = evolutionPokemon.isKnown ? pokemon.evolution_chain[i].name : "???";
-      evolutionSteps[i].children[0].style.filter = evolutionPokemon.isKnown ? "brightness(100%)" : "brightness(0%)";
+      evolutionSteps[i].children[1].innerHTML = this.player.knownPokemon.includes(evolutionPokemon.id) ? pokemon.evolution_chain[i].name : "???";
+      evolutionSteps[i].children[0].style.filter = this.player.knownPokemon.includes(evolutionPokemon.id) ? "brightness(100%)" : "brightness(0%)";
       evolutionSteps[i].style.display = "block";
       if (i > 0) {
         evolutionArrows[i - 1].style.display = "block";
@@ -475,8 +482,14 @@ export function closeCaptureEvent() {
 
 function openAccountEvent(event) {
   this.openEvent(event);
-  const pPercentage = document.getElementById("accountPokemonPercentage")
-  pPercentage.innerHTML = `${(this.player.capturedPokemon.length / allPokemon.length) * 100}% van de pokémon gevangen`
+  const percentage = (this.player.capturedPokemon.length / allPokemon.length) * 100;
+  document.getElementById("accountPokemonPercentage").innerHTML = `${percentage}% van de pokémon gevangen`;
+  let battles = 0;
+  this.player.capturedPokemon.forEach((pokemon)=>{
+    battles += pokemon.stats.wins;
+    battles += pokemon.stats.losses;
+  })
+  document.getElementById("accountBattles").innerHTML = `tegen ${battles} trainers gevochten`
   document.getElementById("accountimgbig").src = this.player.portrait;
 }
 
