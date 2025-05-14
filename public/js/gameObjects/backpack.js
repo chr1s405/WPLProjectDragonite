@@ -1,5 +1,4 @@
 import { allPokemon, findPokemon, setAlert } from "../game.js";
-// let accountPage = document.getElementById(account_main);
 export function createBackpack(player) {
   const backpack = {
     player: player,

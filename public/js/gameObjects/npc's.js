@@ -48,7 +48,7 @@ export function createNpc(map, npcData) {
 }
 function update(map) {
   if (Math.trunc(Math.random() * 100) === 1) {
-    const dest = map.getRandomPosition(this.x, this.y, 200);
+    const dest = map.getRandomPosition(this.x, this.y, 1000);
     this.goTo(map, map.positionInGrid(dest.x, dest.y));
   }
   this.move(map);

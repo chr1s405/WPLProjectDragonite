@@ -27,6 +27,10 @@
   height: 10px;
 }
 
+html, body{
+  overflow: hidden;
+  touch-action: none;
+}
 
 /*========================================*/
 /*========================================*/
@@ -308,6 +312,7 @@
 
   background-color: var(--color_secondary);
   background-color: rgb(from var(--color_secondary) r g b / 0.6);
+  cursor: pointer;
 }
 
 #gamePage main #backpackIcon {

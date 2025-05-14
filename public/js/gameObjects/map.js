@@ -233,14 +233,12 @@ function handleCollision(player) {
 }
 
 function findPath(start, end) {
-    if(!start){
-        return null;
-    }
     let visited = [start];
     let paths = [];
     paths.push([start]);
     let isfound = false;
     let counter = 0
+    const maxCount = 9999;
     do {
         counter++;
         const path = paths[0];
@@ -271,8 +269,8 @@ function findPath(start, end) {
             }
         })
         paths.splice(0, 1);
-    } while (!visited.includes(end) && counter <= 9999);
-    if (counter > 9999) {
+    } while (!visited.includes(end) && counter <= maxCount);
+    if (counter >= maxCount) {
         paths.push([start]);
         console.log("path not found")
     }
