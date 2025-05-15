@@ -17,7 +17,6 @@ export async function connect() {
     try {
         await client.connect();
         await fetchPokemon();
-        console.log(getDotNotation(allPokemon[0]))
         // deleteData();
         process.on("SIGINT", exit);
     }

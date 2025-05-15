@@ -1,4 +1,4 @@
-import { allPokemon, backpack, createSimplePokemon, findPokemon, setAlert } from "../game.js";
+import { allPokemon, backpack, createSimplePokemon, findPokemon, setAlert, setInput } from "../game.js";
 
 export function createPlayer(playerData) {
     const character = document.getElementById("character");
@@ -359,12 +359,11 @@ function capture(pokemon) {
     const element = document.getElementById("capture_main");
     const stage = {
         name: element.children[0], img: element.children[1], button: element.children[2],
-        chances: document.getElementById("capture_chances"), nickNameDiv: document.getElementById("capture_nickname"),
+        chances: document.getElementById("capture_chances"),
     }
 
     stage.name.innerHTML = pokemon.name;
     stage.img.src = findPokemon(pokemon.id).sprites.other.showdown["front_default"];
-    stage.nickNameDiv.style.display = "none";
     stage.button.style.border = this.capturedPokemon.find(search => {return search.id === pokemon.id}) ? "3px solid green" : "3px solid red";
     let chances = 3;
     const captureChance = (50 - findPokemon(pokemon.id).stats[2].base_stat + (this.companion ? this.companion.stats.atk : 0)) / 100;
@@ -393,18 +392,8 @@ function capture(pokemon) {
                 captured = true;
             }
             if (captured) {
-                await new Promise(async (resolve, reject) => {
-                    const input = stage.nickNameDiv.getElementsByTagName("input")[0];
-                    input.value = "";
-                    stage.nickNameDiv.style.display = "block";
-                    stage.nickNameDiv.querySelector("button").addEventListener("click", async () => {
-                        let nickname = "";
-                        nickname = input.value;
-                        await player.capturePokemon(pokemon.id, nickname);
-                        resolve();
-                    }, { once: true });
-                })
-
+                await player.capturePokemon(pokemon.id, await setInput("kies een bijnaam"));
+                ;
                 chances = 0;
             }
             if (chances > 0) {

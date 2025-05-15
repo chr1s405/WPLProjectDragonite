@@ -19,7 +19,7 @@ export function createMap(npcs) {
         collisionTiles: [1, 2, 3, 11, 13, 21, 22, 23, 5, 6, 7, 15, 16, 17, 25, 26, 27, 31, 51, 52, 53, 61, 62, 63, 71, 72, 73],
         npcs: [],
         pokemon: [],
-        pokemonSpawnTime: 500,
+        pokemonSpawnTime: 400,
         pokemonSpawnTimer: 0,
 
         update,

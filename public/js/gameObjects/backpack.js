@@ -1,4 +1,4 @@
-import { allPokemon, findPokemon, setAlert } from "../game.js";
+import { allPokemon, findPokemon, setAlert, setInput } from "../game.js";
 export function createBackpack(player) {
   const backpack = {
     player: player,
@@ -261,9 +261,14 @@ function openDetailEvent(event, pokemon) {
   }
   pokemon = findPokemon(pokemon.id);
   const pokemonDiv = pokedexDetails.children[1];
-  pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.nickname !== "" ? pokemon.nickname : pokemon.name;
-  pokemonDiv.getElementsByTagName("img")[0].src = pokemon.sprites["front_default"];
-  pokemonDiv.getElementsByTagName("img")[0].style.filter = this.player.knownPokemon.includes(pokemon.id) ? "brightness(100%)" : "brightness(0%)";
+  pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.name;
+  pokemonDiv.getElementsByTagName("p")[1].innerHTML = (playerPokemon ? (playerPokemon.nickname ? playerPokemon.nickname : "(kies een bijnaam)") : "") + `<img src="/assets/icons/edit_icon.png"></img>`;
+  pokemonDiv.getElementsByTagName("p")[1].addEventListener("click", async () => {
+    playerPokemon.nickname = await setInput("kies een bijnaam");
+    pokemonDiv.getElementsByTagName("p")[1].innerHTML = (playerPokemon ? (playerPokemon.nickname ? playerPokemon.nickname : "(kies een bijnaam)") : "") + `<img src="/assets/icons/edit_icon.png"></img>`;
+  });
+  pokemonDiv.getElementsByTagName("img")[1].src = pokemon.sprites.other.showdown["front_default"];
+  pokemonDiv.getElementsByTagName("img")[1].style.filter = this.player.knownPokemon.includes(pokemon.id) ? "brightness(100%)" : "brightness(0%)";
   const buttonsDiv = pokedexDetails.children[2];
   const buttons = buttonsDiv.getElementsByTagName("button");
   buttons[0].replaceWith(buttons[0].cloneNode(true));

@@ -212,6 +212,25 @@ export async function setAlert(message) {
   })
 };
 
+export async function setInput(message) {
+  const inputBox = document.getElementById("inputBox");
+  const input = inputBox.querySelector("input");
+  const button = inputBox.querySelector("button");
+  input.value = ""
+  return new Promise((resolve, reject) => {
+    pause = true;
+    inputBox.style.display = "block";
+    inputBox.querySelector("p").innerHTML = message;
+    setTimeout(() => {
+      button.addEventListener("click", () => {
+        pause = false;
+        inputBox.style.display = "none";
+        resolve(input.value);
+      }, { once: true });
+    }, 1);
+  })
+};
+
 
 function toggleDebug() {
   player.toggleDebug();

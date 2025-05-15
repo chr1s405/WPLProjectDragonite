@@ -19,7 +19,7 @@
   <header id="landingpageheader">
     <div id="nav-profile">
       <img src="/assets/pokeball.png">
-      <h1 id ="usernameHeader">Username</h1>
+      <h1 id="usernameHeader">Username</h1>
     </div>
   </header>
 
@@ -58,7 +58,13 @@
       <p>klik om verder te gaan</p>
     </div>
   </section>
-
+  <section id="inputBox">
+    <div>
+      <p></p>
+      <input>
+      <button>bevestig</button>
+    </div>
+  </section>
   <aside id="backpackContents">
     <div id="backpackHeader">
       <button id="backpack_backBtn">←</button>
@@ -128,6 +134,7 @@
 
         <div id="pokedex_pokemon">
           <p>pokemon</p>
+          <p><img src="/assets/icons/edit_icon.png"></p>
           <img src="/assets/pikachu_silouhette.png">
         </div>
 
@@ -272,40 +279,35 @@
           <img src="/assets/pokeball.png">
           <img src="/assets/pokeball.png">
         </div>
-        <div id="capture_nickname">
-          <p>kies een bijnaam</p>
-          <input id="capture_nickname_input">
-          <button id="capture_nickname_button">bevestig</button>
-        </div>
       </div>
     </div>
 
     <!-- account -->
     <div id="menu_account" class="menuEvent">
       <div id="account_main">
-        <div id = "account_left">
-         <!-- deze foto is een placeholder -->
-         <div id = "accountinfo">
-          <p class = "usergeg">username</p>
-          <p class = "usergeg">email</p>
+        <div id="account_left">
+          <!-- deze foto is een placeholder -->
+          <div id="accountinfo">
+            <p class="usergeg">username</p>
+            <p class="usergeg">email</p>
+          </div>
+          <img id="accountimgbig" class="accountimgbig" src="">
+
         </div>
-          <img id = "accountimgbig" class = "accountimgbig"src="">
-         
-        </div>
-          <div id = "account_right">
-            <div id = "stats">
-              <!-- Dit zijn placeholder stats -->
-               <h1>Stats</h1>
-               <p id = "accountPokemonPercentage">...% van de pokédex ontdekt.</p>
-               <p id="accountBattles">... trainers bevochten</p>
-            </div>
-          <div id = "accountbtns">
+        <div id="account_right">
+          <div id="stats">
+            <!-- Dit zijn placeholder stats -->
+            <h1>Stats</h1>
+            <p id="accountPokemonPercentage">...% van de pokédex ontdekt.</p>
+            <p id="accountBattles">... trainers bevochten</p>
+          </div>
+          <div id="accountbtns">
             <button>settings</button>
             <button id="saveBtn">save game</button>
             <button id="resetBtn">reset progress</button>
             <button id="logoutBtn">logout</button>
           </div>
-         
+
         </div>
       </div>
     </div>
@@ -315,18 +317,26 @@
     <div id="menu_tutorial" class="menuEvent" style="display: none;">
       <div class="tutorialScroll">
         <div class="tutorialBody">
-        <p>Welkom bij de backpack-tutorial! Hier zie je uitleg over:</p><br>
-        <ul>
-          <li><span class="highlight">Companion:</span> Je ziet je gekozen personage samen met je Pokémon, die je overal op de map volgt. Rechtsboven kun je je huidige companion bekijken.</li><br>
-          <li><span class="highlight">Map:</span> Op de map kom je NPC’s tegen om mee te vechten en wilde Pokémon die je kunt vangen.</li><br>
-          <li><span class="highlight">Bewegen:</span> Gebruik de pijltjestoetsen of WASD om rond te lopen. Druk op Enter om te vechten tegen NPC’s of om wilde Pokémon te vangen.</li><br>
-          <li><span class="highlight">Backpack:</span> Klik op de rugzak rechtsonder voor Pokédex, vergelijken, en accountinfo.</li><br>
-          <li><span class="highlight">Pokédex:</span> Hier zie je je gevangen Pokémon en kan je evoluties ontdekken.</li><br>
-          <li><span class="highlight">Vergelijken:</span> Vergelijk Pokémon stats en ontdek wie sterker is.</li><br>
-          <li><span class="highlight">Gevechten:</span> Spreek NPC’s aan om te vechten. Gebruik normale of speciale aanvallen, of loop weg.</li><br>
-          <li><span class="highlight">Vangen:</span> Je kan wilde Pokémon vangen. Je krijgt 3 kansen per gevecht.</li><br>
-          <li><span class="highlight">Account:</span> Beheer je gebruikersgegevens, reset voortgang of log uit.</li><br>
-        </ul>
+          <p>Welkom bij de backpack-tutorial! Hier zie je uitleg over:</p><br>
+          <ul>
+            <li><span class="highlight">Companion:</span> Je ziet je gekozen personage samen met je Pokémon, die je
+              overal op de map volgt. Rechtsboven kun je je huidige companion bekijken.</li><br>
+            <li><span class="highlight">Map:</span> Op de map kom je NPC’s tegen om mee te vechten en wilde Pokémon die
+              je kunt vangen.</li><br>
+            <li><span class="highlight">Bewegen:</span> Gebruik de pijltjestoetsen of WASD om rond te lopen. Druk op
+              Enter om te vechten tegen NPC’s of om wilde Pokémon te vangen.</li><br>
+            <li><span class="highlight">Backpack:</span> Klik op de rugzak rechtsonder voor Pokédex, vergelijken, en
+              accountinfo.</li><br>
+            <li><span class="highlight">Pokédex:</span> Hier zie je je gevangen Pokémon en kan je evoluties ontdekken.
+            </li><br>
+            <li><span class="highlight">Vergelijken:</span> Vergelijk Pokémon stats en ontdek wie sterker is.</li><br>
+            <li><span class="highlight">Gevechten:</span> Spreek NPC’s aan om te vechten. Gebruik normale of speciale
+              aanvallen, of loop weg.</li><br>
+            <li><span class="highlight">Vangen:</span> Je kan wilde Pokémon vangen. Je krijgt 3 kansen per gevecht.</li>
+            <br>
+            <li><span class="highlight">Account:</span> Beheer je gebruikersgegevens, reset voortgang of log uit.</li>
+            <br>
+          </ul>
         </div>
       </div>
     </div>
@@ -370,7 +380,7 @@
         </button>
 
         <button class="backpackMenuBtn">
-          <img src="/assets/icons/tutorial_icon.png" >
+          <img src="/assets/icons/tutorial_icon.png">
           <p>tutorial game</p>
         </button>
 
