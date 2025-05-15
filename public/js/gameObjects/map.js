@@ -237,7 +237,6 @@ function findPath(start, end) {
     let queue = [[start]];
     let counter = 0
     const maxCount = 9999;
-    console.log(start, end);
     while (queue.length > 0 && counter++ <= maxCount) {
         const path = queue.shift();
         const current = path[path.length - 1]
@@ -248,8 +247,6 @@ function findPath(start, end) {
             current + mapData["width"],];
             for(const next of neighbors) {
             if (next === end) {
-                console.log("path found")
-                console.log([...path, next]);
                 return [...path, next];
             }
             else if ((!this.collisionTiles.includes(this.layerData[next])) &&
@@ -260,7 +257,6 @@ function findPath(start, end) {
             }
         }
     }
-    console.log("path not found")
     return [start];
 }
 

@@ -40,7 +40,8 @@ export function createBackpack(player) {
 
     { event: document.getElementById("mainMenu"), title: "rugzak", open: openMainMenu.bind(backpack), close: closeMainMenu.bind(backpack) },
   ];
-  companionIcon.addEventListener("click", ()=>{
+  companionIcon.addEventListener("click", () => {
+    backpack.openMainMenu(backpack.menuEvents[backpack.menuEvents.length - 1].event);
     const menuEvent = backpack.menuEvents[1];//this.menuEvents.find(event=> event.title === "stats");
     menuEvent.open(menuEvent.event, backpack.player.companion);
   })
@@ -249,12 +250,12 @@ function openDetailEvent(event, pokemon) {
     for (const key in playerPokemon.stats) {
       pokemonStats.push(playerPokemon.stats[key])
     }
-    pokemonStats.splice(0,1);
+    pokemonStats.splice(0, 1);
   }
   for (let i = 0; i < stats.length; i++) {
     const text = stats[i].innerHTML;
     if (pokemonStats.length === 0) {
-      pokemonStats = pokemon.stats.map((value)=>{return value.base_stat});
+      pokemonStats = pokemon.stats.map((value) => { return value.base_stat });
     }
     stats[i].innerHTML = text.substring(0, text.indexOf(':') + 1) + ` ${pokemonStats[(stats.length - 2 + i) % stats.length]}`
   }
@@ -413,15 +414,16 @@ function openWhosThatEvent(event, pokemon) {
   button.innerHTML = "bevestigen";
 
   input.addEventListener("input", () => {
+    const guess = input.value.toLowerCase();
     autoFilloptions.innerHTML = "";
-    if (input.value.length > 0) {
+    if (guess.length > 0) {
       allPokemon.forEach(pokemon => {
-        if (pokemon.name.substring(0, input.value.length) === (input.value) && !(pokemon.name === input.value)) {
-          const startIdx = pokemon.name.indexOf(input.value);
+        if (pokemon.name.substring(0, guess.length) === (guess) && !(pokemon.name === guess)) {
+          const startIdx = pokemon.name.indexOf(guess);
           const option = document.createElement("p");
           option.innerHTML += `${pokemon.name.substring(0, startIdx)}`;
-          option.innerHTML += `<span>${pokemon.name.substring(startIdx, startIdx + input.value.length)}</span>`;
-          option.innerHTML += `${pokemon.name.substring(startIdx + input.value.length)}`;
+          option.innerHTML += `<span>${pokemon.name.substring(startIdx, startIdx + guess.length)}</span>`;
+          option.innerHTML += `${pokemon.name.substring(startIdx + guess.length)}`;
           autoFilloptions.appendChild(option);
           option.addEventListener("click", () => {
             input.value = pokemon.name;
@@ -432,7 +434,7 @@ function openWhosThatEvent(event, pokemon) {
     }
   })
   button.addEventListener("click", async () => {
-    if (input.value === pokemon.name) {
+    if (input.value.toLowerCase() === pokemon.name) {
       this.player.discoverPokemon(pokemon.id);
       img.style.filter = "brightness(100%)";
       name.innerHTML = pokemon.name;
@@ -484,7 +486,7 @@ function openAccountEvent(event) {
   const percentage = (this.player.capturedPokemon.length / allPokemon.length) * 100;
   document.getElementById("accountPokemonPercentage").innerHTML = `${percentage}% van de pokémon gevangen`;
   let battles = 0;
-  this.player.capturedPokemon.forEach((pokemon)=>{
+  this.player.capturedPokemon.forEach((pokemon) => {
     battles += pokemon.stats.wins;
     battles += pokemon.stats.losses;
   })

@@ -219,7 +219,7 @@ function interactPokemon(map) {
             if (dist <= map.tileWidth * 1.5) {
                 pokemon.isActive = false;
                 this.capture(pokemon.pokemon);
-                pokemon.isDead = true;
+                pokemon.deletePokemon();
                 return true;
             }
         }
@@ -245,11 +245,11 @@ async function battle(player, enemy) {
         img: stage[1].getElementsByTagName("img")[0], name: stage[1].getElementsByClassName("statusbar")[0].children[0],
         hpBar: stage[1].getElementsByClassName("statusbar")[0].children[1], hp: stage[1].getElementsByClassName("statusbar")[0].children[1].children[0],
     }];
-    stages[0].img.src = findPokemon(player.id).sprites["front_default"];
+    stages[0].img.src = findPokemon(player.id).sprites.other.showdown["back_default"];
     stages[0].name.innerHTML = findPokemon(player.id).name;
     stages[0].hp.innerHTML = player.stats.maxHp + " HP";
     stages[0].hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`
-    stages[1].img.src = findPokemon(enemy.id).sprites["front_default"];
+    stages[1].img.src = findPokemon(enemy.id).sprites.other.showdown["front_default"];
     stages[1].name.innerHTML = findPokemon(enemy.id).name;
     stages[1].hp.innerHTML = enemy.stats.maxHp + " HP";
     stages[1].hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`
@@ -363,9 +363,9 @@ function capture(pokemon) {
     }
 
     stage.name.innerHTML = pokemon.name;
-    stage.img.src = findPokemon(pokemon.id).sprites["front_default"];
+    stage.img.src = findPokemon(pokemon.id).sprites.other.showdown["front_default"];
     stage.nickNameDiv.style.display = "none";
-    stage.button.style.border = this.knownPokemon.includes(pokemon.id) ? "3px solid green" : "3px solid red";
+    stage.button.style.border = this.capturedPokemon.find(search => {return search.id === pokemon.id}) ? "3px solid green" : "3px solid red";
     let chances = 3;
     const captureChance = (50 - findPokemon(pokemon.id).stats[2].base_stat + (this.companion ? this.companion.stats.atk : 0)) / 100;
     for (let i = 0; i < stage.chances.children.length; i++) {

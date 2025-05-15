@@ -946,10 +946,11 @@ html, body{
   flex-direction: column;
   align-items: center;
   height: 100%;
+  gap: 10px;
 }
 
 #gamePage #menu_capture #capture_main>img {
-  max-width: 200px;
+  max-width: 100px;
   width: 100%;
   aspect-ratio: 1 /1;
 }
