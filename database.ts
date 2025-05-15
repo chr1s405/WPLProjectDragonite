@@ -79,7 +79,8 @@ export async function createGame(userId: number) {
         { id: 0, x: 200, y: 750, sprite: "Red.png",  companion: {} },
         { id: 0, x: 600, y: 750, sprite: "Red.png",  companion: {} },
         { id: 0, x: 600, y: 1000, sprite: "Red.png", companion: {} },
-        { id: 0, x: 1050, y: 600, sprite: "Red.png", companion: {} },]
+        { id: 0, x: 1050, y: 600, sprite: "Red.png", companion: {} },
+    ]
     npcs.forEach((npc, index) => { npc.id = index })
     await npcsCollection.insertOne({ userId, npcs })
     // pokemonCollection.insertMany(pokemon);

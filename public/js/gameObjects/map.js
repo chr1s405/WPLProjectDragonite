@@ -234,47 +234,34 @@ function handleCollision(player) {
 
 function findPath(start, end) {
     let visited = [start];
-    let paths = [];
-    paths.push([start]);
-    let isfound = false;
+    let queue = [[start]];
     let counter = 0
     const maxCount = 9999;
-    do {
-        counter++;
-        const path = paths[0];
-        let pathCopy;
-        const nextPos = [
-            path[path.length - 1] - 1,
-            path[path.length - 1] + 1,
-            path[path.length - 1] - mapData["width"],
-            path[path.length - 1] + mapData["width"]];
-
-        nextPos.forEach(next => {
-            if (!isfound) {
-                pathCopy = Object.assign([], path);
-                if (next === end) {
-                    visited.push(next);
-                    pathCopy.push(next);
-                    paths.push(pathCopy);
-                    isfound = true;
-                    return;
-                }
-                else if (this.collisionTiles.includes(this.layerData[next])) {
-                }
-                else if (!visited.includes(next)) {
-                    visited.push(next);
-                    pathCopy.push(next);
-                    paths.push(pathCopy);
-                }
+    console.log(start, end);
+    while (queue.length > 0 && counter++ <= maxCount) {
+        const path = queue.shift();
+        const current = path[path.length - 1]
+        const neighbors = [
+            current - 1,
+            current + 1,
+            current - mapData["width"],
+            current + mapData["width"],];
+            for(const next of neighbors) {
+            if (next === end) {
+                console.log("path found")
+                console.log([...path, next]);
+                return [...path, next];
             }
-        })
-        paths.splice(0, 1);
-    } while (!visited.includes(end) && counter <= maxCount);
-    if (counter >= maxCount) {
-        paths.push([start]);
-        console.log("path not found")
+            else if ((!this.collisionTiles.includes(this.layerData[next])) &&
+                (!visited.includes(next)) &&
+                (0 < next && next < (mapData["width"] * mapData["height"]))) {
+                visited.push(next);
+                queue.push([...path, next]);
+            }
+        }
     }
-    return paths[paths.length - 1];
+    console.log("path not found")
+    return [start];
 }
 
 function isOverlapping(square1, square2) {
