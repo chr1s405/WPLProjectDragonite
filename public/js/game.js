@@ -110,7 +110,7 @@ function saveGame() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(saveData)
   })
-    .then((res) => { return res.json()})
+    .then((res) => { return res.json() })
     .then(async (data) => { await setAlert("voortgang opgeslagen") })
 }
 function deleteGame() {
@@ -142,24 +142,24 @@ function GetPokemon() {
 export function findPokemon(pokemonId) {
   return allPokemon.find((pokemon) => { return pokemon.id === pokemonId });
 }
-export function createSimplePokemon(pokemonId, nickname = ""){
+export function createSimplePokemon(pokemonId, nickname = "") {
   const pokemon = findPokemon(pokemonId);
   return {
-  id: pokemon.id,
-  name: pokemon.name,
-  stats: {
-    hp: pokemon.stats[0].base_stat,
-    maxHp: pokemon.stats[0].base_stat,
-    atk: pokemon.stats[1].base_stat,
-    def: pokemon.stats[2].base_stat,
-    spAtk: pokemon.stats[3].base_stat,
-    spDef: pokemon.stats[4].base_stat,
-    speed: pokemon.stats[5].base_stat,
-    wins: 0,
-    losses: 0,
-  },
-  nickname: nickname,
-};
+    id: pokemon.id,
+    name: pokemon.name,
+    stats: {
+      hp: pokemon.stats[0].base_stat,
+      maxHp: pokemon.stats[0].base_stat,
+      atk: pokemon.stats[1].base_stat,
+      def: pokemon.stats[2].base_stat,
+      spAtk: pokemon.stats[3].base_stat,
+      spDef: pokemon.stats[4].base_stat,
+      speed: pokemon.stats[5].base_stat,
+      wins: 0,
+      losses: 0,
+    },
+    nickname: nickname,
+  };
 }
 
 
@@ -234,4 +234,27 @@ export async function setInput(message) {
 
 function toggleDebug() {
   player.toggleDebug();
+}
+joyStick();
+function joyStick() {
+  const joyStickCase = document.getElementById("mobile_controller");
+  const joyStickBtn = joyStickCase.querySelector("button");
+  const minX = joyStickCase.offsetLeft;
+  const minY = joyStickCase.offsetTop;
+  const width = joyStickCase.offsetWidth;
+  joyStickBtn.addEventListener("touchmove", (e) => {
+    e.preventDefault()
+    const touch = e.touches[0] || e.changedTouches[0];
+    let x = Math.max(minX, Math.min(touch.clientX, minX + width)) - minX;
+    let y = Math.max(minY, Math.min(touch.clientY, minY + width)) - minY;
+    x = x / width * 100;
+    y = y / width * 100
+    joyStickBtn.style.left = `${x}%`
+    joyStickBtn.style.top = `${y}%`
+  })
+  joyStickBtn.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    joyStickBtn.style.left = `50%`
+    joyStickBtn.style.top = `50%`
+  })
 }

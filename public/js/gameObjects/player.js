@@ -52,7 +52,7 @@ export function createPlayer(playerData) {
         player.setCompanion(player.capturedPokemon[0].id);
         setTimeout(() => { document.getElementById("alert").click() }, 1);
     }
-    else{
+    else {
         player.setCompanion(player.companion.id);
         setTimeout(() => { document.getElementById("alert").click() }, 1);
     }
@@ -149,22 +149,24 @@ async function capturePokemon(pokemonId, nickname = "") {
     await setAlert(`je hebt ${pokemon.name} gevangen`);
 }
 async function releasePokemon(pokemonId) {
-    let pokemonIdx = -1;
-    for (let i = 0; i < this.capturedPokemon.length; i++) {
-        if (this.capturedPokemon[i].id === pokemonId) {
-            pokemonIdx = i;
-            break;
-        }
-    }
-    if (pokemonIdx < 0) {
-        await setAlert("je hebt deze pokemon niet gevangen");
-    }
-    else if (this.companion.id === this.capturedPokemon[pokemonIdx]) {
+    if (this.companion.id === pokemonId) {
         await setAlert("kies eerst een andere companion");
     }
     else {
-        await setAlert(`je hebt ${this.capturedPokemon[pokemonIdx].name} losgelaten`);
-        this.capturedPokemon.splice(pokemonIdx, 1);
+        let pokemonIdx = -1;
+        for (let i = 0; i < this.capturedPokemon.length; i++) {
+            if (this.capturedPokemon[i].id === pokemonId) {
+                pokemonIdx = i;
+                break;
+            }
+        }
+        if (pokemonIdx < 0) {
+            await setAlert("je hebt deze pokemon niet gevangen");
+        }
+        else {
+            await setAlert(`je hebt ${this.capturedPokemon[pokemonIdx].name} losgelaten`);
+            this.capturedPokemon.splice(pokemonIdx, 1);
+        }
     }
 }
 
@@ -364,7 +366,7 @@ function capture(pokemon) {
 
     stage.name.innerHTML = pokemon.name;
     stage.img.src = findPokemon(pokemon.id).sprites.other.showdown["front_default"];
-    stage.button.style.border = this.capturedPokemon.find(search => {return search.id === pokemon.id}) ? "3px solid green" : "3px solid red";
+    stage.button.style.border = this.capturedPokemon.find(search => { return search.id === pokemon.id }) ? "3px solid green" : "3px solid red";
     let chances = 3;
     const captureChance = (50 - findPokemon(pokemon.id).stats[2].base_stat + (this.companion ? this.companion.stats.atk : 0)) / 100;
     for (let i = 0; i < stage.chances.children.length; i++) {
