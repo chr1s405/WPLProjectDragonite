@@ -11,7 +11,7 @@ export function createPlayer(playerData) {
         y: playerData.y,
         width: character.clientWidth,
         height: character.clientHeight,
-        speed: 20,//character.clientWidth,
+        speed: 15,
         velocityX: 0,
         velocityY: 0,
         isMovingUp: false,

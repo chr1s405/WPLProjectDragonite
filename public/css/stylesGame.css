@@ -332,7 +332,8 @@ body {
   background-color: var(--color_secondary);
 }
 
-#gamePage main #mobile_controller{
+#gamePage main #mobile_controller {
+  display: none;
   position: absolute;
   width: 100px;
   height: 100px;
@@ -343,7 +344,7 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-#gamePage main #mobile_controller #joyStick{
+#gamePage main #mobile_controller #joyStick {
   position: relative;
   width: 60px;
   height: 60px;
@@ -353,6 +354,12 @@ body {
   border: 2px solid black;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.8);
+}
+
+@media (pointer: coarse) {
+  #gamePage main #mobile_controller {
+    display: block;
+  }
 }
 
 /*==============================*/
@@ -695,15 +702,19 @@ body {
   text-align: center;
   margin: 10px;
 }
+
 #gamePage #pokedex_detail #pokedex_pokemon img {
   margin: auto;
 }
+
 #gamePage #pokedex_detail #pokedex_pokemon p:first-child {
   font-weight: bold;
 }
+
 #gamePage #pokedex_detail #pokedex_pokemon p:has(img) {
   cursor: pointer;
 }
+
 #gamePage #pokedex_detail #pokedex_pokemon p:has(img) img {
   height: 20px;
   filter: invert(100%);

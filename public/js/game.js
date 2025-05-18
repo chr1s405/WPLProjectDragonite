@@ -21,22 +21,23 @@ async function gameInit() {
   backpack = createBackpack(player);
 
 
+  joyStick(player);
   addEventListener("keydown", (e) => {
     //   alert(e.keyCode);
     if (e.keyCode === 80) {
       pause = !pause;
     }
     if (!pause && !player.isInEvent) {
-      if (e.keyCode === 87 || e.keyCode === 38 /*w*/) {
+      if ([87, 38].includes(e.keyCode) /*w*/) {
         player.moveUp(true);
       }
-      if (e.keyCode === 65 || e.keyCode === 37 /*a*/) {
+      if ([65, 37].includes(e.keyCode) /*a*/) {
         player.moveLeft(true);
       }
-      if (e.keyCode === 83 || e.keyCode === 40 /*s*/) {
+      if ([83, 40].includes(e.keyCode) /*s*/) {
         player.moveDown(true);
       }
-      if (e.keyCode === 68 || e.keyCode === 39 /*d*/) {
+      if ([68, 39].includes(e.keyCode) /*d*/) {
         player.moveRight(true);
       }
       if (e.keyCode === 79 /*o*/) {
@@ -235,8 +236,7 @@ export async function setInput(message) {
 function toggleDebug() {
   player.toggleDebug();
 }
-joyStick();
-function joyStick() {
+function joyStick(player) {
   const joyStickCase = document.getElementById("mobile_controller");
   const joyStickBtn = joyStickCase.querySelector("button");
   const minX = joyStickCase.offsetLeft;
@@ -252,8 +252,14 @@ function joyStick() {
     let y = Math.max(-width / 2, Math.min(mouseY, width / 2));
     const cos = Math.cos(rad);
     const sin = Math.sin(rad);
+    const deadzone = width / 2 * 0.6
+    player.moveLeft(x < -deadzone);
+    player.moveRight(x > deadzone);
+    player.moveUp(y < -deadzone);
+    player.moveDown(y > deadzone);
     x = (x < 0 ? (Math.max(x, cos * width / 2)) : (Math.min(x, cos * width / 2))) + width / 2;
     y = (y < 0 ? (Math.max(y, sin * width / 2)) : (Math.min(y, sin * width / 2))) + width / 2;
+
     x = x / width * 100;
     y = y / width * 100;
     joyStickBtn.style.left = `${x}%`
@@ -263,5 +269,9 @@ function joyStick() {
     e.preventDefault();
     joyStickBtn.style.left = `50%`
     joyStickBtn.style.top = `50%`
+    player.moveLeft(false);
+    player.moveRight(false);
+    player.moveUp(false);
+    player.moveDown(false);
   })
 }
