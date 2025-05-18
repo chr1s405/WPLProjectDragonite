@@ -21,7 +21,7 @@ async function gameInit() {
   backpack = createBackpack(player);
 
 
-  joyStick(player);
+  initMobileInput(player, map);
   addEventListener("keydown", (e) => {
     //   alert(e.keyCode);
     if (e.keyCode === 80) {
@@ -232,21 +232,15 @@ export async function setInput(message) {
   })
 };
 
-
-function toggleDebug() {
-  player.toggleDebug();
-}
-function joyStick(player) {
-  const joyStickCase = document.getElementById("mobile_controller");
+function initMobileInput(player, map) {
+  const joyStickCase = document.getElementById("joyStickCase");
   const joyStickBtn = joyStickCase.querySelector("button");
-  const minX = joyStickCase.offsetLeft;
-  const minY = joyStickCase.offsetTop;
   const width = joyStickCase.offsetWidth;
   joyStickBtn.addEventListener("touchmove", (e) => {
     e.preventDefault()
     const touch = e.touches[0] || e.changedTouches[0];
-    const mouseX = touch.clientX - minX - width / 2;
-    const mouseY = touch.clientY - minY - width / 2;
+    const mouseX = touch.clientX - joyStickCase.offsetLeft - width / 2;
+    const mouseY = touch.clientY - joyStickCase.offsetTop - width / 2;
     const rad = Math.atan2(mouseY, mouseX);
     let x = Math.max(-width / 2, Math.min(mouseX, width / 2));
     let y = Math.max(-width / 2, Math.min(mouseY, width / 2));
@@ -274,4 +268,13 @@ function joyStick(player) {
     player.moveUp(false);
     player.moveDown(false);
   })
+
+  const mobileBtn = document.getElementById("mobileBtn");
+  mobileBtn.addEventListener("touchstart", () => {
+    player.interact(map);
+  })
+}
+
+function toggleDebug() {
+  player.toggleDebug();
 }
