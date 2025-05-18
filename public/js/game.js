@@ -245,10 +245,17 @@ function joyStick() {
   joyStickBtn.addEventListener("touchmove", (e) => {
     e.preventDefault()
     const touch = e.touches[0] || e.changedTouches[0];
-    let x = Math.max(minX, Math.min(touch.clientX, minX + width)) - minX;
-    let y = Math.max(minY, Math.min(touch.clientY, minY + width)) - minY;
+    const mouseX = touch.clientX - minX - width / 2;
+    const mouseY = touch.clientY - minY - width / 2;
+    const rad = Math.atan2(mouseY, mouseX);
+    let x = Math.max(-width / 2, Math.min(mouseX, width / 2));
+    let y = Math.max(-width / 2, Math.min(mouseY, width / 2));
+    const cos = Math.cos(rad);
+    const sin = Math.sin(rad);
+    x = (x < 0 ? (Math.max(x, cos * width / 2)) : (Math.min(x, cos * width / 2))) + width / 2;
+    y = (y < 0 ? (Math.max(y, sin * width / 2)) : (Math.min(y, sin * width / 2))) + width / 2;
     x = x / width * 100;
-    y = y / width * 100
+    y = y / width * 100;
     joyStickBtn.style.left = `${x}%`
     joyStickBtn.style.top = `${y}%`
   })
