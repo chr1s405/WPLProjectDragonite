@@ -42,9 +42,9 @@ body {
   height: 100vh;
   display: grid;
   grid-template-areas:
-    "header"
+    /* "header" */
     "main";
-  grid-template-rows: 100px auto;
+  grid-template-rows: 100%;
   overflow: hidden;
 }
 
@@ -52,38 +52,40 @@ body {
 /*=========== Header ===========*/
 /*==============================*/
 
-#gamePage header {
+/* #gamePage header {
   grid-area: header;
   display: flex;
   justify-content: space-between;
   color: white;
   background-color: var(--color_primary);
-}
+} */
 
-#gamePage header #nav-profile {
+#gamePage #profileIcon {
   display: flex;
+  width: 80%;
+  max-width: max-content;
   margin: 10px;
   padding: 10px;
-  width: 80%;
-  max-width: 250px;
+  align-items: center;
 
   border: 3px solid var(--color_accent1);
   border-radius: 50px;
-
   background-color: var(--color_secondary);
+
+  cursor: pointer;
 }
 
-#gamePage header #nav-profile img {
-  margin-right: 10px;
-
+#gamePage #profileIcon img {
+  width: 40px;
   border: 3px solid var(--color_accent1);
   border-radius: 50%;
 }
 
-#gamePage header #nav-profile h1 {
+#gamePage #profileIcon h1 {
   font-size: 16px;
   font-weight: bold;
   align-content: center;
+  margin: 10px;
 }
 
 #gamePage main {
@@ -93,13 +95,13 @@ body {
 }
 
 @media(max-width: 480px) {
-  #gamePage header #nav-profile h1 {
+  #gamePage header #profileIcon h1 {
     font-size: 16px;
   }
 
-  #gamePage header #nav-profile {}
+  #gamePage header #profileIcon {}
 
-  #gamePage header #nav-profile img {
+  #gamePage header #profileIcon img {
     height: 110px;
     width: auto;
   }
@@ -250,8 +252,9 @@ body {
 #gamePage main #overworldMap {
   position: absolute;
   overflow: hidden;
+  top: 0px;
   z-index: -1;
-
+  
   background-image: url("../assets/pokemon_map.png");
   background-repeat: no-repeat;
 }
@@ -302,7 +305,7 @@ body {
 
 #gamePage main #companionIcon {
   position: absolute;
-  top: 100px;
+  top: 70px;
   left: 0px;
   height: 80px;
   margin: 10px;
@@ -319,7 +322,7 @@ body {
 #gamePage main #backpackIcon {
   position: absolute;
   right: 0px;
-  bottom: 0px;
+  top: 0px;
   width: 80px;
   height: 80px;
   margin: 10px;
@@ -339,8 +342,8 @@ body {
   position: absolute;
   width: 100px;
   height: 100px;
-  left: 50px;
-  bottom: 50px;
+  left: 20px;
+  bottom: 20px;
   border: 2px solid black;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.5);
@@ -360,20 +363,16 @@ body {
 
 #gamePage main #mobileBtn {
   position: absolute;
-  width: 40px;
+  width: 60px;
   height: 60px;
-  right: 50px;
-  bottom: 70px;
+  right: 40px;
+  bottom: 40px;
   border: 2px solid black;
-  border-radius: 20px;
+  border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.5);
 }
 
 @media (pointer: coarse) {
-  #gamePage main #backpackIcon {
-    bottom: auto;
-    top: 100px;
-  }
 
   #gamePage main .mobile_controller {
     display: block;
@@ -389,19 +388,19 @@ body {
   padding: 10px;
   transform: translate(-50%, -50%);
   left: 50%;
-  top: calc(50px + 50%);
+  top: 50%;
   width: 80%;
-  height: calc(80% - 100px);
+  height: 70%;
 
   background-color: var(--color_primary);
   border: 4px solid var(--color_accent1);
   border-radius: 20px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 480px) or (max-height: 480px) {
   #gamePage #backpackContents {
     width: 100%;
-    height: calc(100% - 100px);
+    height: 100%;
 
     border: 2px solid var(--color_accent1);
     border-radius: 0px;
@@ -489,12 +488,6 @@ body {
   box-shadow: 0px 5px 15px rgba(255, 0, 0, 0.6);
 }
 
-@media (max-width: 480px) {
-  #usernameHeader {
-    font-size: 1px;
-  }
-}
-
 /*==============================*/
 /*=========== events ===========*/
 /*==============================*/
@@ -504,11 +497,15 @@ body {
   width: 100%;
   height: calc(90% - 10px);
   /* 100% - header height en margin */
+  align-items: center;
+  align-content: center;
   z-index: -1;
 
   color: white;
   border: 2px solid var(--color_accent1);
   background-color: var(--color_tertiary);
+
+  overflow-y: scroll;
 }
 
 #gamePage #backpackContents #mainMenu_main {
@@ -516,7 +513,8 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   gap: 30px;
-  margin: 10px;
+  max-width: 500px;
+  margin: 10px auto;
 }
 
 /* ========== pokemon list ==========*/
@@ -682,7 +680,12 @@ body {
 #gamePage #menu_pokedex {}
 
 
-#gamePage #menu_pokemonDetail {}
+#gamePage #pokedex_pokemon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
 #gamePage #pokedex_detail {
   display: grid;
@@ -884,29 +887,29 @@ body {
 #gamePage #menu_battle #battle_main {
   display: grid;
   grid-template-areas:
-    "battleLeft battleRight"
-    "battleText battleText"
-    "battleButtons battleButtons";
-  grid-template-columns: 50% 50%;
-  grid-template-rows: 60% 20% 20%;
+    "battleLeft battleLeft battleRight battleRight"
+    "battleText battleText battleText battleButtons";
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: 60% 40%;
   height: 100%;
+  padding: 10px;
 }
 
 #gamePage #menu_battle .battle_stage {
   position: relative;
-  width: 100%;
   max-width: 200px;
   padding: 10px;
+  width: calc(100% - 10px);
 }
 
 #gamePage #menu_battle #battle_left {
   grid-area: battleLeft;
-  margin: auto auto 0 auto;
+  margin: auto 10% 0 auto;
 }
 
 #gamePage #menu_battle #battle_right {
   grid-area: battleRight;
-  margin: 0 auto auto auto;
+  margin: 0 auto auto 10%
 }
 
 #gamePage #menu_battle .statusbar {
@@ -937,8 +940,8 @@ body {
 #gamePage #battle_text {
   position: relative;
   grid-area: battleText;
-  height: 70px;
-  width: 80%;
+  height: 90%;
+  width: 90%;
   margin: auto;
   padding: 10px;
   color: black;
@@ -959,18 +962,17 @@ body {
 #gamePage #battle_buttons {
   grid-area: battleButtons;
   display: flex;
-  flex-wrap: wrap;
+  font-size: 12px;
+  flex-direction: column;
   justify-content: space-evenly;
-  margin: 20px
 }
 
 #gamePage #battle_buttons button {
   text-align: center;
-  width: 30%;
-  height: 50px;
-  background-color: var(--color_secondary);
+  padding: 7px 13px;
   border: 3px solid var(--color_accent1);
   border-radius: 50px;
+  background-color: var(--color_secondary);
 }
 
 @media (max-width: 480px) {
@@ -982,7 +984,7 @@ body {
       "battleText"
       "battleButtons";
     grid-template-columns: auto;
-    grid-template-rows: auto;
+    grid-template-rows: 33% 32% 15% 20%;
     height: 100%;
   }
 
@@ -998,19 +1000,11 @@ body {
 
   #gamePage #battle_text {
     font-size: 0.8rem;
-  }
-
-  #gamePage #battle_buttons {
-    flex-direction: column;
-    margin: 5px
-  }
-
-  #gamePage #battle_buttons button {
-    width: 80%;
-    height: 30px;
-    margin: auto;
+    width: 100%;
   }
 }
+
+@media (max-height: 480px) {}
 
 /* ========== capture ==========*/
 #gamePage #menu_capture {}
@@ -1151,72 +1145,62 @@ body {
 
 /* ========== account ==========*/
 
-#account_main {
+#gamePage #account_main {
   display: grid;
+  grid-template-columns: 50% 50%;
   grid-template-areas:
-    "left right";
-  height: 100%;
-  width: 100%;
-  max-width: 500px;
+    "profile settings";
+  padding: 10px;
+  max-width: 600px;
   margin: auto;
-
 }
 
-
-#account_right {
-  grid-area: right;
-  display: flex;
-  gap: 35px;
-  flex-direction: column;
-  top: 40%;
-  transform: translateY(-50%);
-  position: relative;
-  height: max-content;
-}
-
-#account_left {
-  grid-area: left;
-  display: flex;
-  flex-direction: column;
-  top: 40%;
-  transform: translateY(-50%);
-  position: relative;
-  height: max-content;
-}
-
-#accountimgbig {
-  width: auto;
-  height: 60%;
-  display: block;
-  margin: auto;
-  max-height: 200px;
-  margin-top: 0;
-  height: 100%;
-}
-
-
-#accountinfo {
+#gamePage .account_sides {
   text-align: center;
-  margin-top: 3%;
-  margin-bottom: 0;
-
+  margin: auto;
 }
 
-#accountbtns {
+#gamePage #account_profile {
+  grid-area: profile;
+}
+
+#gamePage #account_profile img {
+  height: 200px;
+}
+
+#gamePage #account_settings {
+  grid-area: settings;
+}
+
+#gamePage #account_settings #account_stats {
+  margin-bottom: 40px;
+}
+
+#gamePage #account_settings #account_buttons {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 10px 0px;
+  align-items: center;
   justify-content: center;
 }
 
-#accountbtns button {
-  background-color: var(--color_accent1);
-  padding: 10px;
+#gamePage #account_buttons button {
   text-align: center;
-  width: 50%;
+  font-size: 14px;
+  width: 100%;
+  max-width: 130px;
+  padding: 5px 10px;
   border-radius: 20px;
-  margin: auto;
+  border: 2px solid var(--color_accent1);
+  background-color: var(--color_primary);
+
+  &:hover {
+    background-color: var(--color_accent1);
+  }
 }
+
+
+/*
 
 #stats {
   margin-top: 3%;
@@ -1231,97 +1215,16 @@ body {
 #accountbtns button:hover {
   background-color: lightcoral;
 
+} */
+
+@media (max-width: 480px) {
+  #gamePage #account_main {
+    grid-template-columns: auto;
+    grid-template-areas:
+      "profile"
+      "settings";
+  }
 }
-
-/* #gamePage #menu_account {
-    & #account_main {
-      position: relative;
-      display: grid;
-      grid-template-areas:
-      "imgbig btn"
-      "imgbig btn"
-      "info btn";
-      text-align: center;
-      align-items: center;
-      height: 100%;
-      
-      
-      & button {
-        text-align: center;
-        padding: 5px;
-        margin-bottom: 10px;
-        width: 40%;
-        display: block;
-
-        background-color: var(--color_secondary);
-        border: 2px solid var(--color_accent1);
-        border-radius: 50px;
-      }
-      & .usergeg{
-        border-radius: 50px;
-        padding-left: 50px;
-        padding-right: 50px;
-        width: 50%;
-        margin: auto;
-        color: white;
-      }
-      
-      & .accountbtns{
-        grid-area: btn;
-        display: block;
-        width: 100%;
-        margin: auto;
-      }
-
-      & img {
-        width:18%;
-        height: auto;
-        grid-area: imgbig;
-        margin: auto;
-        margin-top: 20px;
-      }
-
-      
-
-      @media (max-width: 780px) {
-        & img{
-          margin: auto;
-          height: 200px;
-          width: auto;
-        }
-
-        & button {
-          max-width: 150px;
-          width: 100%;
-          padding: 5px;
-        }
-
-        & .accountbtns{
-          grid-area: btn;
-          display: block;
-          width: 100%;
-          margin: auto;
-        }
-      }
-
-      
-
-      & .accountinfo{
-        grid-area: info;
-        margin-bottom: 10%;
-        display: block;
-        margin: auto;
-      }
-
-
-
-      & button:hover{
-        background-color: var(--color_accent1);
-      }
-     
-    }
-  } */
-
 
 
 
@@ -1370,6 +1273,7 @@ body {
     width: 100%;
     max-width: 800px;
     min-height: 130px;
+    margin: auto;
     padding: 20px;
 
     background-color: white;
@@ -1409,29 +1313,71 @@ body {
     border: 2px solid var(--color_accent1);
     border-radius: 5px;
 
+    & p {
+      color: white;
+      text-shadow: 0px 0px 2px black;
+    }
+
+    & input {
+      text-align: left;
+      padding: 2px;
+      width: 60%;
+      color: black;
+      background-color: white;
+      border: 2px solid var(--color_accent1);
+      border-radius: 5px;
+    }
+
+    & button {
+      padding: 2px 10px;
+      background-color: var(--color_secondary);
+      border: 2px solid var(--color_accent1);
+      border-radius: 50px;
+    }
   }
 }
 
-#gamePage #inputBox p {
-  color: white;
-  text-shadow: 0px 0px 2px black;
-}
+#gamePage #confirmBox {
+  display: none;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  align-content: center;
 
-#gamePage #inputBox input {
-  text-align: left;
-  padding: 2px;
-  width: 60%;
-  color: black;
-  background-color: white;
-  border: 2px solid var(--color_accent1);
-  border-radius: 5px;
-}
+  &>div {
+    position: relative;
+    width: 40%;
+    height: 200px;
+    margin: auto;
+    align-content: center;
+    text-align: center;
+    color: white;
 
-#gamePage #inputBox button {
-  padding: 2px 10px;
-  background-color: var(--color_secondary);
-  border: 2px solid var(--color_accent1);
-  border-radius: 50px;
+    border: 3px solid var(--color_accent1);
+    box-shadow: 0 0 20px black;
+    background-color: var(--color_primary);
+    opacity: 95%;
+
+    & div {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 10px;
+    }
+  }
+
+  & button {
+    width: 25%;
+    padding: 3px 8px;
+    align-items: center;
+    background-color: var(--color_secondary);
+    border: 2px solid var(--color_accent1);
+    border-radius: 50px;
+  }
 }
 
 #gamePage .debug {

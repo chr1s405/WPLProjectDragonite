@@ -2,6 +2,7 @@ import { allPokemon, findPokemon, setAlert, setInput } from "../game.js";
 export function createBackpack(player) {
   const backpack = {
     player: player,
+    profileIcon: document.getElementById("profileIcon"),
     companionIcon: document.getElementById("companionIcon"),
     backpackIcon: document.getElementById("backpackIcon"),
     backpackBtns: document.getElementsByClassName("backpackMenuBtn"),
@@ -40,6 +41,11 @@ export function createBackpack(player) {
 
     { event: document.getElementById("mainMenu"), title: "rugzak", open: openMainMenu.bind(backpack), close: closeMainMenu.bind(backpack) },
   ];
+  profileIcon.addEventListener("click", () => {
+    backpack.openMainMenu(backpack.menuEvents[backpack.menuEvents.length - 1].event);
+    const menuEvent = backpack.menuEvents[6];//this.menuEvents.find(event=> event.title === "account");
+    menuEvent.open(menuEvent.event);
+  })
   companionIcon.addEventListener("click", () => {
     backpack.openMainMenu(backpack.menuEvents[backpack.menuEvents.length - 1].event);
     const menuEvent = backpack.menuEvents[1];//this.menuEvents.find(event=> event.title === "stats");
@@ -489,14 +495,14 @@ export function closeCaptureEvent() {
 function openAccountEvent(event) {
   this.openEvent(event);
   const percentage = (this.player.capturedPokemon.length / allPokemon.length) * 100;
-  document.getElementById("accountPokemonPercentage").innerHTML = `${percentage}% van de pokémon gevangen`;
+  document.getElementById("accountPokemonPercentage").innerHTML = `${Math.round(percentage)}% van de pokémon gevangen`;
   let battles = 0;
   this.player.capturedPokemon.forEach((pokemon) => {
     battles += pokemon.stats.wins;
     battles += pokemon.stats.losses;
   })
   document.getElementById("accountBattles").innerHTML = `tegen ${battles} trainers gevochten`
-  document.getElementById("accountimgbig").src = this.player.portrait;
+  document.getElementById("account_portrait").src = this.player.portrait;
 }
 
 

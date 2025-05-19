@@ -16,14 +16,11 @@
 
 <body id="gamePage">
   <input id="userId" type="hidden" value="<%= userId %>">
-  <header id="landingpageheader">
-    <div id="nav-profile">
-      <img src="/assets/pokeball.png">
-      <h1 id="usernameHeader">Username</h1>
-    </div>
-  </header>
-
   <main>
+    <div id="profileIcon">
+      <img src="/assets/pokeball.png">
+      <h1>Username</h1>
+    </div>
     <div id="overworldMap">
 
       <div id="character">
@@ -69,6 +66,15 @@
       <p></p>
       <input>
       <button>bevestig</button>
+    </div>
+  </section>
+  <section id="confirmBox">
+    <div>
+      <p>bericht bij confirm</p>
+      <div>
+        <button>confirm</button>
+        <button>deny</button>
+      </div>
     </div>
   </section>
   <aside id="backpackContents">
@@ -291,24 +297,19 @@
     <!-- account -->
     <div id="menu_account" class="menuEvent">
       <div id="account_main">
-        <div id="account_left">
-          <!-- deze foto is een placeholder -->
-          <div id="accountinfo">
-            <p class="usergeg">username</p>
-            <p class="usergeg">email</p>
-          </div>
-          <img id="accountimgbig" class="accountimgbig" src="">
-
+        <div id="account_profile" class="account_sides">
+          <p>username</p>
+          <p>email</p>
+          <img id="account_portrait" src="">
         </div>
-        <div id="account_right">
-          <div id="stats">
-            <!-- Dit zijn placeholder stats -->
+        <div id="account_settings" class="account_sides">
+          <div id="account_stats">
             <h1>Stats</h1>
             <p id="accountPokemonPercentage">...% van de pokédex ontdekt.</p>
             <p id="accountBattles">... trainers bevochten</p>
           </div>
-          <div id="accountbtns">
-            <button>settings</button>
+          <div id="account_buttons">
+            <!-- <button>settings</button> -->
             <button id="saveBtn">save game</button>
             <button id="resetBtn">reset progress</button>
             <button id="logoutBtn">logout</button>
@@ -362,7 +363,7 @@
 
         <button class="backpackMenuBtn">
           <img src="/assets/pokeball.png">
-          <p>pokemon vergelijken</p>
+          <p>vergelijk</p>
         </button>
 
         <button class="backpackMenuBtn" style="display:none">
@@ -387,15 +388,13 @@
 
         <button class="backpackMenuBtn">
           <img src="/assets/icons/tutorial_icon.png">
-          <p>tutorial game</p>
+          <p>tutorial</p>
         </button>
 
-        <a href="/login">
-          <button class="backpackMenuBtn">
-            <img src="/assets/icons/log_out_icon.png" style="filter: brightness(0%)">
-            <p>log out</p>
-          </button>
-        </a>
+        <button id="backpack_logoutBtn" class="backpackMenuBtn">
+          <img src="/assets/icons/log_out_icon.png" style="filter: brightness(0%)">
+          <p>log out</p>
+        </button>
       </div>
     </div>
   </aside>

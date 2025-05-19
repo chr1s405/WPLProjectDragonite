@@ -70,10 +70,15 @@ async function gameInit() {
   document.getElementById("saveBtn").addEventListener("click", () => {
     saveGame();
   })
-  document.getElementById("resetBtn").addEventListener("click", () => {
-    deleteGame();
+  document.getElementById("resetBtn").addEventListener("click", async () => {
+    if (await setConfirmBox("weet je zeker dat je je voortgang wilt verwijderen")) {
+      deleteGame();
+    }
   })
   document.getElementById("logoutBtn").addEventListener("click", () => {
+    logout();
+  })
+  document.getElementById("backpack_logoutBtn").addEventListener("click", () => {
     logout();
   })
 }
@@ -98,7 +103,7 @@ function loadGame() {
       return await res.json()
     })
 }
-function saveGame() {
+function saveGame(showNtification = true) {
   const playerData = { x: player.x, y: player.y, direction: player.direction, companion: player.companion, capturedPokemon: player.capturedPokemon, knownPokemon: player.knownPokemon };
   const npcsData = [];
   for (let i = 0; i < map.npcs.length; i++) {
@@ -112,7 +117,11 @@ function saveGame() {
     body: JSON.stringify(saveData)
   })
     .then((res) => { return res.json() })
-    .then(async (data) => { await setAlert("voortgang opgeslagen") })
+    .then(async (data) => {
+      if (showNtification) {
+        await setAlert("voortgang opgeslagen")
+      }
+    })
 }
 function deleteGame() {
   fetch(`/pokemon/game/reset?user=${userId}`, {
@@ -127,7 +136,7 @@ function deleteGame() {
     })
 }
 async function logout() {
-  await saveGame();
+  await saveGame(false);
   fetch("/pokemon/game/logout", {
     method: "POST"
   })
@@ -164,73 +173,6 @@ export function createSimplePokemon(pokemonId, nickname = "") {
 }
 
 
-export async function setTextBox(text, name = "") {
-  const textbox = document.getElementById("textBox");
-  const textboxName = document.getElementById("textBoxName");
-  const textBoxText = document.getElementById("textBoxMsg");
-  const continueText = textbox.getElementsByTagName("p")[textbox.getElementsByTagName("p").length - 1];
-  textbox.style.display = "block";
-  textboxName.innerHTML = name;
-  pause = true;
-  let i = 0;
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      document.addEventListener("click", () => { i = text.length }, { once: true });
-    }, 10);
-    const intervalId = setInterval(() => {
-      if (i < text.length) {
-        i++;
-        textBoxText.innerHTML = text.substring(0, i);
-      }
-      else {
-        textBoxText.innerHTML = text;
-        clearInterval(intervalId);
-        continueText.style.display = "block";
-        document.addEventListener("click", () => {
-          textBoxText.innerHTML = "";
-          continueText.style.display = "none";
-          textbox.style.display = "none";
-          pause = false;
-          resolve(true);
-        }, { once: true });
-      }
-    }, 30);
-  })
-}
-export async function setAlert(message) {
-  const alert = document.getElementById("alert");
-  return new Promise((resolve, reject) => {
-    pause = true;
-    alert.style.display = "block";
-    alert.getElementsByTagName("p")[0].innerHTML = message;
-    setTimeout(() => {
-      alert.addEventListener("click", () => {
-        pause = false;
-        alert.style.display = "none";
-        resolve(true);
-      }, { once: true });
-    }, 1);
-  })
-};
-
-export async function setInput(message) {
-  const inputBox = document.getElementById("inputBox");
-  const input = inputBox.querySelector("input");
-  const button = inputBox.querySelector("button");
-  input.value = ""
-  return new Promise((resolve, reject) => {
-    pause = true;
-    inputBox.style.display = "block";
-    inputBox.querySelector("p").innerHTML = message;
-    setTimeout(() => {
-      button.addEventListener("click", () => {
-        pause = false;
-        inputBox.style.display = "none";
-        resolve(input.value);
-      }, { once: true });
-    }, 1);
-  })
-};
 
 function initMobileInput(player, map) {
   const joyStickCase = document.getElementById("joyStickCase");
@@ -278,3 +220,92 @@ function initMobileInput(player, map) {
 function toggleDebug() {
   player.toggleDebug();
 }
+
+
+export async function setConfirmBox(text) {
+  const confirmBox = document.getElementById("confirmBox");
+  const accept = confirmBox.querySelectorAll("button")[0];
+  const deny = confirmBox.querySelectorAll("button")[1];
+  confirmBox.querySelector("p").innerHTML = text;
+  confirmBox.style.display = "block";
+  return new Promise((resolve, reject) => {
+    accept.addEventListener("click", () => {
+      deny.replaceWith(deny.cloneNode(true));
+      confirmBox.style.display = "none";
+      resolve(true)
+    }, { once: true })
+    deny.addEventListener("click", () => {
+      accept.replaceWith(accept.cloneNode(true))
+      confirmBox.style.display = "none";
+      resolve(false)
+    }, { once: true })
+  })
+}
+
+export async function setTextBox(text, name = "") {
+  const textbox = document.getElementById("textBox");
+  const textBoxText = document.getElementById("textBoxMsg");
+  const continueText = textbox.getElementsByTagName("p")[textbox.getElementsByTagName("p").length - 1];
+  document.getElementById("textBoxName").innerHTML = name;
+  textbox.style.display = "block";
+  pause = true;
+  let i = 0;
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      document.addEventListener("click", () => { i = text.length }, { once: true });
+    }, 10);
+    const intervalId = setInterval(() => {
+      if (i < text.length) {
+        i++;
+        textBoxText.innerHTML = text.substring(0, i);
+      }
+      else {
+        textBoxText.innerHTML = text;
+        clearInterval(intervalId);
+        continueText.style.display = "block";
+        document.addEventListener("click", () => {
+          textBoxText.innerHTML = "";
+          continueText.style.display = "none";
+          textbox.style.display = "none";
+          pause = false;
+          resolve(true);
+        }, { once: true });
+      }
+    }, 30);
+  })
+}
+
+export async function setInput(message) {
+  const inputBox = document.getElementById("inputBox");
+  const input = inputBox.querySelector("input");
+  const button = inputBox.querySelector("button");
+  input.value = ""
+  return new Promise((resolve, reject) => {
+    pause = true;
+    inputBox.style.display = "block";
+    inputBox.querySelector("p").innerHTML = message;
+    setTimeout(() => {
+      button.addEventListener("click", () => {
+        pause = false;
+        inputBox.style.display = "none";
+        resolve(input.value);
+      }, { once: true });
+    }, 1);
+  })
+};
+
+export async function setAlert(message) {
+  const alert = document.getElementById("alert");
+  return new Promise((resolve, reject) => {
+    pause = true;
+    alert.style.display = "block";
+    alert.getElementsByTagName("p")[0].innerHTML = message;
+    setTimeout(() => {
+      alert.addEventListener("click", () => {
+        pause = false;
+        alert.style.display = "none";
+        resolve(true);
+      }, { once: true });
+    }, 1);
+  })
+};

@@ -48,7 +48,7 @@ export function getGameRouter() {
     router.post("/reset", async (req, res) => {
         const userId = typeof req.query.user === "string" ? parseInt(req.query.user) : -1;
         await resetGame(userId);
-        res.json({ succes: true, path: `/pokemon/game?user=${userId}` });
+        res.json({ succes: true, path: `/pokemon/game` });
     })
     router.post("/logout", (req, res)=>{
         res.json({path: "/pokemon/account"})
