@@ -71,7 +71,7 @@ async function gameInit() {
     saveGame();
   })
   document.getElementById("resetBtn").addEventListener("click", async () => {
-    if (await setConfirmBox("weet je zeker dat je je voortgang wilt verwijderen")) {
+    if (await setConfirmBox("weet je zeker dat je je voortgang wilt verwijderen.")) {
       deleteGame();
     }
   })

@@ -134,7 +134,7 @@ async function setCompanion(pokemonId) {
         await setAlert(`Je companion is nu ${pokemon.name}`);
     }
     else {
-        await setAlert("je hebt deze pokemon nog niet gevangen");
+        await setAlert("Je hebt deze pokemon nog niet gevangen.");
     }
 }
 function discoverPokemon(pokemonId) {
@@ -146,11 +146,11 @@ async function capturePokemon(pokemonId, nickname = "") {
     this.discoverPokemon(pokemonId);
     const pokemon = createSimplePokemon(pokemonId, nickname);
     this.capturedPokemon.push(pokemon);
-    await setAlert(`je hebt ${pokemon.name} gevangen`);
+    await setAlert(`Je hebt ${pokemon.name} gevangen.`);
 }
 async function releasePokemon(pokemonId) {
     if (this.companion.id === pokemonId) {
-        await setAlert("kies eerst een andere companion");
+        await setAlert("Kies eerst een andere companion.");
     }
     else {
         let pokemonIdx = -1;
@@ -161,10 +161,10 @@ async function releasePokemon(pokemonId) {
             }
         }
         if (pokemonIdx < 0) {
-            await setAlert("je hebt deze pokemon niet gevangen");
+            await setAlert("Je hebt deze pokemon niet gevangen.");
         }
         else {
-            await setAlert(`je hebt ${this.capturedPokemon[pokemonIdx].name} losgelaten`);
+            await setAlert(`Je hebt ${this.capturedPokemon[pokemonIdx].name} losgelaten.`);
             this.capturedPokemon.splice(pokemonIdx, 1);
         }
     }
@@ -263,11 +263,11 @@ async function battle(player, enemy) {
         if (await battleAction(action, player, enemy, stages[1])) {
             if (enemy.stats.hp === 0) {
                 player.stats.wins++;
-                battleText = "je hebt gewonnen";
+                battleText = "Je hebt gewonnen.";
             }
             else {
                 player.stats.losses++;
-                battleText = "je bent weggelopen"
+                battleText = "Je bent weggelopen."
             }
             await battleCleanup();
             return enemy.stats.hp === 0 ? enemy.id : -1;
@@ -275,7 +275,7 @@ async function battle(player, enemy) {
         action = Math.round(Math.random());
         if (await battleAction(action, enemy, player, stages[0])) {
             player.stats.losses++;
-            battleText = "je hebt verloren";
+            battleText = "Je hebt verloren.";
             await battleCleanup();
             return -1;
         }
@@ -292,13 +292,13 @@ async function battle(player, enemy) {
         if (action === 0) {
             const dmg = Math.max(0, attacker.stats.atk - defender.stats.def);
             defender.stats.hp = Math.max(0, defender.stats.hp - dmg);
-            battleText += ` valt aan met een normal attack en doet ${dmg} schade`;
+            battleText += ` valt aan met een normal attack en doet ${dmg} schade.`;
             new Audio(findPokemon(defender.id).cries["latest"]).play();
         }
         if (action === 1) {
             const dmg = Math.max(0, attacker.stats.spAtk - defender.stats.spDef);
             defender.stats.hp = Math.max(0, defender.stats.hp - dmg);
-            battleText += ` valt aan met een special attack en doet ${dmg} schade`;
+            battleText += ` valt aan met een special attack en doet ${dmg} schade.`;
             new Audio(findPokemon(defender.id).cries["latest"]).play(0)
         }
         if (action === 2) {
@@ -394,7 +394,7 @@ function capture(pokemon) {
                 captured = true;
             }
             if (captured) {
-                await player.capturePokemon(pokemon.id, await setInput("kies een bijnaam"));
+                await player.capturePokemon(pokemon.id, await setInput("Kies een bijnaam."));
                 ;
                 chances = 0;
             }
@@ -403,7 +403,7 @@ function capture(pokemon) {
             }
             else {
                 if (!captured) {
-                    await setAlert(`${pokemon.name} is ontsnapt`);
+                    await setAlert(`${pokemon.name} is ontsnapt.`);
                 }
                 backpack.closeCaptureEvent();
             }

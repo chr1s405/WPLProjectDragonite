@@ -268,13 +268,14 @@ function openDetailEvent(event, pokemon) {
   pokemon = findPokemon(pokemon.id);
   const pokemonDiv = pokedexDetails.children[1];
   pokemonDiv.getElementsByTagName("p")[0].innerHTML = pokemon.name;
-  pokemonDiv.getElementsByTagName("p")[1].innerHTML = (playerPokemon ? (playerPokemon.nickname ? playerPokemon.nickname : "(kies een bijnaam)") : "") + `<img src="/assets/icons/edit_icon.png"></img>`;
+  pokemonDiv.getElementsByTagName("p")[1].innerHTML = (playerPokemon ? (playerPokemon.nickname ? playerPokemon.nickname : `(kies een bijnaam)<img src="/assets/icons/edit_icon.png"></img>`) : "");
   pokemonDiv.getElementsByTagName("p")[1].addEventListener("click", async () => {
-    playerPokemon.nickname = await setInput("kies een bijnaam");
-    pokemonDiv.getElementsByTagName("p")[1].innerHTML = (playerPokemon ? (playerPokemon.nickname ? playerPokemon.nickname : "(kies een bijnaam)") : "") + `<img src="/assets/icons/edit_icon.png"></img>`;
+    playerPokemon.nickname = await setInput("Kies een bijnaam.");
+    pokemonDiv.getElementsByTagName("p")[1].innerHTML = (playerPokemon ? (playerPokemon.nickname ? playerPokemon.nickname : `(kies een bijnaam)<img src="/assets/icons/edit_icon.png"></img>`) : "");
   });
-  pokemonDiv.getElementsByTagName("img")[1].src = pokemon.sprites.other.showdown["front_default"];
-  pokemonDiv.getElementsByTagName("img")[1].style.filter = this.player.knownPokemon.includes(pokemon.id) ? "brightness(100%)" : "brightness(0%)";
+  console.log(pokemonDiv)
+  pokemonDiv.getElementsByTagName("img")[pokemonDiv.getElementsByTagName("img").length-1].src = pokemon.sprites.other.showdown["front_default"];
+  pokemonDiv.getElementsByTagName("img")[pokemonDiv.getElementsByTagName("img").length-1].style.filter = this.player.knownPokemon.includes(pokemon.id) ? "brightness(100%)" : "brightness(0%)";
   const buttonsDiv = pokedexDetails.children[2];
   const buttons = buttonsDiv.getElementsByTagName("button");
   buttons[0].replaceWith(buttons[0].cloneNode(true));
@@ -312,12 +313,12 @@ function openDetailEvent(event, pokemon) {
         evolutionArrows[i - 1].style.display = "block";
       }
       evolutionSteps[i].addEventListener("click", async () => {
-        if (evolutionPokemon.isKnown) {
+        if (this.player.knownPokemon.includes(evolutionPokemon.id)) {
           const menuEvent = this.menuEvents[1];//this.menuEvents.find(event=> event.title === "stats"
-          menuEvent.open(menuEvent.event, evolutionPokemon);
+          menuEvent.open(menuEvent.event, findPokemon(evolutionPokemon.id));
         }
         else {
-          await setAlert("Je kent deze pokemon nog niet");
+          await setAlert("Je kent deze pokemon nog niet.");
         }
       })
     }
@@ -454,7 +455,7 @@ function openWhosThatEvent(event, pokemon) {
       new Audio(pokemon.cries["latest"]).play();
     }
     else {
-      await setAlert("dat is niet de juiste pokemon");
+      await setAlert("Dat is niet de juiste pokemon.");
     }
   });
 }
@@ -495,13 +496,13 @@ export function closeCaptureEvent() {
 function openAccountEvent(event) {
   this.openEvent(event);
   const percentage = (this.player.capturedPokemon.length / allPokemon.length) * 100;
-  document.getElementById("accountPokemonPercentage").innerHTML = `${Math.round(percentage)}% van de pokémon gevangen`;
+  document.getElementById("accountPokemonPercentage").innerHTML = `${Math.round(percentage)}% van de pokémon gevangen.`;
   let battles = 0;
   this.player.capturedPokemon.forEach((pokemon) => {
     battles += pokemon.stats.wins;
     battles += pokemon.stats.losses;
   })
-  document.getElementById("accountBattles").innerHTML = `tegen ${battles} trainers gevochten`
+  document.getElementById("accountBattles").innerHTML = `Je hebt tegen ${battles} trainers gevochten.`
   document.getElementById("account_portrait").src = this.player.portrait;
 }
 
