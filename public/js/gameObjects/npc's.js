@@ -16,7 +16,7 @@ export function createNpc(map, npcData) {
   npcDiv.style.top = `${npcData.y}px`;
   npcDiv.style.backgroundImage = `url(${`${sprites[Math.trunc(Math.random() * sprites.length)]}`})`;
 
-  const names = ["name1", "name2", "name3", "name4", "name5", "name6", "name7", "name8", "name9", "name0"]
+  const names = ["Chris", "Taylor", "Akira", "Remi", "Lenny", "Noa", "Alex", "Shelby", "Billy"]
   const npc = {
     type: "npc",
     name: names[Math.trunc(Math.random() * names.length)],
@@ -118,7 +118,7 @@ function setDirection(dir) {
 }
 async function interact() {
   const battleMsg = [
-    "laten we vechten", "ik zal je verslaan", "ben je klaar om te verliezen", "als ik klaar met je ben, blijft er niets meer van je over", "ik maak gehakt van je"
+    "Laten we vechten.", "Ik zal je verslaan!", "Ben je klaar om te verliezen?", "Als ik klaar met je ben, blijft er niets meer van je over!", "Ik maak gehakt van je!"
   ];
   await setTextBox(battleMsg[Math.trunc(Math.random() * battleMsg.length)], this.name);
 }
