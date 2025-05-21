@@ -6,9 +6,10 @@ import { ObjectId } from "mongodb";
 
 export interface User {
   _id?: ObjectId,
+  id?: number,
   username: string,
   email: string,
-  password: string,
+  password?: string,
 }
 
 
@@ -80,7 +81,11 @@ export interface Player {
   toggleDebug: Function,
   debug: Function,
 }
-
+export interface NpcsDB{
+  _id?: ObjectId,
+  userId: number,
+  npcs: Partial<Npc>[]
+}
 export interface Npc {
   type: string,
   name: string,
@@ -242,10 +247,3 @@ export interface Backpack {
   openCaptureEvent: Function,
   closeCaptureEvent: Function,
 }
-
-export interface projectPicture{
-  background: string;
-  logo: string;
-  logoBgColor: string;
-}
-

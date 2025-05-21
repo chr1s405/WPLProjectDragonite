@@ -1,86 +1,60 @@
 import express from "express";
-import { createUser, getUser } from "../database";
+import { login, signup } from "../database";
+import * as jwt from 'jsonwebtoken';
 
 export function GetAccountRouter() {
-    interface FormError {
-        emptyField?: boolean,
-        wrongUser?: boolean,
-        wrongEmail?: boolean,
-        wrongPassword?: boolean,
-        username?: string,
-        email?: string,
-    }
 
     const router = express.Router();
 
     router.get("", (req, res) => {
-        const formError: FormError = {};
-        return res.redirect("/pokemon/account/login");
+        return res.redirect("login");
     })
     router.get("/login", (req, res) => {
-        const formError: FormError = {};
-        return res.render("login", { formError })
+        return res.render("login")
     })
     router.post("/login", async (req, res) => {
         let username = req.body.username;
         let password = req.body.password;
-        let formError: FormError = { username: username };
-        if (username === "" || password === "") {
-            formError.emptyField = true;
-            return res.render("login", { formError })
-        }
-        else {
-            const user = await getUser(username);
-            if (user) {
-                if (user.password === password) {
-                    return res.redirect(`/pokemon/game?user=${user.id}`);
-                }
-                else {
-                    formError.wrongPassword = true;
-                }
+        try {
+            const user = await login(username, password);
+            delete user.password;
+            const token = jwt.sign(user, process.env.JWT_TOKEN!, { expiresIn: "7d" });
+            res.cookie("jwt", token, { httpOnly: true, sameSite: "lax", secure: false });
+            res.locals.user = user;
+            return res.redirect("./game")
+        } catch (err) {
+            if (err instanceof Error) {
+                console.log(err)
+                res.cookie("accountError", err.message)
             }
-            else {
-                formError.wrongUser = true;
-            }
-            return res.render("login", { formError })
+            return res.redirect("./login");
         }
-
     })
     router.get("/signup", (req, res) => {
-        const formError: FormError = {};
-        return res.render("signup", { formError });
+        return res.render("signup");
     })
     router.post("/signup", async (req, res) => {
         let email = req.body.email;
         let username = req.body.username;
         let password = req.body.password;
-        let formError: FormError = { username: username, email: email };
-        if (username === "" || email === "" || password === "") {
-            formError.emptyField = true;
-            return res.render("signup", { formError })
-        }
-        else {
-            let user = await getUser(username);
-            if (!user) {
-                await createUser({ username, email, password })
-                return res.redirect("./login")
+        try {
+            await signup(username, email, password);
+        } catch (err) {
+            if (err instanceof Error) {
+                res.cookie("accountError", err.message)
             }
-            else {
-                formError.wrongUser = true;
-            }
+            return res.redirect("./signup");
         }
-        return res.render("signup", { formError });
+        return res.redirect("./login");
     })
     router.get("/reset", (req, res) => {
-        const formError: FormError = {};
-        return res.render("resetpassword", { formError });
+        return res.render("resetpassword");
     })
     router.post("/reset", (req, res) => {
         let email = req.body.email;
-        let formError: FormError = { email: email };
         if (email === "") {
-            formError.wrongEmail = true;
-            return res.render("resetpassword", { formError })
+            res.cookie("accountError", "Vul alle velden in")
+            return res.redirect("./reset")
         }
         else {
             return res.redirect("./login")

@@ -14,19 +14,13 @@
         <section class="blackbox">
                 <h1>Pokémon</h1>
                 <form action="./login" method="post">
-                    <% if(!(formError.emptyField===undefined)) { %>
-                        <p class="errorMsg">vul alle velden in</p>
-                    <% } %>
                     <label for="username">
-                    <% if(!(formError.wrongUser===undefined)) { %>
-                        <span  class="errorMsg">Deze gebruiker is niet gevonden</span>
-                    <% } %>
-                    <input id="username" name="username" type="username" value="<%= formError.username %>" placeholder="Gebruiksnaam"></label>
+                    <input id="username" name="username" type="username" placeholder="Gebruiksnaam"></label>
                     <label for="password">
-                    <% if(!(formError.wrongPassword===undefined)) { %>
-                    <span class="errorMsg">Dit is niet het juiste Wachtwoord</span>
-                    <% } %>
                     <input id="password" name="password" type="password" placeholder="Wachtwoord"></label>
+                    <% if(accountError) { %>
+                        <p  class="errorMsg"><%= accountError %></p>
+                    <% } %>
                     <button>inloggen</button>
                 </form>
                 <div>

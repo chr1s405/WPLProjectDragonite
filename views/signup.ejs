@@ -14,19 +14,16 @@
         <section class="blackbox">
             <h1>Meld je aan</h1>
             <form action="./signup" method="post">
-                <% if(!(formError.emptyField === undefined)) { %>
-                    <p class="errorMsg">vul alle velden in</p>
-                <% } %>
                 <label for="email">Voer een e-mailadres in:
-                <input id="email" name="email" type="email" value="<%= formError.email %>"></label>
+                <input id="email" name="email" type="email"></label>
                 <label for="username">
-                    <% if(!(formError.wrongUser === undefined)) { %>
-                        <span  class="errorMsg">Deze gebruiker bestaat al</span><br>
-                    <% } %>
-                    Kies en username:
-                <input id="username" name="username" type="text" value="<%= formError.username %>"></label>
+                    Kies en gebruikersnaam:
+                <input id="username" name="username" type="text"></label>
                 <label for="password">Kies een wachtwoord:
                 <input id="password" name="password" type="password"></label>
+                <% if(accountError) { %>
+                    <p  class="errorMsg"><%= accountError %></p>
+                <% } %>
                 <button type="submit">Verzenden</button>
             </form>
             <div>

@@ -1,16 +1,17 @@
 import dotenv from "dotenv";
 import { MongoClient } from "mongodb";
-import { Pokemon } from "./interfaces";
+import { Npc, NpcsDB, Player, Pokemon, User, WildPokemon } from "./interfaces";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 
 const dbConnectionString: string = process.env.MONGO_URI || "";
 const database = 'DragoniteDB';
 export const client = new MongoClient(dbConnectionString);
-export const userCollection = client.db(database).collection("Users");
-export const playerCollection = client.db(database).collection("Players");
-export const npcsCollection = client.db(database).collection("Npcs");
-export const pokemonCollection = client.db(database).collection("Pokemon");
+export const userCollection = client.db(database).collection<User>("Users");
+export const playerCollection = client.db(database).collection<Partial<Player>>("Players");
+export const npcsCollection = client.db(database).collection<NpcsDB>("Npcs");
+export const pokemonCollection = client.db(database).collection<Partial<WildPokemon>>("Pokemon");
 export let allPokemon: Pokemon[];
 
 export async function connect() {
@@ -28,7 +29,7 @@ async function exit() {
     process.exit(0);
 }
 export async function deleteData() {
-    // userCollection.deleteMany();
+    userCollection.deleteMany();
     playerCollection.deleteMany();
     npcsCollection.deleteMany();
     pokemonCollection.deleteMany();
@@ -36,7 +37,7 @@ export async function deleteData() {
 export async function getUser(username: string) {
     return await userCollection.findOne({ username: username });
 }
-export async function createUser(user: any) {
+export async function createUser(user: User) {
     user.id = await userCollection.countDocuments();
     await userCollection.insertOne(user);
 }
@@ -49,9 +50,10 @@ export async function setPlayer(userId: number, playerData: any) {
 export async function getNpcs(userId: number) {
     const npcs = await npcsCollection.findOne({ userId })
     if (npcs) { return npcs.npcs; }
+    else { return null;}
 }
 export async function setNpcs(userId: number, npcsData: any) {
-    npcsCollection.updateOne({ userId }, { $set: getDotNotation(npcsData, "npcs")});
+    npcsCollection.updateOne({ userId }, { $set: getDotNotation(npcsData, "npcs") });
 }
 export function getpokemon() {
     return allPokemon;
@@ -73,31 +75,31 @@ export async function createGame(userId: number) {
     const player = { userId, x: 450, y: 450, direction: "down", sprite: "Red.png", portrait: "/assets/characters/RedBig.png", companion: {}, capturedPokemon: [], knownPokemon: [] };
     await playerCollection.insertOne(player);
     const npcs = [
-        { id: 0, x: 200, y: 300, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 500, y: 250, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 700, y: 250, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 200, y: 750, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 600, y: 750, sprite: "Red.png",  companion: {} },
+        { id: 0, x: 200, y: 300, sprite: "Red.png", companion: {} },
+        { id: 0, x: 500, y: 250, sprite: "Red.png", companion: {} },
+        { id: 0, x: 700, y: 250, sprite: "Red.png", companion: {} },
+        { id: 0, x: 200, y: 750, sprite: "Red.png", companion: {} },
+        { id: 0, x: 600, y: 750, sprite: "Red.png", companion: {} },
         { id: 0, x: 600, y: 1000, sprite: "Red.png", companion: {} },
         { id: 0, x: 1050, y: 600, sprite: "Red.png", companion: {} },
-        { id: 0, x: 2350, y: 250, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 2750, y: 1100, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 3200, y: 1200, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 2600, y: 800, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 2850, y: 450, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 2450, y: 2300, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 2700, y: 2100, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 3100, y: 2100, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 2800, y: 3650, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 2150, y: 2550, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 1000, y: 2250, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 1000, y: 2600, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 650, y: 2600, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 300, y: 2250, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 300, y: 2600, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 300, y: 1850, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 640, y: 1850, sprite: "Red.png",  companion: {} },
-        { id: 0, x: 1000, y: 1850, sprite: "Red.png",  companion: {} },
+        { id: 0, x: 2350, y: 250, sprite: "Red.png", companion: {} },
+        { id: 0, x: 2750, y: 1100, sprite: "Red.png", companion: {} },
+        { id: 0, x: 3200, y: 1200, sprite: "Red.png", companion: {} },
+        { id: 0, x: 2600, y: 800, sprite: "Red.png", companion: {} },
+        { id: 0, x: 2850, y: 450, sprite: "Red.png", companion: {} },
+        { id: 0, x: 2450, y: 2300, sprite: "Red.png", companion: {} },
+        { id: 0, x: 2700, y: 2100, sprite: "Red.png", companion: {} },
+        { id: 0, x: 3100, y: 2100, sprite: "Red.png", companion: {} },
+        { id: 0, x: 2800, y: 3650, sprite: "Red.png", companion: {} },
+        { id: 0, x: 2150, y: 2550, sprite: "Red.png", companion: {} },
+        { id: 0, x: 1000, y: 2250, sprite: "Red.png", companion: {} },
+        { id: 0, x: 1000, y: 2600, sprite: "Red.png", companion: {} },
+        { id: 0, x: 650, y: 2600, sprite: "Red.png", companion: {} },
+        { id: 0, x: 300, y: 2250, sprite: "Red.png", companion: {} },
+        { id: 0, x: 300, y: 2600, sprite: "Red.png", companion: {} },
+        { id: 0, x: 300, y: 1850, sprite: "Red.png", companion: {} },
+        { id: 0, x: 640, y: 1850, sprite: "Red.png", companion: {} },
+        { id: 0, x: 1000, y: 1850, sprite: "Red.png", companion: {} },
     ]
     npcs.forEach((npc, index) => { npc.id = index })
     await npcsCollection.insertOne({ userId, npcs })
@@ -126,6 +128,41 @@ export async function saveGame(username: string, gameSave: any) {
             }
         }
         return result;
+    }
+}
+
+export async function login(username: string, password: string) {
+    if (username === "" || password === "") {
+        throw new Error("Vul alle velden in.");
+    }
+    else {
+        const user = await getUser(username);
+        if (user) {
+            if (await bcrypt.compare(password, user.password!)) {
+                return user;
+            }
+            else {
+                throw new Error("Dit wachtwoord is niet correct.");
+            }
+        }
+        else {
+            throw new Error("Deze gebruiker is niet gevonden.");
+        }
+    }
+}
+export async function signup(username: string, email: string, password: string) {
+    if (username === "" || email === "" || password === "") {
+        throw new Error("Vul alle velden in.")
+    }
+    else {
+        let user = await getUser(username);
+        if (!user) {
+            const saltRounds = 10;
+            await createUser({ username, email, password: await bcrypt.hash(password, saltRounds) })
+        }
+        else {
+            throw new Error("Deze gebruiker bestaat al.")
+        }
     }
 }
 

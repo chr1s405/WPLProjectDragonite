@@ -5,6 +5,8 @@ import { getGameRouter } from "./routers/gameRouter";
 import { GetAccountRouter } from "./routers/AccountRouter";
 import { getProjectRouter } from "./routers/ProjectRouter";
 import { connect } from "./database";
+import cookieParser from "cookie-parser";
+import { secureMiddleware, showAccountError } from "./middelware";
 
 dotenv.config();
 
@@ -14,13 +16,14 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cookieParser());
 app.set("views", path.join(__dirname, "views"));
 
 app.set("port", process.env.PORT ?? 3000);
 
 app.use("/", getProjectRouter());
-app.use("/pokemon/account/", GetAccountRouter());
-app.use("/pokemon/game/", getGameRouter());
+app.use("/pokemon/",showAccountError, GetAccountRouter());
+app.use("/pokemon/game/", secureMiddleware, getGameRouter());
 
 app.use(express.static("public"));
 app.listen(app.get("port"), async () => {

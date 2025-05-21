@@ -40,7 +40,7 @@ export function getProjectRouter() {
         background: "/assets/backgrounds/pokemon_background.jpeg",
         logo: "/assets/logos/pokemon_logo.jpeg",
         logoBgColor: "rgba(100, 100, 100, 0.7)",
-        link: "pokemon/account/",
+        link: "pokemon/",
     }
     ]
 

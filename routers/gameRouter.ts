@@ -51,7 +51,8 @@ export function getGameRouter() {
         res.json({ succes: true, path: `/pokemon/game` });
     })
     router.post("/logout", (req, res)=>{
-        res.json({path: "/pokemon/account"})
+        res.clearCookie("jwt");
+        res.json({path: "/pokemon/"})
     })
     router.post("/getPokemon", async (req, res)=>{
         res.json(await getpokemon());
