@@ -19,7 +19,7 @@
   <main>
     <div id="profileIcon">
       <img src="/assets/pokeball.png">
-      <h1>Username</h1>
+      <h1><%= user.username %></h1>
     </div>
     <div id="overworldMap">
 
@@ -298,8 +298,8 @@
     <div id="menu_account" class="menuEvent">
       <div id="account_main">
         <div id="account_profile" class="account_sides">
-          <p>username</p>
-          <p>email</p>
+          <p><%= user.username %></p>
+          <p><%= user.email %></p>
           <img id="account_portrait" src="">
         </div>
         <div id="account_settings" class="account_sides">

@@ -17,7 +17,7 @@ export let allPokemon: Pokemon[];
 export async function connect() {
     try {
         await client.connect();
-        await fetchPokemon();
+        allPokemon = await fetchPokemon();
         // deleteData();
         process.on("SIGINT", exit);
     }
@@ -168,7 +168,7 @@ export async function signup(username: string, email: string, password: string) 
 
 async function fetchPokemon() {
     const pokemonList: Pokemon[] = [];
-    const pokeFetch1 = await fetch("https://pokeapi.co/api/v2/pokemon?limit=20&offset=0")
+    const pokeFetch1 = await fetch("https://pokeapi.co/api/v2/pokemon?limit=100&offset=0")
     const pokeJson1 = await pokeFetch1.json();
     const pokeData = pokeJson1["results"];
     const PokeFetch2 = await Promise.all(pokeData.map((value: any) => fetch(value.url)));
@@ -241,6 +241,5 @@ async function fetchPokemon() {
         })
     })
 
-    allPokemon = pokemonList;
     return pokemonList;
 }

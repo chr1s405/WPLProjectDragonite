@@ -1305,6 +1305,7 @@ body {
   position: absolute;
   width: 100vw;
   height: 100vh;
+  text-align: center;
   align-content: center;
   z-index: 10;
 
@@ -1353,8 +1354,9 @@ body {
 
   &>div {
     position: relative;
-    width: 40%;
+    width: 50%;
     height: 200px;
+    padding:10px;
     margin: auto;
     align-content: center;
     text-align: center;

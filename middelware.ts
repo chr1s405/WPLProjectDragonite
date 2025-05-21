@@ -10,13 +10,27 @@ export function secureMiddleware(req: Request, res: Response, next: NextFunction
     }
     jwt.verify(token, process.env.JWT_TOKEN!, (err, user) => {
         if (err) {
-            res.redirect("/pokemon/login");
+            return res.redirect("/pokemon/login");
         } else {
             res.locals.user = user;
-            next();
+            return next();
         }
     });
 };
+export function skipLogin(req: Request, res: Response, next: NextFunction) {
+    const token: string | undefined = req.cookies?.jwt;
+    if (!token) {
+        return next();
+    }
+    jwt.verify(token, process.env.JWT_TOKEN!, (err, user) => {
+        if (err) {
+            return next();
+        } else {
+            res.locals.user = user;
+            return res.redirect("/pokemon/game");
+        }
+    });
+}
 
 export function showAccountError(req: Request, res: Response, next: NextFunction) {
     const accountError = req.cookies.accountError

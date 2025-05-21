@@ -1,6 +1,7 @@
 import express from "express";
 import { login, signup } from "../database";
 import * as jwt from 'jsonwebtoken';
+import { skipLogin } from "../middelware";
 
 export function GetAccountRouter() {
 
@@ -9,7 +10,7 @@ export function GetAccountRouter() {
     router.get("", (req, res) => {
         return res.redirect("login");
     })
-    router.get("/login", (req, res) => {
+    router.get("/login", skipLogin, (req, res) => {
         return res.render("login")
     })
     router.post("/login", async (req, res) => {
@@ -24,7 +25,6 @@ export function GetAccountRouter() {
             return res.redirect("./game")
         } catch (err) {
             if (err instanceof Error) {
-                console.log(err)
                 res.cookie("accountError", err.message)
             }
             return res.redirect("./login");
