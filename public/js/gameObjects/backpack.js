@@ -36,19 +36,19 @@ export function createBackpack(player) {
     { event: document.getElementById("menu_whosThat"), title: "who's that pokemon", open: openWhosThatEvent.bind(backpack), close: closeWhosThatEvent.bind(backpack) },
     { event: document.getElementById("menu_battle"), title: "gevecht", open: openBattleEvent.bind(backpack), close: closeBattleEvent.bind(backpack) },
     { event: document.getElementById("menu_capture"), title: "vangen", open: openCaptureEvent.bind(backpack), close: closeCaptureEvent.bind(backpack) },
-    { event: document.getElementById("menu_account"), title: "account", open: openAccountEvent.bind(backpack), close: closeAccountEvent.bind(backpack) },
     { event: document.getElementById("menu_tutorial"), title: "tutorial", open: openTutorialEvent.bind(backpack), close: closeTutorialEvent.bind(backpack) },
+    { event: document.getElementById("menu_account"), title: "account", open: openAccountEvent.bind(backpack), close: closeAccountEvent.bind(backpack) },
 
     { event: document.getElementById("mainMenu"), title: "rugzak", open: openMainMenu.bind(backpack), close: closeMainMenu.bind(backpack) },
   ];
   profileIcon.addEventListener("click", () => {
     backpack.openMainMenu(backpack.menuEvents[backpack.menuEvents.length - 1].event);
-    const menuEvent = backpack.menuEvents[6];//this.menuEvents.find(event=> event.title === "account");
+    const menuEvent = backpack.menuEvents[6];
     menuEvent.open(menuEvent.event);
   })
   companionIcon.addEventListener("click", () => {
     backpack.openMainMenu(backpack.menuEvents[backpack.menuEvents.length - 1].event);
-    const menuEvent = backpack.menuEvents[1];//this.menuEvents.find(event=> event.title === "stats");
+    const menuEvent = backpack.menuEvents[1];
     menuEvent.open(menuEvent.event, backpack.player.companion);
   })
   backpackIcon.addEventListener("click", (e) => {
@@ -219,23 +219,23 @@ function createPokemonList(table, pokemonList, rowClickFunction) {
         rowClickFunction(pokemon);
       }
       else {
-        const menuEvent = this.menuEvents[3];//this.menuEvents.find(event=> event.title === "who's that pokemon");
+        const menuEvent = this.menuEvents[3];
         menuEvent.open(menuEvent.event, pokemon);
       }
     });
   })
 }
 function pokedexRowClick(pokemon) {
-  const menuEvent = this.menuEvents[1];//this.menuEvents.find(event=> event.title === "stats");
+  const menuEvent = this.menuEvents[1];
   menuEvent.open(menuEvent.event, pokemon);
 }
 function compareLeftRowClick(pokemon) {
-  const menuEvent = this.menuEvents[2];//this.menuEvents.find(event=> event.title === "stats");
+  const menuEvent = this.menuEvents[2];
   const compareSide = menuEvent.event.getElementsByClassName("compare_sides")[0];
   this.openCompareSide(compareSide, pokemon);
 }
 function compareRightRowClick(pokemon) {
-  const menuEvent = this.menuEvents[2];//this.menuEvents.find(event=> event.title === "stats");
+  const menuEvent = this.menuEvents[2];
   const compareSide = menuEvent.event.getElementsByClassName("compare_sides")[1];
   this.openCompareSide(compareSide, pokemon);
 }
@@ -273,7 +273,6 @@ function openDetailEvent(event, pokemon) {
     playerPokemon.nickname = await setInput("Kies een bijnaam.");
     pokemonDiv.getElementsByTagName("p")[1].innerHTML = (playerPokemon ? (playerPokemon.nickname ? playerPokemon.nickname : `(kies een bijnaam)<img src="/assets/icons/edit_icon.png"></img>`) : "");
   });
-  console.log(pokemonDiv)
   pokemonDiv.getElementsByTagName("img")[pokemonDiv.getElementsByTagName("img").length-1].src = pokemon.sprites.other.showdown["front_default"];
   pokemonDiv.getElementsByTagName("img")[pokemonDiv.getElementsByTagName("img").length-1].style.filter = this.player.knownPokemon.includes(pokemon.id) ? "brightness(100%)" : "brightness(0%)";
   const buttonsDiv = pokedexDetails.children[2];
@@ -288,7 +287,7 @@ function openDetailEvent(event, pokemon) {
   })
   buttons[2].replaceWith(buttons[2].cloneNode(true));
   buttons[2].addEventListener("click", () => {
-    const menuEvent = this.menuEvents[2];//this.menuEvents.find(event=> event.title === "vergelijken");
+    const menuEvent = this.menuEvents[2];
     const compareSide = menuEvent.event.getElementsByClassName("compare_sides")[0];
     openCompareSide(compareSide, pokemon);
     menuEvent.open(menuEvent.event)
@@ -314,7 +313,7 @@ function openDetailEvent(event, pokemon) {
       }
       evolutionSteps[i].addEventListener("click", async () => {
         if (this.player.knownPokemon.includes(evolutionPokemon.id)) {
-          const menuEvent = this.menuEvents[1];//this.menuEvents.find(event=> event.title === "stats"
+          const menuEvent = this.menuEvents[1];
           menuEvent.open(menuEvent.event, findPokemon(evolutionPokemon.id));
         }
         else {
@@ -471,24 +470,24 @@ function closeWhosThatEvent(event) {
 
 // ========= battle ======== //
 export function openBattleEvent() {
-  const event = this.menuEvents[4]//this.menuEvents.find(event => event.title === "gevecht");
+  const event = this.menuEvents[4]
   this.openEvent(event.event);
   document.getElementById("backpack_closeBtn").style.visibility = "hidden";
 }
 export function closeBattleEvent() {
-  const event = this.menuEvents[4]//this.menuEvents.find(event => event.title === "gevecht");
+  const event = this.menuEvents[4]
   event.event.style.display = "none";
   this.closeAllEvents();
 }
 
 // ========= capture ======== //
 export function openCaptureEvent(player, pokemon) {
-  const event = this.menuEvents[5]//this.menuEvents.find(event => event.title === "vangen");
+  const event = this.menuEvents[5]
   this.openEvent(event.event);
 }
 
 export function closeCaptureEvent() {
-  const event = this.menuEvents[5]//this.menuEvents.find(event => event.title === "vangen");
+  const event = this.menuEvents[5]
   event.event.style.display = "none";
   this.closeAllEvents();
 }
@@ -506,19 +505,9 @@ function openAccountEvent(event) {
   document.getElementById("account_portrait").src = this.player.portrait;
 }
 
-
-
 function closeAccountEvent(event) {
   event.style.display = "none";
 }
-
-
-
-
-
-// if(characterChoice != null){
-// accountPage.appendChild(characterChoice)
-// }
 
 function openTutorialEvent(event) {
   this.openEvent(event);

@@ -917,7 +917,7 @@ body {
 }
 
 #gamePage #menu_battle .statusbar .hp-bar {
-  height: 15px;
+  height: 18px;
   padding-left: 5px;
   background: linear-gradient(to right, #00ff00 100%, #000000 100%);
   border: 2px solid var(--color_accent1);
@@ -928,6 +928,12 @@ body {
   display: inline;
   color: white;
   text-shadow: 0px 0px 2px black;
+}
+#gamePage #menu_battle .statusbar p:last-child {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: black;
+  text-shadow: none;
 }
 
 #gamePage .battle_stage img {

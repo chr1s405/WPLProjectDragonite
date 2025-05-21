@@ -4,7 +4,6 @@ import { createPokemon } from "./pokemon.js";
 
 export function createMap(npcs) {
     const overworldMap = document.getElementById("overworldMap");
-    console.log(overworldMap.offsetTop)
     const map = {
         div: overworldMap,
         x: 0,
