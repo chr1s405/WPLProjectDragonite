@@ -43,7 +43,7 @@ export function createBackpack(player) {
   ];
   profileIcon.addEventListener("click", () => {
     backpack.openMainMenu(backpack.menuEvents[backpack.menuEvents.length - 1].event);
-    const menuEvent = backpack.menuEvents[6];
+    const menuEvent = backpack.menuEvents[7];
     menuEvent.open(menuEvent.event);
   })
   companionIcon.addEventListener("click", () => {

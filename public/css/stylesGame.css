@@ -110,72 +110,6 @@ body {
 /*==============================*/
 /*=========== Intro ============*/
 /*==============================*/
-#gamePage main #gameIntro {
-  /* display: none; */
-  width: 100%;
-  height: 100%;
-}
-
-#gamePage #gameIntro .intro_selection {
-  display: none;
-  text-align: center;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(247, 112, 130);
-}
-
-#gamePage #gameIntro .intro_selection p {
-  color: rgb(247, 112, 130);
-  font-size: 20px;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
-
-#gamePage #gameIntro .intro_selection h1 {
-  font-family: var(--pokemon-hollow-font);
-  color: rgb(255, 255, 255);
-  font-size: 50px;
-  line-height: 3.5rem;
-  padding: 30px 10px 40px 10px;
-}
-
-
-#gamePage #gameIntro .intro_selectOptions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  width: 90%;
-  max-width: 500px;
-  margin: auto;
-}
-
-#gamePage #gameIntro .intro_selectOption {
-  width: 150px;
-  height: 150px;
-  border-radius: 20%;
-  background-color: rgb(255, 152, 152);
-
-  align-content: center;
-  cursor: pointer;
-}
-
-#gamePage #gameIntro .intro_selectOption:hover {
-  border: solid;
-  border-color: #fafafa;
-}
-
-#gamePage #intro_characterOptions img {
-  width: auto;
-  height: 100px;
-  object-position: 0px 0px;
-}
-
-#gamePage #intro_pokemonOptions img {
-  margin: -16px;
-}
-
-@media (max-width: 480px) {}
-
 #gameIntro {
   width: 100vw;
   height: 100vh;
@@ -192,6 +126,8 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgb(247, 112, 130);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 #gameIntro .intro_selectOption {
@@ -231,7 +167,7 @@ body {
   gap: 20px;
   width: 90%;
   max-width: 500px;
-  margin: auto;
+  margin: 10px auto;
 }
 
 #gameIntro #intro_characterOptions img {
@@ -1408,69 +1344,6 @@ body {
 }
 
 
-/* tutorial-overlay */
-
-.tutorial-overlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.85);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  font-family: 'Comic Sans MS', sans-serif;
-}
-
-
-.tutorial-box {
-  background-color: #9b1c31;
-  color: white;
-  padding: 2rem;
-  max-width: 700px;
-  border-radius: 1rem;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
-  text-align: left;
-}
-
-.tutorial-box h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-}
-
-.tutorial-box ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.tutorial-box li {
-  margin-bottom: 1rem;
-  line-height: 1.6;
-}
-
-.tutorial-box strong {
-  font-weight: bold;
-  font-size: 1.05rem;
-}
-
-#tutorialOverlay .highlight {
-  font-weight: bold;
-  color: gold;
-}
-
-#closeTutorial {
-  display: block;
-  margin: 2rem auto 0;
-  background-color: #ff4d4d;
-  color: white;
-  padding: 0.75rem 2rem;
-  border: none;
-  border-radius: 1rem;
-  cursor: pointer;
-  font-size: 1rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
 
 /* tutorial-overlay */
 
@@ -1494,6 +1367,8 @@ body {
   border-radius: 1rem;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
   text-align: left;
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .tutorial-box h2 {
