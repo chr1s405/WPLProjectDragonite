@@ -45,7 +45,7 @@ export function getProjectRouter() {
     ]
 
     router.get("", (req, res) => {
-        const idx = typeof req.query.projectIdx === "string" ? parseInt(req.query.projectIdx) : 0;
+        const idx = typeof req.query.projectIdx === "string" ? parseInt(req.query.projectIdx) : 5;
         res.render("index", { projects, idx });
     })
 

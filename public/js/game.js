@@ -2,7 +2,6 @@ import { createMap } from "./gameObjects/map.js";
 import { createPlayer } from "./gameObjects/player.js";
 import { createBackpack } from "./gameObjects/backpack.js";
 
-const userId = document.getElementById("userId").value;
 let map;
 let player;
 let pause = false;
@@ -96,7 +95,7 @@ function gameLoop() {
 }
 
 function loadGame() {
-  return fetch(`/pokemon/game/load?user=${userId}`, {
+  return fetch(`/pokemon/game/load`, {
     method: "POST",
   })
     .then(async (res) => {
@@ -111,7 +110,7 @@ function saveGame(showNtification = true) {
     npcsData.push({ x: npc.x, y: npc.y, companion: npc.companion });
   }
   let saveData = { player: playerData, npcs: npcsData }
-  fetch(`/pokemon/game/save?user=${userId}`, {
+  fetch(`/pokemon/game/save`, {
     method: "POST",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(saveData)
@@ -124,7 +123,7 @@ function saveGame(showNtification = true) {
     })
 }
 function deleteGame() {
-  fetch(`/pokemon/game/reset?user=${userId}`, {
+  fetch(`/pokemon/game/reset`, {
     method: "POST"
   })
     .then((res) => { return res.json() })
