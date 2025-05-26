@@ -19,7 +19,6 @@ export function getGameRouter() {
     router.get("/intro", (req, res) => {
         let starterPokemon: any = [];
         let usedIdx: number[] = [];
-        console.log(allPokemon.length)
         for (let i = 0; i < 3; i++) {
             let pokemonIdx = -1;
             while (usedIdx.includes(pokemonIdx) || pokemonIdx === -1) {

@@ -1,4 +1,4 @@
-import { allPokemon, backpack, createSimplePokemon, findPokemon, setAlert, setInput } from "../game.js";
+import { allPokemon, backpack, createSimplePokemon, findPokemon, setAlert, setConfirmBox, setInput } from "../game.js";
 
 export function createPlayer(playerData) {
     const character = document.getElementById("character");
@@ -97,9 +97,17 @@ function move(map) {
     map.handleCollision(this)
     this.x += this.velocityX;
     this.y += this.velocityY;
+    map.centerMap(this);
+    if (this.velocityX !== 0 || this.velocityY !== 0) {
+        if (Math.round(Math.random() * 70) === 0) {
+            if (map.layerData[map.positionInGrid(this.x, this.y)] == 32) {
+                const pokemonId = Math.trunc(Math.random() * allPokemon.length - 1);
+                this.battle(this.companion, createSimplePokemon(pokemonId), true);
+            }
+        }
+    }
     this.velocityX = 0;
     this.velocityY = 0;
-    map.centerMap(this);
 }
 
 function setDirection(dir) {
@@ -232,7 +240,7 @@ function interactPokemon(map) {
 // ================ battle ================== //
 // ========================================== //
 
-async function battle(player, enemy) {
+async function battle(playerPokemon, enemy, capture = false) {
     backpack.openBattleEvent();
     let battleText;
     const battleTextBox = document.getElementById("battle_text");
@@ -247,44 +255,51 @@ async function battle(player, enemy) {
         img: stage[1].getElementsByTagName("img")[0], name: stage[1].getElementsByClassName("statusbar")[0].children[0],
         hpBar: stage[1].getElementsByClassName("statusbar")[0].children[1], hp: stage[1].getElementsByClassName("statusbar")[0].children[1].children[0],
     }];
-    stages[0].img.src = findPokemon(player.id).sprites.other.showdown["back_default"];
-    stages[0].name.innerHTML = findPokemon(player.id).name;
-    stages[0].hp.innerHTML = player.stats.maxHp + " HP";
+    stages[0].img.src = findPokemon(playerPokemon.id).sprites.other.showdown["back_default"];
+    stages[0].name.innerHTML = findPokemon(playerPokemon.id).name;
+    stages[0].hp.innerHTML = playerPokemon.stats.maxHp + " HP";
     stages[0].hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`
     stages[1].img.src = findPokemon(enemy.id).sprites.other.showdown["front_default"];
     stages[1].name.innerHTML = findPokemon(enemy.id).name;
     stages[1].hp.innerHTML = enemy.stats.maxHp + " HP";
     stages[1].hpBar.style.background = `linear-gradient(to right, #00ff00 100%, #000000 100%)`
 
-    return await battleRound();
+    return await battleRound(this);
 
-    async function battleRound() {
+    async function battleRound(player) {
         let action = await pressButton();
-        if (await battleAction(action, player, enemy, stages[1])) {
+        if (await battleAction(action, playerPokemon, enemy, stages[1])) {
             if (enemy.stats.hp === 0) {
-                player.stats.wins++;
+                playerPokemon.stats.wins++;
                 battleText = "Je hebt gewonnen.";
             }
             else {
-                player.stats.losses++;
+                playerPokemon.stats.losses++;
                 battleText = "Je bent weggelopen."
+                capture = false;
+            }
+            await setBattleText(battleText);
+            if (capture) {
+                if (await setConfirmBox(`Wil je ${enemy.name} vangen`)) {
+                    player.capturePokemon(enemy.id, await setInput(`Kies een bijnaam.`));
+                }
             }
             await battleCleanup();
             return enemy.stats.hp === 0 ? enemy.id : -1;
         }
         action = Math.round(Math.random());
-        if (await battleAction(action, enemy, player, stages[0])) {
-            player.stats.losses++;
+        if (await battleAction(action, enemy, playerPokemon, stages[0])) {
+            playerPokemon.stats.losses++;
             battleText = "Je hebt verloren.";
-            await battleCleanup();
+            await battleCleanup(false);
             return -1;
         }
-        return await battleRound();
+        await setBattleText(battleText);
+        return await battleRound(player);
     }
     async function battleCleanup() {
-        player.stats.hp = player.stats.maxHp;
+        playerPokemon.stats.hp = playerPokemon.stats.maxHp;
         enemy.stats.hp = enemy.stats.maxHp;
-        await setBattleText(battleText);
         backpack.closeBattleEvent();
     }
     async function battleAction(action, attacker, defender, defStage) {
@@ -305,7 +320,7 @@ async function battle(player, enemy) {
             return true;
         }
         const hpPercent = defender.stats.hp / defender.stats.maxHp * 100;
-        defStage.hp.innerHTML = `${defender.stats.hp}HP`;
+        defStage.hp.innerHTML = `${defender.stats.hp} HP`;
         defStage.hpBar.style.background = `linear-gradient(to right, #00ff00 ${hpPercent}%, #000000 ${hpPercent}%)`;
         await setBattleText(battleText);
         return defender.stats.hp === 0;
