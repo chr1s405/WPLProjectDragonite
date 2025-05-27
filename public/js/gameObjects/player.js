@@ -291,10 +291,10 @@ async function battle(playerPokemon, enemy, capture = false) {
         if (await battleAction(action, enemy, playerPokemon, stages[0])) {
             playerPokemon.stats.losses++;
             battleText = "Je hebt verloren.";
+            await setBattleText(battleText);
             await battleCleanup(false);
             return -1;
         }
-        await setBattleText(battleText);
         return await battleRound(player);
     }
     async function battleCleanup() {
